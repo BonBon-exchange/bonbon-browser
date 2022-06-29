@@ -21,6 +21,9 @@ contextBridge.exposeInMainWorld('app', {
     selectNext: () => {
       ipcRenderer.send('select-next-board');
     },
+    setWindowsCount: (args: { boardId: string; count: number }) => {
+      ipcRenderer.send('set-windows-count', args);
+    },
   },
   browser: {
     select: (webContentsId: string) => {
@@ -31,40 +34,46 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   listener: {
-    newWindow: (action: (event: IpcRendererEvent, ...args: any[]) => void) => {
+    newWindow: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
       ipcRenderer.on('new-window', action);
     },
-    loadBoard: (action: (event: IpcRendererEvent, ...args: any[]) => void) => {
+    loadBoard: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
       ipcRenderer.on('load-board', action);
     },
-    purge: (action: (event: IpcRendererEvent, ...args: any[]) => void) => {
+    purge: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
       ipcRenderer.on('purge', action);
     },
     showLibrary: (
-      action: (event: IpcRendererEvent, ...args: any[]) => void
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
     ) => {
       ipcRenderer.on('show-library', action);
     },
     showSettings: (
-      action: (event: IpcRendererEvent, ...args: any[]) => void
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
     ) => {
       ipcRenderer.on('show-settings', action);
     },
-    saveBoard: (action: (event: IpcRendererEvent, ...args: any[]) => void) => {
+    saveBoard: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
       ipcRenderer.on('save-board', action);
     },
     renameBoard: (
-      action: (event: IpcRendererEvent, ...args: any[]) => void
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
     ) => {
       ipcRenderer.on('rename-board', action);
     },
     closeWebview: (
-      action: (event: IpcRendererEvent, ...args: any[]) => void
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
     ) => {
       ipcRenderer.on('close-webview', action);
     },
     closeAllWebview: (
-      action: (event: IpcRendererEvent, ...args: any[]) => void
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
     ) => {
       ipcRenderer.on('close-all-webview', action);
     },

@@ -112,4 +112,8 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.on('select-next-board', () => {
     getMainWindow()?.webContents.send('select-next-board');
   });
+
+  ipcMain.on('set-windows-count', (_event, args) => {
+    getMainWindow()?.webContents.send('set-windows-count', args);
+  });
 };

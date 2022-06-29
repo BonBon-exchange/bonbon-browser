@@ -1,11 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
 
 type TabProps = {
   id: string;
   label: string;
+  windowsCount: number;
 };
 
-type TabsState = {
+export type TabsState = {
   tabs: TabProps[];
   activeTab: string;
   isRenaming: string | null;
@@ -16,13 +17,18 @@ type RenameTabType = {
   label: string;
 };
 
+type SetWindowsCountType = {
+  id: string;
+  count: number;
+};
+
 const initialState: TabsState = {
   tabs: [],
   activeTab: '',
   isRenaming: null,
 };
 
-export const tabsSlice = createSlice({
+export const tabsSlice: Slice = createSlice({
   name: 'tabs',
   initialState,
   reducers: {
@@ -46,10 +52,22 @@ export const tabsSlice = createSlice({
       if (state.activeTab === action.payload && state.tabs.length > 0)
         state.activeTab = state.tabs[0].id;
     },
+    setWindowsCount: (state, action: PayloadAction<SetWindowsCountType>) => {
+      const tabIndex = state.tabs.findIndex((t) => t.id === action.payload.id);
+      if (tabIndex > -1) {
+        state.tabs[tabIndex].windowsCount = action.payload.count;
+      }
+    },
   },
 });
 
-export const { addTab, setActiveTab, setIsRenaming, renameTab, removeTab } =
-  tabsSlice.actions;
+export const {
+  addTab,
+  setActiveTab,
+  setIsRenaming,
+  renameTab,
+  removeTab,
+  setWindowsCount,
+} = tabsSlice.actions;
 
 export default tabsSlice.reducer;

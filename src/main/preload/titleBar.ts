@@ -514,6 +514,11 @@ contextBridge.exposeInMainWorld('titleBar', {
     ) => {
       ipcRenderer.on('select-next-board', action);
     },
+    setWindowsCount: (
+      action: (event: IpcRendererEvent, ...args: any[]) => void
+    ) => {
+      ipcRenderer.on('set-windows-count', action);
+    },
   },
   off: {
     openTab: () => {
@@ -533,6 +538,9 @@ contextBridge.exposeInMainWorld('titleBar', {
     },
     selectNextBoard: () => {
       ipcRenderer.removeAllListeners('select-next-board');
+    },
+    setWindowsCount: () => {
+      ipcRenderer.removeAllListeners('set-windows-count');
     },
   },
   screens: {
