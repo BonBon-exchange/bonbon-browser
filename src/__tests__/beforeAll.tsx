@@ -12,6 +12,7 @@ export const mockWindow = () => {
         open: jest.fn(),
         close: jest.fn(),
         selectNext: jest.fn(),
+        setWindowsCount: jest.fn(),
       },
       browser: {
         select: jest.fn(),
