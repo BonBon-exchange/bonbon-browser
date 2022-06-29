@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
 
 type TabProps = {
   id: string;
@@ -6,7 +6,7 @@ type TabProps = {
   windowsCount: number;
 };
 
-type TabsState = {
+export type TabsState = {
   tabs: TabProps[];
   activeTab: string;
   isRenaming: string | null;
@@ -28,7 +28,7 @@ const initialState: TabsState = {
   isRenaming: null,
 };
 
-export const tabsSlice = createSlice({
+export const tabsSlice: Slice = createSlice({
   name: 'tabs',
   initialState,
   reducers: {

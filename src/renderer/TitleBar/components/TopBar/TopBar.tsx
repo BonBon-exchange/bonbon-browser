@@ -18,6 +18,8 @@ import {
   setIsRenaming,
   renameTab,
   removeTab,
+  setWindowsCount,
+  TabsState,
 } from 'renderer/TitleBar/store/reducers/Tabs';
 
 import './style.scss';
@@ -25,7 +27,9 @@ import './style.scss';
 export const TopBar: React.FC = () => {
   const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const [isDarkMode, setIsDarkMode] = useState<boolean>(dark);
-  const { tabs, activeTab, isRenaming } = useAppSelector((state) => state.tabs);
+  const { tabs, activeTab, isRenaming } = useAppSelector(
+    (state) => state.tabs as TabsState
+  );
 
   const dispatch = useAppDispatch();
 
@@ -72,7 +76,7 @@ export const TopBar: React.FC = () => {
   );
 
   const openTabListener = useCallback(
-    (_e: any, args: { id?: string; label?: string }) => {
+    (_e: unknown, args: { id?: string; label?: string }) => {
       if (tabs?.find((t) => t.id === args?.id)) {
         if (args.id) switchBoard(args.id);
       } else {
@@ -83,7 +87,7 @@ export const TopBar: React.FC = () => {
   );
 
   const closeTabListener = useCallback(
-    (_e: any, args: { x: number; y: number }) => {
+    (_e: unknown, args: { x: number; y: number }) => {
       const el = document.elementFromPoint(args.x, args.y);
       const tabId = el?.getAttribute('data-tabid');
       if (tabId) {
@@ -103,7 +107,7 @@ export const TopBar: React.FC = () => {
   }, [dispatch, activeTab]);
 
   const renameTabListener = useCallback(
-    (_e: any, args: { x: number; y: number }) => {
+    (_e: unknown, args: { x: number; y: number }) => {
       const el = document.elementFromPoint(args.x, args.y);
       const tabId = el?.getAttribute('data-tabid');
       if (tabId) {
@@ -114,7 +118,7 @@ export const TopBar: React.FC = () => {
   );
 
   const saveBoardListener = useCallback(
-    (_e: any, args: { x: number; y: number }) => {
+    (_e: unknown, args: { x: number; y: number }) => {
       const el = document.elementFromPoint(args.x, args.y);
       const tabId = el?.getAttribute('data-tabid');
       if (tabId) {
@@ -122,6 +126,13 @@ export const TopBar: React.FC = () => {
       }
     },
     []
+  );
+
+  const setWindowsCountListener = useCallback(
+    (_e: unknown, args: { boardId: string; count: number }) => {
+      dispatch(setWindowsCount({ id: args.boardId, count: args.count }));
+    },
+    [dispatch]
   );
 
   const selectNextBoardListener = useCallback(() => {
@@ -202,6 +213,11 @@ export const TopBar: React.FC = () => {
   }, [selectNextBoardListener]);
 
   useEffect(() => {
+    window.titleBar.listener.setWindowsCount(setWindowsCountListener);
+    return () => window.titleBar.off.setWindowsCount();
+  }, [setWindowsCountListener]);
+
+  useEffect(() => {
     if (tabs.length === 0) pushTab({});
   }, [tabs, pushTab]);
 
@@ -227,7 +243,7 @@ export const TopBar: React.FC = () => {
                   onKeyPress={(e) => tabOnKeyPress(e, t.id)}
                 />
               ) : (
-                t.label
+                `${t.label} (${t.windowsCount || '?'})`
               )}
             </div>
           );

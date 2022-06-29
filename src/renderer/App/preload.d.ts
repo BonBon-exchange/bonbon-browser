@@ -15,6 +15,7 @@ declare global {
         }) => void;
         close: () => void;
         selectNext: () => void;
+        setWindowsCount: (args: { boardId: string; count: number }) => void;
       };
       browser: {
         select: (webContentsId: string) => void;
