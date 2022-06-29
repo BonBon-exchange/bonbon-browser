@@ -19,6 +19,7 @@ node_modules
 .DS_Store
 
 release/app/node_modules
+release/app/dist
 release/build
 .erb/dll
 

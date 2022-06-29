@@ -28,7 +28,7 @@ const initialState: TabsState = {
   isRenaming: null,
 };
 
-export const tabsSlice: Slice = createSlice({
+export const tabsSlice: Slice<TabsState> = createSlice({
   name: 'tabs',
   initialState,
   reducers: {
