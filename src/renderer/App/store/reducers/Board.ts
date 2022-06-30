@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 } from 'uuid';
+
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { BoardType } from 'renderer/App/components/Board/Types';
 import { WritableDraft } from 'immer/dist/internal';
