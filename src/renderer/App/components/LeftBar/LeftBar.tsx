@@ -19,7 +19,7 @@ export const LeftBar: React.FC = () => {
     <div className="LeftBar__browserFavContainer">
       {board?.browsers.map((b: BrowserProps) => {
         return (
-          <Tooltip title={b.title || ''} placement="right">
+          <Tooltip title={b.title || ''} placement="right" key={b.id}>
             <div
               className="LeftBar__browserFav"
               key={b.id}
