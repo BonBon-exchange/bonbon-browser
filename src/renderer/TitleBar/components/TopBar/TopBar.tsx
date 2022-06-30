@@ -4,7 +4,7 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
 import React, { useState, useEffect, useCallback } from 'react';
-import { uuid } from 'uuidv4';
+import { v4 } from 'uuid';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import clsx from 'clsx';
@@ -35,7 +35,7 @@ export const TopBar: React.FC = () => {
 
   const pushTab = useCallback(
     (params: { id?: string; label?: string }) => {
-      const id = params.id || uuid();
+      const id = params.id || v4();
       const newTab = {
         id,
         label: params.label || `New board`,
