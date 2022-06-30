@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
+import Tooltip from '@mui/material/Tooltip';
 
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
@@ -18,18 +19,19 @@ export const LeftBar: React.FC = () => {
     <div className="LeftBar__browserFavContainer">
       {board?.browsers.map((b: BrowserProps) => {
         return (
-          <div
-            className="LeftBar__browserFav"
-            key={b.id}
-            onClick={() => focus(document, b.id)}
-          >
-            <img
-              data-tip={b.title}
-              src={b.favicon}
-              className="LeftBar__browserFavImg"
-              data-browserid={b.id}
-            />
-          </div>
+          <Tooltip title={b.title || ''} placement="right" key={b.id}>
+            <div
+              className="LeftBar__browserFav"
+              key={b.id}
+              onClick={() => focus(document, b.id)}
+            >
+              <img
+                src={b.favicon}
+                className="LeftBar__browserFavImg"
+                data-browserid={b.id}
+              />
+            </div>
+          </Tooltip>
         );
       })}
     </div>

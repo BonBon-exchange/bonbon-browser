@@ -3,7 +3,6 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
 import React, { useCallback, useEffect, useState } from 'react';
-import ReactTooltip from 'react-tooltip';
 
 import { useGlobalEvents } from 'renderer/App/hooks/useGlobalEvents';
 import { Board } from 'renderer/App/components/Board';
@@ -80,7 +79,6 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
     <>
       <LeftBar />
       <Board />
-      <ReactTooltip />
       {showPopup && (
         <Popup title={popupTitle} closePopup={() => setShowPopup(false)}>
           {popupChildren}
