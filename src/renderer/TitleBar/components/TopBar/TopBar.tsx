@@ -221,6 +221,15 @@ export const TopBar: React.FC = () => {
     if (tabs.length === 0) pushTab({});
   }, [tabs, pushTab]);
 
+  useEffect(() => {
+    if (isRenaming) {
+      const target = document.getElementById(
+        'TopBar__tab-renaming'
+      ) as HTMLInputElement;
+      target?.select();
+    }
+  }, [isRenaming]);
+
   return (
     <div id="TopBar__container">
       <div id="TopBar__tabs-container">
@@ -241,6 +250,7 @@ export const TopBar: React.FC = () => {
                   defaultValue={t.label}
                   variant="standard"
                   onKeyPress={(e) => tabOnKeyPress(e, t.id)}
+                  id="TopBar__tab-renaming"
                 />
               ) : (
                 `${t.label} (${t.windowsCount || '?'})`
