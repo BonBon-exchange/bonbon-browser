@@ -222,7 +222,12 @@ export const TopBar: React.FC = () => {
   }, [tabs, pushTab]);
 
   useEffect(() => {
-    if (isRenaming) document.getElementById('TopBar__tab-renaming')?.select();
+    if (isRenaming) {
+      const target = document.getElementById(
+        'TopBar__tab-renaming'
+      ) as HTMLInputElement;
+      target?.select();
+    }
   }, [isRenaming]);
 
   return (
