@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { v4 } from 'uuid';
-
+import { uuid } from 'uuidv4';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { BoardType } from 'renderer/App/components/Board/Types';
 import { WritableDraft } from 'immer/dist/internal';
@@ -29,7 +28,7 @@ interface BoardState {
   board: BoardType;
 }
 
-const browserId = v4();
+const browserId = uuid();
 const newBrowser = {
   id: browserId,
   url: 'https://www.google.com',
@@ -42,7 +41,7 @@ const newBrowser = {
   title: '',
 };
 
-const boardId = v4();
+const boardId = uuid();
 const newBoard = {
   id: boardId,
   label: 'New board',

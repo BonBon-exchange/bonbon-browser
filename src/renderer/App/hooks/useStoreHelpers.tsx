@@ -3,7 +3,7 @@
 /* eslint-disable promise/catch-or-return */
 /* eslint-disable import/prefer-default-export */
 import { useCallback } from 'react';
-import { v4 } from 'uuid';
+import { uuid } from 'uuidv4';
 
 import { useAppDispatch } from 'renderer/App/store/hooks';
 
@@ -26,7 +26,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const makeAndAddBrowser = useCallback(
     (params: { url?: string }): void => {
       if (board) {
-        const browserId = v4();
+        const browserId = uuid();
         const { x, y } = getCoordinateWithNoCollision(
           document,
           board,
@@ -52,7 +52,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
 
   const createBoard = useCallback(
     (params: { id?: string }) => {
-      const browserId = v4();
+      const browserId = uuid();
       const newBrowser = {
         id: browserId,
         url: 'https://www.google.com',
@@ -64,7 +64,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         favicon: '',
         title: '',
       };
-      const id = params.id || v4();
+      const id = params.id || uuid();
       const newBoard = {
         id,
         label: `New board`,
