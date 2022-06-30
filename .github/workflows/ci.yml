@@ -16,14 +16,14 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Install Node.js and NPM
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
-          node-version: 16.3.0
+          node-version: 16
           cache: npm
-
+      
       - name: Install dependencies
         run: npm ci
-
+  
       - name: Check types
         run: npm exec tsc
 
@@ -31,7 +31,8 @@ jobs:
         run: npm run lint
 
       - name: Compile
-        run: npm run build
+        run:
+          npm run build
 
       - name: Check tests
         run: npm run test
