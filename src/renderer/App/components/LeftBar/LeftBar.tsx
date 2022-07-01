@@ -10,6 +10,8 @@ import { useBoard } from 'renderer/App/hooks/useBoard';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 
+import icon from './icon.png';
+
 import './style.scss';
 
 export const LeftBar: React.FC = () => {
@@ -34,7 +36,10 @@ export const LeftBar: React.FC = () => {
                   onClick={() => focus(document, b.id)}
                   data-browserid={b.id}
                 >
-                  <img src={b.favicon} className="LeftBar__browserFavImg" />
+                  <img
+                    src={b.favicon || icon}
+                    className="LeftBar__browserFavImg"
+                  />
                 </div>
               </Tooltip>
             </Reorder.Item>
