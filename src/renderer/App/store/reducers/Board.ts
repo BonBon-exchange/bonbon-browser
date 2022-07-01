@@ -100,6 +100,9 @@ export const boardSlice = createSlice({
       state.board.activeBrowser = action.payload.id;
       window.app.analytics.event('add_browser');
     },
+    setBrowsers: (state, action: PayloadAction<BrowserProps[]>) => {
+      state.board.browsers = action.payload;
+    },
     updateBrowser: (state, action: PayloadAction<UpdateBrowserType>) => {
       const browserIndex = state.board.browsers.findIndex(
         (b) => b.id === action.payload.browserId
@@ -194,6 +197,7 @@ export const {
   updateBrowser,
   toggleBoardFullSize,
   removeLastCloseUrl,
+  setBrowsers,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;
