@@ -181,7 +181,7 @@ export const TopBar: React.FC = () => {
       document.querySelectorAll('.TopBar__tab').forEach((tab) => {
         tab.removeEventListener('dblclick', () => dblclickEventListener(tab));
       });
-  }, [dblclickEventListener]);
+  }, [dblclickEventListener, tabs]);
 
   useEffect(() => {
     switchBoard(activeTab);
@@ -259,16 +259,13 @@ export const TopBar: React.FC = () => {
                     id="TopBar__tab-renaming"
                   />
                 ) : (
-                  <span>
-                    {t.label}&nbsp;({t.windowsCount || '?'})&nbsp;
-                  </span>
+                  `${t.label} (${t.windowsCount || '?'})`
                 )}
               </div>
-              {!isRenaming && (
-                <div className="TopBar__closeTab">
-                  <CloseIcon onClick={() => handleCloseTab(t.id)} />
-                </div>
-              )}
+
+              <div className="TopBar__closeTab">
+                <CloseIcon onClick={() => handleCloseTab(t.id)} />
+              </div>
             </>
           );
         })}

@@ -17,7 +17,7 @@
 
   .TopBar__closeTab {
     color: var(--color-icon-primary);
-    transform: translateX(-28px);
+    transform: translateX(-13px);
     position: relative;
     align-items: center;
     display: flex;
@@ -42,7 +42,7 @@
     color: var(--color-text-secondary);
     background: var(--color-icon-secondary);
     margin-left: 3px;
-    margin-right: 3px;
+    margin-right: -15px;
     height: 20px;
     -webkit-app-region: no-drag;
     cursor: pointer;
