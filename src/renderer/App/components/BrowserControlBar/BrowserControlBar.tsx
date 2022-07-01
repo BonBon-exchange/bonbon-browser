@@ -18,7 +18,7 @@ import { useAppDispatch } from 'renderer/App/store/hooks';
 import { isValidHttpUrl, makeSearchUrl } from 'renderer/App/helpers/web';
 import { BrowserControlBarProps } from './Types';
 
-import './style.css';
+import './style.scss';
 
 export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   goBack,

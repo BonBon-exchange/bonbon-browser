@@ -9,7 +9,7 @@ import CropSquareIcon from '@mui/icons-material/CropSquare';
 
 import { BrowserTopBarProps } from './Types';
 
-import './style.css';
+import './style.scss';
 
 export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
   closeBrowser,

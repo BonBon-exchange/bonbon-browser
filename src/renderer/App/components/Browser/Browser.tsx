@@ -21,7 +21,7 @@ import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 
 import { BrowserProps } from './Types';
 
-import './style.css';
+import './style.scss';
 
 export const Browser: React.FC<BrowserProps> = ({
   id,

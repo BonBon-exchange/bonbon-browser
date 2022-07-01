@@ -244,7 +244,7 @@ export const TopBar: React.FC = () => {
               <div
                 className={clsx({
                   TopBar__tab: true,
-                  bold: activeTab === t.id,
+                  selected: activeTab === t.id,
                 })}
                 key={t.id}
                 onClick={() => dispatch(setActiveTab(t.id))}

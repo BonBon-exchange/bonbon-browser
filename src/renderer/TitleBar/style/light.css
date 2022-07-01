@@ -6,4 +6,5 @@ body.light-theme {
   --color-background-tertiary: rgb(220, 226, 231);;
   --color-icon-primary: #4285e9;
   --color-icon-secondary: #1c2736;
+  --color-border: #8d8686;
 }

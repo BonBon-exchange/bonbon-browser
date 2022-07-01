@@ -11,6 +11,8 @@ import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { setBrowsers } from 'renderer/App/store/reducers/Board';
+import { ButtonAddBrowser } from 'renderer/App/components/ButtonAddBrowser';
+import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 
 import icon from './icon.png';
 
@@ -21,6 +23,7 @@ export const LeftBar: React.FC = () => {
   const board = useBoard();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>(board.browsers);
+  const { browser } = useStoreHelpers();
 
   const handleReorder = (newOrder: BrowserProps[]) => {
     dispatch(setBrowsers(newOrder));
@@ -52,6 +55,7 @@ export const LeftBar: React.FC = () => {
             </Reorder.Item>
           );
         })}
+        <ButtonAddBrowser onClick={browser.add} />
       </Reorder.Group>
     </div>
   );
