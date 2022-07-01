@@ -28,17 +28,14 @@ export const LeftBar: React.FC = () => {
           return (
             <Reorder.Item key={b.id} value={b}>
               <Tooltip title={b.title || ''} placement="right" key={b.id}>
-                <span
+                <div
                   className="LeftBar__browserFav"
                   key={b.id}
                   onClick={() => focus(document, b.id)}
+                  data-browserid={b.id}
                 >
-                  <img
-                    src={b.favicon}
-                    className="LeftBar__browserFavImg"
-                    data-browserid={b.id}
-                  />
-                </span>
+                  <img src={b.favicon} className="LeftBar__browserFavImg" />
+                </div>
               </Tooltip>
             </Reorder.Item>
           );
