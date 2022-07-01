@@ -20,9 +20,9 @@ To stay up to date with the project, submit bugs, and submit features, please jo
 
 ## Try BonBon today
 
-Download BonBon for Windows: [BonBon Browser 0.21.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.21.0/BonBon.Setup.0.21.0.exe)
+Download BonBon for Windows: [BonBon Browser 0.22.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.22.0/BonBon.Setup.0.22.0.exe)
 
-Download BonBon portable for Windows: [BonBon Browser portable 0.21.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.21.0/BonBon.Browser.-.portable.exe)
+Download BonBon portable for Windows: [BonBon Browser portable 0.22.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.22.0/BonBon.Browser.-.portable.exe)
 
 Download BonBon for macOS arm64: [BonBon Browser 0.19.0 for macOS](https://github.com/BonBon-exchange/archived-bonbon-web-browser/releases/download/v0.19.0-rc1/BonBon-0.19.0-arm64.dmg)
 
