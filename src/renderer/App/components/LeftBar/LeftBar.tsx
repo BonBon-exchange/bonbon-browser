@@ -9,15 +9,22 @@ import { Reorder } from 'framer-motion';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
+import { useAppDispatch } from 'renderer/App/store/hooks';
+import { setBrowsers } from 'renderer/App/store/reducers/Board';
 
 import icon from './icon.png';
 
 import './style.scss';
 
 export const LeftBar: React.FC = () => {
+  const dispatch = useAppDispatch();
   const board = useBoard();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>(board.browsers);
+
+  const handleReorder = (newOrder: BrowserProps[]) => {
+    dispatch(setBrowsers(newOrder));
+  };
 
   useEffect(() => {
     setItems(board.browsers);
@@ -25,7 +32,7 @@ export const LeftBar: React.FC = () => {
 
   return (
     <div className="LeftBar__browserFavContainer">
-      <Reorder.Group values={items} onReorder={setItems}>
+      <Reorder.Group values={items} onReorder={handleReorder}>
         {items.map((b: BrowserProps) => {
           return (
             <Reorder.Item key={b.id} value={b}>
