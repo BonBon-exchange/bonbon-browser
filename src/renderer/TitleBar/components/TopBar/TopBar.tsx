@@ -10,6 +10,7 @@ import AddIcon from '@mui/icons-material/Add';
 import clsx from 'clsx';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { useAppDispatch, useAppSelector } from 'renderer/TitleBar/store/hooks';
 import {
@@ -150,6 +151,10 @@ export const TopBar: React.FC = () => {
     window.document.querySelector('body').className = colorScheme;
   };
 
+  const handleCloseTab = (tabId: string) => {
+    dispatch(removeTab(tabId));
+  };
+
   useEffect(() => {
     // @ts-ignore
     window.document.querySelector('body').className = window.matchMedia(
@@ -235,27 +240,36 @@ export const TopBar: React.FC = () => {
       <div id="TopBar__tabs-container">
         {tabs.map((t) => {
           return (
-            <div
-              className={clsx({
-                TopBar__tab: true,
-                bold: activeTab === t.id,
-              })}
-              key={t.id}
-              onClick={() => dispatch(setActiveTab(t.id))}
-              data-tabid={t.id}
-            >
-              {isRenaming === t.id ? (
-                <TextField
-                  label="Board name"
-                  defaultValue={t.label}
-                  variant="standard"
-                  onKeyPress={(e) => tabOnKeyPress(e, t.id)}
-                  id="TopBar__tab-renaming"
-                />
-              ) : (
-                `${t.label} (${t.windowsCount || '?'})`
+            <>
+              <div
+                className={clsx({
+                  TopBar__tab: true,
+                  bold: activeTab === t.id,
+                })}
+                key={t.id}
+                onClick={() => dispatch(setActiveTab(t.id))}
+                data-tabid={t.id}
+              >
+                {isRenaming === t.id ? (
+                  <TextField
+                    label="Board name"
+                    defaultValue={t.label}
+                    variant="standard"
+                    onKeyPress={(e) => tabOnKeyPress(e, t.id)}
+                    id="TopBar__tab-renaming"
+                  />
+                ) : (
+                  <span>
+                    {t.label}&nbsp;({t.windowsCount || '?'})&nbsp;
+                  </span>
+                )}
+              </div>
+              {!isRenaming && (
+                <div className="TopBar__closeTab">
+                  <CloseIcon onClick={() => handleCloseTab(t.id)} />
+                </div>
               )}
-            </div>
+            </>
           );
         })}
         <div id="TopBar__addBoard" onClick={() => pushTab({})}>

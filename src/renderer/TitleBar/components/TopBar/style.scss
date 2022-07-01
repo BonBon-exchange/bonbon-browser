@@ -15,10 +15,27 @@
   align-items: center;
   padding-left: 25px;
 
+  .TopBar__closeTab {
+    color: var(--color-icon-primary);
+    transform: translateX(-28px);
+    position: relative;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+
+    svg {
+      height: 18px;
+    }
+
+    svg:hover {
+      height: 20px;
+    }
+  }
+
   .TopBar__tab {
     display: flex;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 25px;
     align-items: center;
     font-size: 14px;
     border-radius: 10px;
@@ -28,6 +45,7 @@
     margin-right: 3px;
     height: 20px;
     -webkit-app-region: no-drag;
+    cursor: pointer;
 
     input {
       color: black;
