@@ -9,15 +9,26 @@
   align-items: center;
   z-index: 10;
   background-color: var(--color-background-tertiary);
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 10px;
+    }
+  }
 }
 
 .LeftBar__browserFav {
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .LeftBar__browserFavImg {
   width: 24px;
   height: 24px;
+  pointer-events: none;
 }
 
 .LeftBar__browserFavImg:hover {
