@@ -38,7 +38,7 @@ jobs:
       - name: Package
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm exec electron-builder build -mw --publish=never
+        run: npm exec electron-builder build --mac --win --linux --publish=never
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
