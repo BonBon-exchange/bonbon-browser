@@ -551,6 +551,9 @@ contextBridge.exposeInMainWorld('titleBar', {
       ipcRenderer.send('show-settings');
     },
   },
+  os: {
+    getPlatform: () => process.platform,
+  },
 });
 
 contextBridge.exposeInMainWorld('darkMode', {
