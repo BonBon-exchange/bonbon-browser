@@ -2,12 +2,18 @@
   display: flex;
   height: 30px;
   position: fixed;
-  width: 100%;
+  width: calc(100% - 150px);
   background-color: var(--color-background-tertiary);
   color: var(--color-text-primary);
   z-index: 1000;
   -webkit-app-region: drag;
-  border-bottom: 1px solid var(--color-border),
+  border-bottom: 1px solid var(--color-border);
+  padding-right: 150px;
+}
+
+.macTitleBar {
+  padding-left: 150px;
+  padding-right: 0px !important;
 }
 
 #TopBar__tabs-container {
@@ -15,6 +21,10 @@
   flex-grow: 1;
   align-items: center;
   padding-left: 25px;
+
+  .TopBar__tab-container {
+    display: flex;
+  }
 
   .TopBar__closeTab {
     color: var(--color-icon-primary);
@@ -69,7 +79,6 @@
 
 #TopBar__menu-container {
   display: flex;
-  padding-right: 150px;
   -webkit-app-region: no-drag;
 }
 

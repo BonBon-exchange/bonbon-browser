@@ -35,6 +35,9 @@ declare global {
         library: () => void;
         settings: () => void;
       };
+      os: {
+        getPlatform: () => string;
+      }
     };
   }
 }

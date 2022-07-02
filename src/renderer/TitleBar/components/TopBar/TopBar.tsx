@@ -236,11 +236,16 @@ export const TopBar: React.FC = () => {
   }, [isRenaming]);
 
   return (
-    <div id="TopBar__container">
+    <div
+      id="TopBar__container"
+      className={clsx({
+        macTitleBar: window.titleBar.os.getPlatform() === 'darwin',
+      })}
+    >
       <div id="TopBar__tabs-container">
         {tabs.map((t) => {
           return (
-            <>
+            <div className="TopBar__tab-container">
               <div
                 className={clsx({
                   TopBar__tab: true,
@@ -266,7 +271,7 @@ export const TopBar: React.FC = () => {
               <div className="TopBar__closeTab">
                 <CloseIcon onClick={() => handleCloseTab(t.id)} />
               </div>
-            </>
+            </div>
           );
         })}
         <div id="TopBar__addBoard" onClick={() => pushTab({})}>
