@@ -14,7 +14,6 @@ import {
   updateBrowser,
   toggleBoardFullSize,
 } from 'renderer/App/store/reducers/Board';
-import { bringBrowserToTheFront } from 'renderer/App/helpers/d2';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
@@ -36,8 +35,12 @@ export const Browser: React.FC<BrowserProps> = ({
 }) => {
   useBrowserEvents(id);
   const dispatch = useAppDispatch();
-  const { enablePointerEventsForAll, disablePointerEventsForAll, focus } =
-    useBrowserMethods();
+  const {
+    enablePointerEventsForAll,
+    disablePointerEventsForAll,
+    focus,
+    bringBrowserToTheFront,
+  } = useBrowserMethods();
   const { browser } = useStoreHelpers();
   const board = useBoard();
   const [firstRenderingState, setFirstRenderingState] = useState<boolean>(

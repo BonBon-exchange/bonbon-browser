@@ -17,9 +17,10 @@ import {
   setActiveBrowser,
   updateBrowser,
 } from 'renderer/App/store/reducers/Board';
-import { bringBrowserToTheFront } from 'renderer/App/helpers/d2';
+import { useBrowserMethods } from './useBrowserMethods';
 
 export const useBrowserEvents = (browserId: string) => {
+  const { bringBrowserToTheFront } = useBrowserMethods();
   const container = document.querySelector(
     `#Browser__${browserId}`
   ) as HTMLElement;
@@ -123,7 +124,7 @@ export const useBrowserEvents = (browserId: string) => {
           break;
       }
     },
-    [browserId, container, dispatch]
+    [browserId, container, dispatch, bringBrowserToTheFront]
   );
 
   const loadCommitListener = useCallback(
