@@ -9,7 +9,7 @@ on:
 jobs:
   deps:
     name: Setup and get deps
-    runs-on: macos-latest
+    runs-on: windows-latest
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
@@ -38,17 +38,7 @@ jobs:
       - name: Package
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm exec electron-builder build --mac
-
-      - name: Package
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm exec electron-builder build --win
-
-      - name: Package
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm exec electron-builder build --linux
+        run: npm exec electron-builder build
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -57,7 +47,4 @@ jobs:
           prerelease: true
           title: Latest
           files: |
-            release/build/BonBon-*.*.*-arm64.dmg
-            release/build/BonBon-*.*.*.dmg
-            release/build/BonBon-*.*.*.AppImage
             release/build/BonBon *.*.* Setup.exe
