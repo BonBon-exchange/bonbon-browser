@@ -3,18 +3,13 @@ name: Release unstable
 on:
   push:
     branches:
-      - 'develop'
+      - 'main'
       - 'release-ci'
 
 jobs:
   deps:
     name: Setup and get deps
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
-
+    runs-on: macos-latest
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
@@ -43,7 +38,7 @@ jobs:
       - name: Package
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm exec electron-builder -mwl build --publish=never
+        run: npm exec electron-builder build -mw --publish=never
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
