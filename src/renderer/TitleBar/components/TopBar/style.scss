@@ -63,6 +63,10 @@
   }
 }
 
+.TopBar__tab:hover {
+  background-color: var(--color-background-4) !important;
+}
+
 #TopBar__menu-container {
   display: flex;
   padding-right: 150px;
@@ -84,20 +88,25 @@
 }
 
 #TopBar__addBoard {
-  width: 50px;
   justify-content: center;
   display: flex;
   align-items: center;
   -webkit-app-region: no-drag;
+  padding: 5px;
+  border-radius: 3px;
 
   svg {
     color: var(--color-icon-primary);
     height: 18px;
   }
+
+  svg:hover {
+    height: 20px;
+  }
 }
 
-#TopBar__addBoard svg:hover {
-  height: 20px;
+#TopBar__addBoard:hover {
+  background-color: var(--color-background-5);
 }
 
 browser-action-list {

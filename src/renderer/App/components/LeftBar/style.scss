@@ -11,16 +11,18 @@
   ul {
     list-style: none;
     padding: 0;
-
-    li {
-      margin-bottom: 10px;
-    }
   }
 }
 
 .LeftBar__browserFav {
-  margin-bottom: 10px;
   cursor: pointer;
+  padding: 7px;
+  border-radius: 3px;
+}
+
+.LeftBar__browserFav:hover {
+  cursor: pointer;
+  background-color: var(--color-background-5);
 }
 
 .LeftBar__browserFavImg {

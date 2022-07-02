@@ -1,8 +1,11 @@
 #ButtonAddBrowser {
   height: 18px;
   color: var(--color-icon-primary);
+  padding: 7px;
+  border-radius: 3px;
 }
 
 #ButtonAddBrowser:hover {
   height: 20px;
+  background-color: var(--color-background-5);
 }
