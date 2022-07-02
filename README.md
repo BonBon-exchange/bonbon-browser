@@ -1,5 +1,3 @@
-![Github All Releases](https://img.shields.io/github/downloads/BonBon-exchange/bonbon-web-browser/total.svg)
-
 # BonBon Web Browser
 
 Claim back your data ownership.
