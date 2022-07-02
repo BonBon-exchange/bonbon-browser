@@ -9,7 +9,12 @@ on:
 jobs:
   deps:
     name: Setup and get deps
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
@@ -35,16 +40,8 @@ jobs:
       - name: Check tests
         run: npm run test
 
-      - name: Package
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm exec electron-builder build
-
-      - uses: marvinpinto/action-automatic-releases@latest
+      - name: Build/release Electron app
+        uses: samuelmeuli/action-electron-builder@v1
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: latest
-          prerelease: true
-          title: Latest
-          files: |
-            release/build/BonBon *.*.* Setup.exe
+          github_token: ${{ secrets.github_token }}
+          release: latest
