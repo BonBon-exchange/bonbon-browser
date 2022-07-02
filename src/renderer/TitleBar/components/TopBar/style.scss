@@ -77,14 +77,20 @@
   margin-right: 5px;
   display: flex;
   align-items: center;
+  padding: 5px;
+  border-radius: 3px;
+
+  svg {
+    height: 18px;
+  }
+
+  svg:hover {
+    height: 20px;
+  }
 }
 
-.TopBar__menu-item svg{
-  height: 18px;
-}
-
-.TopBar__menu-item svg:hover{
-  height: 20px;
+.TopBar__menu-item:hover {
+  background-color: var(--color-background-5);
 }
 
 #TopBar__addBoard {
