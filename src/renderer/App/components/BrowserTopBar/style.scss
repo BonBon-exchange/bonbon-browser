@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: row;
   padding-left: 10px;
-  padding-right: 10px;
 }
 
 .BrowserTopBar__title {
@@ -23,15 +22,20 @@
 
 .BrowserTopBar__control-button {
   color: var(--color-icon-primary);
-  margin-right: 5px;
+  padding: 5px;
+  border-radius: 3px;
+
+  svg {
+    height: 18px;
+  }
+
+  svg:hover {
+    height: 20px;
+  }
 }
 
-.BrowserTopBar__control-button svg {
-  height: 18px;
-}
-
-.BrowserTopBar__control-button svg:hover {
-  height: 20px;
+.BrowserTopBar__control-button:hover {
+  background-color: var(--color-background-5);
 }
 
 .BrowserTopBar__favicon {

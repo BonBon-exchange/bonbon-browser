@@ -16,20 +16,6 @@ export const overlaps = (
   return isOverlapping;
 };
 
-export const bringBrowserToTheFront = (
-  document: Document,
-  browser: HTMLElement | null
-) => {
-  const browsers = document.querySelectorAll('.Browser__draggable-container');
-
-  browsers.forEach((w: Element) => {
-    const z = w as HTMLElement;
-    if (z) z.style.zIndex = '1';
-  });
-
-  if (browser) browser.style.zIndex = '2';
-};
-
 export const getCoordinateWithNoCollision = (
   document: Document,
   board: BoardType,
@@ -63,17 +49,4 @@ export const getCoordinateWithNoCollision = (
   }
 
   return { x, y };
-};
-
-export const scrollToBrowser = (
-  document: Document,
-  browserId: string
-): void => {
-  document.querySelector(`#Browser__${browserId}`)?.scrollIntoView();
-  window.scrollBy(0, -100);
-
-  bringBrowserToTheFront(
-    document,
-    document.querySelector(`#Browser__${browserId}`)
-  );
 };

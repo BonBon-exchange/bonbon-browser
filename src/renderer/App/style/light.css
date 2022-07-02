@@ -8,4 +8,5 @@ body.light-theme {
   --color-icon-secondary: #1c2736;
   --color-border: #8d8686;
   --color-background-4: #070708;
+  --color-background-5: rgba(0, 0, 0, 0.1);
 }

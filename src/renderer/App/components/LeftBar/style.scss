@@ -11,16 +11,18 @@
   ul {
     list-style: none;
     padding: 0;
-
-    li {
-      margin-bottom: 10px;
-    }
   }
 }
 
 .LeftBar__browserFav {
-  margin-bottom: 10px;
   cursor: pointer;
+  padding: 7px;
+  border-radius: 3px;
+}
+
+.LeftBar__browserFav:hover {
+  cursor: pointer;
+  background-color: var(--color-background-5);
 }
 
 .LeftBar__browserFavImg {
@@ -28,9 +30,4 @@
   height: 24px;
   pointer-events: none;
   cursor: pointer;
-}
-
-.LeftBar__browserFavImg:hover {
-  height: 26px;
-  width: 26px;
 }

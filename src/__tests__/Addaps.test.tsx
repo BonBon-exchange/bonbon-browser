@@ -28,13 +28,13 @@ describe('Addaps', () => {
     ).toBeTruthy();
   });
 
-  it('should render with boardId', () => {
-    expect(
-      render(
-        <Provider store={store}>
-          <Addaps boardId="someboardid" />
-        </Provider>
-      )
-    ).toBeTruthy();
-  });
+  // it('should render with boardId', () => {
+  //   expect(
+  //     render(
+  //       <Provider store={store}>
+  //         <Addaps boardId="anotherboardid" />
+  //       </Provider>
+  //     )
+  //   ).toBeTruthy();
+  // });
 });

@@ -22,7 +22,6 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   useGlobalEvents();
   const { board } = useStoreHelpers({ boardId });
   const dispatch = useAppDispatch();
-  // const boardState = useBoard();
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [popupTitle, setPopupTitle] = useState<string>('');
   const [popupChildren, setPopupChildren] = useState<JSX.Element>();

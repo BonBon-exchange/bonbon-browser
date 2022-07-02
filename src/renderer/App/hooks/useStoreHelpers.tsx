@@ -13,57 +13,50 @@ import {
   removeBrowser,
   removeLastCloseUrl,
 } from 'renderer/App/store/reducers/Board';
-import {
-  scrollToBrowser,
-  getCoordinateWithNoCollision,
-} from 'renderer/App/helpers/d2';
+import { getCoordinateWithNoCollision } from 'renderer/App/helpers/d2';
 import { useBoard } from './useBoard';
+import { useBrowserMethods } from './useBrowserMethods';
 
 export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const dispatch = useAppDispatch();
   const board = useBoard();
+  const { scrollToBrowser, focusUrlBar } = useBrowserMethods();
+
+  const makeBrowser = useCallback(
+    (params: { url?: string; top?: number; left?: number }) => {
+      const browserId = v4();
+      const { x, y } = getCoordinateWithNoCollision(document, board, 800, 600);
+      const newBrowser = {
+        id: browserId,
+        url: params.url || 'https://www.google.com',
+        top: params.top || y,
+        left: params.left || x,
+        height: 800,
+        width: 600,
+        firstRendering: true,
+      };
+      return newBrowser;
+    },
+    [board]
+  );
 
   const makeAndAddBrowser = useCallback(
     (params: { url?: string }): void => {
       if (board) {
-        const browserId = v4();
-        const { x, y } = getCoordinateWithNoCollision(
-          document,
-          board,
-          800,
-          600
-        );
-        const newBrowser = {
-          id: browserId,
-          url: params.url || 'https://www.google.com',
-          top: y,
-          left: x,
-          height: 800,
-          width: 600,
-          firstRendering: true,
-          favicon: '',
-        };
+        const newBrowser = makeBrowser(params);
         dispatch(addBrowser(newBrowser));
-        setTimeout(() => scrollToBrowser(document, browserId), 300);
+        setTimeout(() => {
+          scrollToBrowser(document, newBrowser.id);
+          focusUrlBar(document, newBrowser.id);
+        }, 300);
       }
     },
-    [board, dispatch]
+    [board, dispatch, makeBrowser, scrollToBrowser, focusUrlBar]
   );
 
   const createBoard = useCallback(
     (params: { id?: string }) => {
-      const browserId = v4();
-      const newBrowser = {
-        id: browserId,
-        url: 'https://www.google.com',
-        top: 120,
-        left: 120,
-        height: 800,
-        width: 600,
-        firstRendering: true,
-        favicon: '',
-        title: '',
-      };
+      const newBrowser = makeBrowser({ top: 120, left: 120 });
       const id = params.id || v4();
       const newBoard = {
         id,
@@ -76,7 +69,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       dispatch(setBoard(newBoard));
       window.app.analytics.event('add_board');
     },
-    [dispatch]
+    [dispatch, makeBrowser]
   );
 
   const loadBoard = useCallback(
