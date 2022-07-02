@@ -7,23 +7,14 @@ on:
       - 'release-ci'
 
 jobs:
-  deps:
-    name: Setup and get deps
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
-
+  publish_on_windows:
+    runs-on: windows-latest
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
       - name: Install Node.js and NPM
         uses: actions/setup-node@master
-        with:
-          node-version: 16
-          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -39,15 +30,6 @@ jobs:
 
       - name: Check tests
         run: npm run test
-
-  publish_on_windows:
-    runs-on: windows-latest
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
-
-      - name: Install Node.js and NPM
-        uses: actions/setup-node@master
 
       - name: Package
         env:
@@ -72,6 +54,21 @@ jobs:
       - name: Install Node.js and NPM
         uses: actions/setup-node@master
 
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check types
+        run: npm exec tsc
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Compile
+        run: npm run build
+
+      - name: Check tests
+        run: npm run test
+
       - name: Package
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -95,6 +92,21 @@ jobs:
 
       - name: Install Node.js and NPM
         uses: actions/setup-node@master
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check types
+        run: npm exec tsc
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Compile
+        run: npm run build
+
+      - name: Check tests
+        run: npm run test
 
       - name: Package
         env:
