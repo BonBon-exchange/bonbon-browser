@@ -166,7 +166,7 @@ export const useBrowserEvents = (browserId: string) => {
   const containerClickListener = useCallback(() => {
     bringBrowserToTheFront(document, container);
     dispatch(setActiveBrowser(browserId));
-  }, [browserId, dispatch, container]);
+  }, [browserId, dispatch, container, bringBrowserToTheFront]);
 
   useEffect(() => {
     webview?.addEventListener('load-commit', loadCommitListener);

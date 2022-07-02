@@ -132,7 +132,7 @@ export const Browser: React.FC<BrowserProps> = ({
 
   useEffect(() => {
     bringBrowserToTheFront(document, document.querySelector(`#Browser__${id}`));
-  }, [id]);
+  }, [id, bringBrowserToTheFront]);
 
   useEffect(() => {
     window.app.analytics.event('browser_navigate');
