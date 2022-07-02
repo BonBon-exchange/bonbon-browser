@@ -1,9 +1,9 @@
-name: Release unstable
+name: Release latest
 
 on:
   push:
     branches:
-      - 'main'
+      - 'develop'
       - 'release-ci'
 
 jobs:
@@ -38,14 +38,14 @@ jobs:
       - name: Package
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm exec electron-builder build --mac --win --linux --publish=never
+        run: npm exec electron-builder build -mwl
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: unstable-upstream
+          automatic_release_tag: latest
           prerelease: true
-          title: Unstable upstream release
+          title: Latest
           files: |
             release/build/BonBon-*.*.*-arm64.dmg
             release/build/BonBon-*.*.*.dmg
