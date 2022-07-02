@@ -17,10 +17,10 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Install Node.js and NPM
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@master
         with:
           node-version: 16
           cache: npm
@@ -40,8 +40,72 @@ jobs:
       - name: Check tests
         run: npm run test
 
-      - name: Build/release Electron app
-        uses: samuelmeuli/action-electron-builder@v1
+  publish_on_windows:
+    runs-on: windows-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js and NPM
+        uses: actions/setup-node@master
+
+      - name: Package
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm exec electron-builder build
+
+      - uses: marvinpinto/action-automatic-releases@latest
         with:
-          github_token: ${{ secrets.github_token }}
-          release: latest
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: latest
+          prerelease: true
+          title: Latest
+          files: |
+            release/build/BonBon *.*.* Setup.exe
+
+  publish_on_macos:
+    runs-on: macos-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js and NPM
+        uses: actions/setup-node@master
+
+      - name: Package
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm exec electron-builder build
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: latest
+          prerelease: true
+          title: Latest
+          files: |
+            release/build/BonBon-*.*.*-arm64.dmg
+            release/build/BonBon-*.*.*.dmg
+
+  publish_on_linux:
+    runs-on: linux-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js and NPM
+        uses: actions/setup-node@master
+
+      - name: Package
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm exec electron-builder build
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: latest
+          prerelease: true
+          title: Latest
+          files: |
+            release/build/BonBon-*.*.*.AppImage
