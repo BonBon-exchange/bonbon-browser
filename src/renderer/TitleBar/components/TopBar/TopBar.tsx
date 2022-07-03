@@ -155,6 +155,13 @@ export const TopBar: React.FC = () => {
     dispatch(removeTab(tabId));
   };
 
+  const wheelEventListener = (evt: Event) => {
+    const scrollContainer = document.querySelector('#TopBar__tabs-container');
+    const event = evt as WheelEvent;
+    evt.preventDefault();
+    scrollContainer?.scroll(event.deltaY + scrollContainer?.scrollLeft, 0);
+  };
+
   useEffect(() => {
     // @ts-ignore
     window.document.querySelector('body').className = window.matchMedia(
@@ -235,6 +242,13 @@ export const TopBar: React.FC = () => {
     }
   }, [isRenaming]);
 
+  useEffect(() => {
+    const scrollContainer = document.querySelector('#TopBar__tabs-container');
+    scrollContainer?.addEventListener('wheel', wheelEventListener);
+    return () =>
+      scrollContainer?.removeEventListener('wheel', wheelEventListener);
+  }, []);
+
   return (
     <div
       id="TopBar__container"
@@ -274,19 +288,21 @@ export const TopBar: React.FC = () => {
             </div>
           );
         })}
-        <div id="TopBar__addBoard" onClick={() => pushTab({})}>
-          <AddIcon />
-        </div>
       </div>
-      {/* @ts-ignore */}
-      <browser-action-list />
-      <div id="TopBar__menu-container">
-        <div className="TopBar__menu-item">
-          {isDarkMode ? (
-            <Brightness7Icon onClick={() => window.darkMode.toggle()} />
-          ) : (
-            <Brightness4Icon onClick={() => window.darkMode.toggle()} />
-          )}
+      <div id="TopBar__addBoard" onClick={() => pushTab({})}>
+        <AddIcon />
+      </div>
+      <div id="TopBar__controls">
+        {/* @ts-ignore */}
+        <browser-action-list />
+        <div id="TopBar__menu-container">
+          <div className="TopBar__menu-item">
+            {isDarkMode ? (
+              <Brightness7Icon onClick={() => window.darkMode.toggle()} />
+            ) : (
+              <Brightness4Icon onClick={() => window.darkMode.toggle()} />
+            )}
+          </div>
         </div>
       </div>
     </div>

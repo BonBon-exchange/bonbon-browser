@@ -18,12 +18,13 @@
 
 #TopBar__tabs-container {
   display: flex;
-  flex-grow: 1;
   align-items: center;
-  padding-left: 25px;
+  overflow: hidden;
+  -webkit-app-region: no-drag;
 
   .TopBar__tab-container {
     display: flex;
+    min-width: fit-content;
   }
 
   .TopBar__closeTab {
@@ -54,7 +55,6 @@
     background: var(--color-icon-secondary);
     margin-right: -20px;
     height: 20px;
-    -webkit-app-region: no-drag;
     cursor: pointer;
     border: 1px solid var(--color-border);
 
@@ -80,6 +80,12 @@
 #TopBar__menu-container {
   display: flex;
   -webkit-app-region: no-drag;
+}
+
+#TopBar__controls {
+  display: flex;
+  flex-grow: 1;
+  justify-content: end;
 }
 
 .TopBar__menu-item {
