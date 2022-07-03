@@ -1,6 +1,9 @@
 declare global {
   interface Window {
     titleBar: {
+      app: {
+        close: () => void;
+      };
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;
       };

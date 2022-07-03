@@ -49,8 +49,11 @@ export const tabsSlice: Slice<TabsState> = createSlice({
     removeTab: (state, action: PayloadAction<string>) => {
       const tabIndex = state.tabs.findIndex((t) => t.id === action.payload);
       if (tabIndex > -1) state.tabs.splice(tabIndex, 1);
-      if (state.activeTab === action.payload && state.tabs.length > 0)
+      if (state.activeTab === action.payload && state.tabs.length > 0) {
         state.activeTab = state.tabs[0].id;
+      }
+
+      if (state.tabs.length === 0) window.titleBar.app.close();
     },
     setWindowsCount: (state, action: PayloadAction<SetWindowsCountType>) => {
       const tabIndex = state.tabs.findIndex((t) => t.id === action.payload.id);
