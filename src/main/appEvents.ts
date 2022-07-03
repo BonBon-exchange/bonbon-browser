@@ -74,6 +74,17 @@ const makeAppEvents = () => {
             selectedView?.webContents.send('close-all-webview');
           },
         },
+        {
+          label: 'Close others',
+          visible: params.y > 30 && params.x < 50,
+          click: () => {
+            const selectedView = getSelectedView();
+            selectedView?.webContents.send('close-others-webview', {
+              x: params.x,
+              y: params.y,
+            });
+          },
+        },
 
         // TitleBar context menu below
         {
@@ -92,10 +103,7 @@ const makeAppEvents = () => {
           visible: params.y <= 30,
           click: () => {
             const mainWindow = getMainWindow();
-            mainWindow?.webContents.send('close-all-tab', {
-              x: params.x,
-              y: params.y,
-            });
+            mainWindow?.webContents.send('close-all-tab');
           },
         },
         {

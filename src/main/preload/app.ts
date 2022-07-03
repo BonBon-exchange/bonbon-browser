@@ -77,6 +77,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('close-all-webview', action);
     },
+    closeOthersWebview: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('close-others-webview', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -105,6 +110,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     closeAllWebview: () => {
       ipcRenderer.removeAllListeners('close-all-webview');
+    },
+    closeOthersWebview: () => {
+      ipcRenderer.removeAllListeners('close-others-webview');
     },
   },
 });

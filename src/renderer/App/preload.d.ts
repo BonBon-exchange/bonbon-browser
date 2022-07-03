@@ -31,6 +31,7 @@ declare global {
         renameBoard: (action: unknown) => void;
         closeWebview: (action: unknown) => void;
         closeAllWebview: (action: unknown) => void;
+        closeOthersWebview: (action: unknown) => void;
       };
       off: {
         newWindow: () => void;
@@ -42,6 +43,7 @@ declare global {
         renameBoard: () => void;
         closeWebview: () => void;
         closeAllWebview: () => void;
+        closeOthersWebview: () => void;
       };
     };
     darkMode: {

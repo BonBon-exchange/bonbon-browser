@@ -7,6 +7,7 @@ import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import {
   removeBrowser,
   removeAllBrowsers,
+  removeAllBrowsersExcept,
 } from 'renderer/App/store/reducers/Board';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { useBoard } from './useBoard';
@@ -108,8 +109,20 @@ export const useGlobalEvents = () => {
       const el = document.elementFromPoint(args.x, args.y);
       const browserId = el?.getAttribute('data-browserid');
       if (browserId) {
-        window.app.browser.selectBrowserView();
         dispatch(removeBrowser(browserId));
+        window.app.browser.selectBrowserView();
+      }
+    },
+    [dispatch]
+  );
+
+  const closeOthersWebviewAction = useCallback(
+    (_e: any, args: { x: number; y: number }) => {
+      const el = document.elementFromPoint(args.x, args.y);
+      const browserId = el?.getAttribute('data-browserid');
+      if (browserId) {
+        dispatch(removeAllBrowsersExcept(browserId));
+        window.app.browser.selectBrowserView();
       }
     },
     [dispatch]
@@ -141,6 +154,11 @@ export const useGlobalEvents = () => {
     window.app.listener.closeAllWebview(closeAllWebviewAction);
     return () => window.app.off.closeAllWebview();
   }, [closeAllWebviewAction]);
+
+  useEffect(() => {
+    window.app.listener.closeOthersWebview(closeOthersWebviewAction);
+    return () => window.app.off.closeOthersWebview();
+  }, [closeOthersWebviewAction]);
 
   useEffect(() => {
     window.addEventListener('keydown', keyDownListener, false);

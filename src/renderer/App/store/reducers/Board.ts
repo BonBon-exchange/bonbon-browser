@@ -172,11 +172,26 @@ export const boardSlice = createSlice({
       // send event
       window.app.analytics.event('close_browser');
     },
+    removeAllBrowsersExcept: (state, action: PayloadAction<string>) => {
+      state.board.browsers = state.board.browsers.filter(
+        (b) => b.id === action.payload
+      );
+
+      // clean activeBrowser
+      state.board.activeBrowser = action.payload;
+      const wcId = state.board.browsers.find(
+        (b) => b.id === state.board.activeBrowser
+      )?.webContentsId;
+      if (wcId) window.app.browser.select(wcId);
+
+      // send event
+      window.app.analytics.event('close_others_browser');
+    },
     removeAllBrowsers: (state) => {
       if (!state.board.closedUrls) state.board.closedUrls = [];
       state.board.browsers.forEach((b) => addCLosedUrl(state, b.url));
       state.board.browsers = [];
-      window.app.analytics.event('close_all_browser');
+      window.app.analytics.event('close_all_browsers');
     },
     removeLastCloseUrl: (state) => {
       state.board.closedUrls.splice(state.board.closedUrls.length - 1, 1);
@@ -198,6 +213,7 @@ export const {
   toggleBoardFullSize,
   removeLastCloseUrl,
   setBrowsers,
+  removeAllBrowsersExcept,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;
