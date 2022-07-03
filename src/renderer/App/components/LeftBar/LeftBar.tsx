@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
-import React, { useEffect, useState } from 'react';
+import React, { ReactEventHandler, useEffect, useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { Reorder } from 'framer-motion';
 
@@ -29,6 +29,11 @@ export const LeftBar: React.FC = () => {
     dispatch(setBrowsers(newOrder));
   };
 
+  const handleImageError: ReactEventHandler<HTMLImageElement> = (e) => {
+    const target = e.target as HTMLImageElement;
+    target.src = icon;
+  };
+
   useEffect(() => {
     setItems(board.browsers);
   }, [board.browsers]);
@@ -49,6 +54,7 @@ export const LeftBar: React.FC = () => {
                   <img
                     src={b.favicon || icon}
                     className="LeftBar__browserFavImg"
+                    onError={handleImageError}
                   />
                 </div>
               </Tooltip>
