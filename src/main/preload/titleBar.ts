@@ -467,6 +467,11 @@ export const injectBrowserAction = () => {
 injectBrowserAction();
 
 contextBridge.exposeInMainWorld('titleBar', {
+  app: {
+    close: () => {
+      ipcRenderer.send('close-app');
+    },
+  },
   analytics: {
     event: (eventName: string, params: Record<string, string>) => {
       ipcRenderer.send('analytics', { eventName, params });

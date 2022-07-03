@@ -82,13 +82,6 @@ export const makeIpcMainEvents = (): void => {
     const view = views[args.tabId];
     if (view) view.webContents.send('purge');
     delete views[args.tabId];
-    const viewsKeys = Object.keys(views);
-    if (viewsKeys.length === 0) {
-      event('close_app');
-      app.quit();
-    } else {
-      setSelectedView(views[viewsKeys[viewsKeys.length - 1]]);
-    }
   });
 
   ipcMain.on('save-tab', (_event, args) => {
@@ -115,5 +108,10 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('set-windows-count', (_event, args) => {
     getMainWindow()?.webContents.send('set-windows-count', args);
+  });
+
+  ipcMain.on('close-app', () => {
+    event('close_app');
+    app.quit();
   });
 };
