@@ -53,6 +53,8 @@ export const tabsSlice: Slice<TabsState> = createSlice({
         state.activeTab = state.tabs[0].id;
       }
 
+      window.titleBar.tabs.purge(action.payload);
+
       if (state.tabs.length === 0) window.titleBar.app.close();
     },
     setWindowsCount: (state, action: PayloadAction<SetWindowsCountType>) => {
@@ -67,6 +69,12 @@ export const tabsSlice: Slice<TabsState> = createSlice({
       state.isRenaming = null;
       window.titleBar.app.close();
     },
+    removeAllTabsExcept: (state, action: PayloadAction<string>) => {
+      const toPurge = state.tabs.filter((t) => t.id !== action.payload);
+      state.tabs = state.tabs.filter((t) => t.id === action.payload);
+      state.activeTab = action.payload;
+      toPurge.forEach((t) => window.titleBar.tabs.purge(t.id));
+    },
   },
 });
 
@@ -78,6 +86,7 @@ export const {
   removeTab,
   setWindowsCount,
   removeAllTabs,
+  removeAllTabsExcept,
 } = tabsSlice.actions;
 
 export default tabsSlice.reducer;

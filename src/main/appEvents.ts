@@ -107,6 +107,17 @@ const makeAppEvents = () => {
           },
         },
         {
+          label: 'Close others',
+          visible: params.y <= 30,
+          click: () => {
+            const mainWindow = getMainWindow();
+            mainWindow?.webContents.send('close-others-tab', {
+              x: params.x,
+              y: params.y,
+            });
+          },
+        },
+        {
           label: 'Rename',
           visible: params.y <= 30,
           click: () => {

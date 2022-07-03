@@ -22,6 +22,7 @@ import {
   setWindowsCount,
   TabsState,
   removeAllTabs,
+  removeAllTabsExcept,
 } from 'renderer/TitleBar/store/reducers/Tabs';
 
 import './style.scss';
@@ -94,7 +95,6 @@ export const TopBar: React.FC = () => {
       const tabId = el?.getAttribute('data-tabid');
       if (tabId) {
         dispatch(removeTab(tabId));
-        window.titleBar.tabs.purge(tabId);
       }
     },
     [dispatch]
@@ -167,6 +167,18 @@ export const TopBar: React.FC = () => {
     scrollContainer?.scroll(event.deltaY + scrollContainer?.scrollLeft, 0);
   };
 
+  const closeOthersTabListener = useCallback(
+    (_e: unknown, args: { x: number; y: number }) => {
+      const el = document.elementFromPoint(args.x, args.y);
+      const tabId = el?.getAttribute('data-tabid');
+      if (tabId) {
+        console.log(tabId);
+        dispatch(removeAllTabsExcept(tabId));
+      }
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
     // @ts-ignore
     window.document.querySelector('body').className = window.matchMedia(
@@ -238,6 +250,11 @@ export const TopBar: React.FC = () => {
     window.titleBar.listener.closeAllTab(closeAllTabListener);
     return () => window.titleBar.off.closeAllTab();
   }, [closeAllTabListener]);
+
+  useEffect(() => {
+    window.titleBar.listener.closeOthersTab(closeOthersTabListener);
+    return () => window.titleBar.off.closeOthersTab();
+  }, [closeOthersTabListener]);
 
   useEffect(() => {
     if (tabs.length === 0) pushTab({});
