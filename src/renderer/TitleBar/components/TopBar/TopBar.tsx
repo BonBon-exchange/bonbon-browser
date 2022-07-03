@@ -245,7 +245,7 @@ export const TopBar: React.FC = () => {
       <div id="TopBar__tabs-container">
         {tabs.map((t) => {
           return (
-            <div className="TopBar__tab-container">
+            <div className="TopBar__tab-container" key={t.id}>
               <div
                 className={clsx({
                   TopBar__tab: true,
