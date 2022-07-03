@@ -21,6 +21,7 @@ import {
   removeTab,
   setWindowsCount,
   TabsState,
+  removeAllTab,
 } from 'renderer/TitleBar/store/reducers/Tabs';
 
 import './style.scss';
@@ -98,6 +99,10 @@ export const TopBar: React.FC = () => {
     },
     [dispatch]
   );
+
+  const closeAllTabListener = useCallback(() => {
+    dispatch(removeAllTab());
+  }, [dispatch]);
 
   const closeActiveTabListener = useCallback(() => {
     const tabId = activeTab;
@@ -228,6 +233,11 @@ export const TopBar: React.FC = () => {
     window.titleBar.listener.setWindowsCount(setWindowsCountListener);
     return () => window.titleBar.off.setWindowsCount();
   }, [setWindowsCountListener]);
+
+  useEffect(() => {
+    window.titleBar.listener.closeAllTab(closeAllTabListener);
+    return () => window.titleBar.off.closeAllTab();
+  }, [closeAllTabListener]);
 
   useEffect(() => {
     if (tabs.length === 0) pushTab({});

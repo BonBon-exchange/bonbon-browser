@@ -88,6 +88,17 @@ const makeAppEvents = () => {
           },
         },
         {
+          label: 'Close all',
+          visible: params.y <= 30,
+          click: () => {
+            const mainWindow = getMainWindow();
+            mainWindow?.webContents.send('close-all-tab', {
+              x: params.x,
+              y: params.y,
+            });
+          },
+        },
+        {
           label: 'Rename',
           visible: params.y <= 30,
           click: () => {
