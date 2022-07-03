@@ -85,10 +85,10 @@
   display: flex;
   flex-grow: 1;
   justify-content: end;
+  border-right: 1px solid var(--color-text-primary);
 }
 
 .TopBar__menu-item {
-  margin-right: 5px;
   display: flex;
   align-items: center;
   padding: 5px 15px;
@@ -97,6 +97,7 @@
 
   svg {
     height: 18px;
+    color: var(--color-icon-primary);
   }
 
   svg:hover {
@@ -133,5 +134,9 @@
 
 browser-action-list {
   -webkit-app-region: no-drag;
-  margin-right: 20px;
+  border-left: 1px solid var(--color-text-primary);
+  border-right: 1px solid var(--color-text-primary);
+  padding: 5px 15px;
+  align-items: center;
+
 }

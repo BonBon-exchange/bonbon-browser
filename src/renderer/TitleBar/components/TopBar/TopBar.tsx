@@ -11,6 +11,7 @@ import clsx from 'clsx';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import { useAppDispatch, useAppSelector } from 'renderer/TitleBar/store/hooks';
 import {
@@ -325,11 +326,7 @@ export const TopBar: React.FC = () => {
         <browser-action-list />
         <div id="TopBar__menu-container">
           <div className="TopBar__menu-item">
-            {isDarkMode ? (
-              <Brightness7Icon onClick={() => window.darkMode.toggle()} />
-            ) : (
-              <Brightness4Icon onClick={() => window.darkMode.toggle()} />
-            )}
+            <MenuIcon />
           </div>
         </div>
       </div>
