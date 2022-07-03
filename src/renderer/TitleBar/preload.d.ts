@@ -19,6 +19,7 @@ declare global {
         selectNextBoard: (action: unknown) => void;
         setWindowsCount: (action: unknown) => void;
         closeAllTab: (action: unknown) => void;
+        closeOthersTab: (action: unknown) => void;
       };
       off: {
         openTab: () => void;
@@ -29,6 +30,7 @@ declare global {
         selectNextBoard: () => void;
         setWindowsCount: () => void;
         closeAllTab: () => void;
+        closeOthersTab: () => void;
       };
       tabs: {
         select: (tabId: string) => void;

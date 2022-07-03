@@ -28,6 +28,7 @@ export const mockWindow = () => {
         renameBoard: jest.fn(),
         closeWebview: jest.fn(),
         closeAllWebview: jest.fn(),
+        closeOthersWebview: jest.fn(),
       },
       off: {
         newWindow: jest.fn(),
@@ -39,6 +40,7 @@ export const mockWindow = () => {
         renameBoard: jest.fn(),
         closeWebview: jest.fn(),
         closeAllWebview: jest.fn(),
+        closeOthersWebview: jest.fn(),
       },
     },
   });

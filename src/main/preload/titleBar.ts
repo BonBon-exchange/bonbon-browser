@@ -529,6 +529,11 @@ contextBridge.exposeInMainWorld('titleBar', {
     ) => {
       ipcRenderer.on('close-all-tab', action);
     },
+    closeOthersTab: (
+      action: (event: IpcRendererEvent, ...args: any[]) => void
+    ) => {
+      ipcRenderer.on('close-others-tab', action);
+    },
   },
   off: {
     openTab: () => {
@@ -554,6 +559,9 @@ contextBridge.exposeInMainWorld('titleBar', {
     },
     closeAllTab: () => {
       ipcRenderer.removeAllListeners('close-all-tab');
+    },
+    closeOthersTab: () => {
+      ipcRenderer.removeAllListeners('close-others-tab');
     },
   },
   screens: {
