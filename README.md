@@ -124,7 +124,6 @@ Then find the release in bonbon-web-browser/release/build
 - Antho
 - Braian ([@braiandickson](https://github.com/braiandickson))
 - 0xCUBE ([@0xCUB3](https://github.com/0xCUB3))
-- Alberto
 - Nuklusone
 - Aitor ([@dragonDScript](https://github.com/dragonDScript))
 
