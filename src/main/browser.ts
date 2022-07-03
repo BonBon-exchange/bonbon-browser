@@ -37,7 +37,7 @@ export const createBrowserView = (): BrowserView => {
   });
 
   mainWindow?.addBrowserView(view);
-  view.setBounds({ x: 0, y: 30, width, height: height - 30 });
+  view.setBounds({ x: 0, y: 30, width: width - 15, height: height - 45 });
   view.setAutoResize({ width: true, height: true });
   view.webContents.loadURL(resolveHtmlPath('index.html'));
 
@@ -66,7 +66,7 @@ export const createWindow = async (): Promise<void> => {
     height: 728,
     icon: getAssetPath('icon.png'),
     titleBarStyle: 'hidden',
-    titleBarOverlay: true,
+    titleBarOverlay: false,
     webPreferences: {
       partition: 'persist:user-partition',
       sandbox: true,

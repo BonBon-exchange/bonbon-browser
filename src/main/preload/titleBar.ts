@@ -471,6 +471,12 @@ contextBridge.exposeInMainWorld('titleBar', {
     close: () => {
       ipcRenderer.send('close-app');
     },
+    minimize: () => {
+      ipcRenderer.send('minimize-app');
+    },
+    maximize: () => {
+      ipcRenderer.send('maximize-app');
+    },
   },
   analytics: {
     event: (eventName: string, params: Record<string, string>) => {
