@@ -1,11 +1,5 @@
 # BonBon Web Browser
 
-Claim back your data ownership.
-
-Built with Electron, React, TypeScript, Redux. The browser is faster than it sounds, it's worth to try it.
-
-We don't collect any personal data or browsing history. We do send some events to Nucleus.sh in order to understand how users are using BonBon Browser. Those events are no more than "open_app", "add_browser", "switch_board"... and will be removed when I will be more confident that the UX is good.
-
 To stay up to date with the project, submit bugs, and submit features, please join:
 
 - Discord server: [https://discord.gg/hrpp8G9Fqs](https://discord.gg/hrpp8G9Fqs)
@@ -38,7 +32,7 @@ The app was not working before June 25th, 2022. I am sorry for the ones that tri
 
 ### Notes for macOS
 
-The app was not working before June 24th, 2022. I am sorry for the ones that tried to run it.
+The application is not signed. You may have difficulties running it.
 
 ## Features
 
@@ -131,4 +125,4 @@ Then find the release in bonbon-web-browser/release/build
 
 ![Desktop](https://media.giphy.com/media/gbSdr8VkxappmBCoJq/giphy.gif)
 
-[https://www.youtube.com/watch?v=QqT-lGfy9Vk](https://www.youtube.com/watch?v=QqT-lGfy9Vk)
+[https://youtu.be/A-jLDaY6VRs](https://youtu.be/A-jLDaY6VRs)
