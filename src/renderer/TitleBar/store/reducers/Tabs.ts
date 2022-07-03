@@ -61,7 +61,7 @@ export const tabsSlice: Slice<TabsState> = createSlice({
         state.tabs[tabIndex].windowsCount = action.payload.count;
       }
     },
-    removeAllTab: (state) => {
+    removeAllTabs: (state) => {
       state.tabs = [];
       state.activeTab = '';
       state.isRenaming = null;
@@ -77,7 +77,7 @@ export const {
   renameTab,
   removeTab,
   setWindowsCount,
-  removeAllTab
+  removeAllTabs,
 } = tabsSlice.actions;
 
 export default tabsSlice.reducer;

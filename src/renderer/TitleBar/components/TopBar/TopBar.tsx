@@ -21,7 +21,7 @@ import {
   removeTab,
   setWindowsCount,
   TabsState,
-  removeAllTab,
+  removeAllTabs,
 } from 'renderer/TitleBar/store/reducers/Tabs';
 
 import './style.scss';
@@ -101,7 +101,7 @@ export const TopBar: React.FC = () => {
   );
 
   const closeAllTabListener = useCallback(() => {
-    dispatch(removeAllTab());
+    dispatch(removeAllTabs(undefined));
   }, [dispatch]);
 
   const closeActiveTabListener = useCallback(() => {
