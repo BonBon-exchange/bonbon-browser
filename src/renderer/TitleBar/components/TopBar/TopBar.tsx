@@ -24,6 +24,7 @@ import {
   removeAllTabs,
   removeAllTabsExcept,
 } from 'renderer/TitleBar/store/reducers/Tabs';
+import { AppControls } from '../AppControls';
 
 import './style.scss';
 
@@ -332,6 +333,7 @@ export const TopBar: React.FC = () => {
           </div>
         </div>
       </div>
+      <AppControls />
     </div>
   );
 };

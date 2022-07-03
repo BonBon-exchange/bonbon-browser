@@ -3,6 +3,8 @@ declare global {
     titleBar: {
       app: {
         close: () => void;
+        minimize: () => void;
+        maximize: () => void;
       };
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;

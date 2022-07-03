@@ -3,6 +3,7 @@
   color: var(--color-icon-primary);
   padding: 7px;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 #ButtonAddBrowser:hover {

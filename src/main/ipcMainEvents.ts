@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/prefer-default-export */
 import { app, BrowserView, ipcMain, nativeTheme, WebContents } from 'electron';
 
@@ -113,5 +114,16 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.on('close-app', () => {
     event('close_app');
     app.quit();
+  });
+
+  ipcMain.on('minimize-app', () => {
+    getMainWindow()?.minimize();
+  });
+
+  ipcMain.on('maximize-app', () => {
+    const mainWindow = getMainWindow();
+    mainWindow?.isMaximized()
+      ? mainWindow.unmaximize()
+      : mainWindow?.maximize();
   });
 };

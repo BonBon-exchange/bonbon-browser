@@ -14,8 +14,9 @@
   color: var(--color-text-primary);
 
   .BrowserControlBar__control {
-    padding: 3px;
+    padding: 0px 10px;
     border-radius: 3px;
+    cursor: pointer;
 
     svg {
       height: 18px;
