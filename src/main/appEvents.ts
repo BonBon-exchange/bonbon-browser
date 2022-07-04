@@ -29,7 +29,7 @@ const makeAppEvents = () => {
     contents.on('new-window', (e, url) => {
       e.preventDefault();
       const selectedView = getSelectedView();
-      selectedView.webContents.send('new-window', { url });
+      selectedView?.webContents.send('new-window', { url });
     });
 
     contents.on('will-attach-webview', (wawevent) => {

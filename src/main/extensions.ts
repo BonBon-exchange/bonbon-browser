@@ -54,9 +54,11 @@ export const makeChromeExtensionSupport = () => {
       : undefined,
     createTab(details) {
       return new Promise((resolve, reject) => {
-        getSelectedView().webContents.send('new-window', { url: details.url });
+        const selectedView = getSelectedView();
+        selectedView?.webContents.send('new-window', { url: details.url });
         const mainWindow = getMainWindow();
-        if (mainWindow) resolve([getSelectedView().webContents, mainWindow]);
+        if (mainWindow && selectedView)
+          resolve([selectedView.webContents, mainWindow]);
         else reject(new Error('mainWindow is null'));
       });
     },

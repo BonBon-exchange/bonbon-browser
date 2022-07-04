@@ -49,7 +49,7 @@ export const makeIpcMainEvents = (): void => {
       viewToShow.webContents.send('load-board', { boardId: args.tabId })
     );
     setSelectedView(viewToShow);
-    getSelectedView().webContents.focus();
+    getSelectedView()?.webContents.focus();
   });
 
   ipcMain.on('open-board', (_event, args) => {
@@ -64,7 +64,7 @@ export const makeIpcMainEvents = (): void => {
       viewToShow.webContents.send('load-board', { boardId: args.id });
     });
     setSelectedView(viewToShow);
-    getSelectedView().webContents.focus();
+    getSelectedView()?.webContents.focus();
   });
 
   ipcMain.on('close-active-board', () => {
@@ -72,11 +72,11 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('show-library', () => {
-    getSelectedView().webContents.send('show-library');
+    getSelectedView()?.webContents.send('show-library');
   });
 
   ipcMain.on('show-settings', () => {
-    getSelectedView().webContents.send('show-settings');
+    getSelectedView()?.webContents.send('show-settings');
   });
 
   ipcMain.on('tab-purge', (_event, args) => {
@@ -100,7 +100,8 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('select-browserView', () => {
-    extensions.selectTab(getSelectedView().webContents);
+    const selectedView = getSelectedView();
+    if (selectedView) extensions.selectTab(selectedView.webContents);
   });
 
   ipcMain.on('select-next-board', () => {
@@ -128,6 +129,6 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('show-app-menu', () => {
-    getSelectedView().webContents.send('show-app-menu');
+    getSelectedView()?.webContents.send('show-app-menu');
   });
 };
