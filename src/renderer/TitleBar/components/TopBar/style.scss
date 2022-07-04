@@ -24,6 +24,7 @@
   .TopBar__tab-container {
     display: flex;
     min-width: fit-content;
+    height: 100%;
   }
 
   .TopBar__closeTab {
@@ -43,22 +44,27 @@
     }
   }
 
+  .TopBar__closeTab:hover {
+    background-color: var(--color-background-5);
+  }
+
   .TopBar__tab {
     display: flex;
     padding-left: 10px;
     padding-right: 25px;
     align-items: center;
+    min-width: 100px;
     font-size: 14px;
     border-radius: 3px;
-    color: var(--color-text-secondary);
-    background: var(--color-icon-secondary);
-    margin-right: -20px;
-    height: 20px;
+    color: var(--color-text-primary);
+    border-right: 1px solid var(--color-border);
+    margin-right: -24px;
+    height: 100%;
     cursor: pointer;
-    border: 1px solid var(--color-border);
 
     &.selected {
       background-color: var(--color-background-4) !important;
+      color: var(--color-text-secondary);
     }
 
     input {
@@ -74,6 +80,7 @@
 
 .TopBar__tab:hover {
   background-color: var(--color-background-4) !important;
+  color: var(--color-text-secondary) !important;
 }
 
 #TopBar__menu-container {
