@@ -125,4 +125,4 @@ Then find the release in bonbon-web-browser/release/build
 
 ![Desktop](https://media.giphy.com/media/gbSdr8VkxappmBCoJq/giphy.gif)
 
-[https://youtu.be/A-jLDaY6VRs](https://youtu.be/A-jLDaY6VRs)
+[https://youtu.be/h874odEFNjo](https://youtu.be/h874odEFNjo)
