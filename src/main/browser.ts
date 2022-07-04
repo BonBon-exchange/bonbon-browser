@@ -9,8 +9,8 @@ import { event } from './analytics';
 
 const machineId = machineIdSync();
 
-let selectedView: BrowserView;
-let mainWindow: BrowserWindow | null;
+let selectedView: BrowserView | null = null;
+let mainWindow: BrowserWindow | null = null;
 
 export const getSelectedView = () => selectedView;
 export const setSelectedView = (view: BrowserView) => {
