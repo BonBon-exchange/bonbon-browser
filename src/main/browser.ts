@@ -101,7 +101,9 @@ export const createWindow = async (): Promise<void> => {
   });
 
   mainWindow.webContents.executeJavaScript(
-    `localStorage.setItem("machineId", "${machineId}"); localStorage.setItem("appIsPackaged", "${app.isPackaged}");`,
+    `localStorage.setItem("machineId", "${machineId}"); localStorage.setItem("appVersion", "${app.getVersion()}"); localStorage.setItem("appIsPackaged", "${
+      app.isPackaged
+    }");`,
     true
   );
 

@@ -10,6 +10,9 @@ contextBridge.exposeInMainWorld('app', {
     inspectElement: (point: { x: number; y: number }) => {
       ipcRenderer.send('inspectElement', point);
     },
+    toggleDarkMode: () => {
+      ipcRenderer.invoke('dark-mode:toggle');
+    },
   },
   board: {
     open: (board: { id: string; label: string; isFullSize: boolean }) => {
@@ -47,21 +50,6 @@ contextBridge.exposeInMainWorld('app', {
     purge: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
       ipcRenderer.on('purge', action);
     },
-    showLibrary: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
-    ) => {
-      ipcRenderer.on('show-library', action);
-    },
-    showSettings: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
-    ) => {
-      ipcRenderer.on('show-settings', action);
-    },
-    saveBoard: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
-    ) => {
-      ipcRenderer.on('save-board', action);
-    },
     renameBoard: (
       action: (event: IpcRendererEvent, ...args: unknown[]) => void
     ) => {
@@ -82,6 +70,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('close-others-webview', action);
     },
+    showAppMenu: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('show-app-menu', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -90,17 +83,8 @@ contextBridge.exposeInMainWorld('app', {
     loadBoard: () => {
       ipcRenderer.removeAllListeners('load-board');
     },
-    showLibrary: () => {
-      ipcRenderer.removeAllListeners('show-library');
-    },
-    showSettings: () => {
-      ipcRenderer.removeAllListeners('show-settings');
-    },
     purge: () => {
       ipcRenderer.removeAllListeners('purge');
-    },
-    saveBoard: () => {
-      ipcRenderer.removeAllListeners('save-board');
     },
     renameBoard: () => {
       ipcRenderer.removeAllListeners('rename-board');
@@ -113,6 +97,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     closeOthersWebview: () => {
       ipcRenderer.removeAllListeners('close-others-webview');
+    },
+    showAppMenu: () => {
+      ipcRenderer.removeAllListeners('show-app-menu');
     },
   },
 });

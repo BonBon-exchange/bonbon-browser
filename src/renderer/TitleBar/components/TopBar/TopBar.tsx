@@ -3,14 +3,13 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { v4 } from 'uuid';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import clsx from 'clsx';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import { useAppDispatch, useAppSelector } from 'renderer/TitleBar/store/hooks';
 import {
@@ -29,8 +28,6 @@ import { AppControls } from '../AppControls';
 import './style.scss';
 
 export const TopBar: React.FC = () => {
-  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(dark);
   const { tabs, activeTab, isRenaming } = useAppSelector(
     (state) => state.tabs as TabsState
   );
@@ -152,7 +149,6 @@ export const TopBar: React.FC = () => {
 
   const colorSchemeChangeListener = (e: MediaQueryListEvent) => {
     const colorScheme = e.matches ? 'dark-theme' : 'light-theme';
-    setIsDarkMode(e.matches);
     // @ts-ignore
     window.document.querySelector('body').className = colorScheme;
   };
@@ -173,7 +169,6 @@ export const TopBar: React.FC = () => {
       const el = document.elementFromPoint(args.x, args.y);
       const tabId = el?.getAttribute('data-tabid');
       if (tabId) {
-        console.log(tabId);
         dispatch(removeAllTabsExcept(tabId));
       }
     },
@@ -324,12 +319,11 @@ export const TopBar: React.FC = () => {
         {/* @ts-ignore */}
         <browser-action-list />
         <div id="TopBar__menu-container">
-          <div className="TopBar__menu-item">
-            {isDarkMode ? (
-              <Brightness7Icon onClick={() => window.darkMode.toggle()} />
-            ) : (
-              <Brightness4Icon onClick={() => window.darkMode.toggle()} />
-            )}
+          <div
+            className="TopBar__menu-item"
+            onClick={() => window.titleBar.app.showMenu()}
+          >
+            <MenuIcon />
           </div>
         </div>
       </div>

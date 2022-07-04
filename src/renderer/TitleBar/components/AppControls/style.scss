@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   -webkit-app-region: no-drag;
-  margin-left: 50px;
+  margin-left: 0px;
 
   .AppControls__item {
     padding: 5px 15px;
@@ -23,5 +23,9 @@
 
   .AppControls__item:hover {
     background-color: var(--color-background-5) !important;
+  }
+
+  .close-button:hover {
+    background-color: rgba(255, 0, 0, 0.5) !important;
   }
 }

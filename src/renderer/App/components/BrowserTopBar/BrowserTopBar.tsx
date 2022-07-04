@@ -35,7 +35,7 @@ export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
       <div className="BrowserTopBar__title">{title || ''}</div>
       <div className="BrowserTopBar__controls">
         <div
-          className="BrowserTopBar__control-button"
+          className="BrowserTopBar__control-button close-button"
           onClick={closeBrowser}
           data-testid="close-browser"
         >

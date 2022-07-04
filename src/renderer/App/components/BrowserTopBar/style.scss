@@ -22,7 +22,7 @@
 
 .BrowserTopBar__control-button {
   color: var(--color-icon-primary);
-  padding: 5px 15px;
+  padding: 2px 15px;
   border-radius: 3px;
   cursor: pointer;
 
@@ -42,4 +42,8 @@
 .BrowserTopBar__favicon {
   margin-right: 5px;
   margin-top: 4px;
+}
+
+.close-button:hover {
+  background-color: rgba(255, 0, 0, 0.5) !important;
 }

@@ -23,7 +23,7 @@ export const AppControls: React.FC = () => {
         <CropSquareIcon />
       </div>
       <div
-        className="AppControls__item"
+        className="AppControls__item close-button"
         onClick={() => window.titleBar.app.close()}
       >
         <CloseIcon />

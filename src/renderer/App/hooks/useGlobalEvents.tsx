@@ -8,6 +8,7 @@ import {
   removeBrowser,
   removeAllBrowsers,
   removeAllBrowsersExcept,
+  renameBoard,
 } from 'renderer/App/store/reducers/Board';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { useBoard } from './useBoard';
@@ -140,6 +141,13 @@ export const useGlobalEvents = () => {
     window.app.analytics.event('toggle_darkmode', { theme: colorScheme });
   };
 
+  const renameBoardAction = useCallback(
+    (_e: unknown, args: { label: string }) => {
+      dispatch(renameBoard(args.label));
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
     window.app.listener.newWindow(newWindowAction);
     return () => window.app.off.newWindow();
@@ -159,6 +167,11 @@ export const useGlobalEvents = () => {
     window.app.listener.closeOthersWebview(closeOthersWebviewAction);
     return () => window.app.off.closeOthersWebview();
   }, [closeOthersWebviewAction]);
+
+  useEffect(() => {
+    window.app.listener.renameBoard(renameBoardAction);
+    return () => window.app.off.renameBoard();
+  }, [renameBoardAction]);
 
   useEffect(() => {
     window.addEventListener('keydown', keyDownListener, false);
