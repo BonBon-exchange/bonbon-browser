@@ -46,7 +46,7 @@ jobs:
         name: Ubuntu release
         uses: actions/upload-artifact@v3
         with:
-          name: Linux AppImage
+          name: BonBon-linux
           path: |
             release/build/*-latest.yml
             release/build/BonBon-*.*.*.AppImage
@@ -54,13 +54,13 @@ jobs:
         name: MacOS release
         uses: actions/upload-artifact@v3
         with:
-          name: MacOS build
+          name: BonBon-macos
           path: |
             release/build/*-latest.yml
             release/build/BonBon-*.*.*-arm64.dmg
             release/build/BonBon-*.*.*.dmg
       - if: matrix.os == 'windows-latest'
-        name: Windows release
+        name: BonBon-windows
         uses: actions/upload-artifact@v3
         with:
           name: Windows exe
