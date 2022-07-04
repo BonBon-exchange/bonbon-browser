@@ -92,7 +92,7 @@
   display: flex;
   flex-grow: 1;
   justify-content: end;
-  border-right: 1px solid var(--color-text-primary);
+  border-right: 1px solid var(--color-border);
 }
 
 .TopBar__menu-item {
@@ -141,8 +141,8 @@
 
 browser-action-list {
   -webkit-app-region: no-drag;
-  border-left: 1px solid var(--color-text-primary);
-  border-right: 1px solid var(--color-text-primary);
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
   padding: 5px 15px;
   align-items: center;
 
