@@ -151,9 +151,10 @@ app
       .then(() => {
         session
           .fromPartition('persist:user-partition')
-          .setPermissionRequestHandler((webContents, _permission, callback) => {
+          .setPermissionRequestHandler((webContents, permission, callback) => {
             const url = webContents.getURL();
-            return url === 'http://localhost:1212/index.html'
+            return url === 'http://localhost:1212/index.html' ||
+              permission === 'fullscreen'
               ? callback(true)
               : callback(false);
           });
