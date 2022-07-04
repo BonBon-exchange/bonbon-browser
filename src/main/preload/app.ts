@@ -50,21 +50,6 @@ contextBridge.exposeInMainWorld('app', {
     purge: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
       ipcRenderer.on('purge', action);
     },
-    showLibrary: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
-    ) => {
-      ipcRenderer.on('show-library', action);
-    },
-    showSettings: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
-    ) => {
-      ipcRenderer.on('show-settings', action);
-    },
-    saveBoard: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
-    ) => {
-      ipcRenderer.on('save-board', action);
-    },
     renameBoard: (
       action: (event: IpcRendererEvent, ...args: unknown[]) => void
     ) => {
@@ -98,17 +83,8 @@ contextBridge.exposeInMainWorld('app', {
     loadBoard: () => {
       ipcRenderer.removeAllListeners('load-board');
     },
-    showLibrary: () => {
-      ipcRenderer.removeAllListeners('show-library');
-    },
-    showSettings: () => {
-      ipcRenderer.removeAllListeners('show-settings');
-    },
     purge: () => {
       ipcRenderer.removeAllListeners('purge');
-    },
-    saveBoard: () => {
-      ipcRenderer.removeAllListeners('save-board');
     },
     renameBoard: () => {
       ipcRenderer.removeAllListeners('rename-board');

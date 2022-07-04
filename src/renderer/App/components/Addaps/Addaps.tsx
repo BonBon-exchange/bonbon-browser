@@ -7,12 +7,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useGlobalEvents } from 'renderer/App/hooks/useGlobalEvents';
 import { Board } from 'renderer/App/components/Board';
 import { LeftBar } from 'renderer/App/components/LeftBar';
-import { Library } from 'renderer/App/components/Library';
-import { Settings } from 'renderer/App/components/Settings';
+import { About } from 'renderer/App/components/About';
 import { Popup } from 'renderer/App/components/Popup';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
-import { renameBoard } from 'renderer/App/store/reducers/Board';
-import { useAppDispatch } from 'renderer/App/store/hooks';
 import { AppMenu } from 'renderer/App/components/AppMenu';
 
 import { AddapsProps } from './Types';
@@ -22,67 +19,30 @@ import './style.css';
 export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   useGlobalEvents();
   const { board } = useStoreHelpers({ boardId });
-  const dispatch = useAppDispatch();
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [showAppMenu, setShowAppMenu] = useState<boolean>(false);
   const [popupTitle, setPopupTitle] = useState<string>('');
   const [popupChildren, setPopupChildren] = useState<JSX.Element>();
 
-  const showLibraryAction = useCallback(() => {
-    setPopupChildren(<Library />);
-    setPopupTitle('Library');
-    setShowPopup(!showPopup);
-    window.app.analytics.event('open_library');
-  }, [showPopup]);
-
-  const showSettingsAction = useCallback(() => {
-    setPopupChildren(<Settings />);
-    setPopupTitle('Settings');
-    setShowPopup(!showPopup);
-    window.app.analytics.event('open_settings');
-  }, [showPopup]);
-
-  const saveBoardAction = useCallback(() => {}, []);
-
   const showAppMenuAction = useCallback(() => {
     setShowAppMenu(!showAppMenu);
   }, [showAppMenu]);
 
-  const renameBoardAction = useCallback(
-    (_e: any, args: any) => {
-      dispatch(renameBoard(args.label));
-    },
-    [dispatch]
-  );
-
   const windowClickListener = () => {
     setShowAppMenu(false);
+  };
+
+  const showAbout = () => {
+    setPopupChildren(<About />);
+    setPopupTitle('About');
+    setShowPopup(!showPopup);
+    window.app.analytics.event('open_about');
   };
 
   useEffect(() => {
     if (boardId) board.load({ id: boardId });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boardId]);
-
-  useEffect(() => {
-    window.app.listener.showLibrary(showLibraryAction);
-    return () => window.app.off.showLibrary();
-  }, [showLibraryAction]);
-
-  useEffect(() => {
-    window.app.listener.showSettings(showSettingsAction);
-    return () => window.app.off.showSettings();
-  }, [showSettingsAction]);
-
-  useEffect(() => {
-    window.app.listener.saveBoard(saveBoardAction);
-    return () => window.app.off.saveBoard();
-  }, [saveBoardAction]);
-
-  useEffect(() => {
-    window.app.listener.renameBoard(renameBoardAction);
-    return () => window.app.off.renameBoard();
-  }, [renameBoardAction]);
 
   useEffect(() => {
     window.app.listener.showAppMenu(showAppMenuAction);
@@ -103,7 +63,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
           {popupChildren}
         </Popup>
       )}
-      {showAppMenu && <AppMenu />}
+      {showAppMenu && <AppMenu showAbout={showAbout} />}
     </>
   );
 };
