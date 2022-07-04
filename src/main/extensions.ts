@@ -57,7 +57,8 @@ export const makeChromeExtensionSupport = () => {
         const selectedView = getSelectedView();
         selectedView?.webContents.send('new-window', { url: details.url });
         const mainWindow = getMainWindow();
-        if (mainWindow && selectedView) resolve([selectedView.webContents, mainWindow]);
+        if (mainWindow && selectedView)
+          resolve([selectedView.webContents, mainWindow]);
         else reject(new Error('mainWindow is null'));
       });
     },
