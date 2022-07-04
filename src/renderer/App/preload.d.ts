@@ -6,6 +6,7 @@ declare global {
       };
       tools: {
         inspectElement: (point: { x: number; y: number }) => void;
+        toggleDarkMode: () => void;
       };
       board: {
         open: (board: {
@@ -32,6 +33,7 @@ declare global {
         closeWebview: (action: unknown) => void;
         closeAllWebview: (action: unknown) => void;
         closeOthersWebview: (action: unknown) => void;
+        showAppMenu: (action: unknown) => void;
       };
       off: {
         newWindow: () => void;
@@ -44,6 +46,7 @@ declare global {
         closeWebview: () => void;
         closeAllWebview: () => void;
         closeOthersWebview: () => void;
+        showAppMenu: () => void;
       };
     };
     darkMode: {

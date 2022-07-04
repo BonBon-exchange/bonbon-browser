@@ -10,6 +10,9 @@ contextBridge.exposeInMainWorld('app', {
     inspectElement: (point: { x: number; y: number }) => {
       ipcRenderer.send('inspectElement', point);
     },
+    toggleDarkMode: () => {
+      ipcRenderer.invoke('dark-mode:toggle');
+    },
   },
   board: {
     open: (board: { id: string; label: string; isFullSize: boolean }) => {
@@ -82,6 +85,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('close-others-webview', action);
     },
+    showAppMenu: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('show-app-menu', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -113,6 +121,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     closeOthersWebview: () => {
       ipcRenderer.removeAllListeners('close-others-webview');
+    },
+    showAppMenu: () => {
+      ipcRenderer.removeAllListeners('show-app-menu');
     },
   },
 });

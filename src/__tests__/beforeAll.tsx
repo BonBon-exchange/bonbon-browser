@@ -7,6 +7,7 @@ export const mockWindow = () => {
       },
       tools: {
         inspectElement: jest.fn(),
+        toggleDarkMode: jest.fn(),
       },
       board: {
         open: jest.fn(),
@@ -29,6 +30,7 @@ export const mockWindow = () => {
         closeWebview: jest.fn(),
         closeAllWebview: jest.fn(),
         closeOthersWebview: jest.fn(),
+        showAppMenu: jest.fn(),
       },
       off: {
         newWindow: jest.fn(),
@@ -41,6 +43,7 @@ export const mockWindow = () => {
         closeWebview: jest.fn(),
         closeAllWebview: jest.fn(),
         closeOthersWebview: jest.fn(),
+        showAppMenu: jest.fn(),
       },
     },
   });

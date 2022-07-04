@@ -24,4 +24,8 @@
   .AppControls__item:hover {
     background-color: var(--color-background-5) !important;
   }
+
+  .close-button:hover {
+    background-color: rgba(255, 0, 0, 0.5) !important;
+  }
 }

@@ -13,6 +13,7 @@ import { Popup } from 'renderer/App/components/Popup';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { renameBoard } from 'renderer/App/store/reducers/Board';
 import { useAppDispatch } from 'renderer/App/store/hooks';
+import { AppMenu } from 'renderer/App/components/AppMenu';
 
 import { AddapsProps } from './Types';
 
@@ -23,6 +24,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   const { board } = useStoreHelpers({ boardId });
   const dispatch = useAppDispatch();
   const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [showAppMenu, setShowAppMenu] = useState<boolean>(false);
   const [popupTitle, setPopupTitle] = useState<string>('');
   const [popupChildren, setPopupChildren] = useState<JSX.Element>();
 
@@ -42,12 +44,20 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
 
   const saveBoardAction = useCallback(() => {}, []);
 
+  const showAppMenuAction = useCallback(() => {
+    setShowAppMenu(!showAppMenu);
+  }, [showAppMenu]);
+
   const renameBoardAction = useCallback(
     (_e: any, args: any) => {
       dispatch(renameBoard(args.label));
     },
     [dispatch]
   );
+
+  const windowClickListener = () => {
+    setShowAppMenu(false);
+  };
 
   useEffect(() => {
     if (boardId) board.load({ id: boardId });
@@ -74,6 +84,16 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
     return () => window.app.off.renameBoard();
   }, [renameBoardAction]);
 
+  useEffect(() => {
+    window.app.listener.showAppMenu(showAppMenuAction);
+    return () => window.app.off.showAppMenu();
+  }, [showAppMenuAction]);
+
+  useEffect(() => {
+    window.addEventListener('click', windowClickListener);
+    return () => window.removeEventListener('click', windowClickListener);
+  }, []);
+
   return (
     <>
       <LeftBar />
@@ -83,6 +103,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
           {popupChildren}
         </Popup>
       )}
+      {showAppMenu && <AppMenu />}
     </>
   );
 };

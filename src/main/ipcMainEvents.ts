@@ -126,4 +126,8 @@ export const makeIpcMainEvents = (): void => {
       ? mainWindow.unmaximize()
       : mainWindow?.maximize();
   });
+
+  ipcMain.on('show-app-menu', () => {
+    getSelectedView().webContents.send('show-app-menu');
+  });
 };

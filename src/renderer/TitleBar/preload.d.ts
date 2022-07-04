@@ -5,6 +5,7 @@ declare global {
         close: () => void;
         minimize: () => void;
         maximize: () => void;
+        showMenu: () => void;
       };
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;

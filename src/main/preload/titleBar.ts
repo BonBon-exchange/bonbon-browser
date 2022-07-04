@@ -477,6 +477,9 @@ contextBridge.exposeInMainWorld('titleBar', {
     maximize: () => {
       ipcRenderer.send('maximize-app');
     },
+    showMenu: () => {
+      ipcRenderer.send('show-app-menu');
+    },
   },
   analytics: {
     event: (eventName: string, params: Record<string, string>) => {
@@ -581,9 +584,4 @@ contextBridge.exposeInMainWorld('titleBar', {
   os: {
     getPlatform: () => process.platform,
   },
-});
-
-contextBridge.exposeInMainWorld('darkMode', {
-  toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
-  system: () => ipcRenderer.invoke('dark-mode:system'),
 });

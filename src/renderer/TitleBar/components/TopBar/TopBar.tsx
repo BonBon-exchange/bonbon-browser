@@ -325,7 +325,10 @@ export const TopBar: React.FC = () => {
         {/* @ts-ignore */}
         <browser-action-list />
         <div id="TopBar__menu-container">
-          <div className="TopBar__menu-item">
+          <div
+            className="TopBar__menu-item"
+            onClick={() => window.titleBar.app.showMenu()}
+          >
             <MenuIcon />
           </div>
         </div>
