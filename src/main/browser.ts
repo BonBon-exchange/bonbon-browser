@@ -87,7 +87,6 @@ export const createWindow = async (): Promise<void> => {
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();
     } else {
-      mainWindow.maximize();
       mainWindow.show();
     }
   });
