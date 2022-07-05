@@ -123,6 +123,10 @@ Then find the release in bonbon-web-browser/release/build
 
 ## Videos
 
-![Desktop](https://media.giphy.com/media/gbSdr8VkxappmBCoJq/giphy.gif)
+<p align="center">
+
+  <img src="https://media.giphy.com/media/P9hq4y6F1ijINhE6kf/giphy.gif" />
+
+</p>
 
 [https://youtu.be/h874odEFNjo](https://youtu.be/h874odEFNjo)
