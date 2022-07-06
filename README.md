@@ -120,6 +120,8 @@ Then find the release in bonbon-web-browser/release/build
 - 0xCUBE ([@0xCUB3](https://github.com/0xCUB3))
 - Nuklusone
 - Aitor ([@dragonDScript](https://github.com/dragonDScript))
+- Howard
+- Faouzi
 
 ## Videos
 
