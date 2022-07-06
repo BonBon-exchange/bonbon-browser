@@ -38,6 +38,12 @@
     },
     {
       "name": "Aitor"
+    },
+    {
+      "name": "Howard Huang"
+    },
+    {
+      "name": "Faouzi Benali"
     }
   ],
   "main": "./src/main/main.ts",
