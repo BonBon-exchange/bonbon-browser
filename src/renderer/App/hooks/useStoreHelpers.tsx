@@ -34,6 +34,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         height: 800,
         width: 600,
         firstRendering: true,
+        isLoading: true,
       };
       return newBrowser;
     },

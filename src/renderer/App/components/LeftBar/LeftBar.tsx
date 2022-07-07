@@ -14,6 +14,7 @@ import { setBrowsers } from 'renderer/App/store/reducers/Board';
 import { ButtonAddBrowser } from 'renderer/App/components/ButtonAddBrowser';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 
+import loadingImg from 'renderer/App/svg/loading.svg';
 import icon from './icon.png';
 
 import './style.scss';
@@ -52,7 +53,7 @@ export const LeftBar: React.FC = () => {
                   data-browserid={b.id}
                 >
                   <img
-                    src={b.favicon || icon}
+                    src={b.isLoading ? loadingImg : b.favicon || icon}
                     className="LeftBar__browserFavImg"
                     onError={handleImageError}
                   />

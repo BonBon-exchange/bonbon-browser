@@ -9,4 +9,5 @@ export interface BrowserProps {
   favicon?: string;
   title?: string;
   webContentsId?: string;
+  isLoading: boolean;
 }

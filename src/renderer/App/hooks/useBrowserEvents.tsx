@@ -16,6 +16,7 @@ import {
   updateBrowserTitle,
   setActiveBrowser,
   updateBrowser,
+  updateBrowserLoading,
 } from 'renderer/App/store/reducers/Board';
 import { useBrowserMethods } from './useBrowserMethods';
 
@@ -155,6 +156,24 @@ export const useBrowserEvents = (browserId: string) => {
     [browserId, dispatch]
   );
 
+  const didFinishLoadListener = useCallback(() => {
+    dispatch(
+      updateBrowserLoading({
+        isLoading: false,
+        browserId,
+      })
+    );
+  }, [browserId, dispatch]);
+
+  const didStartLoadListener = useCallback(() => {
+    dispatch(
+      updateBrowserLoading({
+        isLoading: true,
+        browserId,
+      })
+    );
+  }, [browserId, dispatch]);
+
   const pageTitleUpdatedListener = useCallback(
     (e: Event) => {
       const event = e as PageTitleUpdatedEvent;
@@ -169,6 +188,8 @@ export const useBrowserEvents = (browserId: string) => {
   }, [browserId, dispatch, container, bringBrowserToTheFront]);
 
   useEffect(() => {
+    webview?.addEventListener('did-stop-loading', didFinishLoadListener);
+    webview?.addEventListener('did-start-loading', didStartLoadListener);
     webview?.addEventListener('load-commit', loadCommitListener);
     webview?.addEventListener('page-title-updated', pageTitleUpdatedListener);
     webview?.addEventListener(
@@ -180,6 +201,8 @@ export const useBrowserEvents = (browserId: string) => {
     container?.addEventListener('click', containerClickListener);
 
     return () => {
+      webview?.removeEventListener('did-stop-loading', didFinishLoadListener);
+      webview?.removeEventListener('did-start-loading', didStartLoadListener);
       webview?.removeEventListener('load-commit', loadCommitListener);
       webview?.removeEventListener(
         'page-title-updated',
@@ -202,5 +225,7 @@ export const useBrowserEvents = (browserId: string) => {
     ipcMessageListener,
     container,
     webview,
+    didFinishLoadListener,
+    didStartLoadListener,
   ]);
 };

@@ -32,6 +32,7 @@ export const Browser: React.FC<BrowserProps> = ({
   firstRendering,
   favicon,
   title,
+  isLoading,
 }) => {
   useBrowserEvents(id);
   const dispatch = useAppDispatch();
@@ -178,6 +179,7 @@ export const Browser: React.FC<BrowserProps> = ({
           onClick={() => focus(document, id)}
           title={title}
           favicon={favicon}
+          isLoading={isLoading}
         />
         <BrowserControlBar
           goBack={goBack}
