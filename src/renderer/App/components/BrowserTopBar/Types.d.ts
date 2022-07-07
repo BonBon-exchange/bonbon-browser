@@ -4,4 +4,5 @@ export interface BrowserTopBarProps {
   onClick: () => void;
   title?: string;
   favicon?: string;
+  isLoading: boolean;
 }

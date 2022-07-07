@@ -20,6 +20,7 @@ const addBrowserAction = {
   width: 600,
   firstRendering: true,
   favicon: '',
+  isLoading: true,
 };
 
 describe('Board', () => {

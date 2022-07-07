@@ -15,6 +15,11 @@ type UpdateBrowserUrlType = {
   browserId: string;
 };
 
+type UpdateBrowserLoadingType = {
+  isLoading: boolean;
+  browserId: string;
+};
+
 type UpdateBrowserTitleType = {
   title: string;
   browserId: string;
@@ -40,6 +45,7 @@ const newBrowser = {
   firstRendering: true,
   favicon: '',
   title: '',
+  isLoading: true,
 };
 
 const boardId = v4();
@@ -120,6 +126,17 @@ export const boardSlice = createSlice({
       );
       if (browserIndex > -1) {
         state.board.browsers[browserIndex].url = action.payload.url;
+      }
+    },
+    updateBrowserLoading: (
+      state,
+      action: PayloadAction<UpdateBrowserLoadingType>
+    ) => {
+      const browserIndex = state.board.browsers.findIndex(
+        (b) => b.id === action.payload.browserId
+      );
+      if (browserIndex > -1) {
+        state.board.browsers[browserIndex].isLoading = action.payload.isLoading;
       }
     },
     updateBrowserTitle: (
@@ -214,6 +231,7 @@ export const {
   removeLastCloseUrl,
   setBrowsers,
   removeAllBrowsersExcept,
+  updateBrowserLoading,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

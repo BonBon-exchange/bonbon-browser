@@ -7,6 +7,8 @@ import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 
+import loadingImg from 'renderer/App/svg/loading.svg';
+
 import { BrowserTopBarProps } from './Types';
 
 import './style.scss';
@@ -17,6 +19,7 @@ export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
   title,
   favicon,
   onClick,
+  isLoading,
 }) => {
   return (
     <div
@@ -26,7 +29,7 @@ export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
     >
       {favicon && (
         <img
-          src={favicon}
+          src={isLoading ? loadingImg : favicon}
           width="16"
           height="16"
           className="BrowserTopBar__favicon"

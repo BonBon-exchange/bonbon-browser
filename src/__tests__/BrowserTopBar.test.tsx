@@ -17,6 +17,7 @@ const browserTopBarProps = {
   toggleFullsizeBrowser: jest.fn(),
   title: 'Github',
   onClick: jest.fn(),
+  isLoading: false,
 };
 
 describe('BrowserTopBar', () => {
