@@ -9,9 +9,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://raw.githubusercontent.com/BonBon-exchange/bonbon-web-browser/main/assets/icon.png">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
+    <img src="https://raw.githubusercontent.com/BonBon-exchange/bonbon-web-browser/main/assets/icon.png" alt="Logo" width="80" height="80">
 
   <h3 align="center">BonBon Web Browser</h3>
 
