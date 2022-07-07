@@ -12,7 +12,12 @@ import {
   installUserExtensions,
   makeChromeExtensionSupport,
 } from './extensions';
-import { getMainWindow, getSelectedView, createWindow } from './browser';
+import {
+  getMainWindow,
+  getSelectedView,
+  createWindow,
+  setBrowserViewBonds,
+} from './browser';
 import { makeIpcMainEvents, getBrowsers } from './ipcMainEvents';
 
 const makeAppEvents = () => {
@@ -25,6 +30,16 @@ const makeAppEvents = () => {
 
   app.on('web-contents-created', (_event, contents) => {
     const extensions = getExtensionsObject();
+
+    contents.on('enter-html-full-screen', () => {
+      const view = getSelectedView();
+      if (view) setBrowserViewBonds(view, true);
+    });
+
+    contents.on('leave-html-full-screen', () => {
+      const view = getSelectedView();
+      if (view) setBrowserViewBonds(view, false);
+    });
 
     contents.on('new-window', (e, url) => {
       e.preventDefault();

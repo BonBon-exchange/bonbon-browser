@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/no-cycle */
 import { BrowserView, BrowserWindow, app } from 'electron';
 import path from 'path';
@@ -19,11 +20,19 @@ export const setSelectedView = (view: BrowserView) => {
 
 export const getMainWindow = () => mainWindow;
 
-export const createBrowserView = (): BrowserView => {
-  const extensions = getExtensionsObject();
-  const sizes = mainWindow?.getSize();
+export const setBrowserViewBonds = (
+  view: BrowserView,
+  isFullScreen: boolean
+) => {
+  const sizes = getMainWindow()?.getSize();
   const width = sizes && sizes[0] ? sizes[0] : 0;
   const height = sizes && sizes[1] ? sizes[1] : 0;
+  isFullScreen
+    ? view.setBounds({ x: 0, y: 0, width, height })
+    : view.setBounds({ x: 0, y: 30, width: width - 15, height: height - 45 });
+};
+
+export const createBrowserView = (): BrowserView => {
   const view = new BrowserView({
     webPreferences: {
       partition: 'persist:user-partition',
@@ -37,11 +46,12 @@ export const createBrowserView = (): BrowserView => {
   });
 
   mainWindow?.addBrowserView(view);
-  view.setBounds({ x: 0, y: 30, width: width - 15, height: height - 45 });
+  setBrowserViewBonds(view, false);
   view.setAutoResize({ width: true, height: true });
   view.webContents.loadURL(resolveHtmlPath('index.html'));
 
   if (!app.isPackaged) view.webContents.toggleDevTools();
+  const extensions = getExtensionsObject();
   if (mainWindow) extensions.addTab(view.webContents, mainWindow);
   view.webContents.focus();
   return view;
