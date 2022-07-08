@@ -7,6 +7,7 @@ import './style.scss';
 
 export const AppMenu: React.FC<AppMenuProps> = ({
   showAbout,
+  showSettings,
 }: AppMenuProps) => {
   return (
     <div id="AppMenu__container">
@@ -14,6 +15,7 @@ export const AppMenu: React.FC<AppMenuProps> = ({
         <li onClick={() => window.app.tools.toggleDarkMode()}>
           Toggle dark mode
         </li>
+        <li onClick={() => showSettings()}>Settings</li>
         <li onClick={() => showAbout()}>About</li>
       </ul>
     </div>

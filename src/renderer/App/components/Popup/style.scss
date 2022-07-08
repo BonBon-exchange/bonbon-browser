@@ -14,26 +14,6 @@
   flex-direction: column;
 }
 
-#Popup__close-icon {
-  position: absolute;
-  padding: 10px;
-  right: 0;
-  top: 0;
-  cursor: pointer;
-
-  svg {
-    height: 18px;
-  }
-}
-
-#Popup__close-icon:hover{
-  background-color: rgba(255, 0, 0, 0.5);
-
-  svg {
-    height: 20px;
-  }
-}
-
 #Popup__title {
   font-size: 18px;
   font-weight: bold;

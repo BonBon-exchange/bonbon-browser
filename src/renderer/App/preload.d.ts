@@ -4,6 +4,10 @@ declare global {
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;
       };
+      store: {
+        get: (key: string) => Promise<unknown>;
+        set: (args: {key: string, value: unknown}) => void;
+      }
       tools: {
         inspectElement: (point: { x: number; y: number }) => void;
         toggleDarkMode: () => void;

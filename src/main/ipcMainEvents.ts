@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/prefer-default-export */
 import { app, BrowserView, ipcMain, nativeTheme, WebContents } from 'electron';
+import Store from 'electron-store';
 
 import { getExtensionsObject } from './extensions';
 import { event } from './analytics';
@@ -11,6 +12,7 @@ import {
   setSelectedView,
 } from './browser';
 
+const store = new Store();
 const views: Record<string, BrowserView> = {};
 const browsers: Record<string, WebContents> = {};
 
@@ -130,5 +132,13 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('show-app-menu', () => {
     getSelectedView()?.webContents.send('show-app-menu');
+  });
+
+  ipcMain.handle('get-store-value', (_event, key) => {
+    return store.get(key);
+  });
+
+  ipcMain.on('set-store-value', (_e, args) => {
+    store.set(args.key, args.value);
   });
 };
