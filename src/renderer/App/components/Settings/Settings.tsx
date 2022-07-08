@@ -5,6 +5,7 @@ import { useState, ReactElement } from 'react';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
 import { ApplicationSettings } from './ApplicationSettings';
+import { BrowsingSettings } from './BrowsingSettings';
 
 import './style.scss';
 import { SettingsProps } from './Types';
@@ -24,6 +25,9 @@ export const Settings: React.FC<SettingsProps> = ({
         <ul>
           <li onClick={() => setSelectedView(<ApplicationSettings />)}>
             Application
+          </li>
+          <li onClick={() => setSelectedView(<BrowsingSettings />)}>
+            Browsing
           </li>
         </ul>
       </div>

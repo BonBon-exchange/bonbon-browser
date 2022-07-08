@@ -23,12 +23,15 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const { scrollToBrowser, focusUrlBar } = useBrowserMethods();
 
   const makeBrowser = useCallback(
-    (params: { url?: string; top?: number; left?: number }) => {
+    async (params: { url?: string; top?: number; left?: number }) => {
       const browserId = v4();
       const { x, y } = getCoordinateWithNoCollision(document, board, 800, 600);
+      const defaultWebpage = (await window.app.store.get(
+        'defaultWebpage'
+      )) as string;
       const newBrowser = {
         id: browserId,
-        url: params.url || 'https://www.google.com',
+        url: params.url || defaultWebpage,
         top: params.top || y,
         left: params.left || x,
         height: 800,
@@ -42,9 +45,9 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   );
 
   const makeAndAddBrowser = useCallback(
-    (params: { url?: string }): void => {
+    async (params: { url?: string }): Promise<void> => {
       if (board) {
-        const newBrowser = makeBrowser(params);
+        const newBrowser = await makeBrowser(params);
         dispatch(addBrowser(newBrowser));
         setTimeout(() => {
           scrollToBrowser(document, newBrowser.id);
@@ -56,8 +59,8 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   );
 
   const createBoard = useCallback(
-    (params: { id?: string }) => {
-      const newBrowser = makeBrowser({ top: 120, left: 120 });
+    async (params: { id?: string }) => {
+      const newBrowser = await makeBrowser({ top: 120, left: 120 });
       const id = params.id || v4();
       const newBoard = {
         id,
