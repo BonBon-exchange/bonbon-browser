@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/prefer-default-export */
 import { app, BrowserView, ipcMain, nativeTheme, WebContents } from 'electron';
-import Store from 'electron-store';
 
 import { getExtensionsObject } from './extensions';
 import { event } from './analytics';
