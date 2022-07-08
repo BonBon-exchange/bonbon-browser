@@ -11,8 +11,9 @@ import {
   getSelectedView,
   setSelectedView,
 } from './browser';
+import { getStore } from './store';
 
-const store = new Store();
+const store = getStore();
 const views: Record<string, BrowserView> = {};
 const browsers: Record<string, WebContents> = {};
 
