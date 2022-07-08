@@ -6,6 +6,11 @@ contextBridge.exposeInMainWorld('app', {
       ipcRenderer.send('analytics', { eventName, params });
     },
   },
+  store: {
+    get: (key: string) => ipcRenderer.invoke('get-store-value', key),
+    set: (args: { key: string; value: unknown }) =>
+      ipcRenderer.send('set-store-value', args),
+  },
   tools: {
     inspectElement: (point: { x: number; y: number }) => {
       ipcRenderer.send('inspectElement', point);
