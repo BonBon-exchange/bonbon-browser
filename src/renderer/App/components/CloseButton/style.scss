@@ -1,0 +1,19 @@
+.CloseButton__container {
+  position: absolute;
+  padding: 10px;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+
+  svg {
+    height: 18px;
+  }
+}
+
+.CloseButton__container:hover{
+  background-color: rgba(255, 0, 0, 0.5);
+
+  svg {
+    height: 20px;
+  }
+}

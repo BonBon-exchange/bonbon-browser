@@ -3,7 +3,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
-import CloseIcon from '@mui/icons-material/Close';
+
+import { CloseButton } from 'renderer/App/components/CloseButton';
 
 import { PopupProps } from './Types';
 
@@ -16,9 +17,7 @@ export const Popup: React.FC<PopupProps> = ({
 }: PopupProps) => {
   return (
     <div id="Popup__container">
-      <div id="Popup__close-icon" onClick={closePopup}>
-        <CloseIcon />
-      </div>
+      <CloseButton handleClose={closePopup} />
 
       <div id="Popup__title">{title}</div>
       {children}
