@@ -8,6 +8,7 @@ import {
   createBrowserView,
   getMainWindow,
   getSelectedView,
+  setBrowserViewBonds,
   setSelectedView,
 } from './browser';
 import { getStore } from './store';
@@ -128,6 +129,9 @@ export const makeIpcMainEvents = (): void => {
     mainWindow?.isMaximized()
       ? mainWindow.unmaximize()
       : mainWindow?.maximize();
+
+    const view = getSelectedView();
+    if (view) setBrowserViewBonds(view, false);
   });
 
   ipcMain.on('show-app-menu', () => {

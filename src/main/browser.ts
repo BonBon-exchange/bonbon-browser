@@ -24,12 +24,29 @@ export const setBrowserViewBonds = (
   view: BrowserView,
   isFullScreen: boolean
 ) => {
-  const sizes = getMainWindow()?.getSize();
+  const sizes = mainWindow?.getSize();
   const width = sizes && sizes[0] ? sizes[0] : 0;
   const height = sizes && sizes[1] ? sizes[1] : 0;
-  isFullScreen
-    ? view.setBounds({ x: 0, y: 0, width, height })
-    : view.setBounds({ x: 0, y: 30, width: width - 15, height: height - 45 });
+  let bWidth;
+  let bHeight;
+  let bY;
+
+  if (isFullScreen) {
+    bWidth = width;
+    bHeight = height;
+    bY = 0;
+  } else {
+    bWidth = width - 15;
+    bHeight = height - 45;
+    bY = 30;
+  }
+
+  if (!isFullScreen && !mainWindow?.isMaximized()) {
+    bWidth = width;
+    bHeight = height - 30;
+  }
+
+  view.setBounds({ x: 0, y: bY, width: bWidth, height: bHeight });
 };
 
 export const createBrowserView = (): BrowserView => {
