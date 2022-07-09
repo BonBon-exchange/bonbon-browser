@@ -17,6 +17,11 @@ export const ApplicationSettings: React.FC = () => {
     });
   };
 
+  const updateLanguage = (value: string) => {
+    i18n.changeLanguage(value);
+    window.app.tools.changeLanguage(value);
+  };
+
   useEffect(() => {
     window.app.store
       .get('application.launchAtStartup')
@@ -46,7 +51,7 @@ export const ApplicationSettings: React.FC = () => {
         <select
           id="application-settigns-language"
           value={i18n.language}
-          onChange={(e) => i18n.changeLanguage(e.target.value)}
+          onChange={(e) => updateLanguage(e.target.value)}
         >
           <option value="en">{t('English')}</option>
           <option value="es">{t('Spanish')}</option>

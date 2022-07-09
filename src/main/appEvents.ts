@@ -5,6 +5,7 @@ import contextMenu from 'electron-context-menu';
 import path from 'path';
 import { app, session } from 'electron';
 import Nucleus from 'nucleus-nodejs';
+import i18n from './i18n';
 
 import { event } from './analytics';
 import {
@@ -71,7 +72,7 @@ const makeAppEvents = () => {
       prepend: (_defaultActions, params) => [
         // App context menu below
         {
-          label: 'Close',
+          label: i18n.t('Close'),
           visible: params.y > 30 && params.x < 50,
           click: () => {
             const selectedView = getSelectedView();
@@ -82,7 +83,7 @@ const makeAppEvents = () => {
           },
         },
         {
-          label: 'Close all',
+          label: i18n.t('Close all'),
           visible: params.y > 30 && params.x < 50,
           click: () => {
             const selectedView = getSelectedView();
@@ -90,7 +91,7 @@ const makeAppEvents = () => {
           },
         },
         {
-          label: 'Close others',
+          label: i18n.t('Close others'),
           visible: params.y > 30 && params.x < 50,
           click: () => {
             const selectedView = getSelectedView();
@@ -103,7 +104,7 @@ const makeAppEvents = () => {
 
         // TitleBar context menu below
         {
-          label: 'Close',
+          label: i18n.t('Close'),
           visible: params.y <= 30,
           click: () => {
             const mainWindow = getMainWindow();
@@ -114,7 +115,7 @@ const makeAppEvents = () => {
           },
         },
         {
-          label: 'Close all',
+          label: i18n.t('Close all'),
           visible: params.y <= 30,
           click: () => {
             const mainWindow = getMainWindow();
@@ -122,7 +123,7 @@ const makeAppEvents = () => {
           },
         },
         {
-          label: 'Close others',
+          label: i18n.t('Close others'),
           visible: params.y <= 30,
           click: () => {
             const mainWindow = getMainWindow();
@@ -133,7 +134,7 @@ const makeAppEvents = () => {
           },
         },
         {
-          label: 'Rename',
+          label: i18n.t('Rename'),
           visible: params.y <= 30,
           click: () => {
             const mainWindow = getMainWindow();
@@ -164,6 +165,12 @@ app
     makeAppEvents();
     createWindow()
       .then(() => {
+        getMainWindow()
+          ?.webContents.executeJavaScript(`localStorage.getItem("i18nextLng");`)
+          .then((locale) => {
+            if (locale) i18n.changeLanguage(locale);
+          });
+
         session
           .fromPartition('persist:user-partition')
           .setPermissionRequestHandler((webContents, permission, callback) => {

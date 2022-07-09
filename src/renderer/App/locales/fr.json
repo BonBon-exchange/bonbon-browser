@@ -14,5 +14,11 @@
   "App version": "Version de l'app",
   "Author": "Autheur",
   "Co-Author": "Co-Autheur",
-  "About": "A propos"
+  "About": "A propos",
+  "New windows default webpage": "Page par défault pour les nouvelles fenêtres",
+  "The url that will open first when opening a new window.": "L'adresse URL utilisée pour ouvrir de nouvelles fenêtres.",
+  "Default search engine": "Moteur de recherche par défault",
+  "The search engine that will be used when entering text in the url input and pressing enter.": "Le moteur de recherche utilisé lorsque l'utilisateur entre du texte dans le champs URL et appuis sur la touche Entrer",
+  "New windows default size": "Taille par défault des nouvelles fenêtres",
+  "The size of opening new windows when they are not maximized.": "La taille à laquelle s'ouvriront les nouvelles fenêtres lorsqu'elles ne sont pas maximisées."
 }
