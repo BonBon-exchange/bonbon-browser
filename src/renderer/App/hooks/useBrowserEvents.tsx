@@ -157,13 +157,16 @@ export const useBrowserEvents = (browserId: string) => {
   );
 
   const didFinishLoadListener = useCallback(() => {
+    webview?.blur();
+    webview?.focus();
+
     dispatch(
       updateBrowserLoading({
         isLoading: false,
         browserId,
       })
     );
-  }, [browserId, dispatch]);
+  }, [browserId, dispatch, webview]);
 
   const didStartLoadListener = useCallback(() => {
     dispatch(
