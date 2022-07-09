@@ -6,6 +6,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Addaps } from 'renderer/App/components/Addaps';
 import { store, getPersistedStoreAndPersistor } from 'renderer/App/store/store';
 
+import './i18n';
+
 import 'renderer/App/style/dark.css';
 import 'renderer/App/style/light.css';
 import './App.css';

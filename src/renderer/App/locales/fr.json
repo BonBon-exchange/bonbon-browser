@@ -1,0 +1,18 @@
+{
+  "Toggle dark mode": "Basculer vers le mode sombre",
+  "Toggle light mode": "Basculer vers le mode clair",
+  "Settings": "Paramètres",
+  "Language": "Langue",
+  "English": "Anglais",
+  "Spanish": "Espagnol",
+  "French": "Français",
+  "The language in which display the application.": "La langue dans laquelle apparaît l'application.",
+  "This feature is not available yet.": "Cette fonctionalité n'est pas encore disponible.",
+  "Launch at startup": "Lancer au démarrage",
+  "Application": "Application",
+  "Browsing": "Navigation",
+  "App version": "Version de l'app",
+  "Author": "Autheur",
+  "Co-Author": "Co-Autheur",
+  "About": "A propos"
+}
