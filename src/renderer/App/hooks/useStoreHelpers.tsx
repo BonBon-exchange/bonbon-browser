@@ -25,17 +25,28 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const makeBrowser = useCallback(
     async (params: { url?: string; top?: number; left?: number }) => {
       const browserId = v4();
-      const { x, y } = getCoordinateWithNoCollision(document, board, 800, 600);
       const defaultWebpage = (await window.app.store.get(
-        'defaultWebpage'
+        'browsing.defaultWebpage'
       )) as string;
+      const defaultWidth = (await window.app.store.get(
+        'browsing.width'
+      )) as number;
+      const defaultHeight = (await window.app.store.get(
+        'browsing.height'
+      )) as number;
+      const { x, y } = getCoordinateWithNoCollision(
+        document,
+        board,
+        defaultHeight,
+        defaultWidth
+      );
       const newBrowser = {
         id: browserId,
         url: params.url || defaultWebpage,
         top: params.top || y,
         left: params.left || x,
-        height: 800,
-        width: 600,
+        height: defaultHeight,
+        width: defaultWidth,
         firstRendering: true,
         isLoading: true,
       };
