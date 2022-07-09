@@ -16,6 +16,12 @@ export const BrowsingSettings: React.FC = () => {
     setBrowsingSettingDefaultSearchEngine,
   ] = useState<string | undefined>('');
 
+  const [browsingSettingDefaultWidth, setBrowsingSettingDefaultWidth] =
+    useState<number | undefined>(0);
+
+  const [browsingSettingDefaultHeight, setBrowsingSettingDefaultHeight] =
+    useState<number | undefined>(0);
+
   const searchEngines = [
     'Google',
     'Presearch',
@@ -26,7 +32,7 @@ export const BrowsingSettings: React.FC = () => {
     'Ecosia',
   ];
 
-  const updateBrowsingSettingLaunch = (value: string) => {
+  const updateBrowsingSettingWebpage = (value: string) => {
     setBrowsingSettingDefaultWebpage(value);
     window.app.store.set({
       key: 'browsing.defaultWebpage',
@@ -42,6 +48,22 @@ export const BrowsingSettings: React.FC = () => {
     });
   };
 
+  const updateBrowsingSettingWidth = (value: number) => {
+    setBrowsingSettingDefaultWidth(value);
+    window.app.store.set({
+      key: 'browsing.width',
+      value,
+    });
+  };
+
+  const updateBrowsingSettingHeight = (value: number) => {
+    setBrowsingSettingDefaultHeight(value);
+    window.app.store.set({
+      key: 'browsing.height',
+      value,
+    });
+  };
+
   useEffect(() => {
     window.app.store.get('browsing.defaultWebpage').then((val: unknown) => {
       const typedVal = val as string | undefined;
@@ -51,6 +73,16 @@ export const BrowsingSettings: React.FC = () => {
     window.app.store.get('browsing.searchEngine').then((val: unknown) => {
       const typedVal = val as string | undefined;
       setBrowsingSettingDefaultSearchEngine(typedVal);
+    });
+
+    window.app.store.get('browsing.width').then((val: unknown) => {
+      const typedVal = val as number | undefined;
+      setBrowsingSettingDefaultWidth(typedVal);
+    });
+
+    window.app.store.get('browsing.height').then((val: unknown) => {
+      const typedVal = val as number | undefined;
+      setBrowsingSettingDefaultHeight(typedVal);
     });
   }, []);
 
@@ -65,7 +97,7 @@ export const BrowsingSettings: React.FC = () => {
           type="text"
           id="browsing-settings-default-webpage"
           value={browsingSettingDefaultWebpage}
-          onChange={(e) => updateBrowsingSettingLaunch(e.target.value)}
+          onChange={(e) => updateBrowsingSettingWebpage(e.target.value)}
         />
         <div className="Settings__item-description">
           The url that will open first when opening a new window.
@@ -87,6 +119,27 @@ export const BrowsingSettings: React.FC = () => {
         <div className="Settings__item-description">
           The search engine that will be used when entering text in the url
           input and pressing enter.
+        </div>
+      </div>
+      <div className="Settings__item">
+        <label htmlFor="browsing-settings-default-width">
+          New windows default size:
+        </label>
+        <input
+          type="number"
+          id="browsing-settings-default-width"
+          value={browsingSettingDefaultWidth}
+          onChange={(e) => updateBrowsingSettingWidth(Number(e.target.value))}
+        />
+        x
+        <input
+          type="number"
+          id="browsing-settings-default-height"
+          value={browsingSettingDefaultHeight}
+          onChange={(e) => updateBrowsingSettingHeight(Number(e.target.value))}
+        />
+        <div className="Settings__item-description">
+          The size of opening new windows when they are not maximized.
         </div>
       </div>
     </>
