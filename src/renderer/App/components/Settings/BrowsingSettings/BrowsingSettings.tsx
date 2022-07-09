@@ -28,7 +28,7 @@ export const BrowsingSettings: React.FC = () => {
 
   return (
     <>
-      <h2>Application</h2>
+      <h2>Browsing</h2>
       <div className="Settings__item">
         <label htmlFor="browsing-settings-default-webpage">
           New windows default webpage:
