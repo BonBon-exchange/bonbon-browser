@@ -4,10 +4,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/prefer-default-export */
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import './style.scss';
 
 export const BrowsingSettings: React.FC = () => {
+  const { t } = useTranslation();
   const [browsingSettingDefaultWebpage, setBrowsingSettingDefaultWebpage] =
     useState<string | undefined>('');
 
@@ -88,10 +90,10 @@ export const BrowsingSettings: React.FC = () => {
 
   return (
     <>
-      <h2>Browsing</h2>
+      <h2>{t('Browsing')}</h2>
       <div className="Settings__item">
         <label htmlFor="browsing-settings-default-webpage">
-          New windows default webpage:
+          {t('New windows default webpage')}:
         </label>
         <input
           type="text"
@@ -100,12 +102,12 @@ export const BrowsingSettings: React.FC = () => {
           onChange={(e) => updateBrowsingSettingWebpage(e.target.value)}
         />
         <div className="Settings__item-description">
-          The url that will open first when opening a new window.
+          {t('The url that will open first when opening a new window.')}
         </div>
       </div>
       <div className="Settings__item">
         <label htmlFor="browsing-settings-default-search-engine">
-          Default search engine:
+          {t('Default search engine')}:
         </label>
         <select
           id="browsing-settings-default-search-engine"
@@ -117,13 +119,14 @@ export const BrowsingSettings: React.FC = () => {
           })}
         </select>
         <div className="Settings__item-description">
-          The search engine that will be used when entering text in the url
-          input and pressing enter.
+          {t(
+            'The search engine that will be used when entering text in the url input and pressing enter.'
+          )}
         </div>
       </div>
       <div className="Settings__item">
         <label htmlFor="browsing-settings-default-width">
-          New windows default size:
+          {t('New windows default size')}:
         </label>
         <input
           type="number"
@@ -139,7 +142,7 @@ export const BrowsingSettings: React.FC = () => {
           onChange={(e) => updateBrowsingSettingHeight(Number(e.target.value))}
         />
         <div className="Settings__item-description">
-          The size of opening new windows when they are not maximized.
+          {t('The size of opening new windows when they are not maximized.')}
         </div>
       </div>
     </>

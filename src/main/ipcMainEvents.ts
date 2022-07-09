@@ -12,6 +12,7 @@ import {
   setSelectedView,
 } from './browser';
 import { getStore } from './store';
+import i18n from './i18n';
 
 const store = getStore();
 const views: Record<string, BrowserView> = {};
@@ -144,5 +145,9 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('set-store-value', (_e, args) => {
     store.set(args.key, args.value);
+  });
+
+  ipcMain.on('change-language', (_e, locale) => {
+    i18n.changeLanguage(locale);
   });
 };

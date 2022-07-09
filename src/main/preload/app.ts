@@ -18,6 +18,9 @@ contextBridge.exposeInMainWorld('app', {
     toggleDarkMode: () => {
       ipcRenderer.invoke('dark-mode:toggle');
     },
+    changeLanguage: (locale: string) => {
+      ipcRenderer.send('change-language', locale);
+    },
   },
   board: {
     open: (board: { id: string; label: string; isFullSize: boolean }) => {

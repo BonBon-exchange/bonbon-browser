@@ -11,6 +11,7 @@ declare global {
       tools: {
         inspectElement: (point: { x: number; y: number }) => void;
         toggleDarkMode: () => void;
+        changeLanguage: (locale: string) => void;
       };
       board: {
         open: (board: {
