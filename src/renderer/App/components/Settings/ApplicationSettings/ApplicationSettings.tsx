@@ -10,14 +10,14 @@ export const ApplicationSettings: React.FC = () => {
   const udpateAppSettingLaunch = (value: boolean) => {
     setAppSettingLaunch(value);
     window.app.store.set({
-      key: 'launchAtStartup',
+      key: 'application.launchAtStartup',
       value,
     });
   };
 
   useEffect(() => {
     window.app.store
-      .get('launchAtStartup')
+      .get('application.launchAtStartup')
       .then((val: unknown) => setAppSettingLaunch(Boolean(val)));
   }, []);
 
