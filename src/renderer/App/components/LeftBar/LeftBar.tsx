@@ -5,6 +5,8 @@
 import React, { ReactEventHandler, useEffect, useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { Reorder } from 'framer-motion';
+import CloseIcon from '@mui/icons-material/Close';
+import clsx from 'clsx';
 
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
@@ -46,17 +48,28 @@ export const LeftBar: React.FC = () => {
           return (
             <Reorder.Item key={b.id} value={b}>
               <Tooltip title={b.title || ''} placement="right" key={b.id}>
-                <div
-                  className="LeftBar__browserFav"
-                  key={b.id}
-                  onClick={() => focus(document, b.id)}
-                  data-browserid={b.id}
-                >
-                  <img
-                    src={b.isLoading ? loadingImg : b.favicon || icon}
-                    className="LeftBar__browserFavImg"
-                    onError={handleImageError}
-                  />
+                <div className="LeftBar__browserContainer">
+                  <div
+                    className="LeftBar__closeBrowser"
+                    onClick={() => browser.close(b.id)}
+                  >
+                    <CloseIcon />
+                  </div>
+                  <div
+                    className={clsx({
+                      selected: b.id === board.activeBrowser,
+                      LeftBar__browserFav: true,
+                    })}
+                    key={b.id}
+                    onClick={() => focus(document, b.id)}
+                    data-browserid={b.id}
+                  >
+                    <img
+                      src={b.isLoading ? loadingImg : b.favicon || icon}
+                      className="LeftBar__browserFavImg"
+                      onError={handleImageError}
+                    />
+                  </div>
                 </div>
               </Tooltip>
             </Reorder.Item>

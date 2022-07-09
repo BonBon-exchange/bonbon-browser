@@ -8,16 +8,46 @@
   z-index: 10;
   background-color: var(--color-background-tertiary);
 
+  .LeftBar__browserContainer:hover {
+
+    .LeftBar__closeBrowser {
+      display: block;
+    }
+
+    .LeftBar__browserFav {
+      cursor: pointer;
+      background-color: var(--color-background-5);
+    }
+  }
+
   ul {
     list-style: none;
     padding: 0;
+  }
+
+  .LeftBar__closeBrowser {
+    position: relative;
+    transform: translate(20px, 10px);
+    margin-top: -19px;
+    color: var(--color-icon-primary);
+    cursor: pointer;
+    display: none;
+
+    svg {
+      height: 15px;
+    }
   }
 }
 
 .LeftBar__browserFav {
   cursor: pointer;
   padding: 7px;
+  margin-bottom: 4px;
   border-radius: 3px;
+
+  &.selected {
+    background-color: var(--color-background-5);
+  }
 }
 
 .LeftBar__browserFav:hover {
