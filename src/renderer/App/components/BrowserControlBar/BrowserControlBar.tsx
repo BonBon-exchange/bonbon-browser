@@ -32,7 +32,7 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   const dispatch = useAppDispatch();
   const container = document.querySelector(`#Browser__${browserId}`);
 
-  const urlInputOnKeyPress: KeyboardEventHandler = (e) => {
+  const urlInputOnKeyPress: KeyboardEventHandler = async (e) => {
     if (e.code === 'Enter' || e.code === 'NumpadEnter') {
       const target = e.target as HTMLInputElement;
       const webview = container?.querySelector(
@@ -53,7 +53,7 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
       } else {
         newUrl = isValidHttpUrl(target?.value)
           ? target?.value
-          : makeSearchUrl(target?.value);
+          : await makeSearchUrl(target?.value);
       }
 
       webview?.loadURL(newUrl).catch(console.log);

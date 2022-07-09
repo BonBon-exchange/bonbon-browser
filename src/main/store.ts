@@ -5,5 +5,8 @@ const store = new Store();
 
 export const getStore = () => store;
 
-if (store.get('defaultWebpage') === undefined)
-  store.set('defaultWebpage', 'https://www.google.com');
+if (store.get('browsing.defaultWebpage') === undefined)
+  store.set('browsing.defaultWebpage', 'https://www.google.com');
+
+if (store.get('browsing.searchEngine') === undefined)
+  store.set('browsing.searchEngine', 'google');
