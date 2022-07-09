@@ -3,8 +3,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/prefer-default-export */
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const ApplicationSettings: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const [appSettingLaunch, setAppSettingLaunch] = useState<boolean>(false);
 
   const udpateAppSettingLaunch = (value: boolean) => {
@@ -23,7 +25,7 @@ export const ApplicationSettings: React.FC = () => {
 
   return (
     <>
-      <h2>Application</h2>
+      <h2>{t('Application')}</h2>
       <div className="Settings__item">
         <input
           type="checkbox"
@@ -33,10 +35,25 @@ export const ApplicationSettings: React.FC = () => {
           disabled
         />
         <label htmlFor="application-settings-launch-at-startup">
-          Launch at startup
+          {t('Launch at startup')}
         </label>
         <div className="Settings__item-description">
-          This feature is not available yet.
+          {t('This feature is not available yet.')}
+        </div>
+      </div>
+      <div className="Settings__item">
+        <label htmlFor="application-settigns-language">{t('Language')}:</label>
+        <select
+          id="application-settigns-language"
+          value={i18n.language}
+          onChange={(e) => i18n.changeLanguage(e.target.value)}
+        >
+          <option value="en">{t('English')}</option>
+          <option value="es">{t('Spanish')}</option>
+          <option value="fr">{t('French')}</option>
+        </select>
+        <div className="Settings__item-description">
+          {t('The language in which display the application.')}
         </div>
       </div>
     </>

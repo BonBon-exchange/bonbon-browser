@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
 import { useState, ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
 import { ApplicationSettings } from './ApplicationSettings';
@@ -13,6 +14,7 @@ import { SettingsProps } from './Types';
 export const Settings: React.FC<SettingsProps> = ({
   handleClose,
 }: SettingsProps) => {
+  const { t } = useTranslation();
   const [selectedView, setSelectedView] = useState<ReactElement>(
     <ApplicationSettings />
   );
@@ -21,13 +23,13 @@ export const Settings: React.FC<SettingsProps> = ({
     <div id="Settings__container">
       <CloseButton handleClose={handleClose} />
       <div id="Settings__left-panel">
-        <h2>Settings</h2>
+        <h2>{t('Settings')}</h2>
         <ul>
           <li onClick={() => setSelectedView(<ApplicationSettings />)}>
-            Application
+            {t('Application')}
           </li>
           <li onClick={() => setSelectedView(<BrowsingSettings />)}>
-            Browsing
+            {t('Browsing')}
           </li>
         </ul>
       </div>
