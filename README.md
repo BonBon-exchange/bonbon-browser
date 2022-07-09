@@ -37,7 +37,7 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#download">Download</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#run-locally">Run locally</a></li>
       </ul>
     </li>
     <li><a href="#features">Features</a></li>
@@ -89,9 +89,8 @@ Download BonBon for Linux: [BonBon Browser 0.19.0 for Linux (AppImage)](https://
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Installation
+### Run locally
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
 1. Clone the repo
    ```sh
