@@ -2,21 +2,24 @@
   position: absolute;
   top: 50px;
   right: 0px;
-  width: 69.3%;
+  width: 69.6%;
   margin-right: 6px;
+  border-radius: 3px;
+  overflow: hidden;
 
   ul {
     list-style: none;
     margin: 0;
     width: 100%;
     padding: 0;
-    border-radius: 3px;
     font-size: 14px;
 
     li {
       padding: 3px;
       background-color: var(--color-icon-secondary);
       cursor: pointer;
+      overflow: hidden;
+      height: 15px;
     }
 
     li:hover {
