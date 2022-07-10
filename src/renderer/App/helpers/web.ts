@@ -37,5 +37,8 @@ export const makeSearchUrl = async (search: string): Promise<string> => {
 
     case 'ecosia':
       return `https://www.ecosia.org/search?method=index&q=${search}`;
+
+    case 'startpage':
+      return `https://www.startpage.com/do/search?query=${search}`;
   }
 };
