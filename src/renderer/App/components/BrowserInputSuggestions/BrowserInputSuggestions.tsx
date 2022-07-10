@@ -13,7 +13,7 @@ export const BrowserInputSuggestions: React.FC<
   useEffect(() => {
     window.app.db
       .findInHistory(inputValue)
-      .then(({ _err, rows }: { _err: unknown; rows: HistoryItem[] }) => {
+      .then(({ rows }: { rows: HistoryItem[] }) => {
         const sugg = rows.map((r) => r.url);
         setSuggestions(sugg);
       });
