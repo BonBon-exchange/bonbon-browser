@@ -1,0 +1,26 @@
+.BrowserInputSuggestions__container {
+  position: absolute;
+  top: 50px;
+  right: 0px;
+  width: 69.3%;
+  margin-right: 6px;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    width: 100%;
+    padding: 0;
+    border-radius: 3px;
+    font-size: 14px;
+
+    li {
+      padding: 3px;
+      background-color: var(--color-icon-secondary);
+      cursor: pointer;
+    }
+
+    li:hover {
+      background-color: var(--color-border);
+    }
+  }
+}

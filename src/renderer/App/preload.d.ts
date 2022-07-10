@@ -6,6 +6,7 @@ declare global {
       };
       db: {
         addHistory: (url: string) => void;
+        findInHistory: (str: string) => Promise<any>;
       };
       config: {
         get: (key: string) => Promise<unknown>;
