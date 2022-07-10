@@ -137,6 +137,7 @@ export const Browser: React.FC<BrowserProps> = ({
 
   useEffect(() => {
     window.app.analytics.event('browser_navigate');
+    window.app.db.addHistory(url);
   }, [url]);
 
   // Bug fix for Rnd renderer

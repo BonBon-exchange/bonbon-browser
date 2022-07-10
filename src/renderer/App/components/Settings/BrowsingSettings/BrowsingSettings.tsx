@@ -36,7 +36,7 @@ export const BrowsingSettings: React.FC = () => {
 
   const updateBrowsingSettingWebpage = (value: string) => {
     setBrowsingSettingDefaultWebpage(value);
-    window.app.store.set({
+    window.app.config.set({
       key: 'browsing.defaultWebpage',
       value,
     });
@@ -44,7 +44,7 @@ export const BrowsingSettings: React.FC = () => {
 
   const updateBrowsingSettingSeachEngine = (value: string) => {
     setBrowsingSettingDefaultSearchEngine(value);
-    window.app.store.set({
+    window.app.config.set({
       key: 'browsing.searchEngine',
       value,
     });
@@ -52,7 +52,7 @@ export const BrowsingSettings: React.FC = () => {
 
   const updateBrowsingSettingWidth = (value: number) => {
     setBrowsingSettingDefaultWidth(value);
-    window.app.store.set({
+    window.app.config.set({
       key: 'browsing.width',
       value,
     });
@@ -60,29 +60,29 @@ export const BrowsingSettings: React.FC = () => {
 
   const updateBrowsingSettingHeight = (value: number) => {
     setBrowsingSettingDefaultHeight(value);
-    window.app.store.set({
+    window.app.config.set({
       key: 'browsing.height',
       value,
     });
   };
 
   useEffect(() => {
-    window.app.store.get('browsing.defaultWebpage').then((val: unknown) => {
+    window.app.config.get('browsing.defaultWebpage').then((val: unknown) => {
       const typedVal = val as string | undefined;
       setBrowsingSettingDefaultWebpage(typedVal);
     });
 
-    window.app.store.get('browsing.searchEngine').then((val: unknown) => {
+    window.app.config.get('browsing.searchEngine').then((val: unknown) => {
       const typedVal = val as string | undefined;
       setBrowsingSettingDefaultSearchEngine(typedVal);
     });
 
-    window.app.store.get('browsing.width').then((val: unknown) => {
+    window.app.config.get('browsing.width').then((val: unknown) => {
       const typedVal = val as number | undefined;
       setBrowsingSettingDefaultWidth(typedVal);
     });
 
-    window.app.store.get('browsing.height').then((val: unknown) => {
+    window.app.config.get('browsing.height').then((val: unknown) => {
       const typedVal = val as number | undefined;
       setBrowsingSettingDefaultHeight(typedVal);
     });

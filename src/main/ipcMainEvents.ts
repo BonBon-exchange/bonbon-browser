@@ -13,6 +13,7 @@ import {
 } from './browser';
 import { getStore } from './store';
 import i18n from './i18n';
+import db from './db';
 
 const store = getStore();
 const views: Record<string, BrowserView> = {};
@@ -149,5 +150,22 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('change-language', (_e, locale) => {
     i18n.changeLanguage(locale);
+  });
+
+  ipcMain.on('add-history', (_e, url) => {
+    db.run(
+      'INSERT INTO history (url, date) VALUES (?, datetime("now", "localtime"))',
+      url
+    );
+  });
+
+  ipcMain.handle('find-in-history', (_e, str) => {
+    return new Promise((resolve, _reject) => {
+      db.all(
+        'SELECT * FROM history WHERE url LIKE ? ORDER BY date DESC LIMIT 5',
+        `%${str}%`,
+        (err, rows) => resolve({ err, rows })
+      );
+    });
   });
 };

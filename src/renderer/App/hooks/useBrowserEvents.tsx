@@ -50,6 +50,8 @@ export const useBrowserEvents = (browserId: string) => {
         case 'clickOnPage':
           bringBrowserToTheFront(document, container);
           dispatch(setActiveBrowser(browserId));
+          const clickEvent = new MouseEvent('click');
+          window.dispatchEvent(clickEvent);
           break;
 
         case 'ctrl+Tab':

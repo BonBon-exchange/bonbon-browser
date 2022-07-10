@@ -5,6 +5,14 @@ export const mockWindow = () => {
       analytics: {
         event: jest.fn(),
       },
+      db: {
+        addHistory: jest.fn(),
+        findInHistory: jest.fn(),
+      },
+      config: {
+        get: jest.fn(),
+        set: jest.fn(),
+      },
       tools: {
         inspectElement: jest.fn(),
         toggleDarkMode: jest.fn(),

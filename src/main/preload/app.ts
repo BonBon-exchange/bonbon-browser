@@ -6,7 +6,15 @@ contextBridge.exposeInMainWorld('app', {
       ipcRenderer.send('analytics', { eventName, params });
     },
   },
-  store: {
+  db: {
+    addHistory: (url: string) => {
+      ipcRenderer.send('add-history', url);
+    },
+    findInHistory: (str: string) => {
+      return ipcRenderer.invoke('find-in-history', str);
+    },
+  },
+  config: {
     get: (key: string) => ipcRenderer.invoke('get-store-value', key),
     set: (args: { key: string; value: unknown }) =>
       ipcRenderer.send('set-store-value', args),

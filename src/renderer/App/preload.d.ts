@@ -4,7 +4,11 @@ declare global {
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;
       };
-      store: {
+      db: {
+        addHistory: (url: string) => void;
+        findInHistory: (str: string) => Promise<any>;
+      };
+      config: {
         get: (key: string) => Promise<unknown>;
         set: (args: {key: string, value: unknown}) => void;
       }

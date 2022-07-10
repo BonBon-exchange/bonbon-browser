@@ -13,6 +13,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HomeIcon from '@mui/icons-material/Home';
 
+import { BrowserInputSuggestions } from 'renderer/App/components/BrowserInputSuggestions';
 import { updateBrowserUrl } from 'renderer/App/store/reducers/Board';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { isValidHttpUrl, makeSearchUrl } from 'renderer/App/helpers/web';
@@ -29,15 +30,16 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   goHome,
 }) => {
   const [urlInputValue, setUrlInputValue] = useState<string>(url);
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const container = document.querySelector(`#Browser__${browserId}`);
+  const webview = container?.querySelector('webview') as Electron.WebviewTag;
 
   const urlInputOnKeyPress: KeyboardEventHandler = async (e) => {
+    setShowSuggestions(true);
     if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+      setShowSuggestions(false);
       const target = e.target as HTMLInputElement;
-      const webview = container?.querySelector(
-        'webview'
-      ) as Electron.WebviewTag;
 
       const re =
         /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
@@ -72,9 +74,20 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
     target.select();
   };
 
+  const hideSuggestions = () => setShowSuggestions(false);
+
+  const handleSuggestionClick = (clickedUrl: string) => {
+    webview?.loadURL(clickedUrl).catch(console.log);
+  };
+
   useEffect(() => {
     setUrlInputValue(url);
   }, [url]);
+
+  useEffect(() => {
+    window.addEventListener('click', hideSuggestions);
+    return () => window.removeEventListener('click', hideSuggestions);
+  });
 
   return (
     <div className="BrowserControlBar__container">
@@ -100,6 +113,12 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
         onFocus={onFocusInput}
         onChange={(e) => setUrlInputValue(e.target.value)}
       />
+      {showSuggestions && (
+        <BrowserInputSuggestions
+          inputValue={urlInputValue}
+          handleSuggestionClick={handleSuggestionClick}
+        />
+      )}
     </div>
   );
 };
