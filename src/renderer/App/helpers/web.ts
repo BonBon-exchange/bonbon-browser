@@ -12,7 +12,7 @@ export const isValidHttpUrl = (s: string) => {
 };
 
 export const makeSearchUrl = async (search: string): Promise<string> => {
-  const val = await window.app.store.get('browsing.searchEngine');
+  const val = await window.app.config.get('browsing.searchEngine');
 
   const typedVal = val as string | undefined;
   switch (typedVal) {
