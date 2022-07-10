@@ -160,8 +160,12 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.handle('find-in-history', (_e, str) => {
-    return new Promise((res) => {
-      db.all('SELECT * FROM history WHERE url LIKE ? ORDER BY date DESC LIMIT 5', `%${str}%`, (err, rows) => res({err, rows}));
-    })
+    return new Promise((resolve, _reject) => {
+      db.all(
+        'SELECT * FROM history WHERE url LIKE ? ORDER BY date DESC LIMIT 5',
+        `%${str}%`,
+        (err, rows) => resolve({ err, rows })
+      );
+    });
   });
 };

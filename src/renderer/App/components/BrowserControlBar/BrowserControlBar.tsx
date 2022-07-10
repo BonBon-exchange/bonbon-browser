@@ -76,8 +76,8 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
 
   const hideSuggestions = () => setShowSuggestions(false);
 
-  const handleSuggestionClick = (url: string) => {
-    webview?.loadURL(url).catch(console.log);
+  const handleSuggestionClick = (clickedUrl: string) => {
+    webview?.loadURL(clickedUrl).catch(console.log);
   };
 
   useEffect(() => {
