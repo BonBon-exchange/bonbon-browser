@@ -81,16 +81,15 @@ Download BonBon for Windows: [BonBon Browser 0.25.0 for Windows](https://github.
 
 Download BonBon portable for Windows: [BonBon Browser portable 0.25.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.25.0/BonBon.Browser.-.portable.exe)
 
-Download BonBon for macOS arm64: [BonBon Browser 0.19.0 for macOS](https://github.com/BonBon-exchange/archived-bonbon-web-browser/releases/download/v0.19.0-rc1/BonBon-0.19.0-arm64.dmg)
+Download BonBon for macOS arm64: [BonBon Browser 0.25.0 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.25.0/BonBon-0.25.0-arm64.dmg)
 
-Download BonBon for macOS: [BonBon Browser 0.19.0 for macOS](https://github.com/BonBon-exchange/archived-bonbon-web-browser/releases/download/v0.19.0-rc1/BonBon-0.19.0.dmg)
+Download BonBon for macOS: [BonBon Browser 0.25.0 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.25.0/BonBon-0.25.0.dmg)
 
 Download BonBon for Linux: [BonBon Browser 0.19.0 for Linux (AppImage)](https://github.com/BonBon-exchange/archived-bonbon-web-browser/releases/download/v0.19.0-rc1/BonBon-0.19.0.AppImage)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Run locally
-
 
 1. Clone the repo
    ```sh
