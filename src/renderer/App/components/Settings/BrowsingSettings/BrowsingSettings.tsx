@@ -32,6 +32,7 @@ export const BrowsingSettings: React.FC = () => {
     'Yandex',
     'Swisscows',
     'Ecosia',
+    'StartPage',
   ];
 
   const updateBrowsingSettingWebpage = (value: string) => {
