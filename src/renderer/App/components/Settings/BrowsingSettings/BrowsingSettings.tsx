@@ -24,6 +24,9 @@ export const BrowsingSettings: React.FC = () => {
   const [browsingSettingDefaultHeight, setBrowsingSettingDefaultHeight] =
     useState<number | undefined>(0);
 
+  const [browsingSettingDontSaveHistory, setBrowsingSettingDontSaveHistory] =
+    useState<boolean | undefined>(false);
+
   const searchEngines = [
     'Google',
     'Presearch',
@@ -67,6 +70,14 @@ export const BrowsingSettings: React.FC = () => {
     });
   };
 
+  const updateBrowsingSettingDontSaveHistory = (value: boolean) => {
+    setBrowsingSettingDontSaveHistory(value);
+    window.app.config.set({
+      key: 'browsing.dontSaveHistory',
+      value,
+    });
+  };
+
   useEffect(() => {
     window.app.config.get('browsing.defaultWebpage').then((val: unknown) => {
       const typedVal = val as string | undefined;
@@ -86,6 +97,11 @@ export const BrowsingSettings: React.FC = () => {
     window.app.config.get('browsing.height').then((val: unknown) => {
       const typedVal = val as number | undefined;
       setBrowsingSettingDefaultHeight(typedVal);
+    });
+
+    window.app.config.get('browsing.dontSaveHistory').then((val: unknown) => {
+      const typedVal = val as boolean | undefined;
+      setBrowsingSettingDontSaveHistory(typedVal);
     });
   }, []);
 
@@ -144,6 +160,24 @@ export const BrowsingSettings: React.FC = () => {
         />
         <div className="Settings__item-description">
           {t('The size of opening new windows when they are not maximized.')}
+        </div>
+      </div>
+      <div className="Settings__item">
+        <input
+          type="checkbox"
+          id="browsing-settings-dont-save-history"
+          checked={browsingSettingDontSaveHistory}
+          onChange={(e) =>
+            updateBrowsingSettingDontSaveHistory(e.target.checked)
+          }
+        />
+        <label htmlFor="browsing-settings-dont-save-history">
+          {t('Do not save browsing history')}
+        </label>
+        <div className="Settings__item-description">
+          {t(
+            'If checked, BonBon will not save your browsing history. It will also desactivate URL suggestions.'
+          )}
         </div>
       </div>
     </>
