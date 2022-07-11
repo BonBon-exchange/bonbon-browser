@@ -22,5 +22,7 @@
   "New windows default size": "New windows default size",
   "The size of opening new windows when they are not maximized.": "The size of opening new windows when they are not maximized.",
   "Bookmarks": "Bookmarks",
-  "Search": "Search"
+  "Search": "Search",
+  "Do not save browsing history": "Do not save browsing history",
+  "If checked, BonBon will not save your browsing history. It will also desactivate URL suggestions.": "If checked, BonBon will not save your browsing history. It will also desactivate URL suggestions."
 }
