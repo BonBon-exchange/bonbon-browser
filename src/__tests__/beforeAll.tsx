@@ -14,7 +14,7 @@ export const mockWindow = () => {
         getAllBookmarks: jest.fn(() => Promise.resolve()),
       },
       config: {
-        get: jest.fn(),
+        get: jest.fn(() => Promise.resolve()),
         set: jest.fn(),
       },
       tools: {
