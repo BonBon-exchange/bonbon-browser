@@ -20,5 +20,7 @@
   "Default search engine": "Moteur de recherche par défault",
   "The search engine that will be used when entering text in the url input and pressing enter.": "Le moteur de recherche utilisé lorsque l'utilisateur entre du texte dans le champs URL et appuis sur la touche Entrer",
   "New windows default size": "Taille par défault des nouvelles fenêtres",
-  "The size of opening new windows when they are not maximized.": "La taille à laquelle s'ouvriront les nouvelles fenêtres lorsqu'elles ne sont pas maximisées."
+  "The size of opening new windows when they are not maximized.": "La taille à laquelle s'ouvriront les nouvelles fenêtres lorsqu'elles ne sont pas maximisées.",
+  "Bookmarks": "Favoris",
+  "Search": "Rechercher"
 }

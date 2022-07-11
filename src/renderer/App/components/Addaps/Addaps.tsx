@@ -12,6 +12,7 @@ import { Popup } from 'renderer/App/components/Popup';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { AppMenu } from 'renderer/App/components/AppMenu';
 import { Settings } from 'renderer/App/components/Settings';
+import { Bookmarks } from 'renderer/App/components/Bookmarks';
 
 import { AddapsProps } from './Types';
 
@@ -22,6 +23,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   const { board } = useStoreHelpers({ boardId });
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [showBookmarks, setShowBookmarks] = useState<boolean>(false);
   const [showAppMenu, setShowAppMenu] = useState<boolean>(false);
   const [popupTitle, setPopupTitle] = useState<string>('');
   const [popupChildren, setPopupChildren] = useState<JSX.Element>();
@@ -42,8 +44,10 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   };
 
   const handleCloseSettings = () => setShowSettings(false);
+  const handleCloseBookmarks = () => setShowBookmarks(false);
 
   const handleShowSettings = () => setShowSettings(true);
+  const handleShowBookmarks = () => setShowBookmarks(true);
 
   useEffect(() => {
     if (boardId) board.load({ id: boardId });
@@ -70,9 +74,14 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
         </Popup>
       )}
       {showAppMenu && (
-        <AppMenu showAbout={showAbout} showSettings={handleShowSettings} />
+        <AppMenu
+          showAbout={showAbout}
+          showSettings={handleShowSettings}
+          showBookmarks={handleShowBookmarks}
+        />
       )}
       {showSettings && <Settings handleClose={handleCloseSettings} />}
+      {showBookmarks && <Bookmarks handleClose={handleCloseBookmarks} />}
     </>
   );
 };

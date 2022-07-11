@@ -7,7 +7,11 @@ export const mockWindow = () => {
       },
       db: {
         addHistory: jest.fn(),
-        findInHistory: jest.fn(),
+        findInHistory: jest.fn(() => Promise.resolve()),
+        isBookmarked: jest.fn(() => Promise.resolve()),
+        addBookmark: jest.fn(),
+        removeBookmark: jest.fn(),
+        getAllBookmarks: jest.fn(() => Promise.resolve()),
       },
       config: {
         get: jest.fn(),

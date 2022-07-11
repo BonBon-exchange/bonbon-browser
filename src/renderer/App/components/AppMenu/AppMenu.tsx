@@ -10,6 +10,7 @@ import './style.scss';
 export const AppMenu: React.FC<AppMenuProps> = ({
   showAbout,
   showSettings,
+  showBookmarks,
 }: AppMenuProps) => {
   const { t } = useTranslation();
 
@@ -19,6 +20,7 @@ export const AppMenu: React.FC<AppMenuProps> = ({
         <li onClick={() => window.app.tools.toggleDarkMode()}>
           {t('Toggle dark mode')}
         </li>
+        <li onClick={() => showBookmarks()}>{t('Bookmarks')}</li>
         <li onClick={() => showSettings()}>{t('Settings')}</li>
         <li onClick={() => showAbout()}>{t('About')}</li>
       </ul>

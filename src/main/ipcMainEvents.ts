@@ -168,4 +168,30 @@ export const makeIpcMainEvents = (): void => {
       );
     });
   });
+
+  ipcMain.handle('is-bookmarked', (_e, str) => {
+    return new Promise((resolve, _reject) => {
+      db.get('SELECT * FROM bookmarks WHERE url = ?', str, (_err, row) =>
+        resolve(row !== undefined)
+      );
+    });
+  });
+
+  ipcMain.on('add-bookmark', (_e, args) => {
+    db.run(
+      'INSERT INTO bookmarks (url, name) VALUES (?, ?)',
+      args.url,
+      args.title
+    );
+  });
+
+  ipcMain.on('remove-bookmark', (_e, url) => {
+    db.run('DELETE FROM bookmarks WHERE url = ?', url);
+  });
+
+  ipcMain.handle('get-all-bookmarks', () => {
+    return new Promise((resolve, _reject) => {
+      db.all('SELECT * FROM bookmarks', (_err, rows) => resolve(rows));
+    });
+  });
 };

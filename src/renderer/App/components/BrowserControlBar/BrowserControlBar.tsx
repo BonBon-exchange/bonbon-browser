@@ -12,11 +12,15 @@ import CachedIcon from '@mui/icons-material/Cached';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HomeIcon from '@mui/icons-material/Home';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
 
 import { BrowserInputSuggestions } from 'renderer/App/components/BrowserInputSuggestions';
 import { updateBrowserUrl } from 'renderer/App/store/reducers/Board';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { isValidHttpUrl, makeSearchUrl } from 'renderer/App/helpers/web';
+import { useBoard } from 'renderer/App/hooks/useBoard';
+
 import { BrowserControlBarProps } from './Types';
 
 import './style.scss';
@@ -31,9 +35,12 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
 }) => {
   const [urlInputValue, setUrlInputValue] = useState<string>(url);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const container = document.querySelector(`#Browser__${browserId}`);
   const webview = container?.querySelector('webview') as Electron.WebviewTag;
+  const board = useBoard();
+  const browser = board.browsers.find((b) => b.id === browserId);
 
   const urlInputOnKeyPress: KeyboardEventHandler = async (e) => {
     setShowSuggestions(true);
@@ -80,6 +87,18 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
     webview?.loadURL(clickedUrl).catch(console.log);
   };
 
+  const handleBookmark = () => {
+    if (browser?.url && browser?.title) {
+      if (isBookmarked) {
+        window.app.db.removeBookmark(browser?.url);
+        setIsBookmarked(false);
+      } else {
+        window.app.db.addBookmark({ url: browser?.url, title: browser?.title });
+        setIsBookmarked(true);
+      }
+    }
+  };
+
   useEffect(() => {
     setUrlInputValue(url);
   }, [url]);
@@ -87,7 +106,16 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   useEffect(() => {
     window.addEventListener('click', hideSuggestions);
     return () => window.removeEventListener('click', hideSuggestions);
-  });
+  }, []);
+
+  useEffect(() => {
+    if (browser?.url) {
+      window.app.db
+        .isBookmarked(browser?.url)
+        .then((val) => setIsBookmarked(val))
+        .catch(console.log);
+    }
+  }, [browser?.url]);
 
   return (
     <div className="BrowserControlBar__container">
@@ -113,6 +141,12 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
         onFocus={onFocusInput}
         onChange={(e) => setUrlInputValue(e.target.value)}
       />
+      <div
+        className="BrowserControlBar__bookmark-control"
+        onClick={handleBookmark}
+      >
+        {isBookmarked ? <StarIcon /> : <StarBorderIcon />}
+      </div>
       {showSuggestions && (
         <BrowserInputSuggestions
           inputValue={urlInputValue}
