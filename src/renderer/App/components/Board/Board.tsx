@@ -5,6 +5,7 @@ import React, { useEffect, useCallback, useState } from 'react';
 
 import { Browser } from 'renderer/App/components/Browser';
 import { useBoard } from 'renderer/App/hooks/useBoard';
+import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 
@@ -12,6 +13,7 @@ import './style.css';
 
 export const Board: React.FC = () => {
   const board = useBoard();
+  const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>([]);
 
   const makeBrowsers = useCallback((sorted: BrowserProps[]) => {
@@ -32,6 +34,10 @@ export const Board: React.FC = () => {
       count: board.browsers.length,
     });
   }, [board.browsers.length, board.id]);
+
+  useEffect(() => {
+    if (board.activeBrowser) focus(document, board.activeBrowser);
+  }, [board.activeBrowser, focus]);
 
   return <div className="Board__container">{makeBrowsers(items)}</div>;
 };

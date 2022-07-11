@@ -174,16 +174,18 @@ export const boardSlice = createSlice({
       }
 
       // clean activeBrowser
-      if (state.board.browsers.length > 0) {
-        state.board.activeBrowser =
-          state.board.browsers[state.board.browsers.length - 1].id;
-        const wcId = state.board.browsers.find(
-          (b) => b.id === state.board.activeBrowser
-        )?.webContentsId;
-        if (wcId) window.app.browser.select(wcId);
-      } else {
-        state.board.activeBrowser = null;
-        window.app.browser.selectBrowserView();
+      if (state.board.activeBrowser === action.payload) {
+        if (state.board.browsers.length > 0) {
+          state.board.activeBrowser =
+            state.board.browsers[state.board.browsers.length - 1].id;
+          const wcId = state.board.browsers.find(
+            (b) => b.id === state.board.activeBrowser
+          )?.webContentsId;
+          if (wcId) window.app.browser.select(wcId);
+        } else {
+          state.board.activeBrowser = null;
+          window.app.browser.selectBrowserView();
+        }
       }
 
       // send event
