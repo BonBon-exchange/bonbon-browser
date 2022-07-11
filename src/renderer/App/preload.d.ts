@@ -7,6 +7,10 @@ declare global {
       db: {
         addHistory: (url: string) => void;
         findInHistory: (str: string) => Promise<any>;
+        isBookmarked: (url: string) => Promise<boolean>;
+        addBookmark: (args: { title: string; url: string }) => void;
+        removeBookmark: (url: string) => void;
+        getAllBookmarks: () => Promise<any>;
       };
       config: {
         get: (key: string) => Promise<unknown>;

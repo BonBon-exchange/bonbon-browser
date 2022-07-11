@@ -13,6 +13,18 @@ contextBridge.exposeInMainWorld('app', {
     findInHistory: (str: string) => {
       return ipcRenderer.invoke('find-in-history', str);
     },
+    isBookmarked: (url: string) => {
+      return ipcRenderer.invoke('is-bookmarked', url);
+    },
+    addBookmark: (args: { url: string; parent: number }) => {
+      ipcRenderer.send('add-bookmark', args);
+    },
+    removeBookmark: (url: string) => {
+      ipcRenderer.send('remove-bookmark', url);
+    },
+    getAllBookmarks: () => {
+      return ipcRenderer.invoke('get-all-bookmarks');
+    },
   },
   config: {
     get: (key: string) => ipcRenderer.invoke('get-store-value', key),
