@@ -1,3 +1,6 @@
+/* eslint-disable promise/always-return */
+/* eslint-disable promise/no-nesting */
+/* eslint-disable promise/catch-or-return */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
@@ -115,13 +118,16 @@ export const Browser: React.FC<BrowserProps> = ({
   };
 
   const goHome = () => {
-    webview?.loadURL('https://www.google.fr').catch(console.log);
-    dispatch(
-      updateBrowserUrl({
-        url: 'https://www.google.fr',
-        browserId: id,
-      })
-    );
+    window.app.config.get('browsing.defaultWebpage').then((val) => {
+      const defaultWebpage = val as string;
+      webview?.loadURL(defaultWebpage).catch(console.log);
+      dispatch(
+        updateBrowserUrl({
+          url: defaultWebpage,
+          browserId: id,
+        })
+      );
+    });
   };
 
   useEffect(() => {
