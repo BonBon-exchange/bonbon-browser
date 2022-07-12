@@ -43,6 +43,7 @@
 
       .History__item-text {
         flex-grow: 1;
+        overflow: hidden;
 
         .History__item-title {
           font-weight: bold;
