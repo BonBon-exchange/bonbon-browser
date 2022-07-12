@@ -10,6 +10,7 @@ import AddIcon from '@mui/icons-material/Add';
 import clsx from 'clsx';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Reorder } from 'framer-motion';
 
 import { useAppDispatch, useAppSelector } from 'renderer/TitleBar/store/hooks';
 import {
@@ -22,6 +23,8 @@ import {
   TabsState,
   removeAllTabs,
   removeAllTabsExcept,
+  TabProps,
+  setTabs,
 } from 'renderer/TitleBar/store/reducers/Tabs';
 import { AppControls } from '../AppControls';
 
@@ -175,6 +178,10 @@ export const TopBar: React.FC = () => {
     [dispatch]
   );
 
+  const handleReorder = (newOrder: TabProps[]) => {
+    dispatch(setTabs(newOrder));
+  };
+
   useEffect(() => {
     // @ts-ignore
     window.document.querySelector('body').className = window.matchMedia(
@@ -274,10 +281,21 @@ export const TopBar: React.FC = () => {
 
   return (
     <div id="TopBar__container">
-      <div id="TopBar__tabs-container">
+      <Reorder.Group
+        axis="x"
+        values={tabs}
+        onReorder={handleReorder}
+        as="div"
+        id="TopBar__tabs-container"
+      >
         {tabs.map((t) => {
           return (
-            <div className="TopBar__tab-container" key={t.id}>
+            <Reorder.Item
+              key={t.id}
+              value={t}
+              as="div"
+              className="TopBar__tab-container"
+            >
               <div
                 className={clsx({
                   TopBar__tab: true,
@@ -303,10 +321,10 @@ export const TopBar: React.FC = () => {
               <div className="TopBar__closeTab">
                 <CloseIcon onClick={() => handleCloseTab(t.id)} />
               </div>
-            </div>
+            </Reorder.Item>
           );
         })}
-      </div>
+      </Reorder.Group>
       <div id="TopBar__addBoard" onClick={() => pushTab({})}>
         <AddIcon />
       </div>
