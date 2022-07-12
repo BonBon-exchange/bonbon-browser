@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
 
-type TabProps = {
+export type TabProps = {
   id: string;
   label: string;
   windowsCount: number;
@@ -35,6 +35,9 @@ export const tabsSlice: Slice<TabsState> = createSlice({
     addTab: (state, action: PayloadAction<TabProps>) => {
       state.tabs.push(action.payload);
       state.activeTab = action.payload.id;
+    },
+    setTabs: (state, action: PayloadAction<TabProps[]>) => {
+      state.tabs = action.payload;
     },
     setActiveTab: (state, action: PayloadAction<string>) => {
       state.activeTab = action.payload;
@@ -87,6 +90,7 @@ export const {
   setWindowsCount,
   removeAllTabs,
   removeAllTabsExcept,
+  setTabs,
 } = tabsSlice.actions;
 
 export default tabsSlice.reducer;
