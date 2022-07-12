@@ -7,11 +7,20 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   db: {
-    addHistory: (url: string) => {
-      ipcRenderer.send('add-history', url);
+    addHistory: (args: { url: string; title: string }) => {
+      ipcRenderer.send('add-history', args);
     },
     findInHistory: (str: string) => {
       return ipcRenderer.invoke('find-in-history', str);
+    },
+    removeHistory: (id: number) => {
+      ipcRenderer.send('remove-history', id);
+    },
+    clearHistory: () => {
+      ipcRenderer.send('clear-history');
+    },
+    getAllHistory: () => {
+      return ipcRenderer.invoke('get-all-history');
     },
     isBookmarked: (url: string) => {
       return ipcRenderer.invoke('is-bookmarked', url);

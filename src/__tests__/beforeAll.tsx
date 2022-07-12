@@ -8,6 +8,9 @@ export const mockWindow = () => {
       db: {
         addHistory: jest.fn(),
         findInHistory: jest.fn(() => Promise.resolve()),
+        removeHistory: jest.fn(),
+        getAllHistory: jest.fn(() => Promise.resolve()),
+        clearHistory: jest.fn(),
         isBookmarked: jest.fn(() => Promise.resolve()),
         addBookmark: jest.fn(),
         removeBookmark: jest.fn(),

@@ -152,11 +152,20 @@ export const makeIpcMainEvents = (): void => {
     i18n.changeLanguage(locale);
   });
 
-  ipcMain.on('add-history', (_e, url) => {
+  ipcMain.on('add-history', (_e, args) => {
     db.run(
-      'INSERT INTO history (url, date) VALUES (?, datetime("now", "localtime"))',
-      url
+      'INSERT INTO history (url, date, title) VALUES (?, datetime("now", "localtime"), ?)',
+      args.url,
+      args.title
     );
+  });
+
+  ipcMain.on('remove-history', (_e, id) => {
+    db.run('DELETE FROM history WHERE id = ?', id);
+  });
+
+  ipcMain.on('clear-history', () => {
+    db.run('DELETE FROM history');
   });
 
   ipcMain.handle('find-in-history', (_e, str) => {
@@ -165,6 +174,14 @@ export const makeIpcMainEvents = (): void => {
         'SELECT * FROM history WHERE url LIKE ? GROUP BY url ORDER BY date DESC LIMIT 5',
         `%${str}%`,
         (err, rows) => resolve({ err, rows })
+      );
+    });
+  });
+
+  ipcMain.handle('get-all-history', (_e) => {
+    return new Promise((resolve, _reject) => {
+      db.all('SELECT * FROM history ORDER BY date DESC', (_err, rows) =>
+        resolve(rows)
       );
     });
   });
