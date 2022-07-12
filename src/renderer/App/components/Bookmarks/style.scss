@@ -37,6 +37,7 @@
 
       .Bookmarks__item-text {
         flex-grow: 1;
+        overflow: hidden;
 
         .Bookmarks__item-name {
           font-weight: bold;
