@@ -36,6 +36,7 @@ export const Browser: React.FC<BrowserProps> = ({
   favicon,
   title,
   isLoading,
+  isMinimized,
 }) => {
   useBrowserEvents(id);
   const dispatch = useAppDispatch();
@@ -177,6 +178,7 @@ export const Browser: React.FC<BrowserProps> = ({
       id={`Browser__${id}`}
       className={clsx({
         'Browser__is-full-size': isFullSize,
+        'Browser__is-minimized': isMinimized,
         'Browser__draggable-container': true,
       })}
       disableDragging={board?.isFullSize}
@@ -186,6 +188,7 @@ export const Browser: React.FC<BrowserProps> = ({
       <div className="Browser__container" ref={container}>
         <BrowserTopBar
           closeBrowser={() => browser.close(id)}
+          minimizeBrowser={() => browser.minimize(id)}
           toggleFullsizeBrowser={toggleFullsizeBrowser}
           onClick={() => focus(document, id)}
           title={title}

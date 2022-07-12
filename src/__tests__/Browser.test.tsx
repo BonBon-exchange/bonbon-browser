@@ -17,6 +17,7 @@ const browserProps = {
   width: 800,
   firstRendering: true,
   isLoading: true,
+  isMinimized: false,
 };
 
 describe('Browser', () => {
