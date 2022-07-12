@@ -5,6 +5,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+[![Downloads][downloads-shield]][downloads-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -160,6 +161,8 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 
 [contributors-shield]: https://img.shields.io/github/contributors/BonBon-exchange/bonbon-web-browser.svg?style=for-the-badge
 [contributors-url]: https://github.com/BonBon-exchange/bonbon-web-browser/graphs/contributors
+[downloads-shield]: https://img.shields.io/github/downloads/BonBon-exchange/bonbon-web-browser/total.svg?style=for-the-badge
+[downloads-url]: https://github.com/BonBon-exchange/bonbon-web-browser/releases
 [forks-shield]: https://img.shields.io/github/forks/BonBon-exchange/bonbon-web-browser.svg?style=for-the-badge
 [forks-url]: https://github.com/BonBon-exchange/bonbon-web-browser/network/members
 [stars-shield]: https://img.shields.io/github/stars/BonBon-exchange/bonbon-web-browser.svg?style=for-the-badge
