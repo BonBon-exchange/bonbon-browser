@@ -37,6 +37,10 @@
 
       .Bookmarks__item-text {
         flex-grow: 1;
+
+        .Bookmarks__item-name {
+          font-weight: bold;
+        }
       }
 
       .Bookmarks__item-control {

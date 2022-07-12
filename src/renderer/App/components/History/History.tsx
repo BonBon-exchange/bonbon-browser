@@ -85,11 +85,9 @@ export const History: React.FC<HistoryProps> = ({
                 className="History__item-text"
                 onClick={() => handleHistoryClick(i.url)}
               >
-                {i.title}
-                <br />
-                {i.date}
-                <br />
-                {i.url}
+                <div className="History__item-title">{i.title}</div>
+                <div className="History__item-date">{i.date}</div>
+                <div className="History__item-url">{i.url}</div>
               </div>
               <div className="History__item-controls">
                 <div

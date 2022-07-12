@@ -147,7 +147,8 @@ export const Browser: React.FC<BrowserProps> = ({
       const typedVal = val as boolean | undefined;
       if (!typedVal) window.app.db.addHistory({ url, title: title || '' });
     });
-  }, [url, title]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [url]);
 
   // Bug fix for Rnd renderer
   useEffect(() => {

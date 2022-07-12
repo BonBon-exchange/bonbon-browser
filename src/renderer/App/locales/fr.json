@@ -24,5 +24,6 @@
   "Bookmarks": "Favoris",
   "Search": "Rechercher",
   "Do not save browsing history": "Ne pas sauvegarder l'historique de navigation",
-  "If checked, BonBon will not save your browsing history. It will also desactivate URL suggestions.": "Si cochée, BonBon ne savuegardera pas votre historique de navigation. Cela désactivera également les suggestions d'URL."
+  "If checked, BonBon will not save your browsing history. It will also desactivate URL suggestions.": "Si cochée, BonBon ne savuegardera pas votre historique de navigation. Cela désactivera également les suggestions d'URL.",
+  "History": "Historique"
 }

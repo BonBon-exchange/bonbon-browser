@@ -43,6 +43,10 @@
 
       .History__item-text {
         flex-grow: 1;
+
+        .History__item-title {
+          font-weight: bold;
+        }
       }
 
       .History__item-control {
