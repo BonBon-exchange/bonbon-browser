@@ -71,9 +71,8 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
                 className="Bookmarks__item-text"
                 onClick={() => handleBookmarkClick(i.url)}
               >
-                {i.name}
-                <br />
-                {i.url}
+                <div className="Bookmarks__item-name">{i.name}</div>
+                <div className="Bookmarks__item-url">{i.url}</div>
               </div>
               <div className="Bookmarks__item-controls">
                 <div
