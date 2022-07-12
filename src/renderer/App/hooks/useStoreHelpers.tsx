@@ -11,6 +11,8 @@ import {
   addBrowser,
   setBoard,
   removeBrowser,
+  minimizeBrowser,
+  unminimizeBrowser,
   removeLastCloseUrl,
 } from 'renderer/App/store/reducers/Board';
 import { getCoordinateWithNoCollision } from 'renderer/App/helpers/d2';
@@ -49,6 +51,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         width: defaultWidth,
         firstRendering: true,
         isLoading: true,
+        isMinimized: false,
       };
       return newBrowser;
     },
@@ -103,6 +106,20 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
     [dispatch]
   );
 
+  const minBrowser = useCallback(
+    (browserId: string) => {
+      dispatch(minimizeBrowser(browserId));
+    },
+    [dispatch]
+  );
+
+  const showBrowser = useCallback(
+    (browserId: string) => {
+      dispatch(unminimizeBrowser(browserId));
+    },
+    [dispatch]
+  );
+
   const closeBoard = useCallback(() => {
     window.app.board.close();
   }, []);
@@ -119,6 +136,8 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       add: makeAndAddBrowser,
       close: closeBrowser,
       reopenLastClosed,
+      minimize: minBrowser,
+      show: showBrowser,
     },
     board: {
       create: createBoard,

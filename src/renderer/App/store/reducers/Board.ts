@@ -46,6 +46,7 @@ const newBrowser = {
   favicon: '',
   title: '',
   isLoading: true,
+  isMinimized: false,
 };
 
 const boardId = v4();
@@ -162,6 +163,18 @@ export const boardSlice = createSlice({
       state.board.label = action.payload;
       window.app.analytics.event('rename_board');
     },
+    minimizeBrowser: (state, action: PayloadAction<string>) => {
+      const browserIndex = state.board.browsers.findIndex(
+        (b) => b.id === action.payload
+      );
+      state.board.browsers[browserIndex].isMinimized = true;
+    },
+    unminimizeBrowser: (state, action: PayloadAction<string>) => {
+      const browserIndex = state.board.browsers.findIndex(
+        (b) => b.id === action.payload
+      );
+      state.board.browsers[browserIndex].isMinimized = false;
+    },
     removeBrowser: (state, action: PayloadAction<string>) => {
       const browserIndex = state.board.browsers.findIndex(
         (b) => b.id === action.payload
@@ -224,6 +237,8 @@ export const {
   updateBrowserFav,
   renameBoard,
   removeBrowser,
+  minimizeBrowser,
+  unminimizeBrowser,
   removeAllBrowsers,
   addBrowser,
   setActiveBrowser,

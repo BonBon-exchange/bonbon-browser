@@ -21,6 +21,7 @@ const addBrowserAction = {
   firstRendering: true,
   favicon: '',
   isLoading: true,
+  isMinimized: false,
 };
 
 describe('LeftBar', () => {

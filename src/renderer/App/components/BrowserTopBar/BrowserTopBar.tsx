@@ -6,6 +6,7 @@
 import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
+import MinimizeIcon from '@mui/icons-material/Minimize';
 
 import loadingImg from 'renderer/App/svg/loading.svg';
 
@@ -16,6 +17,7 @@ import './style.scss';
 export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
   closeBrowser,
   toggleFullsizeBrowser,
+  minimizeBrowser,
   title,
   favicon,
   onClick,
@@ -50,6 +52,13 @@ export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
           data-testid="toggle-enlarge-browser"
         >
           <CropSquareIcon />
+        </div>
+        <div
+          className="BrowserTopBar__control-button"
+          onClick={minimizeBrowser}
+          data-testid="minimize-browser"
+        >
+          <MinimizeIcon />
         </div>
       </div>
     </div>

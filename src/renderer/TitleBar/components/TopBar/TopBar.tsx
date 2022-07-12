@@ -273,12 +273,7 @@ export const TopBar: React.FC = () => {
   }, []);
 
   return (
-    <div
-      id="TopBar__container"
-      className={clsx({
-        macTitleBar: window.titleBar.os.getPlatform() === 'darwin',
-      })}
-    >
+    <div id="TopBar__container">
       <div id="TopBar__tabs-container">
         {tabs.map((t) => {
           return (

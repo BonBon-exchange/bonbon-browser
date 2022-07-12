@@ -10,4 +10,5 @@ export interface BrowserProps {
   title?: string;
   webContentsId?: string;
   isLoading: boolean;
+  isMinimized: boolean;
 }

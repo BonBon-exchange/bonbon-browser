@@ -37,6 +37,13 @@ export const LeftBar: React.FC = () => {
     target.src = icon;
   };
 
+  const handleClickFavicon = (browserId: string) => {
+    browser.show(browserId);
+    setTimeout(() => {
+      focus(document, browserId);
+    }, 0);
+  };
+
   useEffect(() => {
     setItems(board.browsers);
   }, [board.browsers]);
@@ -61,7 +68,7 @@ export const LeftBar: React.FC = () => {
                       LeftBar__browserFav: true,
                     })}
                     key={b.id}
-                    onClick={() => focus(document, b.id)}
+                    onClick={() => handleClickFavicon(b.id)}
                     data-browserid={b.id}
                   >
                     <img
