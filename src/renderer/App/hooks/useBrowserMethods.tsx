@@ -45,8 +45,8 @@ export const useBrowserMethods = () => {
   const boardState = useBoard();
 
   const focus = useCallback(
-    (document: Document, browserId: string) => {
-      scrollToBrowser(document, browserId);
+    (document: Document, browserId: string, dontScroll?: boolean) => {
+      if (!dontScroll) scrollToBrowser(document, browserId);
       dispatch(setActiveBrowser(browserId));
       window.app.analytics.event('switch_browser');
     },

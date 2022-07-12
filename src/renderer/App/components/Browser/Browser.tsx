@@ -190,7 +190,7 @@ export const Browser: React.FC<BrowserProps> = ({
           closeBrowser={() => browser.close(id)}
           minimizeBrowser={() => browser.minimize(id)}
           toggleFullsizeBrowser={toggleFullsizeBrowser}
-          onClick={() => focus(document, id)}
+          onClick={() => focus(document, id, true)}
           title={title}
           favicon={favicon}
           isLoading={isLoading}
