@@ -5,8 +5,11 @@ declare global {
         event: (eventName: string, params?: Record<string, string>) => void;
       };
       db: {
-        addHistory: (url: string) => void;
+        addHistory: (args: {url: string, title: string}) => void;
         findInHistory: (str: string) => Promise<any>;
+        removeHistory: (id: number) => void;
+        clearHistory: () => void;
+        getAllHistory: () => Promise<any>;
         isBookmarked: (url: string) => Promise<boolean>;
         addBookmark: (args: { title: string; url: string }) => void;
         removeBookmark: (url: string) => void;

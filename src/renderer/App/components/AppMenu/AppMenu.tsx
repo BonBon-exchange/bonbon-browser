@@ -11,6 +11,7 @@ export const AppMenu: React.FC<AppMenuProps> = ({
   showAbout,
   showSettings,
   showBookmarks,
+  showHistory,
 }: AppMenuProps) => {
   const { t } = useTranslation();
 
@@ -21,6 +22,7 @@ export const AppMenu: React.FC<AppMenuProps> = ({
           {t('Toggle dark mode')}
         </li>
         <li onClick={() => showBookmarks()}>{t('Bookmarks')}</li>
+        <li onClick={() => showHistory()}>{t('History')}</li>
         <li onClick={() => showSettings()}>{t('Settings')}</li>
         <li onClick={() => showAbout()}>{t('About')}</li>
       </ul>

@@ -5,47 +5,54 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Button from '@mui/material/Button';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 
-import { BookmarksProps, BookmarkType } from './Types';
+import { HistoryProps, HistoryType } from './Types';
 
 import './style.scss';
 
-export const Bookmarks: React.FC<BookmarksProps> = ({
+export const History: React.FC<HistoryProps> = ({
   handleClose,
-}: BookmarksProps) => {
+}: HistoryProps) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState<string>('');
-  const [items, setItems] = useState<BookmarkType[]>([]);
-  const [filteredItems, setFilteredItems] = useState<BookmarkType[]>([]);
+  const [items, setItems] = useState<HistoryType[]>([]);
+  const [filteredItems, setFilteredItems] = useState<HistoryType[]>([]);
   const { browser } = useStoreHelpers();
 
-  const handleBookmarkClick = (url: string) => {
+  const handleHistoryClick = (url: string) => {
     browser.add({ url });
     handleClose();
   };
 
-  const handleDeleteBookmark = (id: number) => {
-    const url = items.find((i) => i.id === id)?.url;
-    if (url) window.app.db.removeBookmark(url);
+  const handleDeleteHistory = (id: number) => {
+    window.app.db.removeHistory(id);
     const newItems = [...items];
     const index = newItems.findIndex((i) => i.id === id);
     if (index > -1) newItems.splice(index, 1);
     setItems(newItems);
   };
 
+  const handleClearHistory = () => {
+    setItems([]);
+    window.app.db.clearHistory();
+  };
+
   useEffect(() => {
     const filtered = items.filter(
-      (i) => i.url.includes(search) || i.name.includes(search)
+      (i) =>
+        (i.url && i.url.includes(search)) ||
+        (i.title && i.title.includes(search))
     );
     setFilteredItems(filtered);
   }, [search, items]);
 
   useEffect(() => {
     window.app.db
-      .getAllBookmarks()
+      .getAllHistory()
       .then((val) => {
         setItems(val);
         setFilteredItems(val);
@@ -54,31 +61,40 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
   }, []);
 
   return (
-    <div id="Bookmarks__container">
+    <div id="History__container">
       <CloseButton handleClose={handleClose} />
-      <div id="Bookmarks__centered-container">
-        <h2>{t('Bookmarks')}</h2>
+      <div id="History__centered-container">
+        <h2>{t('History')}</h2>
+        <Button
+          variant="contained"
+          className="History__clear-button"
+          onClick={handleClearHistory}
+        >
+          Clear history
+        </Button>
         <input
           type="text"
-          className="Bookmarks__search"
+          className="History__search"
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t('Search')}
         />
         {filteredItems.map((i) => {
           return (
-            <div className="Bookmarks__item" key={i.id}>
+            <div className="History__item" key={i.id}>
               <div
-                className="Bookmarks__item-text"
-                onClick={() => handleBookmarkClick(i.url)}
+                className="History__item-text"
+                onClick={() => handleHistoryClick(i.url)}
               >
-                {i.name}
+                {i.title}
+                <br />
+                {i.date}
                 <br />
                 {i.url}
               </div>
-              <div className="Bookmarks__item-controls">
+              <div className="History__item-controls">
                 <div
-                  className="Bookmarks__item-control"
-                  onClick={() => handleDeleteBookmark(i.id)}
+                  className="History__item-control"
+                  onClick={() => handleDeleteHistory(i.id)}
                 >
                   <DeleteForeverIcon />
                 </div>
