@@ -4,7 +4,7 @@
 /* eslint-disable promise/always-return */
 import contextMenu from 'electron-context-menu';
 import path from 'path';
-import { app, ipcMain, session } from 'electron';
+import { app, session } from 'electron';
 import Nucleus from 'nucleus-nodejs';
 import i18n from './i18n';
 
