@@ -1,0 +1,17 @@
+.CertificateErrorPage__container {
+  display: flex;
+  flex-grow: 1;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-background-primary);
+  color: var(--color-text-primary);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 100;
+
+  .CertificateErrorPage__message {
+    margin-bottom: 30px;
+  }
+}

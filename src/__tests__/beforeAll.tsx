@@ -33,6 +33,7 @@ export const mockWindow = () => {
       browser: {
         select: jest.fn(),
         selectBrowserView: jest.fn(),
+        certificateErrorAnswser: jest.fn(),
       },
       listener: {
         newWindow: jest.fn(),
@@ -43,6 +44,7 @@ export const mockWindow = () => {
         closeAllWebview: jest.fn(),
         closeOthersWebview: jest.fn(),
         showAppMenu: jest.fn(),
+        certificateError: jest.fn(),
       },
       off: {
         newWindow: jest.fn(),
@@ -53,6 +55,7 @@ export const mockWindow = () => {
         closeAllWebview: jest.fn(),
         closeOthersWebview: jest.fn(),
         showAppMenu: jest.fn(),
+        certificateError: jest.fn(),
       },
     },
   });

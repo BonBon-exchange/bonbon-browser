@@ -8,7 +8,8 @@ export interface BrowserProps {
   firstRendering?: boolean;
   favicon?: string;
   title?: string;
-  webContentsId?: string;
+  webContentsId?: number;
   isLoading: boolean;
   isMinimized: boolean;
+  certificateErrorFingerprint?: string | null;
 }
