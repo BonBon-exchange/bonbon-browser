@@ -73,7 +73,7 @@ contextBridge.exposeInMainWorld('app', {
       ipcRenderer.send('select-browserView');
     },
     certificateErrorAnswser: (args: {
-      webContentsId: string;
+      webContentsId: number;
       isTrusted: boolean;
     }) => {
       ipcRenderer.send('certificate-error-answser', args);
