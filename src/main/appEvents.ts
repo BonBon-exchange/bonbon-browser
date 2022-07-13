@@ -26,12 +26,6 @@ import {
   getCertificateErrorAuth,
 } from './ipcMainEvents';
 
-const certficateErrorCallbacks: Record<string, (isTrusted: boolean) => void> =
-  {};
-
-export const getCertificateErrorCallback = (webContentsId: string) =>
-  certficateErrorCallbacks[webContentsId];
-
 const makeAppEvents = () => {
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
