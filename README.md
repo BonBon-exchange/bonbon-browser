@@ -154,7 +154,7 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 - 0xCUBE ([@0xCUB3](https://github.com/0xCUB3))
 - Nuklusone
 - Aitor ([@dragonDScript](https://github.com/dragonDScript))
-- Howard
+- Howard ([@PerpetualOwl](https://github.com/PerpetualOwl))
 - Faouzi
 
 <p align="right">(<a href="#top">back to top</a>)</p>
