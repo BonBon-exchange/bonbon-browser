@@ -35,8 +35,9 @@ declare global {
         setWindowsCount: (args: { boardId: string; count: number }) => void;
       };
       browser: {
-        select: (webContentsId: string) => void;
+        select: (webContentsId: number) => void;
         selectBrowserView: () => void;
+        certificateErrorAnswser: (args: { webContentsId: number, fingerprint: string, isTrusted: boolean }) => void;
       };
       listener: {
         newWindow: (action: unknown) => void;
@@ -50,6 +51,7 @@ declare global {
         closeAllWebview: (action: unknown) => void;
         closeOthersWebview: (action: unknown) => void;
         showAppMenu: (action: unknown) => void;
+        certificateError: (action: unknown) => void;
       };
       off: {
         newWindow: () => void;
@@ -63,6 +65,7 @@ declare global {
         closeAllWebview: () => void;
         closeOthersWebview: () => void;
         showAppMenu: () => void;
+        certificateError: () => void;
       };
     };
     darkMode: {

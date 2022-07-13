@@ -18,8 +18,20 @@ import db from './db';
 const store = getStore();
 const views: Record<string, BrowserView> = {};
 const browsers: Record<string, WebContents> = {};
+const certificateErrorAuth: { webContentsId: number; fingerprint: string }[] =
+  [];
 
 export const getBrowsers = () => browsers;
+
+export const getCertificateErrorAuth = (
+  webContentsId: number,
+  fingerprint: string
+) => {
+  const auth = certificateErrorAuth.find(
+    (c) => c.webContentsId === webContentsId && c.fingerprint === fingerprint
+  );
+  return !!auth;
+};
 
 export const makeIpcMainEvents = (): void => {
   const extensions = getExtensionsObject();
@@ -210,5 +222,14 @@ export const makeIpcMainEvents = (): void => {
     return new Promise((resolve, _reject) => {
       db.all('SELECT * FROM bookmarks', (_err, rows) => resolve(rows));
     });
+  });
+
+  ipcMain.on('certificate-error-answser', (_e, args) => {
+    if (args.isTrusted) {
+      certificateErrorAuth.push({
+        webContentsId: args.webContentsId,
+        fingerprint: args.fingerprint,
+      });
+    }
   });
 };

@@ -1,9 +1,10 @@
+/* eslint-disable import/prefer-default-export */
 /* eslint-disable promise/no-callback-in-promise */
 /* eslint-disable promise/no-nesting */
 /* eslint-disable promise/always-return */
 import contextMenu from 'electron-context-menu';
 import path from 'path';
-import { app, session } from 'electron';
+import { app, ipcMain, session } from 'electron';
 import Nucleus from 'nucleus-nodejs';
 import i18n from './i18n';
 
@@ -19,7 +20,17 @@ import {
   createWindow,
   setBrowserViewBonds,
 } from './browser';
-import { makeIpcMainEvents, getBrowsers } from './ipcMainEvents';
+import {
+  makeIpcMainEvents,
+  getBrowsers,
+  getCertificateErrorAuth,
+} from './ipcMainEvents';
+
+const certficateErrorCallbacks: Record<string, (isTrusted: boolean) => void> =
+  {};
+
+export const getCertificateErrorCallback = (webContentsId: string) =>
+  certficateErrorCallbacks[webContentsId];
 
 const makeAppEvents = () => {
   app.on('window-all-closed', () => {
@@ -66,6 +77,23 @@ const makeAppEvents = () => {
       });
       const mainWindow = getMainWindow();
       if (mainWindow) extensions.addTab(webContents, mainWindow);
+
+      webContents.on(
+        'certificate-error',
+        (_e, _url, _error, certificate, callback) => {
+          const isTrusted = getCertificateErrorAuth(
+            webContents.id,
+            certificate.fingerprint
+          );
+          callback(isTrusted);
+          if (!isTrusted) {
+            getSelectedView()?.webContents.send('certificate-error', {
+              webContentsId: webContents.id,
+              fingerprint: certificate.fingerprint,
+            });
+          }
+        }
+      );
     });
 
     contextMenu({

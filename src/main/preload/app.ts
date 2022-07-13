@@ -66,11 +66,17 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   browser: {
-    select: (webContentsId: string) => {
+    select: (webContentsId: number) => {
       ipcRenderer.send('select-browser', webContentsId);
     },
     selectBrowserView: () => {
       ipcRenderer.send('select-browserView');
+    },
+    certificateErrorAnswser: (args: {
+      webContentsId: string;
+      isTrusted: boolean;
+    }) => {
+      ipcRenderer.send('certificate-error-answser', args);
     },
   },
   listener: {
@@ -112,6 +118,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('show-app-menu', action);
     },
+    certificateError: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('certificate-error', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -137,6 +148,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     showAppMenu: () => {
       ipcRenderer.removeAllListeners('show-app-menu');
+    },
+    certificateError: () => {
+      ipcRenderer.removeAllListeners('certificate-error');
     },
   },
 });

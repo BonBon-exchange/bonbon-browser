@@ -30,6 +30,11 @@ type UpdateBrowserFavType = {
   browserId: string;
 };
 
+type UpdateBrowserCertificateFingerprintType = {
+  certificateErrorFingerprint: string | null;
+  browserId: string;
+};
+
 interface BoardState {
   board: BoardType;
 }
@@ -219,6 +224,18 @@ export const boardSlice = createSlice({
       // send event
       window.app.analytics.event('close_others_browser');
     },
+    updateBrowserCertificateErrorFingerprint: (
+      state,
+      action: PayloadAction<UpdateBrowserCertificateFingerprintType>
+    ) => {
+      const browserIndex = state.board.browsers.findIndex(
+        (b) => b.id === action.payload.browserId
+      );
+      if (browserIndex > -1) {
+        state.board.browsers[browserIndex].certificateErrorFingerprint =
+          action.payload.certificateErrorFingerprint;
+      }
+    },
     removeAllBrowsers: (state) => {
       if (!state.board.closedUrls) state.board.closedUrls = [];
       state.board.browsers.forEach((b) => addCLosedUrl(state, b.url));
@@ -249,6 +266,7 @@ export const {
   setBrowsers,
   removeAllBrowsersExcept,
   updateBrowserLoading,
+  updateBrowserCertificateErrorFingerprint,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

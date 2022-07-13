@@ -11,6 +11,7 @@ import clsx from 'clsx';
 import { useBrowserEvents } from 'renderer/App/hooks/useBrowserEvents';
 import { BrowserControlBar } from 'renderer/App/components/BrowserControlBar';
 import { BrowserTopBar } from 'renderer/App/components/BrowserTopBar';
+import { CertificateErrorPage } from 'renderer/App/components/CertificateErrorPage';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import {
   updateBrowserUrl,
@@ -37,6 +38,8 @@ export const Browser: React.FC<BrowserProps> = ({
   title,
   isLoading,
   isMinimized,
+  certificateErrorFingerprint,
+  webContentsId,
 }) => {
   useBrowserEvents(id);
   const dispatch = useAppDispatch();
@@ -204,6 +207,14 @@ export const Browser: React.FC<BrowserProps> = ({
           browserId={id}
         />
         <div className="Browser__webview-container">
+          {certificateErrorFingerprint && webContentsId && (
+            <CertificateErrorPage
+              reload={reload}
+              webContentsId={webContentsId}
+              fingerprint={certificateErrorFingerprint}
+              browserId={id}
+            />
+          )}
           <webview
             // @ts-ignore
             allowpopups="true"

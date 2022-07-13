@@ -9,6 +9,7 @@ import {
   removeAllBrowsers,
   removeAllBrowsersExcept,
   renameBoard,
+  updateBrowserCertificateErrorFingerprint,
 } from 'renderer/App/store/reducers/Board';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { useBoard } from './useBoard';
@@ -147,6 +148,28 @@ export const useGlobalEvents = () => {
     },
     [dispatch]
   );
+
+  const certificateErrorAction = useCallback(
+    (_e: any, args: { webContentsId: number; fingerprint: string }) => {
+      const browserId = boardState.browsers.find(
+        (b) => b.webContentsId === args.webContentsId
+      )?.id;
+      if (browserId) {
+        dispatch(
+          updateBrowserCertificateErrorFingerprint({
+            browserId,
+            certificateErrorFingerprint: args.fingerprint,
+          })
+        );
+      }
+    },
+    [dispatch, boardState.browsers]
+  );
+
+  useEffect(() => {
+    window.app.listener.certificateError(certificateErrorAction);
+    return () => window.app.off.certificateError();
+  }, [certificateErrorAction]);
 
   useEffect(() => {
     window.app.listener.newWindow(newWindowAction);
