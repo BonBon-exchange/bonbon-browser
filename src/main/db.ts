@@ -13,6 +13,10 @@ db.run(
   'CREATE TABLE IF NOT EXISTS bookmarks (id INTEGER PRIMARY KEY, url TEXT NOT NULL, name TEXT)'
 );
 
+db.run(
+  'CREATE TABLE IF NOT EXISTS downloads (id INTEGER PRIMARY KEY, savePath TEXT NOT NULL, filename TEXT, date TEXT, startTime DECIMAL(25, 15))'
+);
+
 // migrate history table => add title column
 db.get('SELECT title FROM history', (err) => {
   if (err) {

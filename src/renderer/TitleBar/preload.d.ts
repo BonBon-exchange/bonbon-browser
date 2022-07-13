@@ -6,6 +6,7 @@ declare global {
         minimize: () => void;
         maximize: () => void;
         showMenu: () => void;
+        showDownloadsPreview: () => void;
       };
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;
@@ -23,6 +24,7 @@ declare global {
         setWindowsCount: (action: unknown) => void;
         closeAllTab: (action: unknown) => void;
         closeOthersTab: (action: unknown) => void;
+        downloadState: (action: unknown) => void;
       };
       off: {
         openTab: () => void;
@@ -34,6 +36,7 @@ declare global {
         setWindowsCount: () => void;
         closeAllTab: () => void;
         closeOthersTab: () => void;
+        downloadState: () => void;
       };
       tabs: {
         select: (tabId: string) => void;

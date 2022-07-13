@@ -15,6 +15,10 @@ export const mockWindow = () => {
         addBookmark: jest.fn(),
         removeBookmark: jest.fn(),
         getAllBookmarks: jest.fn(() => Promise.resolve()),
+        addDownload: jest.fn(),
+        getAllDownloads: jest.fn(() => Promise.resolve()),
+        clearDownloads: jest.fn(),
+        removeDownload: jest.fn(),
       },
       config: {
         get: jest.fn(() => Promise.resolve()),
@@ -23,6 +27,8 @@ export const mockWindow = () => {
       tools: {
         inspectElement: jest.fn(),
         toggleDarkMode: jest.fn(),
+        changeLanguage: jest.fn(),
+        showItemInFolder: jest.fn(),
       },
       board: {
         open: jest.fn(),
@@ -45,6 +51,8 @@ export const mockWindow = () => {
         closeOthersWebview: jest.fn(),
         showAppMenu: jest.fn(),
         certificateError: jest.fn(),
+        downloading: jest.fn(),
+        showDownloadsPreview: jest.fn(),
       },
       off: {
         newWindow: jest.fn(),
@@ -56,6 +64,8 @@ export const mockWindow = () => {
         closeOthersWebview: jest.fn(),
         showAppMenu: jest.fn(),
         certificateError: jest.fn(),
+        downloading: jest.fn(),
+        showDownloadsPreview: jest.fn(),
       },
     },
   });

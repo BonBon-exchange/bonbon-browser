@@ -34,6 +34,18 @@ contextBridge.exposeInMainWorld('app', {
     getAllBookmarks: () => {
       return ipcRenderer.invoke('get-all-bookmarks');
     },
+    addDownload: (args: { savePath: string; filename: string }) => {
+      ipcRenderer.send('add-download', args);
+    },
+    getAllDownloads: () => {
+      return ipcRenderer.invoke('get-all-downloads');
+    },
+    clearDownloads: () => {
+      ipcRenderer.send('clear-downloads');
+    },
+    removeDownload: (id: number) => {
+      ipcRenderer.send('remove-download', id);
+    },
   },
   config: {
     get: (key: string) => ipcRenderer.invoke('get-store-value', key),
@@ -49,6 +61,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     changeLanguage: (locale: string) => {
       ipcRenderer.send('change-language', locale);
+    },
+    showItemInFolder: (filepath: string) => {
+      ipcRenderer.send('show-item-in-folder', filepath);
     },
   },
   board: {
@@ -123,6 +138,16 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('certificate-error', action);
     },
+    downloading: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('downloading', action);
+    },
+    showDownloadsPreview: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('show-downloads-preview', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -151,6 +176,12 @@ contextBridge.exposeInMainWorld('app', {
     },
     certificateError: () => {
       ipcRenderer.removeAllListeners('certificate-error');
+    },
+    downloading: () => {
+      ipcRenderer.removeAllListeners('downloading');
+    },
+    showDownloadsPreview: () => {
+      ipcRenderer.removeAllListeners('show-downloads-preview');
     },
   },
 });

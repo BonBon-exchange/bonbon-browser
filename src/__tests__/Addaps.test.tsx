@@ -7,6 +7,7 @@ import { Middleware } from '@reduxjs/toolkit';
 import { mockWindow } from './beforeAll';
 import { Addaps } from '../renderer/App/components/Addaps';
 import { initialState } from '../renderer/App/store/reducers/Board';
+import { initialState as downloadsInitialState } from '../renderer/App/store/reducers/Downloads';
 
 let store: any;
 const middlewares: Middleware[] = [];
@@ -15,7 +16,10 @@ describe('Addaps', () => {
   beforeAll(() => {
     mockWindow();
     const mockStore = configureStore(middlewares);
-    store = mockStore({ board: initialState });
+    store = mockStore({
+      board: initialState,
+      downloads: downloadsInitialState,
+    });
   });
 
   it('should render with no boardId', () => {

@@ -14,6 +14,10 @@ declare global {
         addBookmark: (args: { title: string; url: string }) => void;
         removeBookmark: (url: string) => void;
         getAllBookmarks: () => Promise<any>;
+        addDownload: (args: {savePath: string, filename: string, startTime: number}) => void;
+        getAllDownloads: () => Promise<any>;
+        clearDownloads: () => void;
+        removeDownload: (id: number) => void;
       };
       config: {
         get: (key: string) => Promise<unknown>;
@@ -23,6 +27,7 @@ declare global {
         inspectElement: (point: { x: number; y: number }) => void;
         toggleDarkMode: () => void;
         changeLanguage: (locale: string) => void;
+        showItemInFolder: (filepath: string) => void;
       };
       board: {
         open: (board: {
@@ -52,6 +57,8 @@ declare global {
         closeOthersWebview: (action: unknown) => void;
         showAppMenu: (action: unknown) => void;
         certificateError: (action: unknown) => void;
+        downloading: (action: unknown) => void;
+        showDownloadsPreview: (action: unknown) => void;
       };
       off: {
         newWindow: () => void;
@@ -66,6 +73,8 @@ declare global {
         closeOthersWebview: () => void;
         showAppMenu: () => void;
         certificateError: () => void;
+        downloading: () => void;
+        showDownloadsPreview: () => void;
       };
     };
     darkMode: {

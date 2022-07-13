@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/prefer-default-export */
-import { app, BrowserView, ipcMain, nativeTheme, WebContents } from 'electron';
+import {
+  app,
+  BrowserView,
+  ipcMain,
+  nativeTheme,
+  shell,
+  WebContents,
+} from 'electron';
 
 import { getExtensionsObject } from './extensions';
 import { event } from './analytics';
@@ -152,6 +159,10 @@ export const makeIpcMainEvents = (): void => {
     getSelectedView()?.webContents.send('show-app-menu');
   });
 
+  ipcMain.on('show-downloads-preview', () => {
+    getSelectedView()?.webContents.send('show-downloads-preview');
+  });
+
   ipcMain.handle('get-store-value', (_event, key) => {
     return store.get(key);
   });
@@ -231,5 +242,43 @@ export const makeIpcMainEvents = (): void => {
         fingerprint: args.fingerprint,
       });
     }
+  });
+
+  ipcMain.on('show-item-in-folder', (_e, filepath) => {
+    shell.showItemInFolder(filepath);
+  });
+
+  ipcMain.on('add-download', (_e, args) => {
+    db.get(
+      'SELECT * FROM downloads WHERE savePath = ? AND startTime = ?',
+      args.savePath,
+      args.startTime,
+      (_err: unknown, row: unknown) => {
+        if (!row) {
+          db.run(
+            'INSERT INTO downloads (savePath, filename, date, startTime) VALUES (?, ?, datetime("now", "localtime"), ?)',
+            args.savePath,
+            args.filename,
+            args.startTime
+          );
+        }
+      }
+    );
+  });
+
+  ipcMain.handle('get-all-downloads', () => {
+    return new Promise((resolve, _reject) => {
+      db.all('SELECT * FROM downloads ORDER BY date DESC', (_err, rows) =>
+        resolve(rows)
+      );
+    });
+  });
+
+  ipcMain.on('clear-downloads', () => {
+    db.run('DELETE FROM downloads');
+  });
+
+  ipcMain.on('remove-download', (_e, id) => {
+    db.run('DELETE FROM downloads WHERE id = ?', id);
   });
 };

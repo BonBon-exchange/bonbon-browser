@@ -1,0 +1,35 @@
+#DownloadsPreview__container {
+  position: fixed;
+  right: 0;
+  top: 0;
+  background-color: var(--color-background-tertiary);
+  min-width: 255px;
+  max-width: 400px;
+  color: var(--color-text-primary);
+  z-index: 100;
+  height: auto;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 20px;
+      border-top: 1px solid var(--color-text-primary);
+      cursor: pointer;
+
+      .DownloadsPreview__item-progress {
+        margin-top: 10px;
+      }
+
+      .DownloadsPreview__item-state {
+        font-style: italic;
+      }
+    }
+
+    li:hover {
+      background-color: var(--color-background-5);
+    }
+  }
+}
