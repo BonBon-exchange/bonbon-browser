@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { v4 } from 'uuid';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
@@ -11,6 +11,8 @@ import clsx from 'clsx';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Reorder } from 'framer-motion';
+import DownloadingIcon from '@mui/icons-material/Downloading';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import { useAppDispatch, useAppSelector } from 'renderer/TitleBar/store/hooks';
 import {
@@ -29,8 +31,10 @@ import {
 import { AppControls } from '../AppControls';
 
 import './style.scss';
+import { DownloadState } from './Types';
 
 export const TopBar: React.FC = () => {
+  const [downloadState, setDownloadState] = useState<DownloadState>(null);
   const { tabs, activeTab, isRenaming } = useAppSelector(
     (state) => state.tabs as TabsState
   );
@@ -178,6 +182,13 @@ export const TopBar: React.FC = () => {
     [dispatch]
   );
 
+  const downloadStateListener = useCallback(
+    (_e: unknown, state: DownloadState) => {
+      setDownloadState(state);
+    },
+    []
+  );
+
   const handleReorder = (newOrder: TabProps[]) => {
     dispatch(setTabs(newOrder));
   };
@@ -260,6 +271,11 @@ export const TopBar: React.FC = () => {
   }, [closeOthersTabListener]);
 
   useEffect(() => {
+    window.titleBar.listener.downloadState(downloadStateListener);
+    return () => window.titleBar.off.downloadState();
+  }, [downloadStateListener]);
+
+  useEffect(() => {
     if (tabs.length === 0) pushTab({});
   }, [tabs, pushTab]);
 
@@ -332,6 +348,18 @@ export const TopBar: React.FC = () => {
         {/* @ts-ignore */}
         <browser-action-list />
         <div id="TopBar__menu-container">
+          {downloadState && (
+            <div
+              className="TopBar__menu-item"
+              onClick={() => window.titleBar.app.showDownloadsPreview()}
+            >
+              {downloadState === 'progressing' ? (
+                <DownloadingIcon />
+              ) : (
+                <FileDownloadIcon />
+              )}
+            </div>
+          )}
           <div
             className="TopBar__menu-item"
             onClick={() => window.titleBar.app.showMenu()}

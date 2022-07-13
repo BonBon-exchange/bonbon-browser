@@ -11,7 +11,9 @@ import {
   renameBoard,
   updateBrowserCertificateErrorFingerprint,
 } from 'renderer/App/store/reducers/Board';
+import { setDownloadItem } from 'renderer/App/store/reducers/Downloads';
 import { useAppDispatch } from 'renderer/App/store/hooks';
+import { DownloadState } from 'renderer/TitleBar/components/TopBar/Types';
 import { useBoard } from './useBoard';
 import { useBrowserMethods } from './useBrowserMethods';
 
@@ -149,6 +151,30 @@ export const useGlobalEvents = () => {
     [dispatch]
   );
 
+  const downloadingAction = useCallback(
+    (
+      _e: unknown,
+      args: {
+        savePath: string;
+        filename: string;
+        progress: number;
+        etag: string;
+        startTime: number;
+        state: DownloadState;
+      }
+    ) => {
+      dispatch(setDownloadItem(args));
+      if (args.state === 'completed') {
+        window.app.db.addDownload({
+          savePath: args.savePath,
+          filename: args.filename,
+          startTime: args.startTime,
+        });
+      }
+    },
+    [dispatch]
+  );
+
   const certificateErrorAction = useCallback(
     (_e: any, args: { webContentsId: number; fingerprint: string }) => {
       const browserId = boardState.browsers.find(
@@ -165,6 +191,11 @@ export const useGlobalEvents = () => {
     },
     [dispatch, boardState.browsers]
   );
+
+  useEffect(() => {
+    window.app.listener.downloading(downloadingAction);
+    return () => window.app.off.downloading();
+  }, [downloadingAction]);
 
   useEffect(() => {
     window.app.listener.certificateError(certificateErrorAction);

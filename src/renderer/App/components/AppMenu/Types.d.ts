@@ -3,4 +3,5 @@ export interface AppMenuProps {
   showSettings: () => void;
   showAbout: () => void;
   showHistory: () => void;
+  showDownloads: () => void;
 }

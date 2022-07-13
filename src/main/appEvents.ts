@@ -26,6 +26,23 @@ import {
   getCertificateErrorAuth,
 } from './ipcMainEvents';
 
+const downloadItemEventAction = (
+  item: Electron.DownloadItem,
+  state: string
+) => {
+  if (item.getSavePath()) {
+    getMainWindow()?.webContents.send('download-state', state);
+    getSelectedView()?.webContents.send('downloading', {
+      savePath: item.getSavePath(),
+      filename: item.getFilename(),
+      progress: item.getReceivedBytes() / item.getTotalBytes(),
+      etag: item.getETag(),
+      startTime: item.getStartTime(),
+      state,
+    });
+  }
+};
+
 const makeAppEvents = () => {
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -88,6 +105,15 @@ const makeAppEvents = () => {
           }
         }
       );
+
+      webContents.session.on('will-download', (_e, item, _wc) => {
+        item.on('updated', (_ei, state) => {
+          downloadItemEventAction(item, state);
+        });
+        item.on('done', (_ei, state) => {
+          downloadItemEventAction(item, state);
+        });
+      });
     });
 
     contextMenu({

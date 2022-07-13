@@ -480,6 +480,9 @@ contextBridge.exposeInMainWorld('titleBar', {
     showMenu: () => {
       ipcRenderer.send('show-app-menu');
     },
+    showDownloadsPreview: () => {
+      ipcRenderer.send('show-downloads-preview');
+    },
   },
   analytics: {
     event: (eventName: string, params: Record<string, string>) => {
@@ -543,6 +546,11 @@ contextBridge.exposeInMainWorld('titleBar', {
     ) => {
       ipcRenderer.on('close-others-tab', action);
     },
+    downloadState: (
+      action: (event: IpcRendererEvent, ...args: any[]) => void
+    ) => {
+      ipcRenderer.on('download-state', action);
+    },
   },
   off: {
     openTab: () => {
@@ -571,6 +579,9 @@ contextBridge.exposeInMainWorld('titleBar', {
     },
     closeOthersTab: () => {
       ipcRenderer.removeAllListeners('close-others-tab');
+    },
+    downloadState: () => {
+      ipcRenderer.removeAllListeners('download-state');
     },
   },
   screens: {

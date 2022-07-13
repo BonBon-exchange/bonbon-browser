@@ -14,6 +14,9 @@ import { AppMenu } from 'renderer/App/components/AppMenu';
 import { Settings } from 'renderer/App/components/Settings';
 import { Bookmarks } from 'renderer/App/components/Bookmarks';
 import { History } from 'renderer/App/components/History';
+import { Downloads } from 'renderer/App/components/Downloads';
+import { DownloadsPreview } from 'renderer/App/components/DownloadsPreview';
+import { useAppSelector } from 'renderer/App/store/hooks';
 
 import { AddapsProps } from './Types';
 
@@ -21,21 +24,37 @@ import './style.css';
 
 export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   useGlobalEvents();
+  const { items } = useAppSelector((state) => state.downloads);
   const { board } = useStoreHelpers({ boardId });
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showBookmarks, setShowBookmarks] = useState<boolean>(false);
   const [showHistory, setShowHistory] = useState<boolean>(false);
+  const [showDownloads, setShowDownloads] = useState<boolean>(false);
   const [showAppMenu, setShowAppMenu] = useState<boolean>(false);
+  const [showDownloadsPreview, setShowDownloadsPreview] =
+    useState<boolean>(false);
   const [popupTitle, setPopupTitle] = useState<string>('');
   const [popupChildren, setPopupChildren] = useState<JSX.Element>();
 
   const showAppMenuAction = useCallback(() => {
     setShowAppMenu(!showAppMenu);
+    setShowDownloadsPreview(false);
   }, [showAppMenu]);
+
+  const showDownloadsPreviewAction = useCallback(() => {
+    if (items.length > 0) {
+      setShowDownloadsPreview(!showDownloadsPreview);
+      setShowAppMenu(false);
+    } else {
+      // show downloads
+      setShowDownloads(true);
+    }
+  }, [showDownloadsPreview, items.length]);
 
   const windowClickListener = () => {
     setShowAppMenu(false);
+    setShowDownloadsPreview(false);
   };
 
   const showAbout = () => {
@@ -48,10 +67,12 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   const handleCloseSettings = () => setShowSettings(false);
   const handleCloseBookmarks = () => setShowBookmarks(false);
   const handleCloseHistory = () => setShowHistory(false);
+  const handleCloseDownloads = () => setShowDownloads(false);
 
   const handleShowSettings = () => setShowSettings(true);
   const handleShowBookmarks = () => setShowBookmarks(true);
   const handleShowHistory = () => setShowHistory(true);
+  const handleShowDownloads = () => setShowDownloads(true);
 
   useEffect(() => {
     if (boardId) board.load({ id: boardId });
@@ -62,6 +83,11 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
     window.app.listener.showAppMenu(showAppMenuAction);
     return () => window.app.off.showAppMenu();
   }, [showAppMenuAction]);
+
+  useEffect(() => {
+    window.app.listener.showDownloadsPreview(showDownloadsPreviewAction);
+    return () => window.app.off.showDownloadsPreview();
+  }, [showDownloadsPreviewAction]);
 
   useEffect(() => {
     window.addEventListener('click', windowClickListener);
@@ -83,11 +109,14 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
           showSettings={handleShowSettings}
           showBookmarks={handleShowBookmarks}
           showHistory={handleShowHistory}
+          showDownloads={handleShowDownloads}
         />
       )}
+      {showDownloadsPreview && <DownloadsPreview />}
       {showSettings && <Settings handleClose={handleCloseSettings} />}
       {showBookmarks && <Bookmarks handleClose={handleCloseBookmarks} />}
       {showHistory && <History handleClose={handleCloseHistory} />}
+      {showDownloads && <Downloads handleClose={handleCloseDownloads} />}
     </>
   );
 };
