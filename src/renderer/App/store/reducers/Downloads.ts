@@ -30,6 +30,8 @@ export const downloadsSlice = createSlice({
       );
       if (itemIndex === -1) state.items.push(action.payload);
       else state.items[itemIndex] = action.payload;
+
+      if (state.items.length > 10) state.items.splice(0, 1);
     },
   },
 });
