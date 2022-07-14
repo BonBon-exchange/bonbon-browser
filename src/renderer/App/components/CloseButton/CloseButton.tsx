@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable import/prefer-default-export */
 import CloseIcon from '@mui/icons-material/Close';
+import clsx from 'clsx';
 
 import { CloseButtonProps } from './Types';
 
@@ -9,9 +10,13 @@ import './style.scss';
 
 export const CloseButton: React.FC<CloseButtonProps> = ({
   handleClose,
+  customClass,
 }: CloseButtonProps) => {
   return (
-    <div className="CloseButton__container" onClick={handleClose}>
+    <div
+      className={clsx('CloseButton__container', customClass)}
+      onClick={handleClose}
+    >
       <CloseIcon />
     </div>
   );

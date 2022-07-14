@@ -25,5 +25,15 @@
   "Search": "Search",
   "Do not save browsing history": "Do not save browsing history",
   "If checked, BonBon will not save your browsing history. It will also desactivate URL suggestions.": "If checked, BonBon will not save your browsing history. It will also desactivate URL suggestions.",
-  "History": "History"
+  "History": "History",
+  "Documentation": "Documentation",
+  "Keyboard shortcuts": "Keyboard shortcuts",
+  "Pressing CTRL and T at the same time will open a new webpage (named Tab in other browsers).": "Pressing CTRL and T at the same time will open a new webpage (named Tab in other browsers).",
+  "Pressing CTRL, SHIFT and T at the same time will reopen a last closed webpage (named Tab in other browsers).": "Pressing CTRL, SHIFT and T at the same time will reopen a last closed webpage (named Tab in other browsers).",
+  "Pressing CTRL and R at the same time will reload the current focused webpage (named Tab in other browsers).": "Pressing CTRL and R at the same time will reload the current focused webpage (named Tab in other browsers).",
+  "Pressing CTRL and W at the same time will close the current focused webpage (named Tab in other browsers). If no webpage are open in the collection (upper tabulation), then the collection will be closed.": "Pressing CTRL and W at the same time will close the current focused webpage (named Tab in other browsers). If no webpage are open in the collection (upper tabulation), then the collection will be closed.",
+  "Pressing CTRL, SHIFT and W at the same time will close the current collection (upper tabulation).": "Pressing CTRL, SHIFT and W at the same time will close the current collection (upper tabulation).",
+  "Pressing CTRL and TAB at the same time will focus the next webpage (named Tab in other browsers).": "Pressing CTRL and TAB at the same time will focus the next webpage (named Tab in other browsers).",
+  "Pressing CTRL, SHIFT and TAB at the same time will focus the next collection (upper tabulation).": "Pressing CTRL, SHIFT and TAB at the same time will focus the next collection (upper tabulation).",
+  "Pressing ALT and Scrolling at the same time will scroll into the document without stopping hover the webpages.": "Pressing ALT and Scrolling at the same time will scroll into the document without stopping hover the webpages."
 }
