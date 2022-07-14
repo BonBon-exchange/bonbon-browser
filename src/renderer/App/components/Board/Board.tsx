@@ -2,6 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
 import React, { useEffect, useCallback, useState } from 'react';
+import clsx from 'clsx';
 
 import { Browser } from 'renderer/App/components/Browser';
 import { useBoard } from 'renderer/App/hooks/useBoard';
@@ -9,7 +10,7 @@ import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 
-import './style.css';
+import './style.scss';
 
 export const Board: React.FC = () => {
   const board = useBoard();
@@ -39,5 +40,13 @@ export const Board: React.FC = () => {
     if (board.activeBrowser) focus(document, board.activeBrowser);
   }, [board.activeBrowser, focus]);
 
-  return <div className="Board__container">{makeBrowsers(items)}</div>;
+  return (
+    <div
+      className={clsx('Board__container', {
+        'Board__is-full-size': board.isFullSize,
+      })}
+    >
+      {makeBrowsers(items)}
+    </div>
+  );
 };
