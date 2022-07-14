@@ -1,4 +1,4 @@
 export interface CloseButtonProps {
   handleClose: () => void;
-  customClass: string;
+  customClass?: string;
 }
