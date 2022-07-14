@@ -37,13 +37,12 @@ export const ApplicationSettings: React.FC = () => {
           id="application-settings-launch-at-startup"
           checked={appSettingLaunch}
           onChange={(e) => udpateAppSettingLaunch(e.target.checked)}
-          disabled
         />
         <label htmlFor="application-settings-launch-at-startup">
           {t('Launch at startup')}
         </label>
         <div className="Settings__item-description">
-          {t('This feature is not available yet.')}
+          {t('If checked, the app will auto-launch at system startup.')}
         </div>
       </div>
       <div className="Settings__item">
