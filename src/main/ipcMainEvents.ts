@@ -42,7 +42,7 @@ export const getCertificateErrorAuth = (
 };
 
 const bonbonAutoLauncher = new AutoLaunch({
-	name: 'BonBon',
+  name: 'BonBon',
 });
 
 export const makeIpcMainEvents = (): void => {
