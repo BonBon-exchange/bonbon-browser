@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 } from 'uuid';
 
@@ -194,8 +195,12 @@ export const boardSlice = createSlice({
       // clean activeBrowser
       if (state.board.activeBrowser === action.payload) {
         if (state.board.browsers.length > 0) {
-          state.board.activeBrowser =
-            state.board.browsers[state.board.browsers.length - 1].id;
+          state.board.browsers[browserIndex]
+            ? (state.board.activeBrowser =
+                state.board.browsers[browserIndex].id)
+            : (state.board.activeBrowser =
+                state.board.browsers[browserIndex - 1].id);
+
           const wcId = state.board.browsers.find(
             (b) => b.id === state.board.activeBrowser
           )?.webContentsId;
