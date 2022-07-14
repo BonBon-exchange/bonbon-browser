@@ -8,6 +8,7 @@ import {
   shell,
   WebContents,
 } from 'electron';
+import AutoLaunch from 'easy-auto-launch';
 
 import { getExtensionsObject } from './extensions';
 import { event } from './analytics';
@@ -39,6 +40,10 @@ export const getCertificateErrorAuth = (
   );
   return !!auth;
 };
+
+const bonbonAutoLauncher = new AutoLaunch({
+	name: 'BonBon',
+});
 
 export const makeIpcMainEvents = (): void => {
   const extensions = getExtensionsObject();
@@ -169,6 +174,17 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('set-store-value', (_e, args) => {
     store.set(args.key, args.value);
+
+    switch (args.key) {
+      default:
+        break;
+
+      case 'application.launchAtStartup':
+        args.value === true
+          ? bonbonAutoLauncher.enable().catch(console.log)
+          : bonbonAutoLauncher.disable().catch(console.log);
+        break;
+    }
   });
 
   ipcMain.on('change-language', (_e, locale) => {
