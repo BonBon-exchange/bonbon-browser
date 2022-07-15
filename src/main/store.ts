@@ -15,3 +15,6 @@ if (store.get('browsing.width') === undefined) store.set('browsing.width', 600);
 
 if (store.get('browsing.height') === undefined)
   store.set('browsing.height', 800);
+
+if (store.get('browsing.size') === undefined)
+  store.set('browsing.size', 'defined');

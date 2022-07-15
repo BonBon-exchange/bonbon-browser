@@ -15,7 +15,7 @@
   "Author": "Author",
   "Co-Author": "Co-Author",
   "About": "About",
-  "New windows default webpage": "New windows default webpage",
+  "New webpages default size": "New webpages default size",
   "The url that will open first when opening a new window.": "The url that will open first when opening a new window.",
   "Default search engine": "Default search engine",
   "The search engine that will be used when entering text in the url input and pressing enter.": "The search engine that will be used when entering text in the url input and pressing enter.",
@@ -35,5 +35,7 @@
   "Pressing CTRL, SHIFT and W at the same time will close the current collection (upper tabulation).": "Pressing CTRL, SHIFT and W at the same time will close the current collection (upper tabulation).",
   "Pressing CTRL and TAB at the same time will focus the next webpage (named Tab in other browsers).": "Pressing CTRL and TAB at the same time will focus the next webpage (named Tab in other browsers).",
   "Pressing CTRL, SHIFT and TAB at the same time will focus the next collection (upper tabulation).": "Pressing CTRL, SHIFT and TAB at the same time will focus the next collection (upper tabulation).",
-  "Pressing ALT and Scrolling at the same time will scroll into the document without stopping hover the webpages.": "Pressing ALT and Scrolling at the same time will scroll into the document without stopping hover the webpages."
+  "Pressing ALT and Scrolling at the same time will scroll into the document without stopping hover the webpages.": "Pressing ALT and Scrolling at the same time will scroll into the document without stopping hover the webpages.",
+  "As defined here": "As defined here",
+  "Use the size of the last closed webpage": "Use the size of the last closed webpage"
 }

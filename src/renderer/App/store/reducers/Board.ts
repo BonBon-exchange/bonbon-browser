@@ -182,6 +182,12 @@ export const boardSlice = createSlice({
       state.board.browsers[browserIndex].isMinimized = false;
     },
     removeBrowser: (state, action: PayloadAction<string>) => {
+      const brow = document.getElementById(`Browser__${action.payload}`);
+      if (brow)
+        state.board.lastClosedBrowserDimensions = [
+          brow.clientWidth,
+          brow.clientHeight,
+        ];
       const browserIndex = state.board.browsers.findIndex(
         (b) => b.id === action.payload
       );

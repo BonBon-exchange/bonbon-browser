@@ -7,4 +7,5 @@ export interface BoardType {
   activeBrowser?: string | null;
   closedUrls: string[];
   isFullSize: boolean;
+  lastClosedBrowserDimensions?: [number, number];
 }
