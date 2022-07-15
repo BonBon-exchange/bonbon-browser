@@ -91,8 +91,10 @@ export const useGlobalEvents = () => {
         board.close();
       }
       if (e.ctrlKey && !e.shiftKey && e.key === 'f') {
-        if (boardState.activeBrowser)
+        if (boardState.activeBrowser) {
           browser.toggleSearch(boardState.activeBrowser);
+          webview?.stopFindInPage('clearSelection');
+        }
       }
     },
     [
