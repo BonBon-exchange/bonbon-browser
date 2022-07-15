@@ -30,12 +30,23 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       const defaultWebpage = (await window.app.config.get(
         'browsing.defaultWebpage'
       )) as string;
+      const defaultSize = (await window.app.config.get(
+        'browsing.size'
+      )) as string;
       const defaultWidth = (await window.app.config.get(
         'browsing.width'
       )) as number;
       const defaultHeight = (await window.app.config.get(
         'browsing.height'
       )) as number;
+      const width =
+        defaultSize === 'lastClosed' && board.lastClosedBrowserDimensions
+          ? board.lastClosedBrowserDimensions[0]
+          : defaultWidth;
+      const height =
+        defaultSize === 'lastClosed' && board.lastClosedBrowserDimensions
+          ? board.lastClosedBrowserDimensions[1]
+          : defaultHeight;
       const { x, y } = getCoordinateWithNoCollision(
         document,
         board,
@@ -47,8 +58,8 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         url: params.url || defaultWebpage,
         top: params.top || y,
         left: params.left || x,
-        height: defaultHeight,
-        width: defaultWidth,
+        height,
+        width,
         firstRendering: true,
         isLoading: true,
         isMinimized: false,

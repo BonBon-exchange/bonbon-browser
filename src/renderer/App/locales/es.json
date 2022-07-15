@@ -19,7 +19,7 @@
   "The url that will open first when opening a new window.": "The url that will open first when opening a new window.",
   "Default search engine": "Default search engine",
   "The search engine that will be used when entering text in the url input and pressing enter.": "The search engine that will be used when entering text in the url input and pressing enter.",
-  "New windows default size": "New windows default size",
+  "New webpages default size": "New webpages default size",
   "The size of opening new windows when they are not maximized.": "The size of opening new windows when they are not maximized.",
   "Bookmarks": "Bookmarks",
   "Search": "Search",

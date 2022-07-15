@@ -24,6 +24,10 @@ export const BrowsingSettings: React.FC = () => {
   const [browsingSettingDefaultHeight, setBrowsingSettingDefaultHeight] =
     useState<number | undefined>(0);
 
+  const [browsingSettingDefaultSize, setBrowsingSettingDefaultSize] = useState<
+    string | undefined
+  >();
+
   const [browsingSettingDontSaveHistory, setBrowsingSettingDontSaveHistory] =
     useState<boolean | undefined>(false);
 
@@ -70,6 +74,14 @@ export const BrowsingSettings: React.FC = () => {
     });
   };
 
+  const updateBrowsingSettingSize = (value: string) => {
+    setBrowsingSettingDefaultSize(value);
+    window.app.config.set({
+      key: 'browsing.size',
+      value,
+    });
+  };
+
   const updateBrowsingSettingDontSaveHistory = (value: boolean) => {
     setBrowsingSettingDontSaveHistory(value);
     window.app.config.set({
@@ -97,6 +109,11 @@ export const BrowsingSettings: React.FC = () => {
     window.app.config.get('browsing.height').then((val: unknown) => {
       const typedVal = val as number | undefined;
       setBrowsingSettingDefaultHeight(typedVal);
+    });
+
+    window.app.config.get('browsing.size').then((val: unknown) => {
+      const typedVal = val as string | undefined;
+      setBrowsingSettingDefaultSize(typedVal);
     });
 
     window.app.config.get('browsing.dontSaveHistory').then((val: unknown) => {
@@ -142,8 +159,19 @@ export const BrowsingSettings: React.FC = () => {
         </div>
       </div>
       <div className="Settings__item">
-        <label htmlFor="browsing-settings-default-width">
-          {t('New windows default size')}:
+        <div className="Settings__item-title">
+          {t('New webpages default size')}
+        </div>
+        <input
+          type="radio"
+          value="defined"
+          checked={browsingSettingDefaultSize === 'defined'}
+          name="browsing-settings-default-size"
+          onChange={(e) => updateBrowsingSettingSize(e.target.value)}
+          id="browsing-settings-default-size-defined"
+        />
+        <label htmlFor="browsing-settings-default-size-defined">
+          {t('As defined here')}:
         </label>
         <input
           type="number"
@@ -158,6 +186,18 @@ export const BrowsingSettings: React.FC = () => {
           value={browsingSettingDefaultHeight}
           onChange={(e) => updateBrowsingSettingHeight(Number(e.target.value))}
         />
+        <br />
+        <input
+          type="radio"
+          value="lastClosed"
+          checked={browsingSettingDefaultSize === 'lastClosed'}
+          onChange={(e) => updateBrowsingSettingSize(e.target.value)}
+          name="browsing-settings-default-size"
+          id="browsing-settings-default-size-last-closed"
+        />
+        <label htmlFor="browsing-settings-default-size-last-closed">
+          {t('Use the size of the last closed webpage')}
+        </label>
         <div className="Settings__item-description">
           {t('The size of opening new windows when they are not maximized.')}
         </div>
