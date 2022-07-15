@@ -14,6 +14,7 @@ import {
   minimizeBrowser,
   unminimizeBrowser,
   removeLastCloseUrl,
+  toggleSearch,
 } from 'renderer/App/store/reducers/Board';
 import { getCoordinateWithNoCollision } from 'renderer/App/helpers/d2';
 import { useBoard } from './useBoard';
@@ -142,6 +143,13 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
     }
   }, [board.closedUrls, dispatch, makeAndAddBrowser]);
 
+  const togSearch = useCallback(
+    (browserId: string) => {
+      dispatch(toggleSearch(browserId));
+    },
+    [dispatch]
+  );
+
   return {
     browser: {
       add: makeAndAddBrowser,
@@ -149,6 +157,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       reopenLastClosed,
       minimize: minBrowser,
       show: showBrowser,
+      toggleSearch: togSearch,
     },
     board: {
       create: createBoard,

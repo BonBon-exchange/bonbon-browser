@@ -256,6 +256,13 @@ export const boardSlice = createSlice({
     removeLastCloseUrl: (state) => {
       state.board.closedUrls.splice(state.board.closedUrls.length - 1, 1);
     },
+    toggleSearch: (state, action: PayloadAction<string>) => {
+      const browserIndex = state.board.browsers.findIndex(
+        (b) => b.id === action.payload
+      );
+      state.board.browsers[browserIndex].isSearching =
+        !state.board.browsers[browserIndex].isSearching;
+    },
   },
 });
 
@@ -278,6 +285,7 @@ export const {
   removeAllBrowsersExcept,
   updateBrowserLoading,
   updateBrowserCertificateErrorFingerprint,
+  toggleSearch,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

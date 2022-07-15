@@ -12,6 +12,7 @@ import { useBrowserEvents } from 'renderer/App/hooks/useBrowserEvents';
 import { BrowserControlBar } from 'renderer/App/components/BrowserControlBar';
 import { BrowserTopBar } from 'renderer/App/components/BrowserTopBar';
 import { CertificateErrorPage } from 'renderer/App/components/CertificateErrorPage';
+import { SearchForm } from 'renderer/App/components/SearchForm';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import {
   updateBrowserUrl,
@@ -40,6 +41,7 @@ export const Browser: React.FC<BrowserProps> = ({
   isMinimized,
   certificateErrorFingerprint,
   webContentsId,
+  isSearching,
 }) => {
   useBrowserEvents(id);
   const dispatch = useAppDispatch();
@@ -207,6 +209,7 @@ export const Browser: React.FC<BrowserProps> = ({
           browserId={id}
         />
         <div className="Browser__webview-container">
+          {isSearching && <SearchForm browserId={id} />}
           {certificateErrorFingerprint && webContentsId && (
             <CertificateErrorPage
               reload={reload}
