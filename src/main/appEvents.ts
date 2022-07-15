@@ -120,7 +120,7 @@ const makeAppEvents = () => {
       prepend: (_defaultActions, params) => [
         // App context menu below
         {
-          label: i18n.t('Close'),
+          label: i18n.t('Close window'),
           visible: params.y > 30 && params.x < 50,
           click: () => {
             const selectedView = getSelectedView();
@@ -131,7 +131,7 @@ const makeAppEvents = () => {
           },
         },
         {
-          label: i18n.t('Close all'),
+          label: i18n.t('Close all windows'),
           visible: params.y > 30 && params.x < 50,
           click: () => {
             const selectedView = getSelectedView();
@@ -139,7 +139,7 @@ const makeAppEvents = () => {
           },
         },
         {
-          label: i18n.t('Close others'),
+          label: i18n.t('Close others windows'),
           visible: params.y > 30 && params.x < 50,
           click: () => {
             const selectedView = getSelectedView();
@@ -152,7 +152,7 @@ const makeAppEvents = () => {
 
         // TitleBar context menu below
         {
-          label: i18n.t('Close'),
+          label: i18n.t('Close tab'),
           visible: params.y <= 30,
           click: () => {
             const mainWindow = getMainWindow();
@@ -163,7 +163,7 @@ const makeAppEvents = () => {
           },
         },
         {
-          label: i18n.t('Close all'),
+          label: i18n.t('Close all tabs'),
           visible: params.y <= 30,
           click: () => {
             const mainWindow = getMainWindow();
@@ -171,7 +171,7 @@ const makeAppEvents = () => {
           },
         },
         {
-          label: i18n.t('Close others'),
+          label: i18n.t('Close others tabs'),
           visible: params.y <= 30,
           click: () => {
             const mainWindow = getMainWindow();
@@ -182,7 +182,7 @@ const makeAppEvents = () => {
           },
         },
         {
-          label: i18n.t('Rename'),
+          label: i18n.t('Rename tab'),
           visible: params.y <= 30,
           click: () => {
             const mainWindow = getMainWindow();

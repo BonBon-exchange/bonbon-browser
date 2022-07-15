@@ -1,6 +1,9 @@
 {
-  "Close": "Close",
-  "Close all": "Close all",
-  "Close others": "Close others",
-  "Rename": "Rename"
+  "Close window": "Close window",
+  "Close all windows": "Close all windows",
+  "Close others windows": "Close others windows",
+  "Close tab": "Close tab",
+  "Close all tabs": "Close all tabs",
+  "Close others tabs": "Close others tabs",
+  "Rename tab": "Rename tab"
 }
