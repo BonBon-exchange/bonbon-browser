@@ -1,6 +1,9 @@
 {
-  "Close": "Fermer",
-  "Close all": "Fermer tout",
-  "Close others": "Fermer les autres",
-  "Rename": "Renommer"
+  "Close window": "Fermer la fenêtre",
+  "Close all windows": "Fermer toutes les fenêtre",
+  "Close others windows": "Fermer les autres fenêtre",
+  "Close tab": "Fermer la tabulation",
+  "Close all tabs": "Fermer toutes les tabulations",
+  "Close others tabs": "Fermer les autres tabulations",
+  "Rename tab": "Renommer la tabulation"
 }

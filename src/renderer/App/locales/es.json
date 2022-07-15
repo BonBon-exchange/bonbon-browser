@@ -6,7 +6,9 @@
   "English": "Inglés",
   "Spanish": "Español",
   "French": "Francés",
-  "The language in which display the application.": "El idioma que usar en la aplicación.",
+  "Dutch": "Dutch",
+  "Polish": "Polish",
+  "The language in which displays the application.": "El idioma que usar en la aplicación.",
   "This feature is not available yet.": "Esta característica no está disponible aún.",
   "Launch at startup": "Abrir al encender el PC",
   "Application": "Aplicación",
@@ -24,6 +26,6 @@
   "Bookmarks": "Mostradores",
   "Search": "Buscar",
   "Do not save browsing history": "No guardar historial de búsqueda",
-  "If checked, BonBon will not save your browsing history. It will also desactivate URL suggestions.": "Si está activado, BonBon no guardará tu historial de búsqeuda. También desactivará las sugerencias de búsqueda.",
+  "If checked, BonBon will not save your browsing history. It will also disable URL suggestions.": "Si está activado, BonBon no guardará tu historial de búsqeuda. También desactivará las sugerencias de búsqueda.",
   "History": "Historial"
 }
