@@ -36,8 +36,30 @@ export const useGlobalEvents = () => {
     [enablePointerEventsForAll]
   );
 
+  const getContainer = useCallback(() => {
+    if (boardState.activeBrowser) {
+      const container = document.querySelector(
+        `#Browser__${boardState.activeBrowser}`
+      );
+      return container;
+    }
+    return null;
+  }, [boardState.activeBrowser]);
+
+  const getActiveWebview = useCallback(() => {
+    if (boardState.activeBrowser) {
+      const container = getContainer();
+      const webview: Electron.WebviewTag | undefined | null =
+        container?.querySelector('webview');
+
+      return webview;
+    }
+    return null;
+  }, [boardState.activeBrowser, getContainer]);
+
   const keyDownListener = useCallback(
     (e: KeyboardEvent) => {
+      const webview = getActiveWebview();
       if (e.key === 'Alt') {
         if (!isPointerEventDisabled) {
           disablePointerEventsForAll();
@@ -59,14 +81,7 @@ export const useGlobalEvents = () => {
         browser.reopenLastClosed();
       }
       if (e.ctrlKey && !e.shiftKey && e.key === 'r') {
-        if (boardState.activeBrowser) {
-          const container = document.querySelector(
-            `#Browser__${boardState.activeBrowser}`
-          );
-          const webview: Electron.WebviewTag | undefined | null =
-            container?.querySelector('webview');
-          if (webview) webview.reload();
-        }
+        if (webview) webview.reload();
       }
       if (e.ctrlKey && !e.shiftKey && e.key === 'w') {
         if (boardState.activeBrowser) browser.close(boardState.activeBrowser);
@@ -74,6 +89,10 @@ export const useGlobalEvents = () => {
       }
       if (e.ctrlKey && e.shiftKey && e.key === 'W') {
         board.close();
+      }
+      if (e.ctrlKey && !e.shiftKey && e.key === 'f') {
+        if (boardState.activeBrowser)
+          browser.toggleSearch(boardState.activeBrowser);
       }
     },
     [
@@ -85,6 +104,7 @@ export const useGlobalEvents = () => {
       next,
       disablePointerEventsForAll,
       isPointerEventDisabled,
+      getActiveWebview,
     ]
   );
 

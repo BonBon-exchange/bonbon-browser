@@ -9,6 +9,14 @@ export const KeyboardShortcuts: React.FC = () => {
       <h2>{t('Documentation')}</h2>
       <div className="Documentation__item">
         <div className="Documentation__item-title">
+          CTRL + f - Search in a webpage
+        </div>
+        <div className="Documentation__item-description">
+          {t('Pressing CTRL and F at the same time will open a search area.')}
+        </div>
+      </div>
+      <div className="Documentation__item">
+        <div className="Documentation__item-title">
           CTRL + t - Open a new webpage
         </div>
         <div className="Documentation__item-description">

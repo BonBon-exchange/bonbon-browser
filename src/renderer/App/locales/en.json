@@ -24,7 +24,7 @@
   "Bookmarks": "Bookmarks",
   "Search": "Search",
   "Do not save browsing history": "Do not save browsing history",
-  "If checked, BonBon will not save your browsing history. It will also desactivate URL suggestions.": "If checked, BonBon will not save your browsing history. It will also desactivate URL suggestions.",
+  "If checked, BonBon will not save your browsing history. It will also disable URL suggestions.": "If checked, BonBon will not save your browsing history. It will also disable URL suggestions.",
   "History": "History",
   "Documentation": "Documentation",
   "Keyboard shortcuts": "Keyboard shortcuts",
@@ -37,5 +37,6 @@
   "Pressing CTRL, SHIFT and TAB at the same time will focus the next collection (upper tabulation).": "Pressing CTRL, SHIFT and TAB at the same time will focus the next collection (upper tabulation).",
   "Pressing ALT and Scrolling at the same time will scroll into the document without stopping hover the webpages.": "Pressing ALT and Scrolling at the same time will scroll into the document without stopping hover the webpages.",
   "As defined here": "As defined here",
-  "Use the size of the last closed webpage": "Use the size of the last closed webpage"
+  "Use the size of the last closed webpage": "Use the size of the last closed webpage",
+  "Pressing CTRL and F at the same time will open a search area.": "Pressing CTRL and F at the same time will open a search area."
 }

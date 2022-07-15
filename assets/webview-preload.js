@@ -37,6 +37,10 @@ const keyDownListener = (e) => {
   if (e.ctrlKey && e.shiftKey && e.key === 'W') {
     ipcRenderer.sendToHost('ctrl+shift+W');
   }
+
+  if (e.ctrlKey && !e.shiftKey && e.key === 'f') {
+    ipcRenderer.sendToHost('ctrl+f');
+  }
 };
 
 ipcRenderer.on('created-webcontents', (e, args) => {

@@ -117,6 +117,15 @@ export const useBrowserEvents = (browserId: string) => {
           window.dispatchEvent(ctrlShiftWEvent);
           break;
 
+        case 'ctrl+f':
+          const ctrlFEvent = new KeyboardEvent('keydown', {
+            key: 'f',
+            ctrlKey: true,
+            shiftKey: false,
+          });
+          window.dispatchEvent(ctrlFEvent);
+          break;
+
         case 'created-webcontents':
           dispatch(
             updateBrowser({

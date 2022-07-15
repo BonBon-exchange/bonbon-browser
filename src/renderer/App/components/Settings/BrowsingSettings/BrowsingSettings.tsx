@@ -216,7 +216,7 @@ export const BrowsingSettings: React.FC = () => {
         </label>
         <div className="Settings__item-description">
           {t(
-            'If checked, BonBon will not save your browsing history. It will also desactivate URL suggestions.'
+            'If checked, BonBon will not save your browsing history. It will also disable URL suggestions.'
           )}
         </div>
       </div>
