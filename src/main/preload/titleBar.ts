@@ -10,6 +10,7 @@ import {
   webFrame,
 } from 'electron';
 import { EventEmitter } from 'events';
+// import { getMainWindow } from 'main/browser';
 
 declare global {
   interface Window {
@@ -482,6 +483,9 @@ contextBridge.exposeInMainWorld('titleBar', {
     },
     showDownloadsPreview: () => {
       ipcRenderer.send('show-downloads-preview');
+    },
+    showTabContextMenu: (params: { x: number; y: number }) => {
+      ipcRenderer.send('show-tab-context-menu', params);
     },
   },
   analytics: {

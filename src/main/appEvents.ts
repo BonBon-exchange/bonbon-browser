@@ -114,92 +114,13 @@ const makeAppEvents = () => {
           downloadItemEventAction(item, state);
         });
       });
-    });
 
-    contextMenu({
-      prepend: (_defaultActions, params) => [
-        // App context menu below
-        {
-          label: i18n.t('Close window'),
-          visible: params.y > 30 && params.x < 50,
-          click: () => {
-            const selectedView = getSelectedView();
-            selectedView?.webContents.send('close-webview', {
-              x: params.x,
-              y: params.y,
-            });
-          },
-        },
-        {
-          label: i18n.t('Close all windows'),
-          visible: params.y > 30 && params.x < 50,
-          click: () => {
-            const selectedView = getSelectedView();
-            selectedView?.webContents.send('close-all-webview');
-          },
-        },
-        {
-          label: i18n.t('Close others windows'),
-          visible: params.y > 30 && params.x < 50,
-          click: () => {
-            const selectedView = getSelectedView();
-            selectedView?.webContents.send('close-others-webview', {
-              x: params.x,
-              y: params.y,
-            });
-          },
-        },
-
-        // TitleBar context menu below
-        {
-          label: i18n.t('Close tab'),
-          visible: params.y <= 30,
-          click: () => {
-            const mainWindow = getMainWindow();
-            mainWindow?.webContents.send('close-tab', {
-              x: params.x,
-              y: params.y,
-            });
-          },
-        },
-        {
-          label: i18n.t('Close all tabs'),
-          visible: params.y <= 30,
-          click: () => {
-            const mainWindow = getMainWindow();
-            mainWindow?.webContents.send('close-all-tab');
-          },
-        },
-        {
-          label: i18n.t('Close others tabs'),
-          visible: params.y <= 30,
-          click: () => {
-            const mainWindow = getMainWindow();
-            mainWindow?.webContents.send('close-others-tab', {
-              x: params.x,
-              y: params.y,
-            });
-          },
-        },
-        {
-          label: i18n.t('Rename tab'),
-          visible: params.y <= 30,
-          click: () => {
-            const mainWindow = getMainWindow();
-            mainWindow?.webContents.send('rename-tab', {
-              x: params.x,
-              y: params.y,
-            });
-          },
-        },
-        {
-          type: 'separator',
-        },
-      ],
-      window: contents,
-      showInspectElement: true,
-      showSearchWithGoogle: false,
-      showCopyImageAddress: true,
+      contextMenu({
+        window: webContents,
+        showInspectElement: true,
+        showSearchWithGoogle: false,
+        showCopyImageAddress: true,
+      });
     });
   });
 };

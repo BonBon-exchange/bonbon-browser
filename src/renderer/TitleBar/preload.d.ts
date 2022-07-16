@@ -1,3 +1,5 @@
+import { BrowserWindow, Menu, MenuItem, MenuItemConstructorOptions } from "electron";
+
 declare global {
   interface Window {
     titleBar: {
@@ -7,6 +9,7 @@ declare global {
         maximize: () => void;
         showMenu: () => void;
         showDownloadsPreview: () => void;
+        showTabContextMenu: (params: { x: number; y: number }) => void;
       };
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;

@@ -1,6 +1,9 @@
 declare global {
   interface Window {
     app: {
+      app: {
+        showLeftbarContextMenu: (params: { x: number; y: number }) => void;
+      },
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;
       };

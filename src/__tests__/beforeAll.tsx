@@ -2,6 +2,9 @@
 export const mockWindow = () => {
   Object.defineProperty(window, 'app', {
     value: {
+      app: {
+        showTabContextMenu: jest.fn(),
+      },
       analytics: {
         event: jest.fn(),
       },
