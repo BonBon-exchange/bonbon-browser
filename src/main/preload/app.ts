@@ -5,6 +5,9 @@ contextBridge.exposeInMainWorld('app', {
     showLeftbarContextMenu: (params: { x: number; y: number }) => {
       ipcRenderer.send('show-leftbar-context-menu', params);
     },
+    showBoardContextMenu: (params: { x: number; y: number }) => {
+      ipcRenderer.send('show-board-context-menu', params);
+    },
   },
   analytics: {
     event: (eventName: string, params: Record<string, string>) => {
@@ -153,6 +156,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('show-downloads-preview', action);
     },
+    distributeWindowsEvenly: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('distribute-windows-evenly', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -187,6 +195,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     showDownloadsPreview: () => {
       ipcRenderer.removeAllListeners('show-downloads-preview');
+    },
+    distributeWindowsEvenly: () => {
+      ipcRenderer.removeAllListeners('distribute-windows-evenly');
     },
   },
 });

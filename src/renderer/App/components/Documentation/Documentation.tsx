@@ -7,6 +7,7 @@ import clsx from 'clsx';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
 import { KeyboardShortcuts } from './KeyboardShortcuts';
+import { WebpagesWindows } from './WebpagesWindows';
 
 import './style.scss';
 
@@ -39,6 +40,9 @@ export const Documentation: React.FC<DocumentationProps> = ({
         <ul>
           <li onClick={() => setSelectedView(<KeyboardShortcuts />)}>
             {t('Keyboard shortcuts')}
+          </li>
+          <li onClick={() => setSelectedView(<WebpagesWindows />)}>
+            {t('Webpages windows')}
           </li>
         </ul>
       </div>

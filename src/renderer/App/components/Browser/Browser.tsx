@@ -60,30 +60,28 @@ export const Browser: React.FC<BrowserProps> = ({
   const [renderedUrl, setRenderedUrl] = useState<string>('');
   const container = useRef<HTMLDivElement>(null);
   const [isFullSize, setIsFullSize] = useState<boolean>(false);
+  const [x, setX] = useState<number>(left);
+  const [y, setY] = useState<number>(top);
+  const [rndWidth, setRndWidth] = useState<number>(width);
+  const [rndHeight, setRndHeight] = useState<number>(height);
 
   const webview = container.current?.querySelector(
     'webview'
   ) as Electron.WebviewTag;
 
-  const getOffset = (el: Element) => {
-    const rect = el.getBoundingClientRect();
-    return {
-      left: rect.left + window.scrollX,
-      top: rect.top + window.scrollY,
-    };
-  };
-
   const onDragStart = () => {
     disablePointerEventsForAll();
   };
 
-  const onDragStop = (e: any) => {
+  const onDragStop = (_e: any, d: any) => {
+    setX(d.x);
+    setY(d.y);
     dispatch(
       updateBrowser({
         browserId: id,
         params: {
-          top: getOffset(e.target).top,
-          left: getOffset(e.target).left,
+          top: d.y,
+          left: d.x,
         },
       })
     );
@@ -91,11 +89,23 @@ export const Browser: React.FC<BrowserProps> = ({
     enablePointerEventsForAll();
   };
 
-  const onResizeStop = (delta: { width: number; height: number }) => {
+  const onResizeStop = (
+    ref: { offsetWidth: number; offsetHeight: number },
+    position: { x: number; y: number }
+  ) => {
+    setX(position.x);
+    setY(position.y);
+    setRndWidth(ref.offsetWidth);
+    setRndHeight(ref.offsetHeight);
     dispatch(
       updateBrowser({
         browserId: id,
-        params: { width: width + delta.width, height: height + delta.height },
+        params: {
+          width: ref.offsetWidth,
+          height: ref.offsetHeight,
+          left: position.x,
+          top: position.y,
+        },
       })
     );
     enablePointerEventsForAll();
@@ -166,6 +176,13 @@ export const Browser: React.FC<BrowserProps> = ({
     }
   }, [board?.isFullSize]);
 
+  useEffect(() => {
+    setX(left);
+    setY(top);
+    setRndWidth(width);
+    setRndHeight(height);
+  }, [left, top, width, height]);
+
   return (
     <Rnd
       style={{ display: 'flex' }}
@@ -175,12 +192,20 @@ export const Browser: React.FC<BrowserProps> = ({
         width,
         height,
       }}
+      position={{
+        x,
+        y,
+      }}
+      size={{
+        width: rndWidth,
+        height: rndHeight,
+      }}
       dragHandleClassName="BrowserTopBar__container"
       onDragStart={onDragStart}
       onDragStop={onDragStop}
-      onResizeStop={(_e, _dir, _ref, delta, _pos) => onResizeStop(delta)}
+      onResizeStop={(_e, _dir, ref, _delta, pos) => onResizeStop(ref, pos)}
       onResizeStart={onResizeStart}
-      bounds=".Board__container"
+      bounds="#Board__container"
       id={`Browser__${id}`}
       className={clsx({
         'Browser__is-full-size': isFullSize,
@@ -190,6 +215,7 @@ export const Browser: React.FC<BrowserProps> = ({
       disableDragging={board?.isFullSize}
       enableResizing={board?.isFullSize ? {} : undefined}
       data-testid="browser-window"
+      data-id={id}
     >
       <div className="Browser__container" ref={container}>
         <BrowserTopBar

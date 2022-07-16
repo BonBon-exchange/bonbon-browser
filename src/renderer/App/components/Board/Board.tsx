@@ -21,6 +21,11 @@ export const Board: React.FC = () => {
     return sorted.map((b) => <Browser {...b} key={b.id} firstRendering />);
   }, []);
 
+  const contextMenuListener = (e: MouseEvent) => {
+    e.preventDefault();
+    window.app.app.showBoardContextMenu({ x: e.clientX, y: e.clientY });
+  };
+
   useEffect(() => {
     const toSort = [...board.browsers];
     const sorted = toSort.sort((a, b) => {
@@ -40,9 +45,21 @@ export const Board: React.FC = () => {
     if (board.activeBrowser) focus(board.activeBrowser);
   }, [board.activeBrowser, focus]);
 
+  useEffect(() => {
+    document
+      .getElementById('Board__container')
+      ?.addEventListener('contextmenu', contextMenuListener);
+
+    return () =>
+      document
+        .getElementById('Board__container')
+        ?.removeEventListener('contextmenu', contextMenuListener);
+  }, []);
+
   return (
     <div
-      className={clsx('Board__container', {
+      id="Board__container"
+      className={clsx({
         'Board__is-full-size': board.isFullSize,
       })}
     >
