@@ -1,6 +1,11 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 contextBridge.exposeInMainWorld('app', {
+  app: {
+    showLeftbarContextMenu: (params: { x: number; y: number }) => {
+      ipcRenderer.send('show-leftbar-context-menu', params);
+    },
+  },
   analytics: {
     event: (eventName: string, params: Record<string, string>) => {
       ipcRenderer.send('analytics', { eventName, params });

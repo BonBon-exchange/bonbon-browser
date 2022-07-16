@@ -44,6 +44,20 @@ export function App() {
     window.app.analytics.event('load_app');
   }, []);
 
+  useEffect(() => {
+    window.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      const target = e.target as HTMLDivElement;
+
+      if (
+        document
+          .getElementById('LeftBar__browserFavContainerItems')
+          ?.contains(target)
+      )
+        window.app.app.showLeftbarContextMenu({ x: e.clientX, y: e.clientY });
+    });
+  }, []);
+
   return isLoadedBoard ? (
     <Provider store={persisted.current?.store}>
       <PersistGate loading={null} persistor={persisted.current?.persistor}>
