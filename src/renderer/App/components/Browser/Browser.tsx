@@ -22,6 +22,7 @@ import {
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
+import { getContainerFromBrowserId } from 'renderer/App/helpers/dom';
 
 import { BrowserProps } from './Types';
 
@@ -144,7 +145,7 @@ export const Browser: React.FC<BrowserProps> = ({
   }, [firstRenderingState, url]);
 
   useEffect(() => {
-    bringBrowserToTheFront(document, document.querySelector(`#Browser__${id}`));
+    bringBrowserToTheFront(getContainerFromBrowserId(id));
   }, [id, bringBrowserToTheFront]);
 
   useEffect(() => {
@@ -195,7 +196,7 @@ export const Browser: React.FC<BrowserProps> = ({
           closeBrowser={() => browser.close(id)}
           minimizeBrowser={() => browser.minimize(id)}
           toggleFullsizeBrowser={toggleFullsizeBrowser}
-          onClick={() => focus(document, id, true)}
+          onClick={() => focus(id, true)}
           title={title}
           favicon={favicon}
           isLoading={isLoading}

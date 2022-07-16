@@ -18,15 +18,16 @@ import {
   updateBrowser,
   updateBrowserLoading,
 } from 'renderer/App/store/reducers/Board';
+import {
+  getContainerFromBrowserId,
+  getWebviewFromBrowserId,
+} from 'renderer/App/helpers/dom';
 import { useBrowserMethods } from './useBrowserMethods';
 
 export const useBrowserEvents = (browserId: string) => {
   const { bringBrowserToTheFront } = useBrowserMethods();
-  const container = document.querySelector(
-    `#Browser__${browserId}`
-  ) as HTMLElement;
-  const webview: Electron.WebviewTag | undefined | null =
-    container?.querySelector('webview') as Electron.WebviewTag;
+  const container = getContainerFromBrowserId(browserId);
+  const webview = getWebviewFromBrowserId(browserId);
 
   const dispatch = useAppDispatch();
 
@@ -48,7 +49,7 @@ export const useBrowserEvents = (browserId: string) => {
           break;
 
         case 'clickOnPage':
-          bringBrowserToTheFront(document, container);
+          bringBrowserToTheFront(container);
           dispatch(setActiveBrowser(browserId));
           const clickEvent = new MouseEvent('click');
           window.dispatchEvent(clickEvent);
@@ -197,7 +198,7 @@ export const useBrowserEvents = (browserId: string) => {
   );
 
   const containerClickListener = useCallback(() => {
-    bringBrowserToTheFront(document, container);
+    bringBrowserToTheFront(container);
     dispatch(setActiveBrowser(browserId));
   }, [browserId, dispatch, container, bringBrowserToTheFront]);
 

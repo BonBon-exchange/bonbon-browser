@@ -14,6 +14,7 @@ import {
 import { setDownloadItem } from 'renderer/App/store/reducers/Downloads';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { DownloadState } from 'renderer/TitleBar/components/TopBar/Types';
+import { getContainerFromBrowserId } from 'renderer/App/helpers/dom';
 import { useBoard } from './useBoard';
 import { useBrowserMethods } from './useBrowserMethods';
 
@@ -36,26 +37,16 @@ export const useGlobalEvents = () => {
     [enablePointerEventsForAll]
   );
 
-  const getContainer = useCallback(() => {
-    if (boardState.activeBrowser) {
-      const container = document.querySelector(
-        `#Browser__${boardState.activeBrowser}`
-      );
-      return container;
-    }
-    return null;
-  }, [boardState.activeBrowser]);
-
   const getActiveWebview = useCallback(() => {
     if (boardState.activeBrowser) {
-      const container = getContainer();
+      const container = getContainerFromBrowserId(boardState.activeBrowser);
       const webview: Electron.WebviewTag | undefined | null =
         container?.querySelector('webview');
 
       return webview;
     }
     return null;
-  }, [boardState.activeBrowser, getContainer]);
+  }, [boardState.activeBrowser]);
 
   const keyDownListener = useCallback(
     (e: KeyboardEvent) => {
@@ -68,7 +59,7 @@ export const useGlobalEvents = () => {
       }
       if (e.ctrlKey && !e.shiftKey && e.key === 'Tab') {
         if (boardState.browsers.length > 0) {
-          focus(document, next());
+          focus(next());
         }
       }
       if (e.ctrlKey && e.shiftKey && e.key === 'Tab') {

@@ -76,8 +76,8 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         const newBrowser = await makeBrowser(params);
         dispatch(addBrowser(newBrowser));
         setTimeout(() => {
-          scrollToBrowser(document, newBrowser.id);
-          focusUrlBar(document, newBrowser.id);
+          scrollToBrowser(newBrowser.id);
+          focusUrlBar(newBrowser.id);
         }, 300);
       }
     },

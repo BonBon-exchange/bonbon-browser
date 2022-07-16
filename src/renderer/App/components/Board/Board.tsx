@@ -37,7 +37,7 @@ export const Board: React.FC = () => {
   }, [board.browsers.length, board.id]);
 
   useEffect(() => {
-    if (board.activeBrowser) focus(document, board.activeBrowser);
+    if (board.activeBrowser) focus(board.activeBrowser);
   }, [board.activeBrowser, focus]);
 
   return (
