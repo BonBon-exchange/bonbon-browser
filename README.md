@@ -10,9 +10,9 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="https://raw.githubusercontent.com/BonBon-exchange/bonbon-web-browser/main/assets/icon.png" alt="Logo" width="80" height="80">
+    <a href="https://bonbon.exchange"><img src="https://raw.githubusercontent.com/BonBon-exchange/bonbon-web-browser/main/assets/icon.png" alt="Logo" width="80" height="80"></a>
 
-  <h3 align="center">BonBon Web Browser</h3>
+  <h3 align="center">BonBon Web Browser by <a href="https://bonbon.exchange">BonBon Exchange</h3>
 
   <p align="center">
     <a href="https://youtu.be/h874odEFNjo">https://youtu.be/h874odEFNjo</a>
