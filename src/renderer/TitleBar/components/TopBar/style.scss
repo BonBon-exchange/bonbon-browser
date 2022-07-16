@@ -11,8 +11,8 @@
 }
 
 .macTitleBar {
-  padding-left: 150px;
-  padding-right: 0px !important;
+  padding-left: 130px;
+  width: calc(100% - 130px) !important;
 }
 
 #TopBar__tabs-container {

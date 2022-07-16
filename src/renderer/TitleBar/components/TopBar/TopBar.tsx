@@ -296,7 +296,12 @@ export const TopBar: React.FC = () => {
   }, []);
 
   return (
-    <div id="TopBar__container">
+    <div
+      id="TopBar__container"
+      className={clsx({
+        macTitleBar: window.titleBar.os.getPlatform() === 'darwin',
+      })}
+    >
       <Reorder.Group
         axis="x"
         values={tabs}
@@ -368,7 +373,7 @@ export const TopBar: React.FC = () => {
           </div>
         </div>
       </div>
-      <AppControls />
+      {window.titleBar.os.getPlatform() !== 'darwin' && <AppControls />}
     </div>
   );
 };
