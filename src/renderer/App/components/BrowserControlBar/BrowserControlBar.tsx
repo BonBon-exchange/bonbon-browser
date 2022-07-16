@@ -19,6 +19,7 @@ import { BrowserInputSuggestions } from 'renderer/App/components/BrowserInputSug
 import { updateBrowserUrl } from 'renderer/App/store/reducers/Board';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { isValidHttpUrl, makeSearchUrl } from 'renderer/App/helpers/web';
+import { getWebviewFromBrowserId } from 'renderer/App/helpers/dom';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 
 import { BrowserControlBarProps } from './Types';
@@ -37,8 +38,7 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const container = document.querySelector(`#Browser__${browserId}`);
-  const webview = container?.querySelector('webview') as Electron.WebviewTag;
+  const webview = getWebviewFromBrowserId(browserId);
   const board = useBoard();
   const browser = board.browsers.find((b) => b.id === browserId);
 

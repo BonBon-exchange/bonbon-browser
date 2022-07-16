@@ -1,40 +1,35 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
 import { useCallback } from 'react';
+
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { setActiveBrowser } from 'renderer/App/store/reducers/Board';
+import { getContainerFromBrowserId } from '../helpers/dom';
 import { useBoard } from './useBoard';
 
-export const bringBrowserToTheFront = (
-  document: Document,
-  browser: HTMLElement | null
-) => {
-  const browsers = document.querySelectorAll('.Browser__draggable-container');
+export const bringBrowserToTheFront = (container: Element | null) => {
+  const containers = document.querySelectorAll('.Browser__draggable-container');
 
-  browsers.forEach((w: Element) => {
+  containers.forEach((w: Element) => {
     const z = w as HTMLElement;
     if (z) z.style.zIndex = '1';
   });
 
-  if (browser) browser.style.zIndex = '2';
+  const divContainer = container as HTMLElement;
+  if (container) divContainer.style.zIndex = '2';
 };
 
-export const scrollToBrowser = (
-  document: Document,
-  browserId: string
-): void => {
-  document.querySelector(`#Browser__${browserId}`)?.scrollIntoView();
+export const scrollToBrowser = (browserId: string): void => {
+  const container = getContainerFromBrowserId(browserId);
+  container?.scrollIntoView();
   window.scrollBy(0, -100);
 
-  bringBrowserToTheFront(
-    document,
-    document.querySelector(`#Browser__${browserId}`)
-  );
+  bringBrowserToTheFront(container);
 };
 
-export const focusUrlBar = (document: Document, browserId: string) => {
-  const browser = document.querySelector(`#Browser__${browserId}`);
-  const urlBar = browser
+export const focusUrlBar = (browserId: string) => {
+  const container = getContainerFromBrowserId(browserId);
+  const urlBar = container
     ?.querySelector('.BrowserControlBar__container')
     ?.querySelector('input');
   urlBar?.select();
@@ -45,8 +40,8 @@ export const useBrowserMethods = () => {
   const boardState = useBoard();
 
   const focus = useCallback(
-    (document: Document, browserId: string, dontScroll?: boolean) => {
-      if (!dontScroll) scrollToBrowser(document, browserId);
+    (browserId: string, dontScroll?: boolean) => {
+      if (!dontScroll) scrollToBrowser(browserId);
       dispatch(setActiveBrowser(browserId));
       window.app.analytics.event('switch_browser');
     },

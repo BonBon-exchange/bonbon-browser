@@ -40,7 +40,7 @@ export const LeftBar: React.FC = () => {
   const handleClickFavicon = (browserId: string) => {
     browser.show(browserId);
     setTimeout(() => {
-      focus(document, browserId);
+      focus(browserId);
     }, 0);
   };
 
