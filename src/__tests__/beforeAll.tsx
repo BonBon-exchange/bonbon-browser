@@ -56,6 +56,7 @@ export const mockWindow = () => {
         certificateError: jest.fn(),
         downloading: jest.fn(),
         showDownloadsPreview: jest.fn(),
+        distributeWindowsEvenly: jest.fn(),
       },
       off: {
         newWindow: jest.fn(),
@@ -69,6 +70,7 @@ export const mockWindow = () => {
         certificateError: jest.fn(),
         downloading: jest.fn(),
         showDownloadsPreview: jest.fn(),
+        distributeWindowsEvenly: jest.fn(),
       },
     },
   });

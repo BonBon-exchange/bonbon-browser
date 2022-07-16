@@ -3,6 +3,7 @@ declare global {
     app: {
       app: {
         showLeftbarContextMenu: (params: { x: number; y: number }) => void;
+        showBoardContextMenu: (params: { x: number; y: number }) => void;
       },
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;
@@ -62,6 +63,7 @@ declare global {
         certificateError: (action: unknown) => void;
         downloading: (action: unknown) => void;
         showDownloadsPreview: (action: unknown) => void;
+        distributeWindowsEvenly: (action: unknown) => void;
       };
       off: {
         newWindow: () => void;
@@ -78,6 +80,7 @@ declare global {
         certificateError: () => void;
         downloading: () => void;
         showDownloadsPreview: () => void;
+        distributeWindowsEvenly: () => void;
       };
     };
     darkMode: {

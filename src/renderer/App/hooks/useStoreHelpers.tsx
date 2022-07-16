@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-loop-func */
+/* eslint-disable no-plusplus */
 /* eslint-disable promise/no-nesting */
 /* eslint-disable promise/always-return */
 /* eslint-disable promise/catch-or-return */
@@ -15,6 +17,7 @@ import {
   unminimizeBrowser,
   removeLastCloseUrl,
   toggleSearch,
+  updateBrowser,
 } from 'renderer/App/store/reducers/Board';
 import { getCoordinateWithNoCollision } from 'renderer/App/helpers/d2';
 import { useBoard } from './useBoard';
@@ -150,6 +153,88 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
     [dispatch]
   );
 
+  const distributeWindowsEvenly = useCallback(() => {
+    const containers = document.querySelectorAll(
+      '.Browser__draggable-container'
+    );
+
+    const sortedContainer = Array.from(containers).sort((a, b) => {
+      const browserA = board.browsers.find(
+        (brow) => brow.id === a.getAttribute('data-id')
+      );
+      const browserB = board.browsers.find(
+        (brow) => brow.id === b.getAttribute('data-id')
+      );
+
+      if (browserA && browserB) {
+        if (browserA.top - browserB.top > 1) return 1;
+        if (browserA.top === browserB.top && browserA.left - browserB.left > 1)
+          return 1;
+      }
+
+      return -1;
+    });
+
+    const maxWidth = document.querySelector('#Board__container')?.clientWidth;
+    let sumWidth = 0;
+    let index = -1;
+    const maxIndex = containers.length - 1;
+    let rowContainers;
+    let container;
+    const yMargin = 50;
+    let currentY = yMargin;
+    let xMargin: number;
+    let biggestHeight;
+    let currentX: number;
+    let id;
+    if (maxWidth) {
+      while (index < maxIndex) {
+        rowContainers = [];
+        sumWidth = 0;
+        biggestHeight = 0;
+        while (sumWidth <= maxWidth && index < maxIndex) {
+          index++;
+          container = sortedContainer[index];
+          sumWidth += container.clientWidth;
+          if (container.clientHeight > biggestHeight)
+            biggestHeight = container.clientHeight;
+          if (sumWidth < maxWidth) rowContainers.push(container);
+          else index--;
+        }
+
+        let rcSumWidth = 0;
+        rowContainers.forEach((c) => {
+          rcSumWidth += c.clientWidth;
+        });
+
+        xMargin = Number(
+          ((maxWidth - rcSumWidth) / (rowContainers.length + 1)).toFixed(0)
+        );
+
+        // process here
+        currentX = xMargin;
+        rowContainers.forEach((c) => {
+          id = c.getAttribute('data-id');
+          if (id) {
+            dispatch(
+              updateBrowser({
+                browserId: id,
+                params: {
+                  left: currentX,
+                  top: currentY,
+                },
+              })
+            );
+          }
+          currentX += c.clientWidth + xMargin;
+        });
+
+        // end
+        currentY += yMargin + biggestHeight;
+      }
+    }
+  }, [dispatch, board.browsers]);
+
   return {
     browser: {
       add: makeAndAddBrowser,
@@ -163,6 +248,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       create: createBoard,
       load: loadBoard,
       close: closeBoard,
+      distributeWindowsEvenly,
     },
   };
 };

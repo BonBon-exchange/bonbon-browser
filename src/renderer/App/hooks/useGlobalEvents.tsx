@@ -103,14 +103,14 @@ export const useGlobalEvents = () => {
 
   const scrollListener = useCallback(() => {
     const containerHeight =
-      document.querySelector('.Board__container')?.clientHeight;
+      document.querySelector('#Board__container')?.clientHeight;
     const heightDistance =
       document.documentElement.getBoundingClientRect().bottom * -1 +
       window.innerHeight -
       30;
     if (Number(containerHeight) - heightDistance < 100) {
       // @ts-ignore
-      document.querySelector('.Board__container').style.height = `${
+      document.querySelector('#Board__container').style.height = `${
         Number(containerHeight) + 100
       }px`;
     }
@@ -205,6 +205,10 @@ export const useGlobalEvents = () => {
     [dispatch, boardState.browsers]
   );
 
+  const distributeWindowsEvenlyAction = useCallback(() => {
+    board.distributeWindowsEvenly();
+  }, [board]);
+
   useEffect(() => {
     window.app.listener.downloading(downloadingAction);
     return () => window.app.off.downloading();
@@ -239,6 +243,11 @@ export const useGlobalEvents = () => {
     window.app.listener.renameBoard(renameBoardAction);
     return () => window.app.off.renameBoard();
   }, [renameBoardAction]);
+
+  useEffect(() => {
+    window.app.listener.distributeWindowsEvenly(distributeWindowsEvenlyAction);
+    return () => window.app.off.distributeWindowsEvenly();
+  }, [distributeWindowsEvenlyAction]);
 
   useEffect(() => {
     window.addEventListener('keydown', keyDownListener, false);

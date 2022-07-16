@@ -40,5 +40,7 @@
   "Pressing ALT and Scrolling at the same time will scroll into the document without stopping hover the webpages.": "Pressing ALT and Scrolling at the same time will scroll into the document without stopping hover the webpages.",
   "As defined here": "As defined here",
   "Use the size of the last closed webpage": "Use the size of the last closed webpage",
-  "Pressing CTRL and F at the same time will open a search area.": "Pressing CTRL and F at the same time will open a search area."
+  "Pressing CTRL and F at the same time will open a search area.": "Pressing CTRL and F at the same time will open a search area.",
+  "Webpages windows": "Webpages windows",
+  "Right click on the background document (not on a webpage), and select \"Distribute windows evenly\".": "Right click on the background document (not on a webpage), and select \"Distribute windows evenly\"."
 }

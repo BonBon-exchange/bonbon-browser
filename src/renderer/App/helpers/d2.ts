@@ -26,7 +26,7 @@ export const getCoordinateWithNoCollision = (
   let y = 0;
   const step = 90;
   const maxX =
-    (document.querySelector('.Board__container')?.clientWidth || 0) -
+    (document.querySelector('#Board__container')?.clientWidth || 0) -
     width -
     step;
 

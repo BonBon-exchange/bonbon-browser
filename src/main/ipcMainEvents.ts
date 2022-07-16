@@ -402,4 +402,34 @@ export const makeIpcMainEvents = (): void => {
       });
     }
   );
+
+  ipcMain.on(
+    'show-board-context-menu',
+    (e, params: { x: number; y: number }) => {
+      const selectedView = getSelectedView();
+      const template = [
+        {
+          label: i18n.t('Distribute windows evenly'),
+          click: () => {
+            selectedView?.webContents.send('distribute-windows-evenly');
+          },
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: i18n.t('Inspect element'),
+          click: () => {
+            e.sender.inspectElement(params.x, params.y);
+          },
+        },
+      ];
+
+      // @ts-ignore
+      const menu = Menu.buildFromTemplate(template);
+      menu.popup({
+        window: BrowserWindow.fromWebContents(e.sender) || undefined,
+      });
+    }
+  );
 };
