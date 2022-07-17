@@ -30,7 +30,7 @@ export const DownloadsPreview: React.FC = () => {
               <div className="DownloadsPreview__item-name">{i.filename}</div>
               {i.state !== 'progressing' && i.state !== 'completed' && (
                 <div className="DownloadsPreview__item-state">
-                  {t(i.state || '')}
+                  {i.state ? t(i.state) : ''}
                 </div>
               )}
               {i.state !== 'completed' && (

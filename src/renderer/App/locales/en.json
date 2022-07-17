@@ -42,5 +42,11 @@
   "Use the size of the last closed webpage": "Use the size of the last closed webpage",
   "Pressing CTRL and F at the same time will open a search area.": "Pressing CTRL and F at the same time will open a search area.",
   "Webpages windows": "Webpages windows",
-  "Right click on the background document (not on a webpage), and select \"Distribute windows evenly\".": "Right click on the background document (not on a webpage), and select \"Distribute windows evenly\"."
+  "Right click on the background document (not on a webpage), and select \"Distribute windows evenly\".": "Right click on the background document (not on a webpage), and select \"Distribute windows evenly\".",
+  "Downloads": "Downloads",
+  "The cerficate for this page is incorrect. Visiting the website could be dangerous.": "The cerficate for this page is incorrect. Visiting the website could be dangerous.",
+  "Continue": "Continue",
+  "If checked, the app will auto-launch at system startup.": "If checked, the app will auto-launch at system startup.",
+  "interrupted": "Interrupted",
+  "cancelled": "Cancelled"
 }
