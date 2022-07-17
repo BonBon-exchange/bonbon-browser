@@ -64,6 +64,8 @@ export const Board: React.FC = () => {
       })}
     >
       {makeBrowsers(items)}
+      <div className="Board__edge-snap-left" />
+      <div className="Board__edge-snap-right" />
     </div>
   );
 };

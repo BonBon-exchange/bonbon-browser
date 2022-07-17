@@ -5,12 +5,42 @@
   top: 0px;
   left: 50px;
   position: absolute;
+  overflow-x: hidden;
   background: linear-gradient(
     200.96deg,
     #fedc2a -29.09%,
     #dd5789 51.77%,
     #7a2c9e 129.35%
   );
+
+  .Board__edge-snap-left {
+    border: 5px dotted var(--color-text-primary);
+    left: 60px;
+    top: 10px;
+    bottom: 10px;
+    right: 50%;
+    height: calc(100% - 20px);
+    position: fixed;
+    pointer-events: visible;
+    display: none;
+    background: var(--color-background-primary);
+    z-index: 99;
+    opacity: 0.3;
+  }
+
+  .Board__edge-snap-right {
+    border: 5px dotted var(--color-text-primary);
+    left: calc(50% + 50px);
+    top: 10px;
+    bottom: 10px;
+    right: 10px;
+    height: calc(100% - 20px);
+    position: fixed;
+    display: none;
+    z-index: 99;
+    opacity: 0.3;
+    background: var(--color-background-primary);
+  }
 }
 
 .Board__is-full-size {
