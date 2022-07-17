@@ -69,23 +69,98 @@ export const Browser: React.FC<BrowserProps> = ({
     'webview'
   ) as Electron.WebviewTag;
 
+  const edgeLeft = document.querySelector('.Board__edge-snap-left');
+  const edgeRight = document.querySelector('.Board__edge-snap-right');
+
+  const onDrag = (_e: any, d: { x: number; y: number }) => {
+    const edgeRightWidth = container.current?.clientWidth
+      ? container.current?.clientWidth
+      : 0;
+    const edgeRightValue = window.innerWidth - edgeRightWidth - 69;
+
+    if (d.x === 0) {
+      // @ts-ignore
+      edgeLeft.style.display = 'block';
+    } else {
+      // @ts-ignore
+      edgeLeft.style.display = 'none';
+    }
+    if (d.x === edgeRightValue) {
+      // @ts-ignore
+      edgeRight.style.display = 'block';
+    } else {
+      // @ts-ignore
+      edgeRight.style.display = 'none';
+    }
+  };
+
   const onDragStart = () => {
     disablePointerEventsForAll();
   };
 
   const onDragStop = (_e: any, d: any) => {
-    setX(d.x);
-    setY(d.y);
-    dispatch(
-      updateBrowser({
-        browserId: id,
-        params: {
-          top: d.y,
-          left: d.x,
-        },
-      })
-    );
+    const scrollTop = window.pageYOffset;
+    // @ts-ignore
+    edgeRight.style.display = 'none';
+    // @ts-ignore
+    edgeLeft.style.display = 'none';
 
+    const edgeRightWidth = container.current?.clientWidth
+      ? container.current?.clientWidth
+      : 0;
+    const edgeRightValue = window.innerWidth - edgeRightWidth - 69;
+
+    switch (d.x) {
+      case 0:
+        setX(10);
+        setY(10 + scrollTop);
+        setRndWidth(window.innerWidth / 2 - 55);
+        setRndHeight(window.innerHeight - 20);
+        dispatch(
+          updateBrowser({
+            browserId: id,
+            params: {
+              top: 10 + scrollTop,
+              left: 10,
+              width: window.innerWidth / 2 - 55,
+              height: window.innerHeight - 20,
+            },
+          })
+        );
+        break;
+
+      case edgeRightValue:
+        setX(window.innerWidth / 2 - 20);
+        setY(10 + scrollTop);
+        setRndWidth(window.innerWidth / 2 - 55);
+        setRndHeight(window.innerHeight - 20);
+        dispatch(
+          updateBrowser({
+            browserId: id,
+            params: {
+              top: 10 + scrollTop,
+              left: window.innerWidth / 2 - 20,
+              width: window.innerWidth / 2 - 55,
+              height: window.innerHeight - 20,
+            },
+          })
+        );
+        break;
+
+      default:
+        setX(d.x);
+        setY(d.y);
+        dispatch(
+          updateBrowser({
+            browserId: id,
+            params: {
+              top: d.y,
+              left: d.x,
+            },
+          })
+        );
+        break;
+    }
     enablePointerEventsForAll();
   };
 
@@ -203,6 +278,7 @@ export const Browser: React.FC<BrowserProps> = ({
       dragHandleClassName="BrowserTopBar__container"
       onDragStart={onDragStart}
       onDragStop={onDragStop}
+      onDrag={onDrag}
       onResizeStop={(_e, _dir, ref, _delta, pos) => onResizeStop(ref, pos)}
       onResizeStart={onResizeStart}
       bounds="#Board__container"
