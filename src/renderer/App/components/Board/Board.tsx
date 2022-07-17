@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { Browser } from 'renderer/App/components/Browser';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
+import { AnimatePresence } from 'framer-motion';
 
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 
@@ -63,7 +64,7 @@ export const Board: React.FC = () => {
         'Board__is-full-size': board.isFullSize,
       })}
     >
-      {makeBrowsers(items)}
+      <AnimatePresence>{makeBrowsers(items)}</AnimatePresence>
       <div className="Board__edge-snap-left" />
       <div className="Board__edge-snap-right" />
     </div>

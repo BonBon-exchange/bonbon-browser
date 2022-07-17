@@ -7,6 +7,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Rnd } from 'react-rnd';
 import clsx from 'clsx';
+import { motion } from 'framer-motion';
 
 import { useBrowserEvents } from 'renderer/App/hooks/useBrowserEvents';
 import { BrowserControlBar } from 'renderer/App/components/BrowserControlBar';
@@ -293,9 +294,16 @@ export const Browser: React.FC<BrowserProps> = ({
       data-testid="browser-window"
       data-id={id}
     >
-      <div className="Browser__container" ref={container}>
+      <motion.div
+        className="Browser__container"
+        ref={container}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        layout
+      >
         <BrowserTopBar
-          closeBrowser={() => browser.close(id)}
+          closeBrowser={() => setTimeout(() => browser.close(id), 0)}
           minimizeBrowser={() => browser.minimize(id)}
           toggleFullsizeBrowser={toggleFullsizeBrowser}
           onClick={() => focus(id, true)}
@@ -328,7 +336,7 @@ export const Browser: React.FC<BrowserProps> = ({
             partition="persist:user-partition"
           />
         </div>
-      </div>
+      </motion.div>
     </Rnd>
   );
 };

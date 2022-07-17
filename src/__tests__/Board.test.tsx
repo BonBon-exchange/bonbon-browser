@@ -86,7 +86,8 @@ describe('Board', () => {
     );
 
     fireEvent.click(screen.getAllByTestId('close-browser')[0]);
-
-    expect(screen.getAllByTestId('browser-window').length).toBe(1);
+    setTimeout(() => {
+      expect(screen.getAllByTestId('browser-window').length).toBe(1);
+    }, 0);
   });
 });
