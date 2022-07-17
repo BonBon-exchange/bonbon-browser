@@ -5,5 +5,7 @@
   "Close tab": "Fermer la tabulation",
   "Close all tabs": "Fermer toutes les tabulations",
   "Close others tabs": "Fermer les autres tabulations",
-  "Rename tab": "Renommer la tabulation"
+  "Rename tab": "Renommer la tabulation",
+  "Distribute windows evenly": "Répartir les fenêtres équitablement",
+  "Inspect element": "Inspecter l'élément"
 }
