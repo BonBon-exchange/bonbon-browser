@@ -181,7 +181,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
     const maxIndex = containers.length - 1;
     let rowContainers;
     let container;
-    const yMargin = 50;
+    const yMargin = 10;
     let currentY = yMargin;
     let xMargin: number;
     let biggestHeight;
