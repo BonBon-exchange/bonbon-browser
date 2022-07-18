@@ -10,12 +10,12 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <a href="https://bonbon.exchange"><img src="https://raw.githubusercontent.com/BonBon-exchange/bonbon-web-browser/main/assets/icon.png" alt="Logo" width="80" height="80"></a>
+    <a href="https://bonbon.exchange" target="_blank"><img src="https://raw.githubusercontent.com/BonBon-exchange/bonbon-web-browser/main/assets/icon.png" alt="Logo" width="80" height="80"></a>
 
   <h3 align="center">BonBon Web Browser by <a href="https://bonbon.exchange">BonBon Exchange</h3>
 
   <p align="center">
-    <a href="https://youtu.be/h874odEFNjo">https://youtu.be/h874odEFNjo</a>
+    <a href="https://youtu.be/h874odEFNjo" target="_blank">https://youtu.be/h874odEFNjo</a>
     <br />
     <br />
     <a href="https://github.com/BonBon-exchange/bonbon-web-browser/issues/new?assignees=&labels=bug&template=1-Bug_report.md">Report Bug</a>
