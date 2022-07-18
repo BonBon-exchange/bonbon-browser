@@ -6,7 +6,7 @@
     "typescript",
     "react"
   ],
-  "version": "0.27.0",
+  "version": "0.28.0-beta-3",
   "homepage": "https://github.com/BonBon-exchange/bonbon-web-browser#readme",
   "bugs": {
     "url": "https://github.com/BonBon-exchange/bonbon-web-browser/issues"
@@ -135,7 +135,8 @@
     "@reduxjs/toolkit": "^1.8.2",
     "clsx": "^1.1.1",
     "easy-auto-launch": "^6.0.2",
-    "electron-chrome-extensions-production": "^3.11.0",
+    "electron-chrome-extensions": "^3.9.0",
+    "electron-chrome-extensions-production": "^3.12.0",
     "electron-context-menu": "^3.2.0",
     "electron-store": "^8.0.2",
     "electron-updater": "^5.0.1",
