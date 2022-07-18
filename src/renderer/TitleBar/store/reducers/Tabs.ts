@@ -53,7 +53,9 @@ export const tabsSlice: Slice<TabsState> = createSlice({
       const tabIndex = state.tabs.findIndex((t) => t.id === action.payload);
       if (tabIndex > -1) state.tabs.splice(tabIndex, 1);
       if (state.activeTab === action.payload && state.tabs.length > 0) {
-        state.activeTab = state.tabs[0].id;
+        state.activeTab = state.tabs[tabIndex]
+          ? state.tabs[tabIndex].id
+          : state.tabs[tabIndex - 1].id;
       }
 
       window.titleBar.tabs.purge(action.payload);
