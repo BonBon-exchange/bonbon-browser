@@ -108,12 +108,18 @@ Download BonBon for Linux: [BonBon Browser 0.26.0 for Linux (AppImage)](https://
 
 ## Features
 
-- [x] Boards: create a composition of webviews
+- [x] Collections: create a composition of webviews
+- [x] Bookmarks
+- [x] Browsing History
+- [x] Download manager
+- [x] A bunch of settings
+- [x] Snap windows to the left or to the right dragging it to the edge of the app
 - [x] Darkmode
-- [x] Add Additional Templates w/ Examples
+- [x] Drag and reorder tabs
 - [x] Chrome extension support (for advanced users)
 - [x] uBlockOrigin by default
 - [x] Keyboard shortcuts: ctrl (+ shift) +t, +r, +w | alt + scroll
+- [ ] Download extensions from Chrome Web Store
 
 See the [open issues](https://github.com/BonBon-exchange/bonbon-web-browser/issues) for a full list of proposed features (and known issues).
 
