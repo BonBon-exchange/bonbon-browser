@@ -48,5 +48,6 @@
   "Continue": "Continue",
   "If checked, the app will auto-launch at system startup.": "If checked, the app will auto-launch at system startup.",
   "interrupted": "Interrupted",
-  "cancelled": "Cancelled"
+  "cancelled": "Cancelled",
+  "Extensions": "Extensions"
 }

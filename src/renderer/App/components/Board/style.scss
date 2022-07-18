@@ -1,6 +1,6 @@
 #Board__container {
   display: flex;
-  height: 300vh;
+  min-height: 1000vh !important;
   width: calc(100% - 50px);
   top: 0px;
   left: 50px;

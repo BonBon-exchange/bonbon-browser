@@ -555,6 +555,11 @@ contextBridge.exposeInMainWorld('titleBar', {
     ) => {
       ipcRenderer.on('download-state', action);
     },
+    removeExtension: (
+      action: (event: IpcRendererEvent, ...args: any[]) => void
+    ) => {
+      ipcRenderer.on('remove-extension', action);
+    },
   },
   off: {
     openTab: () => {
@@ -586,6 +591,9 @@ contextBridge.exposeInMainWorld('titleBar', {
     },
     downloadState: () => {
       ipcRenderer.removeAllListeners('download-state');
+    },
+    removeExtension: () => {
+      ipcRenderer.removeAllListeners('remove-extension');
     },
   },
   screens: {

@@ -8,6 +8,15 @@ contextBridge.exposeInMainWorld('app', {
     showBoardContextMenu: (params: { x: number; y: number }) => {
       ipcRenderer.send('show-board-context-menu', params);
     },
+    getAllExtensions: () => {
+      return ipcRenderer.invoke('get-all-extensions');
+    },
+    deleteExtension: (id: string) => {
+      ipcRenderer.send('delete-extension', id);
+    },
+    installExtension: (id: string) => {
+      ipcRenderer.send('install-extension', id);
+    },
   },
   analytics: {
     event: (eventName: string, params: Record<string, string>) => {

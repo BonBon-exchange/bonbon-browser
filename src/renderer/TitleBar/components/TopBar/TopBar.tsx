@@ -189,6 +189,14 @@ export const TopBar: React.FC = () => {
     []
   );
 
+  const removeExtensionListener = useCallback((_e: unknown, id: string) => {
+    const bal = document.querySelector('browser-action-list');
+    const balRoot = bal && bal.shadowRoot;
+
+    const toRemove = balRoot && balRoot.getElementById(id);
+    toRemove?.remove();
+  }, []);
+
   const handleReorder = (newOrder: TabProps[]) => {
     dispatch(setTabs(newOrder));
   };
@@ -274,6 +282,11 @@ export const TopBar: React.FC = () => {
     window.titleBar.listener.downloadState(downloadStateListener);
     return () => window.titleBar.off.downloadState();
   }, [downloadStateListener]);
+
+  useEffect(() => {
+    window.titleBar.listener.removeExtension(removeExtensionListener);
+    return () => window.titleBar.off.removeExtension();
+  }, [removeExtensionListener]);
 
   useEffect(() => {
     if (tabs.length === 0) pushTab({});

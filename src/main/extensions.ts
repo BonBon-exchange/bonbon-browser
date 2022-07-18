@@ -1,3 +1,4 @@
+/* eslint-disable import/no-dynamic-require */
 /* eslint-disable consistent-return */
 /* eslint-disable promise/no-nesting */
 /* eslint-disable promise/always-return */
@@ -6,7 +7,7 @@
 import fs from 'fs';
 import path from 'path';
 import { app, session } from 'electron';
-import { ElectronChromeExtensions } from 'electron-chrome-extensions';
+import { ElectronChromeExtensions } from 'electron-chrome-extensions-production';
 import rimraf from 'rimraf';
 
 // eslint-disable-next-line import/no-cycle
@@ -36,7 +37,10 @@ export const makeChromeExtensionSupport = () => {
   extensions = new ElectronChromeExtensions({
     session: session.fromPartition('persist:user-partition'),
     modulePath: app.isPackaged
-      ? path.join(__dirname, '../../../node_modules/electron-chrome-extensions')
+      ? path.join(
+          __dirname,
+          '../../../node_modules/electron-chrome-extensions-production'
+        )
       : undefined,
     createTab(details) {
       return new Promise((resolve, reject) => {
@@ -119,24 +123,52 @@ const downloadChromeExtension = (
   });
 };
 
-export const loadExtensions = (folderPath: string) => {
-  fs.readdirSync(folderPath, { withFileTypes: true })
+export const getAllExtensionsIdsFromFolder = (): string[] => {
+  return fs
+    .readdirSync(getPath(), { withFileTypes: true })
     .filter((item: any) => item.isDirectory())
-    .map((item: any) => item.name)
-    .forEach((dir) => {
-      const extPath = path.join(folderPath, dir);
-      session.fromPartition('persist:user-partition').loadExtension(extPath);
-    });
+    .map((item: any) => item.name);
+};
+
+export const getAllExtensions = (): Electron.Extension[] => {
+  return session.fromPartition('persist:user-partition').getAllExtensions();
+};
+
+export const loadExtensions = () => {
+  getAllExtensionsIdsFromFolder().forEach((dir) => {
+    const extPath = path.join(getPath(), dir);
+    session.fromPartition('persist:user-partition').loadExtension(extPath);
+  });
 };
 
 export const installAndLoadUserExtensions = () => {
-  const userExtensionsPath = getPath();
   downloadChromeExtension('cjpalhdlnbpafiamejdnhcphjbkeiagm') // uBlockOrigin
     .then(() => {
-      loadExtensions(userExtensionsPath);
+      loadExtensions();
     })
     .catch((err) => {
       console.log(err);
-      loadExtensions(userExtensionsPath);
+      loadExtensions();
     });
+};
+
+export const deleteExtension = (id: string) => {
+  const ext = session.fromPartition('persist:user-partition').getExtension(id);
+  session.fromPartition('persist:user-partition').removeExtension(id);
+  rimraf(ext.path, (err) => {
+    console.log(err, ext.path);
+    rimraf(`${ext.path}.crx`, console.log);
+    getExtensionsObject().removeExtension(ext);
+    getMainWindow()?.webContents.send('remove-extension', id);
+  });
+};
+
+export const installExtension = (id: string) => {
+  downloadChromeExtension(id)
+    .then(() => {
+      session
+        .fromPartition('persist:user-partition')
+        .loadExtension(path.join(getPath(), id));
+    })
+    .catch(console.log);
 };

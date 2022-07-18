@@ -4,6 +4,10 @@ export const mockWindow = () => {
     value: {
       app: {
         showTabContextMenu: jest.fn(),
+        showBoardContextMenu: jest.fn(),
+        getAllExtensions: jest.fn(() => Promise.resolve()),
+        deleteExtension: jest.fn(),
+        installExtension: jest.fn(),
       },
       analytics: {
         event: jest.fn(),

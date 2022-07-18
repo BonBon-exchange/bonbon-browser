@@ -135,7 +135,7 @@
     "@reduxjs/toolkit": "^1.8.2",
     "clsx": "^1.1.1",
     "easy-auto-launch": "^6.0.2",
-    "electron-chrome-extensions": "^3.9.0",
+    "electron-chrome-extensions-production": "^3.11.0",
     "electron-context-menu": "^3.2.0",
     "electron-store": "^8.0.2",
     "electron-updater": "^5.0.1",
@@ -154,7 +154,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.6",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
@@ -225,11 +225,12 @@
     "webpack": "^5.73.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.9.0",
+    "webpack-dev-server": "^4.9.3",
     "webpack-merge": "^5.8.0"
   },
   "overrides": {
-    "got": "^11.8.5"
+    "got": "^11.8.5",
+    "glob-parent": "^6.0.1"
   },
   "build": {
     "productName": "BonBon",
@@ -292,7 +293,7 @@
     },
     "extraResources": [
       "./assets/**",
-      "./node_modules/electron-chrome-extensions/dist/**"
+      "./node_modules/electron-chrome-extensions-production/dist/**"
     ],
     "publish": {
       "provider": "github",

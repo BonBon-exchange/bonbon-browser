@@ -13,7 +13,12 @@ import {
 } from 'electron';
 import AutoLaunch from 'easy-auto-launch';
 
-import { getExtensionsObject } from './extensions';
+import {
+  getExtensionsObject,
+  getAllExtensions,
+  deleteExtension,
+  installExtension,
+} from './extensions';
 import { event } from './analytics';
 import {
   createBrowserView,
@@ -435,4 +440,19 @@ export const makeIpcMainEvents = (): void => {
       });
     }
   );
+
+  ipcMain.handle('get-all-extensions', () => {
+    return new Promise((resolve) => {
+      const allExts = getAllExtensions();
+      resolve(allExts);
+    });
+  });
+
+  ipcMain.on('delete-extension', (_e, id: string) => {
+    deleteExtension(id);
+  });
+
+  ipcMain.on('install-extension', (_e, id: string) => {
+    installExtension(id);
+  });
 };
