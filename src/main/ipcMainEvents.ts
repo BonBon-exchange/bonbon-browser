@@ -112,8 +112,11 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('tab-purge', (_event, args) => {
-    const view = views[args.tabId];
-    if (view) view.webContents.send('purge');
+    const view = views[args.tabId] as any;
+    if (view) {
+      view.webContents.send('purge');
+      view.webContents.destroy();
+    }
     delete views[args.tabId];
   });
 
