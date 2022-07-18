@@ -11,7 +11,7 @@ import i18n from './i18n';
 import { event } from './analytics';
 import {
   getExtensionsObject,
-  installUserExtensions,
+  installAndLoadUserExtensions,
   makeChromeExtensionSupport,
 } from './extensions';
 import {
@@ -163,7 +163,7 @@ app
       })
       .catch(console.log);
 
-    installUserExtensions();
+    installAndLoadUserExtensions();
 
     app.on('activate', () => {
       const mainWindow = getMainWindow();
