@@ -132,6 +132,7 @@ app
     makeChromeExtensionSupport();
     makeIpcMainEvents();
     makeAppEvents();
+    installAndLoadUserExtensions();
     createWindow()
       .then(() => {
         getMainWindow()
@@ -162,8 +163,6 @@ app
           mainWindow?.webContents.openDevTools({ mode: 'detach' });
       })
       .catch(console.log);
-
-    installAndLoadUserExtensions();
 
     app.on('activate', () => {
       const mainWindow = getMainWindow();

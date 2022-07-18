@@ -4,6 +4,9 @@ declare global {
       app: {
         showLeftbarContextMenu: (params: { x: number; y: number }) => void;
         showBoardContextMenu: (params: { x: number; y: number }) => void;
+        getAllExtensions: () => Promise<any>;
+        deleteExtension: (id: string) => void;
+        installExtension: (id: string) => void;
       },
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;

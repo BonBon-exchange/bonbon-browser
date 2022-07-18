@@ -1,5 +1,88 @@
 const { ipcRenderer } = require('electron');
 
+const injectChromeWebstoreInstallButton = () => {
+  const ibText = 'Add to BonBon';
+  const ibTemplate =
+    '<div role="button" class="dd-Va g-c-wb g-eg-ua-Uc-c-za g-c-Oc-td-jb-oa g-c" aria-label="' +
+    ibText +
+    '" tabindex="0" style="user-select: none;"><div class="g-c-Hf"><div class="g-c-x"><div class="g-c-R  webstore-test-button-label">' +
+    ibText +
+    '</div></div></div></div>';
+
+  const waitForCreation = (selector, callback) => {
+    const element = document.querySelector(selector);
+    if (element != null) {
+      callback(element);
+    } else {
+      setTimeout(() => {
+        waitForCreation(selector, callback);
+      }, 50);
+    }
+  };
+
+  waitForCreation('.h-F-f-k.F-f-k', (element) => {
+    element.addEventListener('DOMNodeInserted', (event) => {
+      if (event.relatedNode != element) return;
+
+      setTimeout(() => {
+        installButton(event.target.querySelector('.h-e-f-Ra-c.e-f-oh-Md-zb-k'));
+      }, 10);
+    });
+  });
+
+  document.addEventListener('DOMNodeInserted', (event) => {
+    setTimeout(() => {
+      Array.from(document.getElementsByClassName('a-na-d-K-ea')).forEach(
+        (el) => {
+          el.parentNode?.removeChild(el);
+        }
+      );
+    }, 10);
+  });
+
+  const installPlugin = (id) => {
+    const button = document.getElementsByClassName(
+      'webstore-test-button-label'
+    )[0];
+    button.innerHTML = 'Installing...';
+
+    setTimeout(() => {
+      button.innerHTML = 'Installed';
+    }, 3000);
+
+    ipcRenderer.sendToHost('install-extension', id);
+  };
+
+  const installButton = (wrapper) => {
+    if (wrapper == null) return;
+    const idArray = document.URL.match(/(?<=\/)(\w+)(\?|$)/);
+    if (idArray && idArray[1]) {
+      wrapper.innerHTML += ibTemplate;
+      const DOM = wrapper.children[0];
+
+      /* Styling */
+      DOM.addEventListener('mouseover', () => {
+        DOM.className =
+          'dd-Va g-c-wb g-eg-ua-Uc-c-za g-c-0c-td-jb-oa g-c g-c-l';
+      });
+      DOM.addEventListener('mouseout', () => {
+        DOM.className = 'dd-Va g-c-wb g-eg-ua-Uc-c-za g-c-Oc-td-jb-oa g-c';
+      });
+      DOM.addEventListener('mousedown', () => {
+        DOM.className =
+          'dd-Va g-c-wb g-eg-ua-Uc-c-za g-c-Oc-td-jb-oa g-c g-c-Xc g-c-Sc-ci g-c-l g-c-Bd';
+      });
+      DOM.addEventListener('mouseup', () => {
+        DOM.className =
+          'dd-Va g-c-wb g-eg-ua-Uc-c-za g-c-0c-td-jb-oa g-c g-c-l';
+      });
+      DOM.addEventListener('click', () => {
+        installPlugin(idArray[1]);
+      });
+    }
+  };
+};
+
 const keyUpListener = (e) => {
   if (e.key === 'Alt') {
     ipcRenderer.sendToHost('AltUp');
@@ -59,3 +142,7 @@ document.addEventListener(
   },
   false
 );
+
+if (window.location.host === 'chrome.google.com') {
+  injectChromeWebstoreInstallButton();
+}

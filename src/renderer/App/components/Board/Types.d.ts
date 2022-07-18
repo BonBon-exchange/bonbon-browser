@@ -9,3 +9,7 @@ export interface BoardType {
   isFullSize: boolean;
   lastClosedBrowserDimensions?: [number, number];
 }
+
+export interface BoardProps {
+  isFullSize?: boolean;
+}

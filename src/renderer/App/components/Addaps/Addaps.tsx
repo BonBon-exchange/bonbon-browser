@@ -16,6 +16,7 @@ import { Bookmarks } from 'renderer/App/components/Bookmarks';
 import { History } from 'renderer/App/components/History';
 import { Downloads } from 'renderer/App/components/Downloads';
 import { Documentation } from 'renderer/App/components/Documentation';
+import { Extensions } from 'renderer/App/components/Extensions';
 import { DownloadsPreview } from 'renderer/App/components/DownloadsPreview';
 import { useAppSelector } from 'renderer/App/store/hooks';
 
@@ -33,6 +34,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   const [showHistory, setShowHistory] = useState<boolean>(false);
   const [showDownloads, setShowDownloads] = useState<boolean>(false);
   const [showDocumentation, setShowDocumentation] = useState<boolean>(false);
+  const [showExtensions, setShowExtensions] = useState<boolean>(false);
   const [showAppMenu, setShowAppMenu] = useState<boolean>(false);
   const [showDownloadsPreview, setShowDownloadsPreview] =
     useState<boolean>(false);
@@ -71,12 +73,14 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   const handleCloseHistory = () => setShowHistory(false);
   const handleCloseDownloads = () => setShowDownloads(false);
   const handleCloseDocumentation = () => setShowDocumentation(false);
+  const handleCloseExtensions = () => setShowExtensions(false);
 
   const handleShowSettings = () => setShowSettings(true);
   const handleShowBookmarks = () => setShowBookmarks(true);
   const handleShowHistory = () => setShowHistory(true);
   const handleShowDownloads = () => setShowDownloads(true);
   const handleShowDocumentation = () => setShowDocumentation(true);
+  const handleShowExtensions = () => setShowExtensions(true);
 
   useEffect(() => {
     if (boardId) board.load({ id: boardId });
@@ -101,7 +105,16 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   return (
     <>
       <LeftBar />
-      <Board />
+      <Board
+        isFullSize={
+          showSettings ||
+          showBookmarks ||
+          showHistory ||
+          showDownloads ||
+          showDocumentation ||
+          showExtensions
+        }
+      />
       {showPopup && (
         <Popup title={popupTitle} closePopup={() => setShowPopup(false)}>
           {popupChildren}
@@ -115,6 +128,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
           showHistory={handleShowHistory}
           showDownloads={handleShowDownloads}
           showDocumentation={handleShowDocumentation}
+          showExtensions={handleShowExtensions}
         />
       )}
       {showDownloadsPreview && <DownloadsPreview />}
@@ -122,6 +136,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
       {showBookmarks && <Bookmarks handleClose={handleCloseBookmarks} />}
       {showHistory && <History handleClose={handleCloseHistory} />}
       {showDownloads && <Downloads handleClose={handleCloseDownloads} />}
+      {showExtensions && <Extensions handleClose={handleCloseExtensions} />}
       {showDocumentation && (
         <Documentation handleClose={handleCloseDocumentation} />
       )}

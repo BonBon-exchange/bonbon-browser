@@ -11,9 +11,11 @@ import { AnimatePresence } from 'framer-motion';
 
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 
+import { BoardProps } from './Types';
+
 import './style.scss';
 
-export const Board: React.FC = () => {
+export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
   const board = useBoard();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>([]);
@@ -61,7 +63,7 @@ export const Board: React.FC = () => {
     <div
       id="Board__container"
       className={clsx({
-        'Board__is-full-size': board.isFullSize,
+        'Board__is-full-size': board.isFullSize || isFullSize,
       })}
     >
       <AnimatePresence>{makeBrowsers(items)}</AnimatePresence>

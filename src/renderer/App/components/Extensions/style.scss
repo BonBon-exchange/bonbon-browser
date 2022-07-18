@@ -1,4 +1,4 @@
-#Bookmarks__container {
+#Extensions__container {
   background-color: var(--color-background-secondary);
   color: var(--color-text-primary);
   position: fixed;
@@ -10,12 +10,18 @@
   align-items: center;
   overflow-y: auto;
 
-  #Bookmarks__centered-container {
+  #Extensions__centered-container {
     display: flex;
     width: 800px;
     flex-direction: column;
 
-    .Bookmarks__search {
+    .Extensions__clear-button {
+      width: fit-content;
+      align-self: flex-end;
+      margin-bottom: 30px;
+    }
+
+    .Extensions__search {
       margin-bottom: 30px;
       border-radius: 3px;
       height: 30px;
@@ -24,7 +30,7 @@
       padding-right: 20px;
     }
 
-    .Bookmarks__item {
+    .Extensions__item {
       background-color: var(--color-background-primary);
       padding: 20px;
       border-radius: 3px;
@@ -35,25 +41,29 @@
       flex-direction: row;
       overflow: hidden;
 
-      .Bookmarks__item-text {
+      .Extensions__item-text {
         flex-grow: 1;
         overflow: hidden;
 
-        .Bookmarks__item-name {
+        .Extensions__item-name {
           font-weight: bold;
+        }
+
+        .Extensions__item-description {
+          margin-top: 10px;
         }
       }
 
-      .Bookmarks__item-control {
+      .Extensions__item-control {
         padding: 10px;
       }
 
-      .Bookmarks__item-control:hover {
+      .Extensions__item-control:hover {
         color: var(--color-icon-primary);
       }
     }
 
-    .Bookmarks__item:hover{
+    .Extensions__item:hover{
       border: 1px solid var(--color-border);
     }
   }

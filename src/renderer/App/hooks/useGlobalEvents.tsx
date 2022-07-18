@@ -102,8 +102,10 @@ export const useGlobalEvents = () => {
   );
 
   const scrollListener = useCallback(() => {
-    const containerHeight =
-      document.querySelector('#Board__container')?.clientHeight;
+    const boardContainer = document.querySelector(
+      '#Board__container'
+    ) as HTMLDivElement;
+    const containerHeight = boardContainer.clientHeight;
     const heightDistance =
       document.documentElement.getBoundingClientRect().bottom * -1 +
       window.innerHeight -

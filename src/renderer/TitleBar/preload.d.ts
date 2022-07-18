@@ -28,6 +28,7 @@ declare global {
         closeAllTab: (action: unknown) => void;
         closeOthersTab: (action: unknown) => void;
         downloadState: (action: unknown) => void;
+        removeExtension: (action: unknown) => void;
       };
       off: {
         openTab: () => void;
@@ -40,6 +41,7 @@ declare global {
         closeAllTab: () => void;
         closeOthersTab: () => void;
         downloadState: () => void;
+        removeExtension: () => void;
       };
       tabs: {
         select: (tabId: string) => void;
