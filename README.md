@@ -78,9 +78,9 @@ To stay up to date with the project, submit bugs, and submit features, please jo
 
 ## Download
 
-Download BonBon for Windows: [BonBon Browser 0.27.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.27.0/BonBon.Setup.0.27.0.exe)
+Download BonBon for Windows: [BonBon Browser 0.28.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.28.0/BonBon.Setup.0.28.0.exe)
 
-Download BonBon portable for Windows: [BonBon Browser portable 0.27.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.27.0/BonBon.Browser.-.portable.exe)
+Download BonBon portable for Windows: [BonBon Browser portable 0.28.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.28.0/BonBon.Browser.-.portable.exe)
 
 Download BonBon for macOS arm64: [BonBon Browser 0.27.0 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.27.0/BonBon-0.27.0-arm64.dmg)
 
@@ -116,10 +116,9 @@ Download BonBon for Linux: [BonBon Browser 0.26.0 for Linux (AppImage)](https://
 - [x] Snap windows to the left or to the right dragging it to the edge of the app
 - [x] Darkmode
 - [x] Drag and reorder tabs
-- [x] Chrome extension support (for advanced users)
+- [x] Download extensions from Chrome Web Store
 - [x] uBlockOrigin by default
 - [x] Keyboard shortcuts: ctrl (+ shift) +t, +r, +w | alt + scroll
-- [ ] Download extensions from Chrome Web Store
 
 See the [open issues](https://github.com/BonBon-exchange/bonbon-web-browser/issues) for a full list of proposed features (and known issues).
 
