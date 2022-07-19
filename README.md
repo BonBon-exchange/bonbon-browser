@@ -82,11 +82,11 @@ Download BonBon for Windows: [BonBon Browser 0.28.1 for Windows](https://github.
 
 Download BonBon portable for Windows: [BonBon Browser portable 0.28.1 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.28.1/BonBon.Browser.-.portable.exe)
 
-Download BonBon for macOS arm64: [BonBon Browser 0.27.0 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.27.0/BonBon-0.27.0-arm64.dmg)
+Download BonBon for macOS arm64: [BonBon Browser 0.28.1 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.28.1/BonBon-0.28.1-arm64.dmg)
 
-Download BonBon for macOS: [BonBon Browser 0.27.0 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.27.0/BonBon-0.27.0.dmg)
+Download BonBon for macOS: [BonBon Browser 0.28.1 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.28.1/BonBon-0.28.1.dmg)
 
-Download BonBon for Linux: [BonBon Browser 0.26.0 for Linux (AppImage)](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.26.0/BonBon-0.26.0.AppImage)
+Download BonBon for Linux: [BonBon Browser 0.26.0 for Linux (AppImage)](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.28.1/BonBon-0.28.1.AppImage)
 
 **Notes: the program is detected as potentially dangerous for the system, because it is not signed using a certificate. On Windows, to obtain this certificate, we need to have a registered company. It will be done by October 2022. In the meantime, we need you to try BonBon and give us as much feedback as possible. Thank you for your trust.**
 
