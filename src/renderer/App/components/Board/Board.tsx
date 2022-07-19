@@ -63,7 +63,8 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
     <div
       id="Board__container"
       className={clsx({
-        'Board__is-full-size': board.isFullSize || isFullSize,
+        'Board__is-maximized': board.isFullSize || isFullSize,
+        'Board__isnt-maximized': !board.isFullSize && !isFullSize,
       })}
     >
       <AnimatePresence>{makeBrowsers(items)}</AnimatePresence>
