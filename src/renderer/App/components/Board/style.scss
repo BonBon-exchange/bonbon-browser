@@ -1,6 +1,5 @@
 #Board__container {
   display: flex;
-  min-height: 1000vh !important;
   width: calc(100% - 50px);
   top: 0px;
   left: 50px;
@@ -43,7 +42,10 @@
   }
 }
 
-.Board__is-full-size {
-  overflow: hidden;
-  height: 100% !important;
+.Board__is-maximized {
+  height: 100%;
+}
+
+.Board__isnt-maximized {
+  min-height: 1000vh;
 }
