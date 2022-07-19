@@ -1,12 +1,12 @@
 {
   "name": "BonBon",
-  "version": "0.28.0-beta-3",
+  "version": "0.28.0",
   "description": "BonBon Web Browser",
   "license": "GPL-3.0",
   "author": {
     "name": "Daniel Febrero",
     "email": "febrero@me.com",
-    "url": "https://github.com/danielfebrero/bonbon-web-browser"
+    "url": "https://github.com/BonBOn-exchange/bonbon-web-browser"
   },
   "main": "./dist/main/main.js",
   "scripts": {

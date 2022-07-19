@@ -6,7 +6,7 @@
     "typescript",
     "react"
   ],
-  "version": "0.28.0-beta-3",
+  "version": "0.28.0",
   "homepage": "https://github.com/BonBon-exchange/bonbon-web-browser#readme",
   "bugs": {
     "url": "https://github.com/BonBon-exchange/bonbon-web-browser/issues"
