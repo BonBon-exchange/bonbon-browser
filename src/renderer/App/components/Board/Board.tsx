@@ -45,7 +45,7 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
   }, [board.browsers.length, board.id]);
 
   useEffect(() => {
-    if (board.activeBrowser) focus(board.activeBrowser);
+    if (board.activeBrowser) focus(board.activeBrowser, true);
   }, [board.activeBrowser, focus]);
 
   useEffect(() => {

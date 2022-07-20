@@ -7,26 +7,6 @@ import { setActiveBrowser } from 'renderer/App/store/reducers/Board';
 import { getContainerFromBrowserId } from '../helpers/dom';
 import { useBoard } from './useBoard';
 
-export const bringBrowserToTheFront = (container: Element | null) => {
-  const containers = document.querySelectorAll('.Browser__draggable-container');
-
-  containers.forEach((w: Element) => {
-    const z = w as HTMLElement;
-    if (z) z.style.zIndex = '1';
-  });
-
-  const divContainer = container as HTMLElement;
-  if (container) divContainer.style.zIndex = '2';
-};
-
-export const scrollToBrowser = (browserId: string): void => {
-  const container = getContainerFromBrowserId(browserId);
-  container?.scrollIntoView();
-  window.scrollBy(0, -100);
-
-  bringBrowserToTheFront(container);
-};
-
 export const focusUrlBar = (browserId: string) => {
   const container = getContainerFromBrowserId(browserId);
   const urlBar = container
@@ -39,13 +19,43 @@ export const useBrowserMethods = () => {
   const dispatch = useAppDispatch();
   const boardState = useBoard();
 
+  const bringBrowserToTheFront = useCallback(
+    (browserId: string) => {
+      dispatch(setActiveBrowser(browserId));
+      const containers = document.querySelectorAll(
+        '.Browser__draggable-container'
+      );
+
+      containers.forEach((w: Element) => {
+        const z = w as HTMLElement;
+        if (z) z.style.zIndex = '1';
+      });
+
+      const container = getContainerFromBrowserId(browserId);
+      const divContainer = container as HTMLElement;
+      if (container) divContainer.style.zIndex = '2';
+    },
+    [dispatch]
+  );
+
+  const scrollToBrowser = useCallback(
+    (browserId: string): void => {
+      const container = getContainerFromBrowserId(browserId);
+      container?.scrollIntoView();
+      window.scrollBy(0, -10);
+
+      bringBrowserToTheFront(browserId);
+    },
+    [bringBrowserToTheFront]
+  );
+
   const focus = useCallback(
     (browserId: string, dontScroll?: boolean) => {
       if (!dontScroll) scrollToBrowser(browserId);
       dispatch(setActiveBrowser(browserId));
       window.app.analytics.event('switch_browser');
     },
-    [dispatch]
+    [dispatch, scrollToBrowser]
   );
 
   const next = useCallback(() => {
