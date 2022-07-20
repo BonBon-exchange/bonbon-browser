@@ -14,11 +14,8 @@ with open("./release/app/package.json", "r") as f:
     release_package_json_version = package_json["version"]
     f.close()
 
-if main_package_json_version == "" or release_package_json_version == "":
-    os._exit(1)
-
 if main_package_json_version != release_package_json_version:
-    os._exit(1)
+    raise SystemError()
 
 if main_package_json_version != tag or release_package_json_version != tag:
-    os._exit(1)
+    raise SystemError()
