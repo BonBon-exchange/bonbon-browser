@@ -146,7 +146,7 @@ export const loadExtensions = () => {
 export const installAndLoadUserExtensions = () => {
   const installUBlockOrigin = store.get('extensions.forceInstallUBlockOrigin');
 
-  if(installUBlockOrigin === true || installUBlockOrigin === undefined) {
+  if (installUBlockOrigin === true || installUBlockOrigin === undefined) {
     downloadChromeExtension('cjpalhdlnbpafiamejdnhcphjbkeiagm') // uBlockOrigin
       .then(() => {
         loadExtensions();
@@ -155,8 +155,7 @@ export const installAndLoadUserExtensions = () => {
         console.log(err);
         loadExtensions();
       });
-  }
-  else {
+  } else {
     loadExtensions();
   }
   if (installUBlockOrigin === undefined)
