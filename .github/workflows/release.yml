@@ -92,17 +92,3 @@ jobs:
           file_glob: true
           file: release/build/BonBon Setup *.*.*.exe
           tag: ${{ github.ref }}
-  telegram:
-    runs-on: ubuntu-latest
-    needs: release
-    steps:
-      - name: setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-      - name: get deps
-        run: pip3 install octokit && pip3 install python-telegram-bot --pre
-      - name: telegram
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-        run: python3 ./.github/tbot.py
