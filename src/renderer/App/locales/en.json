@@ -49,5 +49,6 @@
   "If checked, the app will auto-launch at system startup.": "If checked, the app will auto-launch at system startup.",
   "interrupted": "Interrupted",
   "cancelled": "Cancelled",
-  "Extensions": "Extensions"
+  "Extensions": "Extensions",
+  "Russian": "Russian"
 }
