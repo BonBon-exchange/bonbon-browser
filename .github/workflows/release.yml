@@ -6,7 +6,21 @@ on:
       - created
 
 jobs:
+  checkVersions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.1.0
+
+      - name: Compare tag version and internal version
+        env:
+          TAG: ${{ github.ref }}
+        run: python3 ./.github/compare_versions.py
   release:
+    needs: checkVersions
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
