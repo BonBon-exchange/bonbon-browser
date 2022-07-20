@@ -17,5 +17,5 @@ with open("./release/app/package.json", "r") as f:
 if main_package_json_version != release_package_json_version:
     raise SystemError()
 
-if main_package_json_version != tag or release_package_json_version != tag:
+if "v"+main_package_json_version != tag or "v"+release_package_json_version != tag:
     raise SystemError()
