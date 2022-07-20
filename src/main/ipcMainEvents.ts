@@ -455,4 +455,9 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.on('install-extension', (_e, id: string) => {
     installExtension(id);
   });
+
+  ipcMain.on('hide-downloads-preview', () => {
+    const mainWindow = getMainWindow();
+    mainWindow?.webContents.send('hide-downloads-preview');
+  });
 };

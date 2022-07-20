@@ -9,3 +9,7 @@ body {
 .bold {
   font-weight: bold;
 }
+
+.MuiButton-contained {
+  background-color: var(--color-icon-primary) !important;
+}

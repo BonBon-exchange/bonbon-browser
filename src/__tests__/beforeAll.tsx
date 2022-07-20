@@ -8,6 +8,7 @@ export const mockWindow = () => {
         getAllExtensions: jest.fn(() => Promise.resolve()),
         deleteExtension: jest.fn(),
         installExtension: jest.fn(),
+        hideDownloadsPreview: jest.fn(),
       },
       analytics: {
         event: jest.fn(),
