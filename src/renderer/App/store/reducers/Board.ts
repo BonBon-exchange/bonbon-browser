@@ -58,7 +58,7 @@ const newBrowser = {
 const boardId = v4();
 const newBoard = {
   id: boardId,
-  label: 'New board',
+  label: 'New collection',
   browsers: [newBrowser],
   activeBrowser: browserId,
   closedUrls: [],

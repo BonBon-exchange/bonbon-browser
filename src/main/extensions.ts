@@ -10,12 +10,14 @@ import { app, session } from 'electron';
 import { ElectronChromeExtensions } from 'electron-chrome-extensions-production';
 import rimraf from 'rimraf';
 
+import { getStore } from './store';
 // eslint-disable-next-line import/no-cycle
 import { getMainWindow, getSelectedView } from './browser';
 import { changePermissions, getPath, downloadFile } from './util';
 
 const unzip: any = require('unzip-crx-3');
 
+const store = getStore();
 let extensions: ElectronChromeExtensions;
 
 export const getExtensionsObject = () => extensions;
@@ -142,14 +144,23 @@ export const loadExtensions = () => {
 };
 
 export const installAndLoadUserExtensions = () => {
-  downloadChromeExtension('cjpalhdlnbpafiamejdnhcphjbkeiagm') // uBlockOrigin
-    .then(() => {
-      loadExtensions();
-    })
-    .catch((err) => {
-      console.log(err);
-      loadExtensions();
-    });
+  const installUBlockOrigin = store.get('extensions.forceInstallUBlockOrigin');
+
+  if(installUBlockOrigin === true || installUBlockOrigin === undefined) {
+    downloadChromeExtension('cjpalhdlnbpafiamejdnhcphjbkeiagm') // uBlockOrigin
+      .then(() => {
+        loadExtensions();
+      })
+      .catch((err) => {
+        console.log(err);
+        loadExtensions();
+      });
+  }
+  else {
+    loadExtensions();
+  }
+  if (installUBlockOrigin === undefined)
+    store.set('extensions.forceInstallUBlockOrigin', false);
 };
 
 export const deleteExtension = (id: string) => {

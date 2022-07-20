@@ -6,6 +6,7 @@
 /* eslint-disable import/prefer-default-export */
 import { useCallback } from 'react';
 import { v4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch } from 'renderer/App/store/hooks';
 
@@ -27,6 +28,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const dispatch = useAppDispatch();
   const board = useBoard();
   const { scrollToBrowser, focusUrlBar } = useBrowserMethods();
+  const { t } = useTranslation();
 
   const makeBrowser = useCallback(
     async (params: { url?: string; top?: number; left?: number }) => {
@@ -93,7 +95,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       const id = params.id || v4();
       const newBoard = {
         id,
-        label: `New board`,
+        label: t('New collection'),
         browsers: [newBrowser],
         closedUrls: [],
         isFullSize: false,
@@ -102,7 +104,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       dispatch(setBoard(newBoard));
       window.app.analytics.event('add_board');
     },
-    [dispatch, makeBrowser]
+    [dispatch, makeBrowser, t]
   );
 
   const loadBoard = useCallback(

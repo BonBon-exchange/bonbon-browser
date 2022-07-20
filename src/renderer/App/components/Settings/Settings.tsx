@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { CloseButton } from 'renderer/App/components/CloseButton';
 import { ApplicationSettings } from './ApplicationSettings';
 import { BrowsingSettings } from './BrowsingSettings';
+import { ExtensionsSettings } from './ExtensionsSettings';
 
 import './style.scss';
 import { SettingsProps } from './Types';
@@ -30,6 +31,9 @@ export const Settings: React.FC<SettingsProps> = ({
           </li>
           <li onClick={() => setSelectedView(<BrowsingSettings />)}>
             {t('Browsing')}
+          </li>
+          <li onClick={() => setSelectedView(<ExtensionsSettings />)}>
+            {t('Extensions')}
           </li>
         </ul>
       </div>
