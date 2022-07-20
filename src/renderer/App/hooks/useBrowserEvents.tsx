@@ -49,7 +49,7 @@ export const useBrowserEvents = (browserId: string) => {
           break;
 
         case 'clickOnPage':
-          bringBrowserToTheFront(container);
+          bringBrowserToTheFront(browserId);
           dispatch(setActiveBrowser(browserId));
           const clickEvent = new MouseEvent('click');
           window.dispatchEvent(clickEvent);
@@ -141,7 +141,7 @@ export const useBrowserEvents = (browserId: string) => {
           break;
       }
     },
-    [browserId, container, dispatch, bringBrowserToTheFront]
+    [browserId, dispatch, bringBrowserToTheFront]
   );
 
   const loadCommitListener = useCallback(
@@ -202,9 +202,9 @@ export const useBrowserEvents = (browserId: string) => {
   );
 
   const containerClickListener = useCallback(() => {
-    bringBrowserToTheFront(container);
+    bringBrowserToTheFront(browserId);
     dispatch(setActiveBrowser(browserId));
-  }, [browserId, dispatch, container, bringBrowserToTheFront]);
+  }, [browserId, dispatch, bringBrowserToTheFront]);
 
   useEffect(() => {
     webview?.addEventListener('did-stop-loading', didFinishLoadListener);
@@ -217,7 +217,7 @@ export const useBrowserEvents = (browserId: string) => {
     );
     // @ts-ignore
     webview?.addEventListener('ipc-message', ipcMessageListener);
-    container?.addEventListener('click', containerClickListener);
+    container?.addEventListener('mousedown', containerClickListener);
 
     return () => {
       webview?.removeEventListener('did-stop-loading', didFinishLoadListener);
@@ -234,7 +234,7 @@ export const useBrowserEvents = (browserId: string) => {
       // @ts-ignore
       webview?.removeEventListener('ipc-message', ipcMessageListener);
 
-      container?.removeEventListener('click', containerClickListener);
+      container?.removeEventListener('mousedown', containerClickListener);
     };
   }, [
     loadCommitListener,

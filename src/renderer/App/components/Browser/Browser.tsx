@@ -23,7 +23,6 @@ import {
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
-import { getContainerFromBrowserId } from 'renderer/App/helpers/dom';
 
 import { BrowserProps } from './Types';
 
@@ -76,6 +75,7 @@ export const Browser: React.FC<BrowserProps> = ({
 
   const toggleFullsizeBrowser = () => {
     dispatch(toggleBoardFullSize());
+    setTimeout(() => focus(id), 0);
   };
 
   const onDrag = (_e: any, d: { x: number; y: number }) => {
@@ -248,7 +248,7 @@ export const Browser: React.FC<BrowserProps> = ({
   }, [firstRenderingState, url]);
 
   useEffect(() => {
-    bringBrowserToTheFront(getContainerFromBrowserId(id));
+    bringBrowserToTheFront(id);
   }, [id, bringBrowserToTheFront]);
 
   useEffect(() => {
@@ -317,7 +317,7 @@ export const Browser: React.FC<BrowserProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        layout
+        layout={!board?.isFullSize}
       >
         <BrowserTopBar
           closeBrowser={() => setTimeout(() => browser.close(id), 0)}
