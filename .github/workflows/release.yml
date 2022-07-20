@@ -101,7 +101,7 @@ jobs:
         with:
           python-version: '3.x'
       - name: get deps
-        run: pip3 install python-telegram-bot --pre
+        run: pip3 install octokit && pip3 install python-telegram-bot --pre
       - name: telegram
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
