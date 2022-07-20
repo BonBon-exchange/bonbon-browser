@@ -44,6 +44,7 @@
 
 .BrowserControlBar_url-input {
   flex-grow: 1;
+  user-select: none;
 
   input {
     font-size: 14px;
