@@ -13,3 +13,10 @@ body {
 .MuiButton-contained {
   background-color: var(--color-icon-primary) !important;
 }
+
+.justify-content-right {
+  div, ul, li, input {
+    justify-content: right;
+    text-align: right;
+  }
+}

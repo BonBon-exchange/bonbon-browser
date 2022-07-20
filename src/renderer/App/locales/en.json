@@ -4,10 +4,10 @@
   "Settings": "Settings",
   "Language": "Language",
   "English": "English",
-  "Spanish": "Spanish",
-  "French": "French",
-  "Dutch": "Dutch",
-  "Polish": "Polish",
+  "Spanish": "Español",
+  "French": "Français",
+  "Dutch": "Nederlands",
+  "Polish": "Polski",
   "The language in which displays the application.": "The language in which displays the application.",
   "This feature is not available yet.": "This feature is not available yet.",
   "Launch at startup": "Launch at startup",
@@ -50,5 +50,6 @@
   "interrupted": "Interrupted",
   "cancelled": "Cancelled",
   "Extensions": "Extensions",
-  "Russian": "Russian"
+  "Russian": "Русский",
+  "Arabic": "العربية"
 }

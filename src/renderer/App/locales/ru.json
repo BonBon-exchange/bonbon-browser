@@ -4,10 +4,10 @@
   "Settings": "Настройки",
   "Language": "Язык",
   "English": "English",
-  "Spanish": "Spanish",
-  "French": "французский",
-  "Dutch": "голландский",
-  "Polish": "Польский",
+  "Spanish": "Español",
+  "French": "Français",
+  "Dutch": "Nederlands",
+  "Polish": "Polski",
   "The language in which displays the application.": "Язык, на котором отображается приложение.",
   "This feature is not available yet.": "TЭта функция пока недоступна.",
   "Launch at startup": "Запускать при запуске",
@@ -50,5 +50,6 @@
   "interrupted": "Прервано",
   "cancelled": "Отменено",
   "Extensions": "Расширения",
-  "Russian": "Русский"
+  "Russian": "Русский",
+  "Arabic": "العربية"
 }

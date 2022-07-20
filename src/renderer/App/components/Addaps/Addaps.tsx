@@ -3,6 +3,8 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
 import React, { useCallback, useEffect, useState } from 'react';
+import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import { useGlobalEvents } from 'renderer/App/hooks/useGlobalEvents';
 import { Board } from 'renderer/App/components/Board';
@@ -40,6 +42,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
     useState<boolean>(false);
   const [popupTitle, setPopupTitle] = useState<string>('');
   const [popupChildren, setPopupChildren] = useState<JSX.Element>();
+  const { i18n } = useTranslation();
 
   const showAppMenuAction = useCallback(() => {
     setShowAppMenu(!showAppMenu);
@@ -103,7 +106,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   }, []);
 
   return (
-    <>
+    <div className={clsx({ 'justify-content-right': i18n.language === 'ar' })}>
       <LeftBar />
       <Board
         isFullSize={
@@ -140,6 +143,6 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
       {showDocumentation && (
         <Documentation handleClose={handleCloseDocumentation} />
       )}
-    </>
+    </div>
   );
 };

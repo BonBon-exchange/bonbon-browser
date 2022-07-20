@@ -8,6 +8,7 @@ import fr from 'renderer/App/locales/fr.json';
 import nl from 'renderer/App/locales/nl.json';
 import pl from 'renderer/App/locales/pl.json';
 import ru from 'renderer/App/locales/ru.json';
+import ar from 'renderer/App/locales/ar.json';
 
 const resources = {
   en: {
@@ -27,6 +28,9 @@ const resources = {
   },
   ru: {
     translation: ru,
+  },
+  ar: {
+    translation: ar,
   },
 };
 
