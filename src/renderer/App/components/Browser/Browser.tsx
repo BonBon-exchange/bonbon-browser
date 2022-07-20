@@ -72,6 +72,11 @@ export const Browser: React.FC<BrowserProps> = ({
 
   const edgeLeft = document.querySelector('.Board__edge-snap-left');
   const edgeRight = document.querySelector('.Board__edge-snap-right');
+  const edgeMaximized = document.querySelector('.Board__edge-snap-maximized');
+
+  const toggleFullsizeBrowser = () => {
+    dispatch(toggleBoardFullSize());
+  };
 
   const onDrag = (_e: any, d: { x: number; y: number }) => {
     const edgeRightWidth = container.current?.clientWidth
@@ -93,6 +98,14 @@ export const Browser: React.FC<BrowserProps> = ({
       // @ts-ignore
       edgeRight.style.display = 'none';
     }
+
+    if (d.y - window.scrollY <= 20) {
+      // @ts-ignore
+      edgeMaximized.style.display = 'block';
+    } else {
+      // @ts-ignore
+      edgeMaximized.style.display = 'none';
+    }
   };
 
   const onDragStart = () => {
@@ -105,11 +118,14 @@ export const Browser: React.FC<BrowserProps> = ({
     edgeRight.style.display = 'none';
     // @ts-ignore
     edgeLeft.style.display = 'none';
+    // @ts-ignore
+    edgeMaximized.style.display = 'none';
 
     const edgeRightWidth = container.current?.clientWidth
       ? container.current?.clientWidth
       : 0;
     const edgeRightValue = window.innerWidth - edgeRightWidth - 69;
+    const edgeTopValue = d.y - window.scrollY;
 
     switch (d.x) {
       case 0:
@@ -149,17 +165,22 @@ export const Browser: React.FC<BrowserProps> = ({
         break;
 
       default:
-        setX(d.x);
-        setY(d.y);
-        dispatch(
-          updateBrowser({
-            browserId: id,
-            params: {
-              top: d.y,
-              left: d.x,
-            },
-          })
-        );
+        if (edgeTopValue <= 0) {
+          toggleFullsizeBrowser();
+          focus(id, true);
+        } else {
+          setX(d.x);
+          setY(d.y);
+          dispatch(
+            updateBrowser({
+              browserId: id,
+              params: {
+                top: d.y,
+                left: d.x,
+              },
+            })
+          );
+        }
         break;
     }
     enablePointerEventsForAll();
@@ -189,10 +210,6 @@ export const Browser: React.FC<BrowserProps> = ({
 
   const onResizeStart = () => {
     disablePointerEventsForAll();
-  };
-
-  const toggleFullsizeBrowser = () => {
-    dispatch(toggleBoardFullSize());
   };
 
   const goBack = () => {
