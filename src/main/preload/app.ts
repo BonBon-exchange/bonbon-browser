@@ -17,6 +17,9 @@ contextBridge.exposeInMainWorld('app', {
     installExtension: (id: string) => {
       ipcRenderer.send('install-extension', id);
     },
+    hideDownloadsPreview: () => {
+      ipcRenderer.send('hide-downloads-preview');
+    },
   },
   analytics: {
     event: (eventName: string, params: Record<string, string>) => {

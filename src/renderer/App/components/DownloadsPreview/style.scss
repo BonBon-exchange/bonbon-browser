@@ -32,4 +32,11 @@
       background-color: var(--color-background-5);
     }
   }
+
+  .DownloadsPreview__clear {
+    display: flex;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    justify-content: center;
+  }
 }

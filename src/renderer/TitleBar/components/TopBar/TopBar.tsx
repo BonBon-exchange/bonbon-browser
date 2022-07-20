@@ -189,6 +189,10 @@ export const TopBar: React.FC = () => {
     []
   );
 
+  const hideDownloadsPreviewListener = useCallback(() => {
+    setDownloadState(null);
+  }, []);
+
   const removeExtensionListener = useCallback((_e: unknown, id: string) => {
     const bal = document.querySelector('browser-action-list');
     const balRoot = bal && bal.shadowRoot;
@@ -287,6 +291,11 @@ export const TopBar: React.FC = () => {
     window.titleBar.listener.removeExtension(removeExtensionListener);
     return () => window.titleBar.off.removeExtension();
   }, [removeExtensionListener]);
+
+  useEffect(() => {
+    window.titleBar.listener.hideDownloadsPreview(hideDownloadsPreviewListener);
+    return () => window.titleBar.off.hideDownloadsPreview();
+  }, [hideDownloadsPreviewListener]);
 
   useEffect(() => {
     if (tabs.length === 0) pushTab({});

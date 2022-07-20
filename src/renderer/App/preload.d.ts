@@ -7,6 +7,7 @@ declare global {
         getAllExtensions: () => Promise<any>;
         deleteExtension: (id: string) => void;
         installExtension: (id: string) => void;
+        hideDownloadsPreview: () => void;
       },
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;

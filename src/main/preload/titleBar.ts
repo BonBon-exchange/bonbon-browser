@@ -101,6 +101,11 @@ contextBridge.exposeInMainWorld('titleBar', {
     ) => {
       ipcRenderer.on('remove-extension', action);
     },
+    hideDownloadsPreview: (
+      action: (event: IpcRendererEvent, ...args: any[]) => void
+    ) => {
+      ipcRenderer.on('hide-downloads-preview', action);
+    },
   },
   off: {
     openTab: () => {
@@ -135,6 +140,9 @@ contextBridge.exposeInMainWorld('titleBar', {
     },
     removeExtension: () => {
       ipcRenderer.removeAllListeners('remove-extension');
+    },
+    hideDownloadsPreview: () => {
+      ipcRenderer.removeAllListeners('hide-downloads-preview');
     },
   },
   screens: {

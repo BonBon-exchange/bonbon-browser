@@ -33,9 +33,12 @@ export const downloadsSlice = createSlice({
 
       if (state.items.length > 10) state.items.splice(0, 1);
     },
+    clearDownloads: (state) => {
+      state.items = [];
+    },
   },
 });
 
-export const { setDownloadItem } = downloadsSlice.actions;
+export const { setDownloadItem, clearDownloads } = downloadsSlice.actions;
 
 export default downloadsSlice.reducer;
