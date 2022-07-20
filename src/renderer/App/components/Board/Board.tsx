@@ -70,6 +70,7 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
       <AnimatePresence>{makeBrowsers(items)}</AnimatePresence>
       <div className="Board__edge-snap-left" />
       <div className="Board__edge-snap-right" />
+      <div className="Board__edge-snap-maximized" />
     </div>
   );
 };

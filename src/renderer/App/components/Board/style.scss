@@ -40,6 +40,19 @@
     opacity: 0.3;
     background: var(--color-background-primary);
   }
+
+  .Board__edge-snap-maximized {
+    border: 5px dotted var(--color-text-primary);
+    left: calc(60px);
+    top: 10px;
+    bottom: 10px;
+    right: 10px;
+    position: fixed;
+    display: none;
+    z-index: 99;
+    opacity: 0.3;
+    background: var(--color-background-primary);
+  }
 }
 
 .Board__is-maximized {
