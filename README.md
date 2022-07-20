@@ -54,7 +54,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://github.com/BonBon-exchange/bonbon-web-browser)
 
-BonBon is a browser offering an innovative interface and a total privacy.
+BonBon is a browser offering an innovative interface and privacy. Nothing is collected, we don't have any database nor any backend. We use [Nucleus.sh](https://www.nucleus.sh/) to provide us analytics about app usage and app errors.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
