@@ -56,6 +56,7 @@ export const ApplicationSettings: React.FC = () => {
           <option value="es">{t('Spanish')}</option>
           <option value="fr">{t('French')}</option>
           <option value="ru">{t('Russian')}</option>
+          <option value="ar">{t('Arabic')}</option>
           <option value="nl">{t('Dutch')}</option>
           <option value="pl">{t('Polish')}</option>
         </select>
