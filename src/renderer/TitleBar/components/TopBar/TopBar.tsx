@@ -38,7 +38,6 @@ export const TopBar: React.FC = () => {
   const { tabs, activeTab, isRenaming } = useAppSelector(
     (state) => state.tabs as TabsState
   );
-
   const dispatch = useAppDispatch();
 
   const pushTab = useCallback(
@@ -46,7 +45,7 @@ export const TopBar: React.FC = () => {
       const id = params.id || v4();
       const newTab = {
         id,
-        label: params.label || `New board`,
+        label: params.label || 'New collection',
       };
 
       dispatch(addTab(newTab));

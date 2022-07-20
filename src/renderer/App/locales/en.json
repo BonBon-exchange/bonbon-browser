@@ -51,5 +51,8 @@
   "cancelled": "Cancelled",
   "Extensions": "Extensions",
   "Russian": "Русский",
-  "Arabic": "العربية"
+  "Arabic": "العربية",
+  "Force uBlockOrigin installation at startup": "Force uBlockOrigin installation at startup",
+  "If checked, the app will automatically download uBlockOrigin and install it when starting.": "If checked, the app will automatically download uBlockOrigin and install it when starting.",
+  "New collection": "New collection"
 }

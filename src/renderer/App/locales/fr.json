@@ -48,5 +48,11 @@
   "Continue": "Continuer",
   "If checked, the app will auto-launch at system startup.": "Si cochée, l'application se lancera automatiquement au démarrage du système.",
   "interrupted": "Interronpu",
-  "cancelled": "Annulé"
+  "cancelled": "Annulé",
+  "Extensions": "Extensions",
+  "Russian": "Русский",
+  "Arabic": "العربية",
+  "Force uBlockOrigin installation at startup": "Forcer l'installation de uBlockOrigin au démarrage",
+  "If checked, the app will automatically download uBlockOrigin and install it when starting.": "If cochée, l'application téléchargera automatiquement uBlockOrigin et l'installera au démarrage.",
+  "New collection": "Nouvelle collection"
 }
