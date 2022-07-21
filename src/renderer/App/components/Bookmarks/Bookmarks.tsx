@@ -43,7 +43,6 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
     window.app.db
       .getAllBookmarks()
       .then((val) => {
-        console.log(val);
         setItems(val);
         setFilteredItems(val);
       })
