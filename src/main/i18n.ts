@@ -7,6 +7,11 @@ import nl from './locales/nl.json';
 import pl from './locales/pl.json';
 import ru from './locales/ru.json';
 import ar from './locales/ar.json';
+import cn from './locales/cn.json';
+import pt from './locales/pt.json';
+import tr from './locales/tr.json';
+import de from './locales/de.json';
+import fa from './locales/fa.json';
 
 const resources = {
   en: {
@@ -29,6 +34,21 @@ const resources = {
   },
   ar: {
     translation: ar,
+  },
+  cn: {
+    translation: cn,
+  },
+  pt: {
+    translation: pt,
+  },
+  tr: {
+    translation: tr,
+  },
+  de: {
+    translation: de,
+  },
+  fa: {
+    translation: fa,
   },
 };
 
