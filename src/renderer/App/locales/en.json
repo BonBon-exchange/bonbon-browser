@@ -60,5 +60,9 @@
   "Import all": "Import all",
   "Importing...": "Importing...",
   "Done": "Done",
-  "Select a browser to import from": "Select a browser to import from"
+  "Select a browser to import from": "Select a browser to import from",
+  "German": "Deutsch",
+  "Turkish": "Türk",
+  "Chinese": "中国人",
+  "Persian": "فارسی"
 }

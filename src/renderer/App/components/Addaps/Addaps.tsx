@@ -106,7 +106,12 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   }, []);
 
   return (
-    <div className={clsx({ 'justify-content-right': i18n.language === 'ar' })}>
+    <div
+      className={clsx({
+        'justify-content-right':
+          i18n.language === 'ar' || i18n.language === 'fa',
+      })}
+    >
       <LeftBar />
       <Board
         isFullSize={
