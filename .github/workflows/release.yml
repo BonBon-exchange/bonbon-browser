@@ -15,6 +15,9 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4.1.0
 
+      - name: Get dependencies
+        run: pip3 install semver
+
       - name: Compare tag version and internal version
         env:
           TAG: ${{ github.ref }}

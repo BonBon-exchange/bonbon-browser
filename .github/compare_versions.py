@@ -1,6 +1,8 @@
 import os
 import json
 
+import semver
+
 tag = os.getenv("TAG")
 
 with open("./package.json", "r") as f:
@@ -14,8 +16,13 @@ with open("./release/app/package.json", "r") as f:
     release_package_json_version = package_json["version"]
     f.close()
 
-print("package.json "+ main_package_json_version + " release package.json " + release_package_json_version + " tag " + tag)
-print("ALL EQUAL " + str(main_package_json_version is release_package_json_version is tag))
+tag_simplified = str(tag[1:])
 
-if main_package_json_version is not release_package_json_version is not tag:
-    raise SystemError()
+are_package_jsons_equal = semver.compare(main_package_json_version, release_package_json_version)
+is_package_json_version_and_tag_equal = semver.compare(main_package_json_version, tag_simplified)
+
+if is_package_json_version_and_tag_equal == 0 and are_package_jsons_equal == 0:
+    print("All good")
+else:
+    print(is_package_json_version_and_tag_equal, are_package_jsons_equal)
+    raise RuntimeError()
