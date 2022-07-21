@@ -14,8 +14,8 @@ with open("./release/app/package.json", "r") as f:
     release_package_json_version = package_json["version"]
     f.close()
 
-if main_package_json_version != release_package_json_version:
-    raise SystemError()
+print("package.json "+ main_package_json_version + " release package.json " + release_package_json_version + " tag " + tag)
+print("ALL EQUAL " + str(main_package_json_version is release_package_json_version is tag))
 
-if "v"+main_package_json_version != tag or "v"+release_package_json_version != tag:
+if main_package_json_version is not release_package_json_version is not tag:
     raise SystemError()
