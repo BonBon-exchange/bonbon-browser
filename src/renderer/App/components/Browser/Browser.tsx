@@ -16,7 +16,6 @@ import { CertificateErrorPage } from 'renderer/App/components/CertificateErrorPa
 import { SearchForm } from 'renderer/App/components/SearchForm';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import {
-  updateBrowserUrl,
   updateBrowser,
   toggleBoardFullSize,
 } from 'renderer/App/store/reducers/Board';
@@ -212,32 +211,9 @@ export const Browser: React.FC<BrowserProps> = ({
     disablePointerEventsForAll();
   };
 
-  const goBack = () => {
-    webview?.goBack();
-    window.app.analytics.event('browser_go_back');
-  };
-
-  const goForward = () => {
-    webview?.goForward();
-    window.app.analytics.event('browser_go_forward');
-  };
-
   const reload = () => {
     webview?.reload();
     window.app.analytics.event('browser_reload');
-  };
-
-  const goHome = () => {
-    window.app.config.get('browsing.defaultWebpage').then((val) => {
-      const defaultWebpage = val as string;
-      webview?.loadURL(defaultWebpage).catch(console.log);
-      dispatch(
-        updateBrowserUrl({
-          url: defaultWebpage,
-          browserId: id,
-        })
-      );
-    });
   };
 
   useEffect(() => {
@@ -328,14 +304,7 @@ export const Browser: React.FC<BrowserProps> = ({
           favicon={favicon}
           isLoading={isLoading}
         />
-        <BrowserControlBar
-          goBack={goBack}
-          goForward={goForward}
-          reload={reload}
-          goHome={goHome}
-          url={url}
-          browserId={id}
-        />
+        <BrowserControlBar url={url} browserId={id} />
         <div className="Browser__webview-container">
           {isSearching && <SearchForm browserId={id} />}
           {certificateErrorFingerprint && webContentsId && (

@@ -1,3 +1,6 @@
+/* eslint-disable promise/always-return */
+/* eslint-disable promise/no-nesting */
+/* eslint-disable promise/catch-or-return */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
@@ -14,6 +17,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HomeIcon from '@mui/icons-material/Home';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { BrowserInputSuggestions } from 'renderer/App/components/BrowserInputSuggestions';
 import { updateBrowserUrl } from 'renderer/App/store/reducers/Board';
@@ -27,12 +31,8 @@ import { BrowserControlBarProps } from './Types';
 import './style.scss';
 
 export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
-  goBack,
-  goForward,
-  reload,
   url,
   browserId,
-  goHome,
 }) => {
   const [urlInputValue, setUrlInputValue] = useState<string>(url);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -99,6 +99,35 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
     }
   };
 
+  const goBack = () => {
+    webview?.goBack();
+  };
+
+  const goForward = () => {
+    webview?.goForward();
+  };
+
+  const reload = () => {
+    webview?.reload();
+  };
+
+  const stop = () => {
+    webview?.stop();
+  };
+
+  const goHome = () => {
+    window.app.config.get('browsing.defaultWebpage').then((val) => {
+      const defaultWebpage = val as string;
+      webview?.loadURL(defaultWebpage).catch(console.log);
+      dispatch(
+        updateBrowserUrl({
+          url: defaultWebpage,
+          browserId,
+        })
+      );
+    });
+  };
+
   useEffect(() => {
     setUrlInputValue(url);
   }, [url]);
@@ -126,9 +155,15 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
         <div className="BrowserControlBar__control" onClick={goForward}>
           <ArrowForwardIcon />
         </div>
-        <div className="BrowserControlBar__control" onClick={reload}>
-          <CachedIcon />
-        </div>
+        {browser?.isLoading ? (
+          <div className="BrowserControlBar__control" onClick={stop}>
+            <CloseIcon />
+          </div>
+        ) : (
+          <div className="BrowserControlBar__control" onClick={reload}>
+            <CachedIcon />
+          </div>
+        )}
         <div className="BrowserControlBar__control" onClick={goHome}>
           <HomeIcon />
         </div>

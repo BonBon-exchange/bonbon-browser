@@ -13,12 +13,8 @@ let store: any;
 const middlewares: Middleware[] = [];
 
 const browserControlBarProps = {
-  goBack: jest.fn(),
-  goForward: jest.fn(),
-  reload: jest.fn(),
   url: 'https://www.github.com',
   browserId: '123abc',
-  goHome: jest.fn(),
 };
 
 describe('BrowserControlBar', () => {
