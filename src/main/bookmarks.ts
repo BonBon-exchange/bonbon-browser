@@ -136,7 +136,10 @@ export const getAllBookmarks = () => {
         resolve(
           rows.map((row) => {
             try {
-              return { ...row, tags: JSON.parse(row.tags) };
+              return {
+                ...row,
+                tags: JSON.parse(row.tags).filter((t: any) => t !== null),
+              };
             } catch {
               return row;
             }
