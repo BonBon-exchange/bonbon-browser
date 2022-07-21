@@ -10,6 +10,7 @@ import pl from 'renderer/App/locales/pl.json';
 import ru from 'renderer/App/locales/ru.json';
 import ar from 'renderer/App/locales/ar.json';
 import cn from 'renderer/App/locales/cn.json';
+import pt from 'renderer/App/locales/pt.json';
 
 const resources = {
   en: {
@@ -35,6 +36,9 @@ const resources = {
   },
   cn: {
     translation: cn,
+  },
+  pt: {
+    translation: pt,
   },
 };
 
