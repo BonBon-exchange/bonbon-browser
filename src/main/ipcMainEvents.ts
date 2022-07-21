@@ -30,6 +30,14 @@ import {
 import { getStore } from './store';
 import i18n from './i18n';
 import db from './db';
+import {
+  getBookmarksProviders,
+  getBookmarksFromProvider,
+  importBookmarks,
+  isBookmarked,
+  removeBookmark,
+  getAllBookmarks,
+} from './bookmarks';
 
 const store = getStore();
 const views: Record<string, BrowserView> = {};
@@ -237,11 +245,7 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.handle('is-bookmarked', (_e, str) => {
-    return new Promise((resolve, _reject) => {
-      db.get('SELECT * FROM bookmarks WHERE url = ?', str, (_err, row) =>
-        resolve(row !== undefined)
-      );
-    });
+    return isBookmarked(str);
   });
 
   ipcMain.on('add-bookmark', (_e, args) => {
@@ -253,13 +257,11 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('remove-bookmark', (_e, url) => {
-    db.run('DELETE FROM bookmarks WHERE url = ?', url);
+    removeBookmark(url);
   });
 
   ipcMain.handle('get-all-bookmarks', () => {
-    return new Promise((resolve, _reject) => {
-      db.all('SELECT * FROM bookmarks', (_err, rows) => resolve(rows));
-    });
+    return getAllBookmarks();
   });
 
   ipcMain.on('certificate-error-answser', (_e, args) => {
@@ -459,5 +461,23 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.on('hide-downloads-preview', () => {
     const mainWindow = getMainWindow();
     mainWindow?.webContents.send('hide-downloads-preview');
+  });
+
+  ipcMain.handle('get-bookmarks-providers', () => {
+    return new Promise((resolve) => {
+      const bp = getBookmarksProviders();
+      resolve(bp);
+    });
+  });
+
+  ipcMain.handle('get-bookmarks-from-provider', (_e: any, provider: string) => {
+    return new Promise((resolve) => {
+      const bookmarks = getBookmarksFromProvider(provider);
+      resolve(bookmarks);
+    });
+  });
+
+  ipcMain.on('import-bookmarks', (_e, bookmarks: any[]) => {
+    importBookmarks(bookmarks);
   });
 };

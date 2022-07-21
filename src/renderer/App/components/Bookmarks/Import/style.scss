@@ -1,0 +1,46 @@
+#Import__container {
+  background-color: var(--color-background-secondary);
+  color: var(--color-text-primary);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+
+  #Import__centered-container {
+    display: flex;
+    width: 800px;
+    flex-direction: column;
+
+    .Import__search {
+      margin-bottom: 30px;
+      border-radius: 3px;
+      height: 30px;
+      font-size: 15px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .Import__action-line {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .Import_providers-list {
+      min-width: 100px;
+      margin-left: 15px;
+    }
+
+    .Import_import-all-button {
+      width: fit-content;
+      align-self: flex-end;
+      margin-bottom: 30px;
+    }
+
+  }
+}
