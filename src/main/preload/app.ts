@@ -20,6 +20,15 @@ contextBridge.exposeInMainWorld('app', {
     hideDownloadsPreview: () => {
       ipcRenderer.send('hide-downloads-preview');
     },
+    getBookmarksProviders: () => {
+      return ipcRenderer.invoke('get-bookmarks-providers');
+    },
+    getBookmarksFromProvider: (provider: string) => {
+      return ipcRenderer.invoke('get-bookmarks-from-provider', provider);
+    },
+    importBookmarks: (bookmarks: any[]) => {
+      ipcRenderer.send('import-bookmarks', bookmarks);
+    },
   },
   analytics: {
     event: (eventName: string, params: Record<string, string>) => {

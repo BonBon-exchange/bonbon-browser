@@ -8,6 +8,9 @@ declare global {
         deleteExtension: (id: string) => void;
         installExtension: (id: string) => void;
         hideDownloadsPreview: () => void;
+        getBookmarksProviders: () => Promise<any>;
+        getBookmarksFromProvider: (provider: string) => Promise<any>;
+        importBookmarks: (bookmarks: any[]) => void;
       },
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;

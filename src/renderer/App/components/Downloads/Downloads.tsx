@@ -67,7 +67,7 @@ export const Downloads: React.FC<DownloadsProps> = ({
           className="Downloads__clear-button"
           onClick={handleClearDownloads}
         >
-          Clear Downloads
+          {t('Clear')}
         </Button>
         <input
           type="text"

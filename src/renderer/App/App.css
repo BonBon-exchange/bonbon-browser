@@ -20,3 +20,13 @@ body {
     text-align: right;
   }
 }
+
+.MuiInputBase-root {
+  div, svg {
+    color: var(--color-text-primary) !important;
+  }
+
+  fieldset {
+    border-color: var(--color-border);
+  }
+}

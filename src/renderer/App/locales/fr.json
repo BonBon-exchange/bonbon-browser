@@ -54,5 +54,11 @@
   "Arabic": "العربية",
   "Force uBlockOrigin installation at startup": "Forcer l'installation de uBlockOrigin au démarrage",
   "If checked, the app will automatically download uBlockOrigin and install it when starting.": "If cochée, l'application téléchargera automatiquement uBlockOrigin et l'installera au démarrage.",
-  "New collection": "Nouvelle collection"
+  "New collection": "Nouvelle collection",
+  "Clear": "Effacer",
+  "Import": "Importer",
+  "Import all": "Tout importer",
+  "Importing...": "En cours d'importation...",
+  "Done": "Terminé",
+  "Select a browser to import from": "Selectionner un navigateur depuis lequel importer"
 }

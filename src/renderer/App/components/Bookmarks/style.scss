@@ -24,37 +24,56 @@
       padding-right: 20px;
     }
 
-    .Bookmarks__item {
-      background-color: var(--color-background-primary);
-      padding: 20px;
-      border-radius: 3px;
-      box-shadow: 0px 1px 3px var(--color-background-tertiary);
+    .Bookmarks_import-button {
+      width: fit-content;
+      align-self: flex-end;
       margin-bottom: 30px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: row;
-      overflow: hidden;
-
-      .Bookmarks__item-text {
-        flex-grow: 1;
-        overflow: hidden;
-
-        .Bookmarks__item-name {
-          font-weight: bold;
-        }
-      }
-
-      .Bookmarks__item-control {
-        padding: 10px;
-      }
-
-      .Bookmarks__item-control:hover {
-        color: var(--color-icon-primary);
-      }
-    }
-
-    .Bookmarks__item:hover{
-      border: 1px solid var(--color-border);
     }
   }
+}
+
+.Bookmarks__item {
+  background-color: var(--color-background-primary);
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 0px 1px 3px var(--color-background-tertiary);
+  margin-bottom: 30px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+
+  .Bookmarks__item-text {
+    flex-grow: 1;
+    overflow: hidden;
+
+    .Bookmarks__item-tags {
+      display: flex;
+      flex-direction: row;
+
+      .Bookmarks__item-tag {
+        margin-right: 10px;
+        margin-top: 10px;
+        border-radius: 8px;
+        background-color: var(--color-background-tertiary);
+        padding: 7px;
+      }
+    }
+
+    .Bookmarks__item-name {
+      font-weight: bold;
+    }
+  }
+
+  .Bookmarks__item-control {
+    padding: 10px;
+  }
+
+  .Bookmarks__item-control:hover {
+    color: var(--color-icon-primary);
+  }
+}
+
+.Bookmarks__item:hover{
+  border: 1px solid var(--color-border);
 }
