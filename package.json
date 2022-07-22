@@ -237,7 +237,9 @@
   },
   "overrides": {
     "got": "^11.8.5",
-    "glob-parent": "^6.0.1"
+    "glob-parent": "^6.0.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
   },
   "build": {
     "productName": "BonBon",
