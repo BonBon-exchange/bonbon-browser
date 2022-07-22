@@ -40,8 +40,7 @@ export const useBrowserMethods = () => {
 
   const scrollToBrowser = useCallback((browserId: string): void => {
     const container = getContainerFromBrowserId(browserId);
-    container?.scrollIntoView();
-    window.scrollBy(0, -10);
+    container?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, []);
 
   const focus = useCallback(
