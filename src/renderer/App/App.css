@@ -30,3 +30,14 @@ body {
     border-color: var(--color-border);
   }
 }
+
+.MuiTextField-root {
+  input {
+    background-color: var(--color-icon-secondary) !important;
+  }
+}
+
+.MuiChip-filled {
+  background-color: var(--color-background-tertiary) !important;
+  color: var(--color-text-primary) !important;
+}

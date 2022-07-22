@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Button, Select, MenuItem } from '@mui/material';
+import { Button, Select, MenuItem, Chip } from '@mui/material';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
 
@@ -125,7 +125,7 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
                 <div className="Bookmarks__item-url">{i.url}</div>
                 <div className="Bookmarks__item-tags">
                   {i.tags?.map((tag) => (
-                    <div className="Bookmarks__item-tag">{tag}</div>
+                    <Chip label={tag} />
                   ))}
                 </div>
               </div>

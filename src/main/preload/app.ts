@@ -29,6 +29,12 @@ contextBridge.exposeInMainWorld('app', {
     importBookmarks: (bookmarks: any[]) => {
       ipcRenderer.send('import-bookmarks', bookmarks);
     },
+    getBookmarksTags: () => {
+      return ipcRenderer.invoke('get-bookmarks-tags');
+    },
+    editBookmark: (bookmark: any) => {
+      ipcRenderer.send('edit-bookmark', bookmark);
+    },
   },
   analytics: {
     event: (eventName: string, params: Record<string, string>) => {

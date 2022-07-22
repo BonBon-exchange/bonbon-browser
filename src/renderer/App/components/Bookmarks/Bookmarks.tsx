@@ -4,12 +4,12 @@
 /* eslint-disable import/prefer-default-export */
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Button } from '@mui/material';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { Import } from './Import';
+import { BookmarksItem } from './BookmarksItem';
 
 import { BookmarksProps, BookmarkType } from './Types';
 
@@ -25,9 +25,11 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
   const [filteredItems, setFilteredItems] = useState<BookmarkType[]>([]);
   const { browser } = useStoreHelpers();
 
-  const handleBookmarkClick = (url: string) => {
-    browser.add({ url });
-    handleClose();
+  const replaceItem = (bookmark: BookmarkType) => {
+    const newItems = [...items];
+    const index = newItems.findIndex((i) => i.id === bookmark.id);
+    if (index > -1) newItems[index] = bookmark;
+    setItems(newItems);
   };
 
   const handleDeleteBookmark = (id: number) => {
@@ -37,6 +39,11 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
     const index = newItems.findIndex((i) => i.id === id);
     if (index > -1) newItems.splice(index, 1);
     setItems(newItems);
+  };
+
+  const handleBookmarkClick = (url: string) => {
+    browser.add({ url });
+    handleClose();
   };
 
   const refreshList = () => {
@@ -91,32 +98,15 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
             onChange={(e) => setSearch(e.target.value)}
             placeholder={t('Search')}
           />
-          {filteredItems?.map((i) => {
-            return (
-              <div className="Bookmarks__item" key={i.id}>
-                <div
-                  className="Bookmarks__item-text"
-                  onClick={() => handleBookmarkClick(i.url)}
-                >
-                  <div className="Bookmarks__item-name">{i.name}</div>
-                  <div className="Bookmarks__item-url">{i.url}</div>
-                  <div className="Bookmarks__item-tags">
-                    {i.tags?.map((tag) => (
-                      <div className="Bookmarks__item-tag">{tag}</div>
-                    ))}
-                  </div>
-                </div>
-                <div className="Bookmarks__item-controls">
-                  <div
-                    className="Bookmarks__item-control"
-                    onClick={() => handleDeleteBookmark(i.id)}
-                  >
-                    <DeleteForeverIcon />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {filteredItems?.map((i) => (
+            <BookmarksItem
+              key={i.id}
+              bookmark={i}
+              handleClick={handleBookmarkClick}
+              handleDelete={handleDeleteBookmark}
+              replaceItem={replaceItem}
+            />
+          ))}
         </div>
       </div>
     </>

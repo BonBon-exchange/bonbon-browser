@@ -37,6 +37,8 @@ import {
   isBookmarked,
   removeBookmark,
   getAllBookmarks,
+  getBookmarksTags,
+  editBookmark,
 } from './bookmarks';
 
 const store = getStore();
@@ -479,5 +481,13 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('import-bookmarks', (_e, bookmarks: any[]) => {
     importBookmarks(bookmarks);
+  });
+
+  ipcMain.handle('get-bookmarks-tags', () => {
+    return getBookmarksTags();
+  });
+
+  ipcMain.on('edit-bookmark', (_e, bookmark: any) => {
+    editBookmark(bookmark);
   });
 };
