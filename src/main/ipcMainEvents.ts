@@ -130,6 +130,7 @@ export const makeIpcMainEvents = (): void => {
     const view = views[args.tabId] as any;
     if (view) {
       view.webContents.send('purge');
+      getMainWindow()?.removeBrowserView(view);
       view.webContents.destroy();
     }
     delete views[args.tabId];
