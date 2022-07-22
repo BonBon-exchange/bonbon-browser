@@ -39,7 +39,7 @@ describe('Board', () => {
     ).toBeTruthy();
   });
 
-  it('should have one browser in board because of initialState', () => {
+  it('should have 0 browser in board because of initialState', () => {
     const { container } = render(
       <Provider store={store}>
         <Board />
@@ -47,10 +47,10 @@ describe('Board', () => {
     );
     expect(
       container.getElementsByClassName('Browser__draggable-container').length
-    ).toBe(1);
+    ).toBe(0);
   });
 
-  it('should have two browsers in board after dispatch', () => {
+  it('should have 1 browsers in board after dispatch', () => {
     store.dispatch(addBrowser(addBrowserAction));
 
     const { container } = render(
@@ -60,10 +60,10 @@ describe('Board', () => {
     );
     expect(
       container.getElementsByClassName('Browser__draggable-container').length
-    ).toBe(2);
+    ).toBe(1);
   });
 
-  it('should have one browser in board after remove', () => {
+  it('should have 0 browser in board after remove', () => {
     store.dispatch(removeBrowser(addBrowserAction.id));
 
     const { container } = render(
@@ -73,10 +73,10 @@ describe('Board', () => {
     );
     expect(
       container.getElementsByClassName('Browser__draggable-container').length
-    ).toBe(1);
+    ).toBe(0);
   });
 
-  it('should have 1 browser in board after adding and clicking on close', () => {
+  it('should have 0 browser in board after adding and clicking on close', () => {
     store.dispatch(addBrowser(addBrowserAction));
 
     render(
@@ -87,7 +87,7 @@ describe('Board', () => {
 
     fireEvent.click(screen.getAllByTestId('close-browser')[0]);
     setTimeout(() => {
-      expect(screen.getAllByTestId('browser-window').length).toBe(1);
+      expect(screen.getAllByTestId('browser-window').length).toBe(0);
     }, 0);
   });
 });
