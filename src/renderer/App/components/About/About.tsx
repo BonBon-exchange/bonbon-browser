@@ -1,16 +1,28 @@
 /* eslint-disable import/prefer-default-export */
 import { useTranslation } from 'react-i18next';
 
+import './style.scss';
+
 export const About: React.FC = () => {
   const { t } = useTranslation();
   const appVersion = localStorage.getItem('appVersion');
   return (
     <>
-      <div>
-        {t('App version')}: {appVersion}
+      <div className="About__property-line">
+        <span className="About__property">{t('App version')}:</span>{' '}
+        {appVersion}
       </div>
-      <div>{t('Author')}: Daniel Febrero</div>
-      <div>{t('Co-Author')}: Aitor</div>
+      <div className="About__property-line">
+        <span className="About__property">{t('Author')}:</span> Daniel Febrero
+      </div>
+      <div className="About__property-line">
+        <span className="About__property">{t('Co-Author')}:</span> Aitor
+      </div>
+      <div className="About__property-line">
+        <span className="About__property">{t('Team')}:</span> Daniel Febrero,
+        Anthony Cettour, Braian Eric Dickson, 0xCUBE, Nuklusone, Aitor, Howard
+        Huang, Faouzi Benali
+      </div>
     </>
   );
 };
