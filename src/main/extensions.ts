@@ -9,6 +9,7 @@ import path from 'path';
 import { app, session } from 'electron';
 import { ElectronChromeExtensions } from 'electron-chrome-extensions-production';
 import rimraf from 'rimraf';
+import request from 'request';
 
 import { getStore } from './store';
 // eslint-disable-next-line import/no-cycle
@@ -80,6 +81,7 @@ const downloadChromeExtension = (
   forceDownload?: boolean,
   attempts = 5
 ): Promise<string> => {
+  console.log('Downloading extension: ', chromeStoreID);
   const extensionsStore = getPath();
   if (!fs.existsSync(extensionsStore)) {
     fs.mkdirSync(extensionsStore, { recursive: true });
@@ -143,6 +145,42 @@ export const loadExtensions = () => {
   });
 };
 
+export const installExtension = (id: string, forceDownload?: boolean) => {
+  downloadChromeExtension(id, forceDownload)
+    .then(() => {
+      session.fromPartition('persist:user-partition').removeExtension(id);
+
+      session
+        .fromPartition('persist:user-partition')
+        .loadExtension(path.join(getPath(), id));
+    })
+    .catch(console.log);
+};
+
+export const updateExtensions = (extId?: string) => {
+  let ids = [];
+  if (!extId) {
+    ids = getAllExtensionsIdsFromFolder();
+  } else {
+    ids.push(extId);
+  }
+
+  const regex = /<span class="C-b-p-D-Xe h-C-b-p-D-md">\s*(.+?)\s*<\/span>/gm;
+  const allExts = getAllExtensions();
+  ids.forEach((id: string) => {
+    request(
+      { uri: `https://chrome.google.com/webstore/detail/${id}` },
+      (_error: any, _response: any, body: any) => {
+        const result = regex.exec(body);
+        const ext = allExts.find((ex) => ex.path.includes(id));
+        if (result && ext) {
+          if (result[1] !== ext.version) installExtension(id, true);
+        }
+      }
+    );
+  });
+};
+
 export const installAndLoadUserExtensions = () => {
   const installUBlockOrigin = store.get('extensions.forceInstallUBlockOrigin');
 
@@ -150,13 +188,16 @@ export const installAndLoadUserExtensions = () => {
     downloadChromeExtension('cjpalhdlnbpafiamejdnhcphjbkeiagm') // uBlockOrigin
       .then(() => {
         loadExtensions();
+        setTimeout(() => updateExtensions(), 30000);
       })
       .catch((err) => {
         console.log(err);
         loadExtensions();
+        setTimeout(() => updateExtensions(), 30000);
       });
   } else {
     loadExtensions();
+    setTimeout(() => updateExtensions(), 30000);
   }
   if (installUBlockOrigin === undefined)
     store.set('extensions.forceInstallUBlockOrigin', false);
@@ -166,19 +207,10 @@ export const deleteExtension = (id: string) => {
   const ext = session.fromPartition('persist:user-partition').getExtension(id);
   session.fromPartition('persist:user-partition').removeExtension(id);
   rimraf(ext.path, (err) => {
-    console.log(err, ext.path);
-    rimraf(`${ext.path}.crx`, console.log);
-    getExtensionsObject().removeExtension(ext);
-    getMainWindow()?.webContents.send('remove-extension', id);
+    if (!err) {
+      rimraf(`${ext.path}.crx`, console.log);
+      getExtensionsObject().removeExtension(ext);
+      getMainWindow()?.webContents.send('remove-extension', id);
+    }
   });
-};
-
-export const installExtension = (id: string) => {
-  downloadChromeExtension(id)
-    .then(() => {
-      session
-        .fromPartition('persist:user-partition')
-        .loadExtension(path.join(getPath(), id));
-    })
-    .catch(console.log);
 };
