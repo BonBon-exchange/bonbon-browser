@@ -11,9 +11,14 @@ import { event } from './analytics';
 const machineId = machineIdSync();
 
 let selectedView: BrowserView | null = null;
+let freeView: BrowserView | null = null;
 let mainWindow: BrowserWindow | null = null;
 
 export const getSelectedView = () => selectedView;
+export const getFreeView = () => freeView;
+export const setFreeView = (view: BrowserView) => {
+  freeView = view;
+};
 export const setSelectedView = (view: BrowserView) => {
   selectedView = view;
 };
@@ -49,7 +54,7 @@ export const setBrowserViewBonds = (
   view.setBounds({ x: 0, y: bY, width: bWidth, height: bHeight });
 };
 
-export const createBrowserView = (): BrowserView => {
+const createFreeBrowserView = () => {
   const view = new BrowserView({
     webPreferences: {
       partition: 'persist:user-partition',
@@ -66,6 +71,13 @@ export const createBrowserView = (): BrowserView => {
   setBrowserViewBonds(view, false);
   view.setAutoResize({ width: true, height: true });
   view.webContents.loadURL(resolveHtmlPath('index.html'));
+  return view;
+};
+
+export const createBrowserView = (): BrowserView => {
+  const tmpView = getFreeView();
+  const view = tmpView || createFreeBrowserView();
+  setFreeView(createFreeBrowserView());
 
   if (!app.isPackaged) view.webContents.toggleDevTools();
   const extensions = getExtensionsObject();
@@ -116,7 +128,7 @@ export const createWindow = async (): Promise<void> => {
     } else {
       mainWindow.show();
     }
-  });
+});
 
   mainWindow.on('closed', () => {
     mainWindow = null;

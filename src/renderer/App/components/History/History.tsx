@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable promise/always-return */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -6,8 +7,11 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
+import { FixedSizeList as List } from 'react-window';
+import AutoSize from 'react-virtualized-auto-sizer';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
+import { Loader } from 'renderer/App/components/Loader';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 
 import { HistoryProps, HistoryType } from './Types';
@@ -18,6 +22,7 @@ export const History: React.FC<HistoryProps> = ({
   handleClose,
 }: HistoryProps) => {
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [search, setSearch] = useState<string>('');
   const [items, setItems] = useState<HistoryType[]>([]);
   const [filteredItems, setFilteredItems] = useState<HistoryType[]>([]);
@@ -41,6 +46,38 @@ export const History: React.FC<HistoryProps> = ({
     window.app.db.clearHistory();
   };
 
+  const Item = ({
+    data,
+    index,
+    style,
+  }: {
+    data: HistoryType[];
+    index: number;
+    style: any;
+  }) => {
+    return (
+      <div style={style}>
+        <div className="History__item" key={data[index].id}>
+          <div
+            className="History__item-text"
+            onClick={() => handleHistoryClick(data[index].url)}
+          >
+            <div className="History__item-title">{data[index].title}</div>
+            <div className="History__item-date">{data[index].date}</div>
+            <div className="History__item-url">{data[index].url}</div>
+          </div>
+          <div className="History__item-controls">
+            <div
+              className="History__item-control"
+              onClick={() => handleDeleteHistory(data[index].id)}
+            >
+              <DeleteForeverIcon />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
   useEffect(() => {
     const filtered = items.filter(
       (i) =>
@@ -56,8 +93,12 @@ export const History: React.FC<HistoryProps> = ({
       .then((val) => {
         setItems(val);
         setFilteredItems(val);
+        setIsLoading(false);
       })
-      .catch(console.log);
+      .catch((e) => {
+        setIsLoading(false);
+        console.log(e);
+      });
   }, []);
 
   return (
@@ -78,28 +119,23 @@ export const History: React.FC<HistoryProps> = ({
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t('Search')}
         />
-        {filteredItems.map((i) => {
-          return (
-            <div className="History__item" key={i.id}>
-              <div
-                className="History__item-text"
-                onClick={() => handleHistoryClick(i.url)}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <AutoSize>
+            {({ height }) => (
+              <List
+                height={height - 230}
+                itemCount={filteredItems.length}
+                width={800}
+                itemData={filteredItems}
+                itemSize={110}
               >
-                <div className="History__item-title">{i.title}</div>
-                <div className="History__item-date">{i.date}</div>
-                <div className="History__item-url">{i.url}</div>
-              </div>
-              <div className="History__item-controls">
-                <div
-                  className="History__item-control"
-                  onClick={() => handleDeleteHistory(i.id)}
-                >
-                  <DeleteForeverIcon />
-                </div>
-              </div>
-            </div>
-          );
-        })}
+                {Item}
+              </List>
+            )}
+          </AutoSize>
+        )}
       </div>
     </div>
   );

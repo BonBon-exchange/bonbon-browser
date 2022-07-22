@@ -6,7 +6,7 @@
     "typescript",
     "react"
   ],
-  "version": "0.28.5",
+  "version": "0.28.6",
   "homepage": "https://github.com/BonBon-exchange/bonbon-web-browser#readme",
   "bugs": {
     "url": "https://github.com/BonBon-exchange/bonbon-web-browser/issues"
@@ -150,6 +150,8 @@
     "react-i18next": "^11.18.0",
     "react-redux": "^8.0.2",
     "react-rnd": "^10.3.7",
+    "react-virtualized-auto-sizer": "^1.0.6",
+    "react-window": "^1.8.7",
     "redux-persist": "^6.0.0",
     "request": "^2.88.2",
     "unzip-crx-3": "^0.2.0",
@@ -167,6 +169,8 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
     "@types/react-test-renderer": "^18.0.0",
+    "@types/react-virtualized-auto-sizer": "^1.0.1",
+    "@types/react-window": "^1.8.5",
     "@types/redux-mock-store": "^1.0.3",
     "@types/request": "^2.48.8",
     "@types/rimraf": "^3.0.2",

@@ -14,6 +14,7 @@
     display: flex;
     width: 800px;
     flex-direction: column;
+    flex-grow: 1;
 
     .History__clear-button {
       width: fit-content;
@@ -40,6 +41,7 @@
       display: flex;
       flex-direction: row;
       overflow: hidden;
+      height: 50px;
 
       .History__item-text {
         flex-grow: 1;
