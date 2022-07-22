@@ -2,29 +2,35 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 import { useGlobalEvents } from 'renderer/App/hooks/useGlobalEvents';
-import { Board } from 'renderer/App/components/Board';
-import { LeftBar } from 'renderer/App/components/LeftBar';
-import { About } from 'renderer/App/components/About';
-import { Popup } from 'renderer/App/components/Popup';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
-import { AppMenu } from 'renderer/App/components/AppMenu';
-import { Settings } from 'renderer/App/components/Settings';
-import { Bookmarks } from 'renderer/App/components/Bookmarks';
-import { History } from 'renderer/App/components/History';
-import { Downloads } from 'renderer/App/components/Downloads';
-import { Documentation } from 'renderer/App/components/Documentation';
-import { Extensions } from 'renderer/App/components/Extensions';
-import { DownloadsPreview } from 'renderer/App/components/DownloadsPreview';
 import { useAppSelector } from 'renderer/App/store/hooks';
+import { Loader } from 'renderer/App/components/Loader';
+import { About } from 'renderer/App/components/About';
 
 import { AddapsProps } from './Types';
 
 import './style.css';
+
+const Board = lazy(() => import('renderer/App/components/Board'));
+const LeftBar = lazy(() => import('renderer/App/components/LeftBar'));
+const DownloadsPreview = lazy(
+  () => import('renderer/App/components/DownloadsPreview')
+);
+const Settings = lazy(() => import('renderer/App/components/Settings'));
+const Bookmarks = lazy(() => import('renderer/App/components/Bookmarks'));
+const History = lazy(() => import('renderer/App/components/History'));
+const Downloads = lazy(() => import('renderer/App/components/Downloads'));
+const Extensions = lazy(() => import('renderer/App/components/Extensions'));
+const Documentation = lazy(
+  () => import('renderer/App/components/Documentation')
+);
+const Popup = lazy(() => import('renderer/App/components/Popup'));
+const AppMenu = lazy(() => import('renderer/App/components/AppMenu'));
 
 export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   useGlobalEvents();
@@ -106,48 +112,50 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   }, []);
 
   return (
-    <div
-      className={clsx({
-        'justify-content-right':
-          i18n.language === 'ar' || i18n.language === 'fa',
-      })}
-    >
-      <LeftBar />
-      <Board
-        isFullSize={
-          showSettings ||
-          showBookmarks ||
-          showHistory ||
-          showDownloads ||
-          showDocumentation ||
-          showExtensions
-        }
-      />
-      {showPopup && (
-        <Popup title={popupTitle} closePopup={() => setShowPopup(false)}>
-          {popupChildren}
-        </Popup>
-      )}
-      {showAppMenu && (
-        <AppMenu
-          showAbout={showAbout}
-          showSettings={handleShowSettings}
-          showBookmarks={handleShowBookmarks}
-          showHistory={handleShowHistory}
-          showDownloads={handleShowDownloads}
-          showDocumentation={handleShowDocumentation}
-          showExtensions={handleShowExtensions}
+    <Suspense fallback={<Loader />}>
+      <div
+        className={clsx({
+          'justify-content-right':
+            i18n.language === 'ar' || i18n.language === 'fa',
+        })}
+      >
+        <LeftBar />
+        <Board
+          isFullSize={
+            showSettings ||
+            showBookmarks ||
+            showHistory ||
+            showDownloads ||
+            showDocumentation ||
+            showExtensions
+          }
         />
-      )}
-      {showDownloadsPreview && <DownloadsPreview />}
-      {showSettings && <Settings handleClose={handleCloseSettings} />}
-      {showBookmarks && <Bookmarks handleClose={handleCloseBookmarks} />}
-      {showHistory && <History handleClose={handleCloseHistory} />}
-      {showDownloads && <Downloads handleClose={handleCloseDownloads} />}
-      {showExtensions && <Extensions handleClose={handleCloseExtensions} />}
-      {showDocumentation && (
-        <Documentation handleClose={handleCloseDocumentation} />
-      )}
-    </div>
+        {showPopup && (
+          <Popup title={popupTitle} closePopup={() => setShowPopup(false)}>
+            {popupChildren}
+          </Popup>
+        )}
+        {showAppMenu && (
+          <AppMenu
+            showAbout={showAbout}
+            showSettings={handleShowSettings}
+            showBookmarks={handleShowBookmarks}
+            showHistory={handleShowHistory}
+            showDownloads={handleShowDownloads}
+            showDocumentation={handleShowDocumentation}
+            showExtensions={handleShowExtensions}
+          />
+        )}
+        {showDownloadsPreview && <DownloadsPreview />}
+        {showSettings && <Settings handleClose={handleCloseSettings} />}
+        {showBookmarks && <Bookmarks handleClose={handleCloseBookmarks} />}
+        {showHistory && <History handleClose={handleCloseHistory} />}
+        {showDownloads && <Downloads handleClose={handleCloseDownloads} />}
+        {showExtensions && <Extensions handleClose={handleCloseExtensions} />}
+        {showDocumentation && (
+          <Documentation handleClose={handleCloseDocumentation} />
+        )}
+      </div>
+    </Suspense>
   );
 };

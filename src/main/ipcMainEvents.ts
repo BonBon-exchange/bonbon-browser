@@ -92,9 +92,16 @@ export const makeIpcMainEvents = (): void => {
       : createBrowserView();
     views[args.tabId] = viewToShow;
     getMainWindow()?.setTopBrowserView(viewToShow);
-    viewToShow.webContents.on('dom-ready', () =>
-      viewToShow.webContents.send('load-board', { boardId: args.tabId })
-    );
+    viewToShow.webContents.send('load-board', { boardId: args.tabId });
+    viewToShow.webContents.on('dom-ready', () => {
+      const interv = setInterval(
+        () =>
+          viewToShow.webContents.send('load-board', { boardId: args.tabId }),
+        100
+      );
+
+      setTimeout(() => clearInterval(interv), 10000);
+    });
     setSelectedView(viewToShow);
     getSelectedView()?.webContents.focus();
   });

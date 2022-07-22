@@ -3,8 +3,8 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import { Addaps } from 'renderer/App/components/Addaps';
 import { store, getPersistedStoreAndPersistor } from 'renderer/App/store/store';
+import { Addaps } from 'renderer/App/components/Addaps';
 
 import './i18n';
 
@@ -17,11 +17,15 @@ export function App() {
   const [boardId, setBoardId] = useState<string>('');
   const persisted = useRef<any>(null);
 
-  const loadBoardAction = useCallback((_e: any, args: { boardId: string }) => {
-    persisted.current = getPersistedStoreAndPersistor(args.boardId);
-    setBoardId(args.boardId);
-    setIsLoadedBoard(true);
-  }, []);
+  const loadBoardAction = useCallback(
+    (_e: any, args: { boardId: string }) => {
+      if (args.boardId === boardId) return;
+      persisted.current = getPersistedStoreAndPersistor(args.boardId);
+      setBoardId(args.boardId);
+      setIsLoadedBoard(true);
+    },
+    [boardId]
+  );
 
   const purgeAction = useCallback(() => {
     if (persisted.current?.persistor) {
