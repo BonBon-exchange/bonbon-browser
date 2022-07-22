@@ -27,7 +27,7 @@ import { useBrowserMethods } from './useBrowserMethods';
 export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const dispatch = useAppDispatch();
   const board = useBoard();
-  const { scrollToBrowser, focusUrlBar } = useBrowserMethods();
+  const { focus, focusUrlBar } = useBrowserMethods();
   const { t } = useTranslation();
 
   const makeBrowser = useCallback(
@@ -81,12 +81,12 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         const newBrowser = await makeBrowser(params);
         dispatch(addBrowser(newBrowser));
         setTimeout(() => {
-          scrollToBrowser(newBrowser.id);
+          focus(newBrowser.id);
           focusUrlBar(newBrowser.id);
         }, 300);
       }
     },
-    [board, dispatch, makeBrowser, scrollToBrowser, focusUrlBar]
+    [board, dispatch, makeBrowser, focus, focusUrlBar]
   );
 
   const createBoard = useCallback(

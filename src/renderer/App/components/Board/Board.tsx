@@ -48,6 +48,14 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
     if (board.activeBrowser) focus(board.activeBrowser, true);
   }, [board.activeBrowser, focus]);
 
+  // focus activeBrowser when componentDidMount
+  useEffect(() => {
+    setTimeout(() => {
+      if (board.activeBrowser) focus(board.activeBrowser);
+    }, 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     document
       .getElementById('Board__container')

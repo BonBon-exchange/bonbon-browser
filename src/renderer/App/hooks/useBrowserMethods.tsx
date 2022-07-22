@@ -38,24 +38,20 @@ export const useBrowserMethods = () => {
     [dispatch]
   );
 
-  const scrollToBrowser = useCallback(
-    (browserId: string): void => {
-      const container = getContainerFromBrowserId(browserId);
-      container?.scrollIntoView();
-      window.scrollBy(0, -10);
-
-      bringBrowserToTheFront(browserId);
-    },
-    [bringBrowserToTheFront]
-  );
+  const scrollToBrowser = useCallback((browserId: string): void => {
+    const container = getContainerFromBrowserId(browserId);
+    container?.scrollIntoView();
+    window.scrollBy(0, -10);
+  }, []);
 
   const focus = useCallback(
     (browserId: string, dontScroll?: boolean) => {
       if (!dontScroll) scrollToBrowser(browserId);
+      bringBrowserToTheFront(browserId);
       dispatch(setActiveBrowser(browserId));
       window.app.analytics.event('switch_browser');
     },
-    [dispatch, scrollToBrowser]
+    [dispatch, scrollToBrowser, bringBrowserToTheFront]
   );
 
   const next = useCallback(() => {
