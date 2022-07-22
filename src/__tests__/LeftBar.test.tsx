@@ -39,7 +39,7 @@ describe('LeftBar', () => {
     ).toBeTruthy();
   });
 
-  it('should have one browser because of initial state', () => {
+  it('should have 0 browser because of initial state', () => {
     const { container } = render(
       <Provider store={store}>
         <LeftBar />
@@ -47,33 +47,16 @@ describe('LeftBar', () => {
     );
 
     expect(container.getElementsByClassName('LeftBar__browserFav').length).toBe(
-      1
+      0
     );
   });
 
-  it('should have two browsers in the store', () => {
+  it('should have 1 browsers in the store', () => {
     store.dispatch(addBrowser(addBrowserAction));
-    expect(store.getState().board.board.browsers.length).toBe(2);
-  });
-
-  it('should have two browsers in dom', () => {
-    const { container } = render(
-      <Provider store={store}>
-        <LeftBar />
-      </Provider>
-    );
-
-    expect(container.getElementsByClassName('LeftBar__browserFav').length).toBe(
-      2
-    );
-  });
-
-  it('should have one browser in the store', () => {
-    store.dispatch(removeBrowser(addBrowserAction.id));
     expect(store.getState().board.board.browsers.length).toBe(1);
   });
 
-  it('should have 1 browser in dom', () => {
+  it('should have 1 browsers in dom', () => {
     const { container } = render(
       <Provider store={store}>
         <LeftBar />
@@ -82,6 +65,23 @@ describe('LeftBar', () => {
 
     expect(container.getElementsByClassName('LeftBar__browserFav').length).toBe(
       1
+    );
+  });
+
+  it('should have 0 browser in the store', () => {
+    store.dispatch(removeBrowser(addBrowserAction.id));
+    expect(store.getState().board.board.browsers.length).toBe(0);
+  });
+
+  it('should have 0 browser in dom', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <LeftBar />
+      </Provider>
+    );
+
+    expect(container.getElementsByClassName('LeftBar__browserFav').length).toBe(
+      0
     );
   });
 });

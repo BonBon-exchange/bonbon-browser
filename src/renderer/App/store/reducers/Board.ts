@@ -40,27 +40,12 @@ interface BoardState {
   board: BoardType;
 }
 
-const browserId = v4();
-const newBrowser = {
-  id: browserId,
-  url: 'https://www.google.com',
-  top: 120,
-  left: 120,
-  height: 800,
-  width: 600,
-  firstRendering: true,
-  favicon: '',
-  title: '',
-  isLoading: true,
-  isMinimized: false,
-};
-
 const boardId = v4();
 const newBoard = {
   id: boardId,
   label: 'New collection',
-  browsers: [newBrowser],
-  activeBrowser: browserId,
+  browsers: [],
+  activeBrowser: null,
   closedUrls: [],
   isFullSize: false,
 };

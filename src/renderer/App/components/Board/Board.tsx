@@ -9,7 +9,9 @@ import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 import { AnimatePresence } from 'framer-motion';
 
+import { useAppDispatch } from 'renderer/App/store/hooks';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
+import { setActiveBrowser } from 'renderer/App/store/reducers/Board';
 
 import { BoardProps } from './Types';
 
@@ -17,6 +19,7 @@ import './style.scss';
 
 export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
   const board = useBoard();
+  const dispatch = useAppDispatch();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>([]);
 
@@ -45,8 +48,11 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
   }, [board.browsers.length, board.id]);
 
   useEffect(() => {
-    if (board.activeBrowser) focus(board.activeBrowser, true);
-  }, [board.activeBrowser, focus]);
+    if (board.activeBrowser) {
+      focus(board.activeBrowser, true);
+      dispatch(setActiveBrowser(board.activeBrowser));
+    }
+  }, [board.activeBrowser, focus, dispatch]);
 
   // focus activeBrowser when componentDidMount
   useEffect(() => {
