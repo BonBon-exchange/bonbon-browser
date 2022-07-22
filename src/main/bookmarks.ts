@@ -184,3 +184,29 @@ export const importBookmarks = (bookmarks: any[]) => {
       .catch(console.log);
   });
 };
+
+export const getBookmarksTags = () => {
+  return new Promise((resolve, reject) => {
+    db.all('SELECT DISTINCT tag FROM bookmarks_tags', (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
+    });
+  });
+};
+
+export const editBookmark = (bookmark: any) => {
+  db.run(
+    'UPDATE bookmarks SET url = ?, name = ? WHERE id = ?',
+    bookmark.url,
+    bookmark.name,
+    bookmark.id
+  );
+  removeTags(bookmark.id);
+  bookmark.tags.forEach((tag: string) => {
+    db.run(
+      'INSERT INTO bookmarks_tags (bookmark_id, tag) VALUES (?, ?)',
+      bookmark.id,
+      tag
+    );
+  });
+};

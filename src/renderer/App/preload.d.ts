@@ -11,6 +11,8 @@ declare global {
         getBookmarksProviders: () => Promise<any>;
         getBookmarksFromProvider: (provider: string) => Promise<any>;
         importBookmarks: (bookmarks: any[]) => void;
+        getBookmarksTags: () => Promise<any>;
+        editBookmark: (bookmark: any) => void;
       },
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;

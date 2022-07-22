@@ -50,13 +50,10 @@
     .Bookmarks__item-tags {
       display: flex;
       flex-direction: row;
+      margin-top: 10px;
 
-      .Bookmarks__item-tag {
+      .MuiChip-root {
         margin-right: 10px;
-        margin-top: 10px;
-        border-radius: 8px;
-        background-color: var(--color-background-tertiary);
-        padding: 7px;
       }
     }
 
@@ -65,13 +62,19 @@
     }
   }
 
-  .Bookmarks__item-control {
-    padding: 10px;
+  .Bookmarks__item-controls {
+    display: flex;
+    flex-direction: row;
+
+    .Bookmarks__item-control {
+      padding: 10px;
+    }
+
+    .Bookmarks__item-control:hover {
+      color: var(--color-icon-primary);
+    }
   }
 
-  .Bookmarks__item-control:hover {
-    color: var(--color-icon-primary);
-  }
 }
 
 .Bookmarks__item:hover{
