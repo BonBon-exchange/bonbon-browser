@@ -160,6 +160,11 @@ export const TopBar: React.FC = () => {
   };
 
   const handleCloseTab = (tabId: string) => {
+    const tabIndex = tabs.findIndex((tab) => tab.id === tabId);
+    const selectTabIndex = tabIndex > 0 ? tabIndex - 1 : 1;
+    if (tabs[selectTabIndex] && tabIndex !== selectTabIndex) {
+      dispatch(setActiveTab(tabs[selectTabIndex].id));
+    }
     dispatch(removeTab(tabId));
   };
 
