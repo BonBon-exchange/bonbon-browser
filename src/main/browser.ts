@@ -128,7 +128,7 @@ export const createWindow = async (): Promise<void> => {
     } else {
       mainWindow.show();
     }
-});
+  });
 
   mainWindow.on('closed', () => {
     mainWindow = null;
