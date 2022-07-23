@@ -118,9 +118,15 @@ const makeAppEvents = () => {
       contextMenu({
         prepend: () => [
           {
-            label: 'Set as default window size',
+            label: i18n.t('Set as default window size'),
             click: () => {
               contents.send('set-default-window-size', webContents.id);
+            },
+          },
+          {
+            label: i18n.t('Distribute windows evenly'),
+            click: () => {
+              contents.send('distribute-windows-evenly');
             },
           },
         ],
