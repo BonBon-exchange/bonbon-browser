@@ -22,10 +22,12 @@ db.run(
 );
 
 // migrate history table => add title column
-db.get('SELECT title FROM history', (err) => {
-  if (err) {
-    db.run('ALTER TABLE history ADD title TEXT');
-  }
+db.get(
+  'SELECT COUNT(*) AS CNTREC FROM pragma_table_info("history") WHERE name="title"',
+  (_err, row) => {
+    if (row.CNTREC === 0) {
+      db.run('ALTER TABLE history ADD title TEXT');
+    }
 });
 
 export default db;
