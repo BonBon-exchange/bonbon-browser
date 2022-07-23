@@ -31,6 +31,7 @@ const Documentation = lazy(
 );
 const Popup = lazy(() => import('renderer/App/components/Popup'));
 const AppMenu = lazy(() => import('renderer/App/components/AppMenu'));
+const Minimap = lazy(() => import('renderer/App/components/Minimap'));
 
 export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   useGlobalEvents();
@@ -114,11 +115,13 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   return (
     <Suspense fallback={<Loader />}>
       <div
+        id="Addaps__container"
         className={clsx({
           'justify-content-right':
             i18n.language === 'ar' || i18n.language === 'fa',
         })}
       >
+        <div id="Addaps__background" />
         <LeftBar />
         <Board
           isFullSize={
@@ -155,6 +158,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
         {showDocumentation && (
           <Documentation handleClose={handleCloseDocumentation} />
         )}
+        <Minimap />
       </div>
     </Suspense>
   );

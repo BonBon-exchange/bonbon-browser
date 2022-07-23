@@ -71,6 +71,7 @@ export const Browser: React.FC<BrowserProps> = ({
   const edgeLeft = document.querySelector('.Board__edge-snap-left');
   const edgeRight = document.querySelector('.Board__edge-snap-right');
   const edgeMaximized = document.querySelector('.Board__edge-snap-maximized');
+  const boardContainer = document.querySelector('#Board__container');
 
   const toggleFullsizeBrowser = () => {
     dispatch(toggleBoardFullSize());
@@ -78,32 +79,33 @@ export const Browser: React.FC<BrowserProps> = ({
   };
 
   const onDrag = (_e: any, d: { x: number; y: number }) => {
-    const edgeRightWidth = container.current?.clientWidth
-      ? container.current?.clientWidth
-      : 0;
-    const edgeRightValue = window.innerWidth - edgeRightWidth - 69;
+    if (boardContainer) {
+      const edgeRightWidth = container.current?.clientWidth
+        ? container.current?.clientWidth
+        : 0;
+      const edgeRightValue = boardContainer?.clientWidth - edgeRightWidth - 2;
+      if (d.x === 0) {
+        // @ts-ignore
+        edgeLeft.style.display = 'block';
+      } else {
+        // @ts-ignore
+        edgeLeft.style.display = 'none';
+      }
+      if (d.x === edgeRightValue) {
+        // @ts-ignore
+        edgeRight.style.display = 'block';
+      } else {
+        // @ts-ignore
+        edgeRight.style.display = 'none';
+      }
 
-    if (d.x === 0) {
-      // @ts-ignore
-      edgeLeft.style.display = 'block';
-    } else {
-      // @ts-ignore
-      edgeLeft.style.display = 'none';
-    }
-    if (d.x === edgeRightValue) {
-      // @ts-ignore
-      edgeRight.style.display = 'block';
-    } else {
-      // @ts-ignore
-      edgeRight.style.display = 'none';
-    }
-
-    if (d.y - window.scrollY <= 20) {
-      // @ts-ignore
-      edgeMaximized.style.display = 'block';
-    } else {
-      // @ts-ignore
-      edgeMaximized.style.display = 'none';
+      if (d.y - window.scrollY <= 20) {
+        // @ts-ignore
+        edgeMaximized.style.display = 'block';
+      } else {
+        // @ts-ignore
+        edgeMaximized.style.display = 'none';
+      }
     }
   };
 
@@ -112,98 +114,100 @@ export const Browser: React.FC<BrowserProps> = ({
   };
 
   const onDragStop = (_e: any, d: any) => {
-    const scrollTop = window.pageYOffset;
-    // @ts-ignore
-    edgeRight.style.display = 'none';
-    // @ts-ignore
-    edgeLeft.style.display = 'none';
-    // @ts-ignore
-    edgeMaximized.style.display = 'none';
+    if (boardContainer) {
+      const scrollTop = window.pageYOffset;
+      // @ts-ignore
+      edgeRight.style.display = 'none';
+      // @ts-ignore
+      edgeLeft.style.display = 'none';
+      // @ts-ignore
+      edgeMaximized.style.display = 'none';
 
-    const edgeRightWidth = container.current?.clientWidth
-      ? container.current?.clientWidth
-      : 0;
-    const edgeRightValue = window.innerWidth - edgeRightWidth - 69;
-    const edgeTopValue = d.y - window.scrollY;
+      const edgeRightWidth = container.current?.clientWidth
+        ? container.current?.clientWidth
+        : 0;
+      const edgeRightValue = boardContainer?.clientWidth - edgeRightWidth - 2;
+      const edgeTopValue = d.y - window.scrollY;
 
-    switch (d.x) {
-      case 0:
-        setX(10);
-        setY(10 + scrollTop);
-        setRndWidth(window.innerWidth / 2 - 55);
-        setRndHeight(window.innerHeight - 20);
-        dispatch(
-          updateBrowser({
-            browserId: id,
-            params: {
-              top: 10 + scrollTop,
-              left: 10,
-              width: window.innerWidth / 2 - 55,
-              height: window.innerHeight - 20,
-            },
-          })
-        );
-        break;
-
-      case edgeRightValue:
-        setX(window.innerWidth / 2 - 20);
-        setY(10 + scrollTop);
-        setRndWidth(window.innerWidth / 2 - 55);
-        setRndHeight(window.innerHeight - 20);
-        dispatch(
-          updateBrowser({
-            browserId: id,
-            params: {
-              top: 10 + scrollTop,
-              left: window.innerWidth / 2 - 20,
-              width: window.innerWidth / 2 - 55,
-              height: window.innerHeight - 20,
-            },
-          })
-        );
-        break;
-
-      default:
-        if (edgeTopValue <= 0) {
-          window.app.config.get('browsing.topEdge').then((res: unknown) => {
-            if (res === 'maximize') {
-              toggleFullsizeBrowser();
-              focus(id, true);
-            }
-            if (res === 'fit') {
-              setX(10);
-              setY(10 + scrollTop);
-              setRndWidth(window.innerWidth - 85);
-              setRndHeight(window.innerHeight - 20);
-              dispatch(
-                updateBrowser({
-                  browserId: id,
-                  params: {
-                    top: 10 + scrollTop,
-                    left: 10,
-                    width: window.innerWidth - 85,
-                    height: window.innerHeight - 20,
-                  },
-                })
-              );
-            }
-          });
-        } else {
-          setX(d.x);
-          setY(d.y);
+      switch (d.x) {
+        case 0:
+          setX(10);
+          setY(10 + scrollTop);
+          setRndWidth(boardContainer?.clientWidth / 2 - 15);
+          setRndHeight(window.innerHeight - 20);
           dispatch(
             updateBrowser({
               browserId: id,
               params: {
-                top: d.y,
-                left: d.x,
+                top: 10 + scrollTop,
+                left: 10,
+                width: boardContainer?.clientWidth / 2 - 15,
+                height: window.innerHeight - 20,
               },
             })
           );
-        }
-        break;
+          break;
+
+        case edgeRightValue:
+          setX(boardContainer?.clientWidth / 2 + 10);
+          setY(10 + scrollTop);
+          setRndWidth(boardContainer?.clientWidth / 2 - 15);
+          setRndHeight(window.innerHeight - 20);
+          dispatch(
+            updateBrowser({
+              browserId: id,
+              params: {
+                top: 10 + scrollTop,
+                left: boardContainer?.clientWidth / 2 + 10,
+                width: boardContainer?.clientWidth / 2 - 15,
+                height: window.innerHeight - 20,
+              },
+            })
+          );
+          break;
+
+        default:
+          if (edgeTopValue <= 0) {
+            window.app.config.get('browsing.topEdge').then((res: unknown) => {
+              if (res === 'maximize') {
+                toggleFullsizeBrowser();
+                focus(id, true);
+              }
+              if (res === 'fit') {
+                setX(10);
+                setY(10 + scrollTop);
+                setRndWidth(boardContainer?.clientWidth - 20);
+                setRndHeight(window.innerHeight - 20);
+                dispatch(
+                  updateBrowser({
+                    browserId: id,
+                    params: {
+                      top: 10 + scrollTop,
+                      left: 10,
+                      width: boardContainer?.clientWidth - 20,
+                      height: window.innerHeight - 20,
+                    },
+                  })
+                );
+              }
+            });
+          } else {
+            setX(d.x);
+            setY(d.y);
+            dispatch(
+              updateBrowser({
+                browserId: id,
+                params: {
+                  top: d.y,
+                  left: d.x,
+                },
+              })
+            );
+          }
+          break;
+      }
+      enablePointerEventsForAll();
     }
-    enablePointerEventsForAll();
   };
 
   const onResizeStop = (
@@ -267,11 +271,27 @@ export const Browser: React.FC<BrowserProps> = ({
   }, [board?.isFullSize]);
 
   useEffect(() => {
-    setX(left);
-    setY(top);
-    setRndWidth(width);
-    setRndHeight(height);
-  }, [left, top, width, height]);
+    const maxWidth = boardContainer?.clientWidth;
+    if (maxWidth) {
+      const diff = left + width - maxWidth;
+      if (diff > 0) {
+        dispatch(
+          updateBrowser({
+            browserId: id,
+            params: {
+              width: width - diff,
+            },
+          })
+        );
+        setRndWidth(width - diff);
+      } else {
+        setRndWidth(width);
+      }
+      setX(left);
+      setY(top);
+      setRndHeight(height);
+    }
+  }, [left, top, width, height, boardContainer, dispatch, id]);
 
   return (
     <Rnd
