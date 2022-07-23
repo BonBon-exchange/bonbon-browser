@@ -1,11 +1,11 @@
 {
-  "Close window": "Закрыть окно",
-  "Close all windows": "Закрыть все окна",
+  "Close all tabs": "Закрыть все вкладки",
+  "Close all windows": "Закройте все окна",
+  "Close others tabs": "Закрыть другие вкладки",
   "Close others windows": "Закрыть другие окна",
   "Close tab": "Закрыть вкладку",
-  "Close all tabs": "Закрыть все вкладки",
-  "Close others tabs": "Закрыть другие вкладки",
-  "Rename tab": "Переименовать вкладку",
-  "Distribute windows evenly": "Распределять окна равномерно",
-  "Inspect element": "Проинспектировать элемент"
+  "Close window": "Закрыть окно",
+  "Distribute windows evenly": "Равномерное распределение окон",
+  "Inspect element": "Осмотреть элемент",
+  "Rename tab": "Вкладка Переименовать"
 }

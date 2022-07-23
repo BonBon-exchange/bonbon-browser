@@ -1,11 +1,11 @@
 {
-  "Close window": "أغلق النافذة",
+  "Close all tabs": "إغلاق جميع علامات التبويب",
   "Close all windows": "أغلق جميع النوافذ",
+  "Close others tabs": "أغلق علامات تبويب الآخرين",
   "Close others windows": "أغلق نوافذ أخرى",
   "Close tab": "إغلاق علامة التبويب",
-  "Close all tabs": "أغلق جميع علامات التبويب",
-  "Close others tabs": "أغلق علامات التبويب الآخرين",
-  "Rename tab": "إعادة تسمية علامة التبويب",
-  "Distribute windows evenly": "توزيع windows بالتساوي",
-  "Inspect element": "تدقيق العنصر"
+  "Close window": "أغلق النافذة",
+  "Distribute windows evenly": "توزيع النوافذ بالتساوي",
+  "Inspect element": "فحص العنصر",
+  "Rename tab": "إعادة تسمية علامة"
 }
