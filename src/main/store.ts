@@ -18,3 +18,6 @@ if (store.get('browsing.height') === undefined)
 
 if (store.get('browsing.size') === undefined)
   store.set('browsing.size', 'defined');
+
+if (store.get('browsing.topEdge') === undefined)
+  store.set('browsing.size', 'maximize');

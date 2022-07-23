@@ -31,6 +31,10 @@ export const BrowsingSettings: React.FC = () => {
   const [browsingSettingDontSaveHistory, setBrowsingSettingDontSaveHistory] =
     useState<boolean | undefined>(false);
 
+  const [browsingSettingTopEdge, setBrowsingSettingTopEdge] = useState<
+    string | undefined
+  >();
+
   const searchEngines = [
     'Google',
     'Presearch',
@@ -90,6 +94,14 @@ export const BrowsingSettings: React.FC = () => {
     });
   };
 
+  const updateBrowsingSettingTopEdge = (value: string) => {
+    setBrowsingSettingTopEdge(value);
+    window.app.config.set({
+      key: 'browsing.topEdge',
+      value,
+    });
+  };
+
   useEffect(() => {
     window.app.config.get('browsing.defaultWebpage').then((val: unknown) => {
       const typedVal = val as string | undefined;
@@ -119,6 +131,11 @@ export const BrowsingSettings: React.FC = () => {
     window.app.config.get('browsing.dontSaveHistory').then((val: unknown) => {
       const typedVal = val as boolean | undefined;
       setBrowsingSettingDontSaveHistory(typedVal);
+    });
+
+    window.app.config.get('browsing.topEdge').then((val: unknown) => {
+      const typedVal = val as string | undefined;
+      setBrowsingSettingTopEdge(typedVal);
     });
   }, []);
 
@@ -217,6 +234,39 @@ export const BrowsingSettings: React.FC = () => {
         <div className="Settings__item-description">
           {t(
             'If checked, BonBon will not save your browsing history. It will also disable URL suggestions.'
+          )}
+        </div>
+      </div>
+      <div className="Settings__item">
+        <div className="Settings__item-title">
+          {t('When dragging a window to the top edge')}:
+        </div>
+        <input
+          type="radio"
+          value="maximize"
+          checked={browsingSettingTopEdge === 'maximize'}
+          name="browsing-settings-top-edge"
+          onChange={(e) => updateBrowsingSettingTopEdge(e.target.value)}
+          id="browsing-settings-top-edge-maximize"
+        />
+        <label htmlFor="browsing-settings-top-edge-maximize">
+          {t('Maximize')}
+        </label>
+        <br />
+        <input
+          type="radio"
+          value="fit"
+          checked={browsingSettingTopEdge === 'fit'}
+          onChange={(e) => updateBrowsingSettingTopEdge(e.target.value)}
+          name="browsing-settings-top-edge"
+          id="browsing-settings-top-edge-fit"
+        />
+        <label htmlFor="browsing-settings-top-edge-fit">
+          {t('Fit the screen')}
+        </label>
+        <div className="Settings__item-description">
+          {t(
+            'Maximize the window or enlarge the window when dragging it to the top edge.'
           )}
         </div>
       </div>

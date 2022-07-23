@@ -165,8 +165,29 @@ export const Browser: React.FC<BrowserProps> = ({
 
       default:
         if (edgeTopValue <= 0) {
-          toggleFullsizeBrowser();
-          focus(id, true);
+          window.app.config.get('browsing.topEdge').then((res: unknown) => {
+            if (res === 'maximize') {
+              toggleFullsizeBrowser();
+              focus(id, true);
+            }
+            if (res === 'fit') {
+              setX(10);
+              setY(10 + scrollTop);
+              setRndWidth(window.innerWidth - 85);
+              setRndHeight(window.innerHeight - 20);
+              dispatch(
+                updateBrowser({
+                  browserId: id,
+                  params: {
+                    top: 10 + scrollTop,
+                    left: 10,
+                    width: window.innerWidth - 85,
+                    height: window.innerHeight - 20,
+                  },
+                })
+              );
+            }
+          });
         } else {
           setX(d.x);
           setY(d.y);
