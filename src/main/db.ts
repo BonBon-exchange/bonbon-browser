@@ -28,6 +28,7 @@ db.get(
     if (row.CNTREC === 0) {
       db.run('ALTER TABLE history ADD title TEXT');
     }
-});
+  }
+);
 
 export default db;

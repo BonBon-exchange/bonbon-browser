@@ -12,6 +12,7 @@ import pt from './locales/pt.json';
 import tr from './locales/tr.json';
 import de from './locales/de.json';
 import fa from './locales/fa.json';
+import ja from './locales/ja.json';
 
 const resources = {
   en: {
@@ -49,6 +50,9 @@ const resources = {
   },
   fa: {
     translation: fa,
+  },
+  ja: {
+    translation: ja,
   },
 };
 
