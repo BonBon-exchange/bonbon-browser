@@ -1,9 +1,11 @@
 {
-  "Close window": "Sluiten",
-  "Close all windows": "Alles sluiten",
-  "Close others windows": "Sluit anderen",
-  "Close tab": "Sluiten",
-  "Close all tabs": "Alles sluiten",
-  "Close others tabs": "Sluit anderen",
-  "Rename tab": "Hernoemen"
+  "Close all tabs": "Alle tabbladen sluiten",
+  "Close all windows": "Alle vensters sluiten",
+  "Close others tabs": "Andere tabbladen sluiten",
+  "Close others windows": "Andere vensters sluiten",
+  "Close tab": "Tabblad sluiten",
+  "Close window": "Venster sluiten",
+  "Distribute windows evenly": "Vensters gelijkmatig verdelen",
+  "Inspect element": "Inspecteer het element",
+  "Rename tab": "Tabblad hernoemen"
 }

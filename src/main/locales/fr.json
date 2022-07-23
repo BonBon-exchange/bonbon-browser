@@ -1,11 +1,11 @@
 {
+  "Close all tabs": "Fermer tous les onglets",
+  "Close all windows": "Fermez toutes les fenêtres",
+  "Close others tabs": "Fermer les autres onglets",
+  "Close others windows": "Fermer les autres fenêtres",
+  "Close tab": "Fermer l'onglet",
   "Close window": "Fermer la fenêtre",
-  "Close all windows": "Fermer toutes les fenêtre",
-  "Close others windows": "Fermer les autres fenêtre",
-  "Close tab": "Fermer la tabulation",
-  "Close all tabs": "Fermer toutes les tabulations",
-  "Close others tabs": "Fermer les autres tabulations",
-  "Rename tab": "Renommer la tabulation",
-  "Distribute windows evenly": "Répartir les fenêtres équitablement",
-  "Inspect element": "Inspecter l'élément"
+  "Distribute windows evenly": "Répartir uniformément les fenêtres",
+  "Inspect element": "Inspecter l'élément",
+  "Rename tab": "Renommer l'onglet"
 }

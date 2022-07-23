@@ -1,9 +1,11 @@
 {
-  "Close window": "Cerrar",
-  "Close all windows": "Cerrar todas las pestañas",
-  "Close others windows": "Cerrar las otras pestañas",
-  "Close tab": "Cerrar tabulacion",
-  "Close all tabs": "Cerrar todas las tabulaciones",
-  "Close others tabs": "Cerrar las otras tabulaciones",
-  "Rename tab": "Renombrar tabulacion"
+  "Close all tabs": "Cerrar todas las pestañas",
+  "Close all windows": "Cerrar todas las ventanas",
+  "Close others tabs": "Cerrar otras pestañas",
+  "Close others windows": "Cerrar otras ventanas",
+  "Close tab": "Cerrar pestaña",
+  "Close window": "Cerrar ventana",
+  "Distribute windows evenly": "Distribuir las ventanas uniformemente",
+  "Inspect element": "Inspeccionar elemento",
+  "Rename tab": "Cambiar nombre de la pestaña"
 }
