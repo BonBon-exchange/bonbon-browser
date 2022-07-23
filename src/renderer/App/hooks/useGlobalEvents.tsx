@@ -211,6 +211,30 @@ export const useGlobalEvents = () => {
     board.distributeWindowsEvenly();
   }, [board]);
 
+  const setDefaultWindowSizeAction = useCallback(
+    (_e: any, wcId: number) => {
+      const brow = boardState.browsers.find((b) => b.webContentsId === wcId);
+      window.app.config.set({
+        key: 'browsing.height',
+        value: brow?.height,
+      });
+      window.app.config.set({
+        key: 'browsing.width',
+        value: brow?.width,
+      });
+      window.app.config.set({
+        key: 'browsing.size',
+        value: 'defined',
+      });
+    },
+    [boardState.browsers]
+  );
+
+  useEffect(() => {
+    window.app.listener.setDefaultWindowSize(setDefaultWindowSizeAction);
+    return () => window.app.off.setDefaultWindowSize();
+  }, [setDefaultWindowSizeAction]);
+
   useEffect(() => {
     window.app.listener.downloading(downloadingAction);
     return () => window.app.off.downloading();

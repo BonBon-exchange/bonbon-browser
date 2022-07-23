@@ -188,6 +188,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('distribute-windows-evenly', action);
     },
+    setDefaultWindowSize: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('set-default-window-size', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -225,6 +230,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     distributeWindowsEvenly: () => {
       ipcRenderer.removeAllListeners('distribute-windows-evenly');
+    },
+    setDefaultWindowSize: () => {
+      ipcRenderer.removeAllListeners('set-default-window-size');
     },
   },
 });

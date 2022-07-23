@@ -116,6 +116,14 @@ const makeAppEvents = () => {
       });
 
       contextMenu({
+        prepend: () => [
+          {
+            label: 'Set as default window size',
+            click: () => {
+              contents.send('set-default-window-size', webContents.id);
+            },
+          },
+        ],
         window: webContents,
         showInspectElement: true,
         showSearchWithGoogle: false,

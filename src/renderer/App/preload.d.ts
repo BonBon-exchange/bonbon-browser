@@ -73,6 +73,7 @@ declare global {
         downloading: (action: unknown) => void;
         showDownloadsPreview: (action: unknown) => void;
         distributeWindowsEvenly: (action: unknown) => void;
+        setDefaultWindowSize: (action: unknown) => void;
       };
       off: {
         newWindow: () => void;
@@ -90,6 +91,7 @@ declare global {
         downloading: () => void;
         showDownloadsPreview: () => void;
         distributeWindowsEvenly: () => void;
+        setDefaultWindowSize: () => void;
       };
     };
     darkMode: {
