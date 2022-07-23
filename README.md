@@ -103,6 +103,10 @@ Download BonBon for Linux: [BonBon Browser 0.29.0 for Linux (AppImage)](https://
    cd bonbon-web-browser
    npm install
    ```
+3. Run the app
+   ```sh
+   npm start
+   ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
