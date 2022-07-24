@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import icon from 'renderer/App/components/LeftBar/icon.png';
+import loadingImg from 'renderer/App/svg/loading.svg';
 
 import { MiniWindow, MiniView } from './Types';
 
@@ -41,11 +42,10 @@ export const Minimap: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          layout
-          key={w.id}
+          key={`miniwindow_${w.id}`}
         >
           <img
-            src={w.favicon || icon}
+            src={w.isLoading ? loadingImg : w.favicon || icon}
             className="Minimap__browserFavImg"
             onError={handleImageError}
             width={w.height / 2}
@@ -131,6 +131,7 @@ export const Minimap: React.FC = () => {
           top: b.top * ratioY,
           left: b.left * ratioX,
           favicon: b.favicon,
+          isLoading: b.isLoading,
         };
       });
       const toSort = [...tmpWindows];
