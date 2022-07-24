@@ -5,6 +5,7 @@ export type MiniWindow = {
   height: number;
   favicon: string | undefined;
   id: string;
+  isLoading: boolean;
 }
 
 export type MiniView = {
