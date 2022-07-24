@@ -204,7 +204,10 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
             index++;
             container = sortedContainers[index];
             sumWidth += container.clientWidth;
-            if (sumWidth < maxWidth) {
+            if (
+              sumWidth < maxWidth ||
+              (container.clientWidth >= maxWidth && rowContainers.length === 0)
+            ) {
               if (container.clientHeight > biggestHeight)
                 biggestHeight = container.clientHeight;
               rowContainers.push(container);
@@ -216,8 +219,11 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
             rcSumWidth += c.clientWidth;
           });
 
-          xMargin = Number(
-            ((maxWidth - rcSumWidth) / (rowContainers.length + 1)).toFixed(0)
+          xMargin = Math.max(
+            10,
+            Number(
+              ((maxWidth - rcSumWidth) / (rowContainers.length + 1)).toFixed(0)
+            )
           );
 
           // process here
@@ -231,6 +237,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
                   params: {
                     left: currentX,
                     top: currentY,
+                    width: Math.min(maxWidth - 20, c.clientWidth),
                   },
                 })
               );

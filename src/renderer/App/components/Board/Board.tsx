@@ -37,7 +37,7 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
     if (!board.isFullSize) {
       setTimeout(
         () => helpers.board.distributeWindowsByOrder(board.browsers),
-        0
+        100
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
