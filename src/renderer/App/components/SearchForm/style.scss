@@ -14,10 +14,15 @@
   align-items: center;
   justify-content: space-around;
 
+  .MuiTextField-root {
+    input {
+      background-color: transparent !important;
+    }
+  }
+
   .MuiOutlinedInput-root {
     height: 50px;
     color: var(--color-text-primary) !important;
-    background-color: none !important;
 
     fieldset {
       outline: none !important;
