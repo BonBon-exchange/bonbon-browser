@@ -222,6 +222,18 @@ export const BrowsingSettings: React.FC = () => {
         <label htmlFor="browsing-settings-default-size-last-closed">
           {t('Use the size of the last closed webpage')}
         </label>
+        <br />
+        <input
+          type="radio"
+          value="lastResized"
+          checked={browsingSettingDefaultSize === 'lastResized'}
+          onChange={(e) => updateBrowsingSettingSize(e.target.value)}
+          name="browsing-settings-default-size"
+          id="browsing-settings-default-size-last-resized"
+        />
+        <label htmlFor="browsing-settings-default-size-last-resized">
+          {t('Use the size of the last resized window')}
+        </label>
         <div className="Settings__item-description">
           {t('The size of opening new windows when they are not maximized.')}
         </div>

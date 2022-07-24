@@ -8,6 +8,7 @@ export interface BoardType {
   closedUrls: string[];
   isFullSize: boolean;
   lastClosedBrowserDimensions?: [number, number];
+  lastResizedBrowserDimensions?: [number, number];
 }
 
 export interface BoardProps {

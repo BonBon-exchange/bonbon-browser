@@ -71,5 +71,6 @@
   "When dragging a window to the top edge": "When dragging a window to the top edge",
   "Maximize": "Maximize",
   "Fit the screen": "Fit the screen",
-  "Maximize the window or enlarge the window when dragging it to the top edge.": "Maximize the window or enlarge the window when dragging it to the top edge."
+  "Maximize the window or enlarge the window when dragging it to the top edge.": "Maximize the window or enlarge the window when dragging it to the top edge.",
+  "Use the size of the last resized window": "Use the size of the last resized window"
 }
