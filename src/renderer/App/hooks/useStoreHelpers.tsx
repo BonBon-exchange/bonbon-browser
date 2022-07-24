@@ -31,6 +31,8 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const { focus, focusUrlBar } = useBrowserMethods();
   const { t } = useTranslation();
 
+  const boardContainer = document.getElementById('#Board__container');
+
   const makeBrowser = useCallback(
     async (params: { url?: string; top?: number; left?: number }) => {
       const browserId = v4();
@@ -46,20 +48,46 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       const defaultHeight = (await window.app.config.get(
         'browsing.height'
       )) as number;
-      const width =
-        defaultSize === 'lastClosed' && board.lastClosedBrowserDimensions
-          ? board.lastClosedBrowserDimensions[0]
-          : defaultWidth;
-      const height =
-        defaultSize === 'lastClosed' && board.lastClosedBrowserDimensions
-          ? board.lastClosedBrowserDimensions[1]
-          : defaultHeight;
+
+      let width;
+      let height;
+
+      switch (defaultSize) {
+        default:
+        case 'defined':
+          width = defaultWidth;
+          height = defaultHeight;
+          break;
+
+        case 'lastClosed':
+          width = board.lastClosedBrowserDimensions
+            ? board.lastClosedBrowserDimensions[0]
+            : defaultWidth;
+          height = board.lastClosedBrowserDimensions
+            ? board.lastClosedBrowserDimensions[1]
+            : defaultHeight;
+          break;
+
+        case 'lastResized':
+          width = board.lastResizedBrowserDimensions
+            ? board.lastResizedBrowserDimensions[0]
+            : defaultWidth;
+          height = board.lastResizedBrowserDimensions
+            ? board.lastResizedBrowserDimensions[1]
+            : defaultHeight;
+          break;
+      }
+
+      if (boardContainer)
+        width = Math.min(boardContainer?.clientWidth - 20, width);
+
       const { x, y } = getCoordinateWithNoCollision(
         document,
         board,
-        defaultHeight,
-        defaultWidth
+        height,
+        width
       );
+
       const newBrowser = {
         id: browserId,
         url: params.url || defaultWebpage,
@@ -73,7 +101,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       };
       return newBrowser;
     },
-    [board]
+    [board, boardContainer]
   );
 
   const makeAndAddBrowser = useCallback(

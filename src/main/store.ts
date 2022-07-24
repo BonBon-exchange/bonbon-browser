@@ -17,7 +17,7 @@ if (store.get('browsing.height') === undefined)
   store.set('browsing.height', 800);
 
 if (store.get('browsing.size') === undefined)
-  store.set('browsing.size', 'defined');
+  store.set('browsing.size', 'lastResized');
 
 if (store.get('browsing.topEdge') === undefined)
-  store.set('browsing.size', 'maximize');
+  store.set('browsing.size', 'fit');

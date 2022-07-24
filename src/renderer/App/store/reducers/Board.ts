@@ -247,6 +247,12 @@ export const boardSlice = createSlice({
       state.board.browsers[browserIndex].isSearching =
         !state.board.browsers[browserIndex].isSearching;
     },
+    setLastReiszedBrowserDimensions: (
+      state,
+      action: PayloadAction<[number, number]>
+    ) => {
+      state.board.lastResizedBrowserDimensions = action.payload;
+    },
   },
 });
 
@@ -270,6 +276,7 @@ export const {
   updateBrowserLoading,
   updateBrowserCertificateErrorFingerprint,
   toggleSearch,
+  setLastReiszedBrowserDimensions,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

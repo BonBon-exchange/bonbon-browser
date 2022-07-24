@@ -18,6 +18,7 @@ import { useAppDispatch } from 'renderer/App/store/hooks';
 import {
   updateBrowser,
   toggleBoardFullSize,
+  setLastReiszedBrowserDimensions,
 } from 'renderer/App/store/reducers/Board';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
@@ -129,38 +130,45 @@ export const Browser: React.FC<BrowserProps> = ({
       const edgeRightValue = boardContainer?.clientWidth - edgeRightWidth - 2;
       const edgeTopValue = d.y - window.scrollY;
 
+      let resizeWidth;
+      let resizeHeight;
+
       switch (d.x) {
         case 0:
+          resizeWidth = boardContainer?.clientWidth / 2 - 15;
+          resizeHeight = window.innerHeight - 20;
           setX(10);
           setY(10 + scrollTop);
-          setRndWidth(boardContainer?.clientWidth / 2 - 15);
-          setRndHeight(window.innerHeight - 20);
+          setRndWidth(resizeWidth);
+          setRndHeight(resizeHeight);
           dispatch(
             updateBrowser({
               browserId: id,
               params: {
                 top: 10 + scrollTop,
                 left: 10,
-                width: boardContainer?.clientWidth / 2 - 15,
-                height: window.innerHeight - 20,
+                width: resizeWidth,
+                height: resizeHeight,
               },
             })
           );
           break;
 
         case edgeRightValue:
+          resizeWidth = boardContainer?.clientWidth / 2 - 15;
+          resizeHeight = window.innerHeight - 20;
           setX(boardContainer?.clientWidth / 2 + 10);
           setY(10 + scrollTop);
-          setRndWidth(boardContainer?.clientWidth / 2 - 15);
-          setRndHeight(window.innerHeight - 20);
+          setRndWidth(resizeWidth);
+          setRndHeight(resizeHeight);
           dispatch(
             updateBrowser({
               browserId: id,
               params: {
                 top: 10 + scrollTop,
                 left: boardContainer?.clientWidth / 2 + 10,
-                width: boardContainer?.clientWidth / 2 - 15,
-                height: window.innerHeight - 20,
+                width: resizeWidth,
+                height: resizeHeight,
               },
             })
           );
@@ -174,20 +182,25 @@ export const Browser: React.FC<BrowserProps> = ({
                 focus(id, true);
               }
               if (res === 'fit') {
+                resizeWidth = boardContainer?.clientWidth - 20;
+                resizeHeight = window.innerHeight - 20;
                 setX(10);
                 setY(10 + scrollTop);
-                setRndWidth(boardContainer?.clientWidth - 20);
-                setRndHeight(window.innerHeight - 20);
+                setRndWidth(resizeWidth);
+                setRndHeight(resizeHeight);
                 dispatch(
                   updateBrowser({
                     browserId: id,
                     params: {
                       top: 10 + scrollTop,
                       left: 10,
-                      width: boardContainer?.clientWidth - 20,
-                      height: window.innerHeight - 20,
+                      width: resizeWidth,
+                      height: resizeHeight,
                     },
                   })
+                );
+                dispatch(
+                  setLastReiszedBrowserDimensions([resizeWidth, resizeHeight])
                 );
               }
             });
@@ -206,7 +219,12 @@ export const Browser: React.FC<BrowserProps> = ({
           }
           break;
       }
+
       enablePointerEventsForAll();
+
+      if (resizeWidth && resizeHeight) {
+        dispatch(setLastReiszedBrowserDimensions([resizeWidth, resizeHeight]));
+      }
     }
   };
 
@@ -228,6 +246,10 @@ export const Browser: React.FC<BrowserProps> = ({
           top: position.y,
         },
       })
+    );
+
+    dispatch(
+      setLastReiszedBrowserDimensions([ref.offsetWidth, ref.offsetHeight])
     );
     enablePointerEventsForAll();
   };
