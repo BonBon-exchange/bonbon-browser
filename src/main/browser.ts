@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/no-cycle */
-import { BrowserView, BrowserWindow, app } from 'electron';
+import electron, { BrowserView, BrowserWindow, app } from 'electron';
 import path from 'path';
 import { machineIdSync } from 'node-machine-id';
 
@@ -99,10 +99,12 @@ export const createWindow = async (): Promise<void> => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
+  const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
+
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    width: process.platform === 'darwin' ? width : 1024,
+    height: process.platform === 'darwin' ? height : 768,
     icon: getAssetPath('icon.png'),
     titleBarStyle: 'hidden',
     titleBarOverlay: false,
@@ -127,6 +129,9 @@ export const createWindow = async (): Promise<void> => {
       mainWindow.minimize();
     } else {
       mainWindow.show();
+      if (process.platform !== 'darwin') {
+        mainWindow.maximize();
+      }
     }
   });
 
