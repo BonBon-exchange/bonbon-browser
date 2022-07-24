@@ -208,7 +208,7 @@ export const useGlobalEvents = () => {
   );
 
   const distributeWindowsEvenlyAction = useCallback(() => {
-    board.distributeWindowsEvenly();
+    board.distributeWindowsEvenlyDefault();
   }, [board]);
 
   const setDefaultWindowSizeAction = useCallback(

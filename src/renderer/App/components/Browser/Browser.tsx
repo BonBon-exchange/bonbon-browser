@@ -51,7 +51,7 @@ export const Browser: React.FC<BrowserProps> = ({
     focus,
     bringBrowserToTheFront,
   } = useBrowserMethods();
-  const { browser } = useStoreHelpers();
+  const helpers = useStoreHelpers();
   const board = useBoard();
   const [firstRenderingState, setFirstRenderingState] = useState<boolean>(
     firstRendering || true
@@ -337,8 +337,8 @@ export const Browser: React.FC<BrowserProps> = ({
         layout={!board?.isFullSize}
       >
         <BrowserTopBar
-          closeBrowser={() => setTimeout(() => browser.close(id), 0)}
-          minimizeBrowser={() => browser.minimize(id)}
+          closeBrowser={() => setTimeout(() => helpers.browser.close(id), 0)}
+          minimizeBrowser={() => helpers.browser.minimize(id)}
           toggleFullsizeBrowser={toggleFullsizeBrowser}
           onClick={() => focus(id, true)}
           title={title}

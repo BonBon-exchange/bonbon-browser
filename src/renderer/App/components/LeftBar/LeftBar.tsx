@@ -23,13 +23,24 @@ import './style.scss';
 
 export const LeftBar: React.FC = () => {
   const dispatch = useAppDispatch();
-  const board = useBoard();
+  const boardState = useBoard();
   const { focus } = useBrowserMethods();
-  const [items, setItems] = useState<BrowserProps[]>(board.browsers);
-  const { browser } = useStoreHelpers();
+  const [items, setItems] = useState<BrowserProps[]>(boardState.browsers);
+  const { browser, board } = useStoreHelpers();
 
   const handleReorder = (newOrder: BrowserProps[]) => {
     dispatch(setBrowsers(newOrder));
+    const sortedIds = newOrder.map((b) => b.id);
+    const containers = document.querySelectorAll(
+      '.Browser__draggable-container'
+    );
+    const sortedContainers = sortedIds
+      .map((id) =>
+        Array.from(containers).find((c) => c.getAttribute('data-id') === id)
+      )
+      .filter((e) => e !== undefined);
+    if (sortedContainers)
+      board.distributeWindowsEvenly(sortedContainers as Element[]);
   };
 
   const handleImageError: ReactEventHandler<HTMLImageElement> = (e) => {
@@ -45,12 +56,13 @@ export const LeftBar: React.FC = () => {
   };
 
   useEffect(() => {
-    setItems(board.browsers);
-  }, [board.browsers]);
+    setTimeout(() => setItems(board.getSortedBrowsers()), 50);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [boardState.browsers]);
 
   return (
     <div id="LeftBar__browserFavContainer">
-      <Reorder.Group values={items} onReorder={handleReorder}>
+      <Reorder.Group values={items} onReorder={handleReorder} axis="y">
         <div id="LeftBar__browserFavContainerItems">
           {items.map((b: BrowserProps) => {
             return (
@@ -65,7 +77,7 @@ export const LeftBar: React.FC = () => {
                     </div>
                     <div
                       className={clsx({
-                        selected: b.id === board.activeBrowser,
+                        selected: b.id === boardState.activeBrowser,
                         LeftBar__browserFav: true,
                       })}
                       key={b.id}
