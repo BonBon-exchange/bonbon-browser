@@ -3,12 +3,12 @@
 /* eslint-disable no-use-before-define */
 import React, { useEffect, useCallback, useState } from 'react';
 import clsx from 'clsx';
+import { AnimatePresence } from 'framer-motion';
 
 import { Browser } from 'renderer/App/components/Browser';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
-import { AnimatePresence } from 'framer-motion';
-
+import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { setActiveBrowser } from 'renderer/App/store/reducers/Board';
@@ -22,6 +22,7 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
   const dispatch = useAppDispatch();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>([]);
+  const helpers = useStoreHelpers();
 
   const makeBrowsers = useCallback((sorted: BrowserProps[]) => {
     return sorted.map((b) => <Browser {...b} key={b.id} firstRendering />);
@@ -31,6 +32,16 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
     e.preventDefault();
     window.app.app.showBoardContextMenu({ x: e.clientX, y: e.clientY });
   };
+
+  useEffect(() => {
+    if (!board.isFullSize) {
+      setTimeout(
+        () => helpers.board.distributeWindowsByOrder(board.browsers),
+        0
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [board.isFullSize]);
 
   useEffect(() => {
     const toSort = [...board.browsers];

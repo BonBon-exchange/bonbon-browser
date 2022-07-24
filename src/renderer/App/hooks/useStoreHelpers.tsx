@@ -245,6 +245,20 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
     [dispatch]
   );
 
+  const distributeWindowsByOrder = (newOrder: BrowserProps[]) => {
+    const sortedIds = newOrder.map((b) => b.id);
+    const containers = document.querySelectorAll(
+      '.Browser__draggable-container'
+    );
+    const sortedContainers = sortedIds
+      .map((id) =>
+        Array.from(containers).find((c) => c.getAttribute('data-id') === id)
+      )
+      .filter((e) => e !== undefined);
+    if (sortedContainers && !board.isFullSize)
+      distributeWindowsEvenly(sortedContainers as Element[]);
+  };
+
   const distributeWindowsEvenlyDefault = useCallback(() => {
     const sortedContainers = makeSortedContainers();
     distributeWindowsEvenly(sortedContainers);
@@ -278,6 +292,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       distributeWindowsEvenly,
       distributeWindowsEvenlyDefault,
       getSortedBrowsers,
+      distributeWindowsByOrder,
     },
   };
 };

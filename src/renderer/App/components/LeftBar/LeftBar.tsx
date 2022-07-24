@@ -30,17 +30,7 @@ export const LeftBar: React.FC = () => {
 
   const handleReorder = (newOrder: BrowserProps[]) => {
     dispatch(setBrowsers(newOrder));
-    const sortedIds = newOrder.map((b) => b.id);
-    const containers = document.querySelectorAll(
-      '.Browser__draggable-container'
-    );
-    const sortedContainers = sortedIds
-      .map((id) =>
-        Array.from(containers).find((c) => c.getAttribute('data-id') === id)
-      )
-      .filter((e) => e !== undefined);
-    if (sortedContainers)
-      board.distributeWindowsEvenly(sortedContainers as Element[]);
+    board.distributeWindowsByOrder(newOrder);
   };
 
   const handleImageError: ReactEventHandler<HTMLImageElement> = (e) => {
@@ -56,7 +46,11 @@ export const LeftBar: React.FC = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => setItems(board.getSortedBrowsers()), 50);
+    if (boardState.isFullSize) {
+      setItems(boardState.browsers);
+    } else {
+      setTimeout(() => setItems(board.getSortedBrowsers()), 50);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boardState.browsers]);
 
