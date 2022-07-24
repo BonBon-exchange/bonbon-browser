@@ -118,11 +118,9 @@ export const Minimap: React.FC = () => {
 
   const mouseUpHandler = useCallback(
     (_e: any) => {
-      document
-        .querySelector('#Minimap__container')
-        ?.removeEventListener('mousemove', mouseMoveHandler);
+      minimapContainer?.removeEventListener('mousemove', mouseMoveHandler);
     },
-    [mouseMoveHandler]
+    [mouseMoveHandler, minimapContainer]
   );
 
   const clickHandler = useCallback(
@@ -164,44 +162,28 @@ export const Minimap: React.FC = () => {
   }, [boardContainer, minimapContainer]);
 
   useEffect(() => {
-    document
-      .querySelector('#Minimap__container')
-      ?.addEventListener('mousedown', clickHandler);
+    minimapContainer?.addEventListener('mousedown', clickHandler);
     return () =>
-      document
-        .querySelector('#Minimap__container')
-        ?.removeEventListener('mousedown', clickHandler);
-  }, [clickHandler]);
+      minimapContainer?.removeEventListener('mousedown', clickHandler);
+  }, [clickHandler, minimapContainer]);
 
   useEffect(() => {
-    document
-      .querySelector('#Minimap__container')
-      ?.addEventListener('mouseenter', mouseEnterHandler);
+    minimapContainer?.addEventListener('mouseenter', mouseEnterHandler);
     return () =>
-      document
-        .querySelector('#Minimap__container')
-        ?.removeEventListener('mouseenter', mouseEnterHandler);
-  }, [mouseEnterHandler]);
+      minimapContainer?.removeEventListener('mouseenter', mouseEnterHandler);
+  }, [mouseEnterHandler, minimapContainer]);
 
   useEffect(() => {
-    document
-      .querySelector('#Minimap__container')
-      ?.addEventListener('mouseleave', mouseLeaveHandler);
+    minimapContainer?.addEventListener('mouseleave', mouseLeaveHandler);
     return () =>
-      document
-        .querySelector('#Minimap__container')
-        ?.removeEventListener('mouseleave', mouseLeaveHandler);
-  }, [mouseLeaveHandler]);
+      minimapContainer?.removeEventListener('mouseleave', mouseLeaveHandler);
+  }, [mouseLeaveHandler, minimapContainer]);
 
   useEffect(() => {
-    document
-      .querySelector('#Minimap__container')
-      ?.addEventListener('mouseup', mouseUpHandler);
+    minimapContainer?.addEventListener('mouseup', mouseUpHandler);
     return () =>
-      document
-        .querySelector('#Minimap__container')
-        ?.removeEventListener('mouseup', mouseUpHandler);
-  }, [mouseUpHandler]);
+      minimapContainer?.removeEventListener('mouseup', mouseUpHandler);
+  }, [mouseUpHandler, minimapContainer]);
 
   return (
     <div id="Minimap__container">
