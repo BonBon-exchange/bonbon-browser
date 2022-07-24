@@ -55,6 +55,32 @@ export const Minimap: React.FC = () => {
     });
   }, []);
 
+  const prepareMiniWindows = useCallback(() => {
+    if (minimapContainer && boardContainer) {
+      const ratioX = minimapContainer.clientWidth / boardContainer.clientWidth;
+      const ratioY =
+        minimapContainer.clientHeight / boardContainer.clientHeight;
+      const tmpWindows = board.browsers.map((b) => {
+        return {
+          id: b.id,
+          height: b.height * ratioY,
+          width: b.width * ratioX,
+          top: b.top * ratioY,
+          left: b.left * ratioX,
+          favicon: b.favicon,
+          isLoading: b.isLoading,
+        };
+      });
+      const toSort = [...tmpWindows];
+      const sorted = toSort.sort((a, b) => {
+        return a.id > b.id ? 1 : -1;
+      });
+      setWindows(sorted);
+    } else {
+      setWindows([]);
+    }
+  }, [board.browsers, minimapContainer, boardContainer]);
+
   const mouseMoveHandler = useCallback(
     (e: any) => {
       if (minimapContainer && boardContainer) {
@@ -80,9 +106,10 @@ export const Minimap: React.FC = () => {
         const height = minimapContainer.clientHeight * ratioY;
         setView({ top: top * ratioY, height });
         setShowView(true);
+        prepareMiniWindows();
       }
     },
-    [boardContainer, minimapContainer]
+    [boardContainer, minimapContainer, prepareMiniWindows]
   );
 
   const mouseLeaveHandler = useCallback(() => {
@@ -119,30 +146,13 @@ export const Minimap: React.FC = () => {
   );
 
   useEffect(() => {
-    if (minimapContainer && boardContainer) {
-      const ratioX = minimapContainer.clientWidth / boardContainer.clientWidth;
-      const ratioY =
-        minimapContainer.clientHeight / boardContainer.clientHeight;
-      const tmpWindows = board.browsers.map((b) => {
-        return {
-          id: b.id,
-          height: b.height * ratioY,
-          width: b.width * ratioX,
-          top: b.top * ratioY,
-          left: b.left * ratioX,
-          favicon: b.favicon,
-          isLoading: b.isLoading,
-        };
-      });
-      const toSort = [...tmpWindows];
-      const sorted = toSort.sort((a, b) => {
-        return a.id > b.id ? 1 : -1;
-      });
-      setWindows(sorted);
-    } else {
-      setWindows([]);
-    }
-  }, [board.browsers, boardContainer, minimapContainer]);
+    prepareMiniWindows();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [board.isFullSize]);
+
+  useEffect(() => {
+    prepareMiniWindows();
+  }, [board.browsers, boardContainer, minimapContainer, prepareMiniWindows]);
 
   useEffect(() => {
     if (minimapContainer && boardContainer) {
