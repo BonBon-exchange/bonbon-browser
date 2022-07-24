@@ -204,10 +204,11 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
             index++;
             container = sortedContainers[index];
             sumWidth += container.clientWidth;
-            if (container.clientHeight > biggestHeight)
-              biggestHeight = container.clientHeight;
-            if (sumWidth < maxWidth) rowContainers.push(container);
-            else index--;
+            if (sumWidth < maxWidth) {
+              if (container.clientHeight > biggestHeight)
+                biggestHeight = container.clientHeight;
+              rowContainers.push(container);
+            } else index--;
           }
 
           let rcSumWidth = 0;
