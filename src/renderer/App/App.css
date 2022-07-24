@@ -34,7 +34,7 @@ body {
 
 .MuiTextField-root {
   input {
-    background-color: var(--color-icon-secondary) !important;
+    background-color: var(--color-icon-secondary);
   }
 }
 
