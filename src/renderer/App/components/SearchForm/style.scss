@@ -17,6 +17,7 @@
   .MuiOutlinedInput-root {
     height: 50px;
     color: var(--color-text-primary) !important;
+    background-color: none !important;
 
     fieldset {
       outline: none !important;
