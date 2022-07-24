@@ -166,7 +166,14 @@ export const BrowsingSettings: React.FC = () => {
           value={browsingSettingDefaultSearchEngine}
         >
           {searchEngines.map((se) => {
-            return <option value={se.toLocaleLowerCase()}>{se}</option>;
+            return (
+              <option
+                value={se.toLocaleLowerCase()}
+                key={se.toLocaleLowerCase()}
+              >
+                {se}
+              </option>
+            );
           })}
         </select>
         <div className="Settings__item-description">

@@ -21,6 +21,7 @@ import {
   updateBrowser,
 } from 'renderer/App/store/reducers/Board';
 import { getCoordinateWithNoCollision } from 'renderer/App/helpers/d2';
+import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { useBoard } from './useBoard';
 import { useBrowserMethods } from './useBrowserMethods';
 
@@ -155,7 +156,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
     [dispatch]
   );
 
-  const distributeWindowsEvenly = useCallback(() => {
+  const makeSortedContainers = useCallback(() => {
     const containers = document.querySelectorAll(
       '.Browser__draggable-container'
     );
@@ -177,65 +178,103 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       return -1;
     });
 
-    const maxWidth = document.querySelector('#Board__container')?.clientWidth;
-    let sumWidth = 0;
-    let index = -1;
-    const maxIndex = containers.length - 1;
-    let rowContainers;
-    let container;
-    const yMargin = 10;
-    let currentY = yMargin;
-    let xMargin: number;
-    let biggestHeight;
-    let currentX: number;
-    let id;
-    if (maxWidth) {
-      while (index < maxIndex) {
-        rowContainers = [];
-        sumWidth = 0;
-        biggestHeight = 0;
-        while (sumWidth <= maxWidth && index < maxIndex) {
-          index++;
-          container = sortedContainer[index];
-          sumWidth += container.clientWidth;
-          if (container.clientHeight > biggestHeight)
-            biggestHeight = container.clientHeight;
-          if (sumWidth < maxWidth) rowContainers.push(container);
-          else index--;
-        }
+    return sortedContainer;
+  }, [board.browsers]);
 
-        let rcSumWidth = 0;
-        rowContainers.forEach((c) => {
-          rcSumWidth += c.clientWidth;
-        });
-
-        xMargin = Number(
-          ((maxWidth - rcSumWidth) / (rowContainers.length + 1)).toFixed(0)
-        );
-
-        // process here
-        currentX = xMargin;
-        rowContainers.forEach((c) => {
-          id = c.getAttribute('data-id');
-          if (id) {
-            dispatch(
-              updateBrowser({
-                browserId: id,
-                params: {
-                  left: currentX,
-                  top: currentY,
-                },
-              })
-            );
+  const distributeWindowsEvenly = useCallback(
+    (sortedContainers: Element[]) => {
+      const maxWidth = document.querySelector('#Board__container')?.clientWidth;
+      let sumWidth = 0;
+      let index = -1;
+      const maxIndex = sortedContainers.length - 1;
+      let rowContainers;
+      let container;
+      const yMargin = 10;
+      let currentY = yMargin;
+      let xMargin: number;
+      let biggestHeight;
+      let currentX: number;
+      let id;
+      if (maxWidth) {
+        while (index < maxIndex) {
+          rowContainers = [];
+          sumWidth = 0;
+          biggestHeight = 0;
+          while (sumWidth <= maxWidth && index < maxIndex) {
+            index++;
+            container = sortedContainers[index];
+            sumWidth += container.clientWidth;
+            if (container.clientHeight > biggestHeight)
+              biggestHeight = container.clientHeight;
+            if (sumWidth < maxWidth) rowContainers.push(container);
+            else index--;
           }
-          currentX += c.clientWidth + xMargin;
-        });
 
-        // end
-        currentY += yMargin + biggestHeight;
+          let rcSumWidth = 0;
+          rowContainers.forEach((c) => {
+            rcSumWidth += c.clientWidth;
+          });
+
+          xMargin = Number(
+            ((maxWidth - rcSumWidth) / (rowContainers.length + 1)).toFixed(0)
+          );
+
+          // process here
+          currentX = xMargin;
+          rowContainers.forEach((c) => {
+            id = c.getAttribute('data-id');
+            if (id) {
+              dispatch(
+                updateBrowser({
+                  browserId: id,
+                  params: {
+                    left: currentX,
+                    top: currentY,
+                  },
+                })
+              );
+            }
+            currentX += c.clientWidth + xMargin;
+          });
+
+          // end
+          currentY += yMargin + biggestHeight;
+        }
       }
-    }
-  }, [dispatch, board.browsers]);
+    },
+    [dispatch]
+  );
+
+  const distributeWindowsByOrder = (newOrder: BrowserProps[]) => {
+    const sortedIds = newOrder.map((b) => b.id);
+    const containers = document.querySelectorAll(
+      '.Browser__draggable-container'
+    );
+    const sortedContainers = sortedIds
+      .map((id) =>
+        Array.from(containers).find((c) => c.getAttribute('data-id') === id)
+      )
+      .filter((e) => e !== undefined);
+    if (sortedContainers && !board.isFullSize)
+      distributeWindowsEvenly(sortedContainers as Element[]);
+  };
+
+  const distributeWindowsEvenlyDefault = useCallback(() => {
+    const sortedContainers = makeSortedContainers();
+    distributeWindowsEvenly(sortedContainers);
+  }, [distributeWindowsEvenly, makeSortedContainers]);
+
+  const getSortedBrowsers = useCallback(() => {
+    const sortedContainers = makeSortedContainers();
+    const sortedBrowsers = sortedContainers
+      .map((s) => {
+        const id = s.getAttribute('data-id');
+        const brow = board.browsers.find((b) => b.id === id);
+        return brow;
+      })
+      .filter((b) => b !== undefined);
+    return sortedBrowsers as BrowserProps[];
+  }, [board.browsers, makeSortedContainers]);
 
   return {
     browser: {
@@ -251,6 +290,9 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       load: loadBoard,
       close: closeBoard,
       distributeWindowsEvenly,
+      distributeWindowsEvenlyDefault,
+      getSortedBrowsers,
+      distributeWindowsByOrder,
     },
   };
 };
