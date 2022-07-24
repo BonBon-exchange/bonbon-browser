@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
@@ -23,13 +23,15 @@ describe('Addaps', () => {
   });
 
   it('should render with no boardId', () => {
-    expect(
-      render(
+    let rendered;
+    act(() => {
+      rendered = render(
         <Provider store={store}>
           <Addaps />
         </Provider>
-      )
-    ).toBeTruthy();
+      );
+    });
+    expect(rendered).toBeTruthy();
   });
 
   // it('should render with boardId', () => {
