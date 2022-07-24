@@ -120,7 +120,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
 
   const createBoard = useCallback(
     async (params: { id?: string }) => {
-      const newBrowser = await makeBrowser({ top: 120, left: 120 });
+      const newBrowser = await makeBrowser({});
       const id = params.id || v4();
       const newBoard = {
         id,

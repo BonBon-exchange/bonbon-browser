@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 
 import { mockWindow } from './beforeAll';
 import { App } from '../renderer/App/App';
@@ -10,6 +10,10 @@ describe('App', () => {
   });
 
   it('should render', () => {
-    expect(render(<App />)).toBeTruthy();
+    let rendered;
+    act(() => {
+      rendered = render(<App />);
+    });
+    expect(rendered).toBeTruthy();
   });
 });

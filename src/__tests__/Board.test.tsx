@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import { Board } from '../renderer/App/components/Board';
@@ -85,7 +85,9 @@ describe('Board', () => {
       </Provider>
     );
 
-    fireEvent.click(screen.getAllByTestId('close-browser')[0]);
+    act(() => {
+      fireEvent.click(screen.getAllByTestId('close-browser')[0]);
+    });
     setTimeout(() => {
       expect(screen.getAllByTestId('browser-window').length).toBe(0);
     }, 0);
