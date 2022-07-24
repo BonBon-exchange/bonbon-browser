@@ -275,19 +275,33 @@ export const Browser: React.FC<BrowserProps> = ({
     if (maxWidth) {
       const diff = left + width - maxWidth;
       if (diff > 0) {
-        dispatch(
-          updateBrowser({
-            browserId: id,
-            params: {
-              width: width - diff,
-            },
-          })
-        );
-        setRndWidth(width - diff);
+        if (width - diff > 300) {
+          dispatch(
+            updateBrowser({
+              browserId: id,
+              params: {
+                width: width - diff,
+              },
+            })
+          );
+          setRndWidth(width - diff);
+          setX(left);
+        } else {
+          dispatch(
+            updateBrowser({
+              browserId: id,
+              params: {
+                left: left - diff,
+              },
+            })
+          );
+          setX(left - diff);
+          setRndWidth(width);
+        }
       } else {
         setRndWidth(width);
+        setX(left);
       }
-      setX(left);
       setY(top);
       setRndHeight(height);
     }
