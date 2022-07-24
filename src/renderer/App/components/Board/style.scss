@@ -1,23 +1,19 @@
 #Board__container {
   display: flex;
-  width: calc(100% - 50px);
+  width: calc(100% - 235px);
   top: 0px;
   left: 50px;
   position: absolute;
   overflow: hidden;
-  background: linear-gradient(
-    200.96deg,
-    #fedc2a -29.09%,
-    #dd5789 51.77%,
-    #7a2c9e 129.35%
-  );
+  margin-right: 185px;
+
 
   .Board__edge-snap-left {
     border: 5px dotted var(--color-text-primary);
     left: 60px;
     top: 10px;
     bottom: 10px;
-    right: 50%;
+    right: calc(50% + 30px);
     height: calc(100% - 20px);
     position: fixed;
     pointer-events: visible;
@@ -29,10 +25,10 @@
 
   .Board__edge-snap-right {
     border: 5px dotted var(--color-text-primary);
-    left: calc(50% + 50px);
+    left: calc(50% - 10px);
     top: 10px;
     bottom: 10px;
-    right: 10px;
+    right: 195px;
     height: calc(100% - 20px);
     position: fixed;
     display: none;
@@ -43,7 +39,7 @@
 
   .Board__edge-snap-maximized {
     border: 5px dotted var(--color-text-primary);
-    left: calc(60px);
+    left: 60px;
     top: 10px;
     bottom: 10px;
     right: 10px;
