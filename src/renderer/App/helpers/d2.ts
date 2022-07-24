@@ -24,11 +24,18 @@ export const getCoordinateWithNoCollision = (
 ): { x: number; y: number } => {
   let x = 0;
   let y = 0;
-  const step = 90;
+  const step = 10;
   const maxX =
     (document.querySelector('#Board__container')?.clientWidth || 0) -
     width -
     step;
+
+  if (
+    width + step >
+    (document.querySelector('#Board__container')?.clientWidth || 0)
+  ) {
+    return { x: 10, y: 10 };
+  }
 
   let collide = true;
   while (collide) {
