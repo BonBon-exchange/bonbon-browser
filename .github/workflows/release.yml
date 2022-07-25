@@ -1,0 +1,111 @@
+name: Release
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  checkVersions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.1.0
+
+      - name: Get dependencies
+        run: pip3 install semver
+
+      - name: Compare tag version and internal version
+        env:
+          TAG: ${{ github.ref }}
+        run: python3 ./.github/compare_versions.py
+  release:
+    needs: checkVersions
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Install Node.js and NPM
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: npm
+      
+      - name: Install dependencies
+        run: npm ci
+  
+      - name: Check types
+        run: npm exec tsc
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Compile
+        run:
+          npm run build
+
+      - name: Check tests
+        run: npm run test
+
+      - name: Package
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm exec electron-builder build --publish=never
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Linux Appimage release
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          file_glob: true
+          file: release/build/*-latest.yml
+          tag: ${{ github.ref }}
+      - if: matrix.os == 'ubuntu-latest'
+        name: Linux Appimage release
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          file_glob: true
+          file: release/build/BonBon-*.*.*.AppImage
+          tag: ${{ github.ref }}
+      - if: matrix.os == 'macos-latest'
+        name: macos arm BonBon macos
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          file_glob: true
+          file: release/build/BonBon-*.*.*-arm64.dmg
+          tag: ${{ github.ref }}
+      - if: matrix.os == 'macos-latest'
+        name: macos intel BonBon macos
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          file_glob: true
+          file: release/build/BonBon-*.*.*.dmg
+          tag: ${{ github.ref }}
+      - if: matrix.os == 'macos-latest'
+        name: latest.yml BonBon macos
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          file_glob: true
+          file: release/build/*-latest.yml
+          tag: ${{ github.ref }}
+      - if: matrix.os == 'windows-latest'
+        name: latest.yml BonBon windows
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          file_glob: true
+          file: release/build/*-latest.yml
+          tag: ${{ github.ref }}
+      - if: matrix.os == 'windows-latest'
+        name: setup installer BonBon windows
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          file_glob: true
+          file: release/build/BonBon Setup *.*.*.exe
+          tag: ${{ github.ref }}
