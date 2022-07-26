@@ -29,6 +29,7 @@ export const LeftBar: React.FC = () => {
   const { browser, board } = useStoreHelpers();
 
   const handleReorder = (newOrder: BrowserProps[]) => {
+    setItems(newOrder);
     dispatch(setBrowsers(newOrder));
     board.distributeWindowsByOrder(newOrder);
   };
@@ -46,13 +47,10 @@ export const LeftBar: React.FC = () => {
   };
 
   useEffect(() => {
-    if (boardState.isFullSize) {
-      setItems(boardState.browsers);
-    } else {
+    if (!boardState.isFullSize) {
       setTimeout(() => setItems(board.getSortedBrowsers()), 50);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [boardState.browsers]);
+  }, [boardState.browsers, boardState.isFullSize, board]);
 
   return (
     <div id="LeftBar__browserFavContainer">
