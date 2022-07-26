@@ -16,12 +16,13 @@ export const About: React.FC = () => {
         <span className="About__property">{t('Author')}:</span> Daniel Febrero
       </div>
       <div className="About__property-line">
-        <span className="About__property">{t('Co-Author')}:</span> Aitor
+        <span className="About__property">{t('Team')}:</span> Daniel Febrero,
+        Anthony Cettour, Braian Eric Dickson, 0xCUBE, Nuklusone, Howard Huang,
+        Faouzi Benali
       </div>
       <div className="About__property-line">
-        <span className="About__property">{t('Team')}:</span> Daniel Febrero,
-        Anthony Cettour, Braian Eric Dickson, 0xCUBE, Nuklusone, Aitor, Howard
-        Huang, Faouzi Benali
+        <span className="About__property">{t('Past collaborators')}:</span>{' '}
+        Aitor
       </div>
     </>
   );
