@@ -50,7 +50,7 @@
 
 <!-- ABOUT THE PROJECT -->
 
-## About The Project
+## 😎 About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://github.com/BonBon-exchange/bonbon-web-browser)
 
@@ -58,7 +58,7 @@ BonBon is a browser offering an innovative interface and privacy. Nothing is col
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Communities
+### 👁️‍ Communities
 
 To stay up to date with the project, submit bugs, and submit features, please join:
 
@@ -74,9 +74,9 @@ To stay up to date with the project, submit bugs, and submit features, please jo
 
 <!-- GETTING STARTED -->
 
-## Getting Started
+## 👉 Getting Started
 
-## Download
+## 🚀 Download
 
 Download BonBon for Windows: [BonBon Browser 0.30.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.0/BonBon-Setup-0.30.0.exe)
 
@@ -92,7 +92,7 @@ Download BonBon for Linux: [BonBon Browser 0.30.0 for Linux (AppImage)](https://
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Run locally
+### 🛠 Run locally
 
 1. Clone the repo
    ```sh
@@ -110,7 +110,7 @@ Download BonBon for Linux: [BonBon Browser 0.30.0 for Linux (AppImage)](https://
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Features
+## 🗝 Features
 
 - [x] Collections: create a composition of webviews
 - [x] Bookmarks
@@ -130,7 +130,7 @@ See the [open issues](https://github.com/BonBon-exchange/bonbon-web-browser/issu
 
 <!-- CONTRIBUTING -->
 
-## Contributing
+## 🧪 Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -147,7 +147,7 @@ Don't forget to give the project a star! Thanks again!
 
 <!-- LICENSE -->
 
-## License
+## ⚖ License
 
 Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 
@@ -155,7 +155,7 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 
 <!-- CONTACT -->
 
-## Team
+## 🤟 Team
 
 - Dani ([@danielfebrero](https://github.com/danielfebrero))
 - Antho
