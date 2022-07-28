@@ -1,24 +1,33 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable import/prefer-default-export */
-import { ReactEventHandler, useEffect, useState, useCallback } from 'react';
+import {
+  ReactEventHandler,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import icon from 'renderer/App/components/LeftBar/icon.png';
 import loadingImg from 'renderer/App/svg/loading.svg';
 
-import { MiniWindow, MiniView } from './Types';
+import { MiniWindow, MiniView, MinimapProps } from './Types';
 
 import './style.scss';
 
-export const Minimap: React.FC = () => {
+export const Minimap: React.FC<MinimapProps> = ({
+  handleHide,
+}: MinimapProps) => {
   const board = useBoard();
   const [windows, setWindows] = useState<MiniWindow[]>([]);
   const [view, setView] = useState<MiniView>({
     top: 0,
     height: 100,
   });
-  const [showView, setShowView] = useState<boolean>(false);
+  const [showView, setShowView] = useState<boolean>(true);
+  const hideTimeout = useRef<any>();
 
   const minimapContainer = document.querySelector('#Minimap__container');
   const boardContainer = document.querySelector('#Board__container');
@@ -96,25 +105,26 @@ export const Minimap: React.FC = () => {
     [boardContainer, minimapContainer, view.height]
   );
 
-  const mouseEnterHandler = useCallback(
-    (_e: any) => {
+  const mouseEnterHandler = useCallback(() => {
+    if (hideTimeout.current) clearTimeout(hideTimeout.current);
+    if (minimapContainer && boardContainer) {
       const top = window.scrollY;
-      if (minimapContainer && boardContainer) {
-        const ratioY =
-          minimapContainer.clientHeight / boardContainer.clientHeight;
+      const ratioY =
+        minimapContainer.clientHeight / boardContainer.clientHeight;
 
-        const height = minimapContainer.clientHeight * ratioY;
-        setView({ top: top * ratioY, height });
-        setShowView(true);
-        prepareMiniWindows();
-      }
-    },
-    [boardContainer, minimapContainer, prepareMiniWindows]
-  );
+      const height = minimapContainer.clientHeight * ratioY;
+      setView({ top: top * ratioY, height });
+      setShowView(true);
+      prepareMiniWindows();
+    }
+  }, [boardContainer, minimapContainer, prepareMiniWindows]);
 
   const mouseLeaveHandler = useCallback(() => {
     setShowView(false);
-  }, []);
+    hideTimeout.current = setTimeout(() => {
+      handleHide();
+    }, 1000);
+  }, [handleHide]);
 
   const mouseUpHandler = useCallback(
     (_e: any) => {
@@ -184,6 +194,10 @@ export const Minimap: React.FC = () => {
     return () =>
       minimapContainer?.removeEventListener('mouseup', mouseUpHandler);
   }, [mouseUpHandler, minimapContainer]);
+
+  useEffect(() => {
+    mouseEnterHandler();
+  }, [mouseEnterHandler]);
 
   return (
     <div id="Minimap__container">

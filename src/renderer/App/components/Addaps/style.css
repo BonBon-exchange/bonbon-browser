@@ -9,3 +9,11 @@
   width: 100%;
   position: fixed;
 }
+
+#Minimap__detection-zone {
+  height: 100%;
+  width: 20px;
+  background: transparent;
+  position: fixed;
+  right: 0;
+}

@@ -12,3 +12,7 @@ export type MiniView = {
   top: number;
   height: number;
 }
+
+export interface MinimapProps {
+  handleHide: () => void;
+}
