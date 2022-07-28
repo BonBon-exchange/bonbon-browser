@@ -157,7 +157,7 @@ export const Browser: React.FC<BrowserProps> = ({
         case edgeRightValue:
           resizeWidth = boardContainer?.clientWidth / 2 - 15;
           resizeHeight = window.innerHeight - 20;
-          setX(boardContainer?.clientWidth / 2 + 10);
+          setX(boardContainer?.clientWidth / 2 + 5);
           setY(10 + scrollTop);
           setRndWidth(resizeWidth);
           setRndHeight(resizeHeight);
@@ -166,7 +166,7 @@ export const Browser: React.FC<BrowserProps> = ({
               browserId: id,
               params: {
                 top: 10 + scrollTop,
-                left: boardContainer?.clientWidth / 2 + 10,
+                left: boardContainer?.clientWidth / 2 + 5,
                 width: resizeWidth,
                 height: resizeHeight,
               },

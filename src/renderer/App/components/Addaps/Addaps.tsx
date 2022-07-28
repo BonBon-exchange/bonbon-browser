@@ -49,6 +49,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
     useState<boolean>(false);
   const [popupTitle, setPopupTitle] = useState<string>('');
   const [popupChildren, setPopupChildren] = useState<JSX.Element>();
+  const [showMinimap, setShowMinimap] = useState<boolean>(false);
   const { i18n } = useTranslation();
 
   const showAppMenuAction = useCallback(() => {
@@ -69,6 +70,10 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   const windowClickListener = () => {
     setShowAppMenu(false);
     setShowDownloadsPreview(false);
+  };
+
+  const minimapMouseEnterListener = () => {
+    setShowMinimap(true);
   };
 
   const showAbout = () => {
@@ -110,6 +115,16 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   useEffect(() => {
     window.addEventListener('click', windowClickListener);
     return () => window.removeEventListener('click', windowClickListener);
+  }, []);
+
+  useEffect(() => {
+    document
+      .querySelector('#Minimap__detection-zone')
+      ?.addEventListener('mouseenter', minimapMouseEnterListener);
+    return () =>
+      document
+        .querySelector('#Minimap__detection-zone')
+        ?.removeEventListener('mouseenter', minimapMouseEnterListener);
   }, []);
 
   return (
@@ -158,7 +173,8 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
         {showDocumentation && (
           <Documentation handleClose={handleCloseDocumentation} />
         )}
-        <Minimap />
+        <div id="Minimap__detection-zone" />
+        {showMinimap && <Minimap handleHide={() => setShowMinimap(false)} />}
       </div>
     </Suspense>
   );
