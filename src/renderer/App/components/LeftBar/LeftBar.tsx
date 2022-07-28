@@ -50,7 +50,9 @@ export const LeftBar: React.FC = () => {
     if (!boardState.isFullSize) {
       setTimeout(() => setItems(board.getSortedBrowsers()), 50);
     }
-  }, [boardState.browsers, boardState.isFullSize, board]);
+    // keep this; adding board create bugs
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [boardState.browsers, boardState.isFullSize]);
 
   return (
     <div id="LeftBar__browserFavContainer">
