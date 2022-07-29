@@ -78,15 +78,15 @@ To stay up to date with the project, submit bugs, and submit features, please jo
 
 ## 🚀 Download
 
-Download BonBon for Windows: [BonBon Browser 0.30.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.0/BonBon-Setup-0.30.0.exe)
+Download BonBon for Windows: [BonBon Browser 0.30.2 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.2/BonBon-Setup-0.30.2.exe)
 
-Download BonBon portable for Windows: [BonBon Browser portable 0.30.0 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.0/BonBon-Browser---portable.exe)
+Download BonBon portable for Windows: [BonBon Browser portable 0.30.2 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.2/BonBon-Browser---portable.exe)
 
-Download BonBon for macOS arm64: [BonBon Browser 0.30.0 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.0/BonBon-0.30.0-arm64.dmg)
+Download BonBon for macOS arm64: [BonBon Browser 0.30.2 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.2/BonBon-0.30.2-arm64.dmg)
 
-Download BonBon for macOS: [BonBon Browser 0.30.0 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.0/BonBon-0.30.0.dmg)
+Download BonBon for macOS: [BonBon Browser 0.30.2 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.2/BonBon-0.30.2.dmg)
 
-Download BonBon for Linux: [BonBon Browser 0.30.0 for Linux (AppImage)](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.0/BonBon-0.30.0.AppImage)
+Download BonBon for Linux: [BonBon Browser 0.30.2 for Linux (AppImage)](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.2/BonBon-0.30.2.AppImage)
 
 **Notes: the program is detected as potentially dangerous for the system, because it is not signed using a certificate. On Windows, to obtain this certificate, we need to have a registered company. It will be done by October 2022. In the meantime, we need you to try BonBon and give us as much feedback as possible. Thank you for your trust.**
 
