@@ -49,6 +49,8 @@ export const LeftBar: React.FC = () => {
   useEffect(() => {
     if (!boardState.isFullSize) {
       setTimeout(() => setItems(board.getSortedBrowsers()), 50);
+    } else {
+      setItems(boardState.browsers);
     }
     // keep this; adding board create bugs
     // eslint-disable-next-line react-hooks/exhaustive-deps
