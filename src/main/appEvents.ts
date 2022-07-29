@@ -171,6 +171,15 @@ app
           const extensions = getExtensionsObject();
           extensions.addTab(mainWindow.webContents, mainWindow);
           extensions.selectTab(mainWindow.webContents);
+
+          if (process.env.START_MINIMIZED) {
+            mainWindow.minimize();
+          } else {
+            mainWindow.show();
+            if (process.platform !== 'darwin') {
+              mainWindow.maximize();
+            }
+          }
         }
 
         if (!app.isPackaged)
