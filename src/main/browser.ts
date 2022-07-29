@@ -121,20 +121,6 @@ export const createWindow = async (): Promise<void> => {
 
   await mainWindow.loadURL(resolveHtmlPath('titleBar.html'));
 
-  mainWindow.on('ready-to-show', () => {
-    if (!mainWindow) {
-      throw new Error('"mainWindow" is not defined');
-    }
-    if (process.env.START_MINIMIZED) {
-      mainWindow.minimize();
-    } else {
-      mainWindow.show();
-      if (process.platform !== 'darwin') {
-        mainWindow.maximize();
-      }
-    }
-  });
-
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
