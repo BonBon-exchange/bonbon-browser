@@ -48,7 +48,7 @@ export const LeftBar: React.FC = () => {
 
   useEffect(() => {
     if (!boardState.isFullSize) {
-      setTimeout(() => setItems(board.getSortedBrowsers()), 50);
+      setItems(board.getSortedBrowsers());
     } else {
       setItems(boardState.browsers);
     }
@@ -62,7 +62,7 @@ export const LeftBar: React.FC = () => {
         <div id="LeftBar__browserFavContainerItems">
           {items.map((b: BrowserProps) => {
             return (
-              <Reorder.Item key={b.id} value={b}>
+              <Reorder.Item key={`reorderItem-${b.id}`} value={b}>
                 <Tooltip title={b.title || ''} placement="right" key={b.id}>
                   <div className="LeftBar__browserContainer">
                     <div

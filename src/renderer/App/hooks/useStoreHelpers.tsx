@@ -300,7 +300,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
     distributeWindowsEvenly(sortedContainers);
   }, [distributeWindowsEvenly, makeSortedContainers]);
 
-  const getSortedBrowsers = useCallback(() => {
+  const getSortedBrowsers = () => {
     const sortedContainers = makeSortedContainers();
     const sortedBrowsers = sortedContainers
       .map((s) => {
@@ -310,7 +310,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       })
       .filter((b) => b !== undefined);
     return sortedBrowsers as BrowserProps[];
-  }, [board.browsers, makeSortedContainers]);
+  };
 
   return {
     browser: {

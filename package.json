@@ -140,7 +140,7 @@
     "electron-context-menu": "^3.2.0",
     "electron-store": "^8.0.2",
     "electron-updater": "^5.0.1",
-    "framer-motion": "^6.3.16",
+    "framer-motion": "^6.5.1",
     "i18next": "^21.8.13",
     "i18next-browser-languagedetector": "^6.1.4",
     "node-machine-id": "^1.1.12",
