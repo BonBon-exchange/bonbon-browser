@@ -141,17 +141,6 @@ export const Browser: React.FC<BrowserProps> = ({
           setY(10 + scrollTop);
           setRndWidth(resizeWidth);
           setRndHeight(resizeHeight);
-          dispatch(
-            updateBrowser({
-              browserId: id,
-              params: {
-                top: 10 + scrollTop,
-                left: 10,
-                width: resizeWidth,
-                height: resizeHeight,
-              },
-            })
-          );
           break;
 
         case edgeRightValue:
@@ -161,17 +150,6 @@ export const Browser: React.FC<BrowserProps> = ({
           setY(10 + scrollTop);
           setRndWidth(resizeWidth);
           setRndHeight(resizeHeight);
-          dispatch(
-            updateBrowser({
-              browserId: id,
-              params: {
-                top: 10 + scrollTop,
-                left: boardContainer?.clientWidth / 2 + 5,
-                width: resizeWidth,
-                height: resizeHeight,
-              },
-            })
-          );
           break;
 
         default:
@@ -188,43 +166,16 @@ export const Browser: React.FC<BrowserProps> = ({
                 setY(10 + scrollTop);
                 setRndWidth(resizeWidth);
                 setRndHeight(resizeHeight);
-                dispatch(
-                  updateBrowser({
-                    browserId: id,
-                    params: {
-                      top: 10 + scrollTop,
-                      left: 10,
-                      width: resizeWidth,
-                      height: resizeHeight,
-                    },
-                  })
-                );
-                dispatch(
-                  setLastReiszedBrowserDimensions([resizeWidth, resizeHeight])
-                );
               }
             });
           } else {
             setX(d.x);
             setY(d.y);
-            dispatch(
-              updateBrowser({
-                browserId: id,
-                params: {
-                  top: d.y,
-                  left: d.x,
-                },
-              })
-            );
           }
           break;
       }
 
       enablePointerEventsForAll();
-
-      if (resizeWidth && resizeHeight) {
-        dispatch(setLastReiszedBrowserDimensions([resizeWidth, resizeHeight]));
-      }
     }
   };
 
@@ -236,21 +187,7 @@ export const Browser: React.FC<BrowserProps> = ({
     setY(position.y);
     setRndWidth(ref.offsetWidth);
     setRndHeight(ref.offsetHeight);
-    dispatch(
-      updateBrowser({
-        browserId: id,
-        params: {
-          width: ref.offsetWidth,
-          height: ref.offsetHeight,
-          left: position.x,
-          top: position.y,
-        },
-      })
-    );
 
-    dispatch(
-      setLastReiszedBrowserDimensions([ref.offsetWidth, ref.offsetHeight])
-    );
     enablePointerEventsForAll();
   };
 
@@ -329,6 +266,21 @@ export const Browser: React.FC<BrowserProps> = ({
     }
   }, [left, top, width, height, boardContainer, dispatch, id]);
 
+  useEffect(() => {
+    dispatch(
+      updateBrowser({
+        browserId: id,
+        params: {
+          top: y,
+          left: x,
+          width: rndWidth,
+          height: rndHeight,
+        },
+      })
+    );
+    dispatch(setLastReiszedBrowserDimensions([rndWidth, rndHeight]));
+  }, [x, y, rndWidth, rndHeight, dispatch, id]);
+
   return (
     <Rnd
       style={{ display: 'flex' }}
@@ -370,7 +322,7 @@ export const Browser: React.FC<BrowserProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        layout={!board?.isFullSize}
+        // layout={!board?.isFullSize}
       >
         <BrowserTopBar
           closeBrowser={() => setTimeout(() => helpers.browser.close(id), 0)}

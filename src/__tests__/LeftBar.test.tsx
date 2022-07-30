@@ -63,9 +63,11 @@ describe('LeftBar', () => {
       </Provider>
     );
 
-    expect(container.getElementsByClassName('LeftBar__browserFav').length).toBe(
-      1
-    );
+    setTimeout(() => {
+      expect(
+        container.getElementsByClassName('LeftBar__browserFav').length
+      ).toBe(1);
+    }, 1000);
   });
 
   it('should have 0 browser in the store', () => {
