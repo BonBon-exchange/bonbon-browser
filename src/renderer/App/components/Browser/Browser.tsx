@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Rnd } from 'react-rnd';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
@@ -64,6 +64,8 @@ export const Browser: React.FC<BrowserProps> = ({
   const [y, setY] = useState<number>(top);
   const [rndWidth, setRndWidth] = useState<number>(width);
   const [rndHeight, setRndHeight] = useState<number>(height);
+  const [scrollY, setScrollY] = useState<null | number>(null);
+  const blockScrollTimer = useRef<any>(null);
 
   const webview = container.current?.querySelector(
     'webview'
@@ -103,6 +105,13 @@ export const Browser: React.FC<BrowserProps> = ({
       if (d.y - window.scrollY <= 20) {
         // @ts-ignore
         edgeMaximized.style.display = 'block';
+        if (!blockScrollTimer.current) {
+          setScrollY(window.scrollY);
+          blockScrollTimer.current = setTimeout(() => {
+            setScrollY(null);
+            blockScrollTimer.current = null;
+          }, 1000);
+        }
       } else {
         // @ts-ignore
         edgeMaximized.style.display = 'none';
@@ -115,6 +124,7 @@ export const Browser: React.FC<BrowserProps> = ({
   };
 
   const onDragStop = (_e: any, d: any) => {
+    setScrollY(null);
     if (boardContainer) {
       const scrollTop = window.pageYOffset;
       // @ts-ignore
@@ -200,6 +210,10 @@ export const Browser: React.FC<BrowserProps> = ({
     window.app.analytics.event('browser_reload');
   };
 
+  const scrollListener = useCallback(() => {
+    if (scrollY) window.scrollTo(0, scrollY);
+  }, [scrollY]);
+
   useEffect(() => {
     if (firstRenderingState) {
       setFirstRenderingState(false);
@@ -280,6 +294,11 @@ export const Browser: React.FC<BrowserProps> = ({
     );
     dispatch(setLastReiszedBrowserDimensions([rndWidth, rndHeight]));
   }, [x, y, rndWidth, rndHeight, dispatch, id]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollListener);
+    return () => window.removeEventListener('scroll', scrollListener);
+  }, [scrollListener]);
 
   return (
     <Rnd
