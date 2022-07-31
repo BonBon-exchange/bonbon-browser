@@ -81,6 +81,9 @@ contextBridge.exposeInMainWorld('app', {
     removeDownload: (id: number) => {
       ipcRenderer.send('remove-download', id);
     },
+    findInBookmarks: (str: string) => {
+      return ipcRenderer.invoke('find-in-bookmarks', str);
+    },
   },
   config: {
     get: (key: string) => ipcRenderer.invoke('get-store-value', key),
