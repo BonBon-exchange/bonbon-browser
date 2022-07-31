@@ -103,13 +103,15 @@ export const Browser: React.FC<BrowserProps> = ({
       }
 
       if (d.y - window.scrollY <= 20) {
-        // @ts-ignore
-        edgeMaximized.style.display = 'block';
         if (!blockScrollTimer.current) {
+          // @ts-ignore
+          edgeMaximized.style.display = 'block';
           setScrollY(window.scrollY);
           blockScrollTimer.current = setTimeout(() => {
             setScrollY(null);
             blockScrollTimer.current = null;
+            // @ts-ignore
+            edgeMaximized.style.display = 'none';
           }, 1000);
         }
       } else {
@@ -124,7 +126,6 @@ export const Browser: React.FC<BrowserProps> = ({
   };
 
   const onDragStop = (_e: any, d: any) => {
-    setScrollY(null);
     if (boardContainer) {
       const scrollTop = window.pageYOffset;
       // @ts-ignore
@@ -163,7 +164,7 @@ export const Browser: React.FC<BrowserProps> = ({
           break;
 
         default:
-          if (edgeTopValue <= 0) {
+          if (edgeTopValue <= 0 && scrollY !== null) {
             window.app.config.get('browsing.topEdge').then((res: unknown) => {
               if (res === 'maximize') {
                 toggleFullsizeBrowser();
@@ -184,8 +185,8 @@ export const Browser: React.FC<BrowserProps> = ({
           }
           break;
       }
-
       enablePointerEventsForAll();
+      setScrollY(null);
     }
   };
 
