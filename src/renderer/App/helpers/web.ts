@@ -1,3 +1,5 @@
+import { HistoryItem } from '../components/BrowserInputSuggestions/Types';
+
 /* eslint-disable import/prefer-default-export */
 export const isValidHttpUrl = (s: string) => {
   let url;
@@ -41,4 +43,19 @@ export const makeSearchUrl = async (search: string): Promise<string> => {
     case 'startpage':
       return `https://www.startpage.com/do/search?query=${search}`;
   }
+};
+
+export const getDomainsFromHistory = (items: HistoryItem[]) => {
+  const objects = items.map((i) => {
+    const url = new URL(i.url);
+    return {
+      ...i,
+      url: url.origin,
+    };
+  });
+
+  return objects.reduce((acc, val) => {
+    const exists = acc.find((a) => a.url === val.url);
+    return exists ? acc : [val, ...acc];
+  }, [] as HistoryItem[]);
 };

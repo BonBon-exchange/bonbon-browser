@@ -8,3 +8,8 @@ export type HistoryItem = {
   url: string;
   date: string;
 }
+
+export type SuggestionItem = {
+  id: number;
+  url: string;
+}

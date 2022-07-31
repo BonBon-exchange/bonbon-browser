@@ -239,7 +239,7 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.handle('find-in-history', (_e, str) => {
     return new Promise((resolve, _reject) => {
       db.all(
-        'SELECT * FROM history WHERE url LIKE ? GROUP BY url ORDER BY date DESC LIMIT 5',
+        'SELECT * FROM history WHERE url LIKE ? GROUP BY url ORDER BY date DESC LIMIT 20',
         `%${str}%`,
         (err, rows) => resolve({ err, rows })
       );
@@ -497,5 +497,15 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('edit-bookmark', (_e, bookmark: any) => {
     editBookmark(bookmark);
+  });
+
+  ipcMain.handle('find-in-bookmarks', (_e, str) => {
+    return new Promise((resolve, _reject) => {
+      db.all(
+        'SELECT * FROM bookmarks WHERE url LIKE ? GROUP BY url ORDER BY id DESC LIMIT 5',
+        `%${str}%`,
+        (err, rows) => resolve({ err, rows })
+      );
+    });
   });
 };

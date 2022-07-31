@@ -31,6 +31,7 @@ declare global {
         getAllDownloads: () => Promise<any>;
         clearDownloads: () => void;
         removeDownload: (id: number) => void;
+        findInBookmarks: (str: string) => Promise<any>;
       };
       config: {
         get: (key: string) => Promise<unknown>;
