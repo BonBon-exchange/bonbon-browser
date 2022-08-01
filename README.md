@@ -164,8 +164,9 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 - Nuklusone
 - Howard ([@PerpetualOwl](https://github.com/PerpetualOwl))
 - Faouzi
+- Daniel Callus ([@dcallus](https://github.com/dcallus))
 
-### Past collaborators
+### Past contributors
 
 - Aitor ([@dragonDScript](https://github.com/dragonDScript))
 
