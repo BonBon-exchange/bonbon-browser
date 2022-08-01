@@ -6,6 +6,7 @@ import React, { ReactEventHandler, useEffect, useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { Reorder } from 'framer-motion';
 import CloseIcon from '@mui/icons-material/Close';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import clsx from 'clsx';
 
 import { useBoard } from 'renderer/App/hooks/useBoard';
@@ -64,12 +65,16 @@ export const LeftBar: React.FC = () => {
             <Reorder.Item key={`reorderItem-${b.id}`} value={b}>
               <Tooltip title={b.title || ''} placement="right" key={b.id}>
                 <div className="LeftBar__browserContainer">
-                  {!b.isMinimized && (
+                  {!b.isMinimized ? (
                     <div
                       className="LeftBar__closeBrowser"
                       onClick={() => browser.close(b.id)}
                     >
                       <CloseIcon />
+                    </div>
+                  ) : (
+                    <div className="LeftBar__maximizeBrowser ">
+                      <OpenInFullIcon />
                     </div>
                   )}
                   <div

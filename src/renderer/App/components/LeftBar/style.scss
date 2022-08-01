@@ -25,18 +25,26 @@
     padding: 0;
   }
 
-  .LeftBar__closeBrowser {
+  .LeftBar__closeBrowser,
+  .LeftBar__maximizeBrowser {
     position: relative;
     transform: translate(26px, 11px);
-    margin-top: -19px;
     color: var(--color-icon-primary);
+    margin-top: -19px;
     cursor: pointer;
-    display: none;
 
     svg {
       height: 15px;
     }
   }
+}
+
+.LeftBar__closeBrowser {
+  display: none;
+}
+
+.LeftBar__maximizeBrowser {
+  display: block;
 }
 
 .LeftBar__browserFav {
