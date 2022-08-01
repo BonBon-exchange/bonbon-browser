@@ -33,18 +33,25 @@
     margin-top: -19px;
     cursor: pointer;
 
-    svg {
-      height: 15px;
-    }
   }
 }
 
 .LeftBar__closeBrowser {
   display: none;
+
+  svg {
+    height: 15px;
+  }
 }
 
 .LeftBar__maximizeBrowser {
+  top: 3px;
+  right: 3px;
   display: block;
+  
+  svg {
+    height: 12px;
+  }
 }
 
 .LeftBar__browserFav {
