@@ -13,4 +13,5 @@ export interface BrowserProps {
   isMinimized: boolean;
   certificateErrorFingerprint?: string | null;
   isSearching?: boolean;
+  capture?: string;
 }

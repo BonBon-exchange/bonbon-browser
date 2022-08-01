@@ -1,3 +1,4 @@
+/* eslint-disable promise/catch-or-return */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable promise/no-callback-in-promise */
 /* eslint-disable promise/no-nesting */
@@ -105,6 +106,15 @@ const makeAppEvents = () => {
           }
         }
       );
+
+      webContents.on('did-finish-load', () => {
+        webContents.capturePage().then((img) => {
+          getSelectedView()?.webContents.send('capture', {
+            webContentsId: webContents.id,
+            capture: img.toDataURL(),
+          });
+        });
+      });
 
       webContents.session.on('will-download', (_e, item, _wc) => {
         item.on('updated', (_ei, state) => {
