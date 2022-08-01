@@ -44,6 +44,9 @@
     },
     {
       "name": "Faouzi Benali"
+    },
+    {
+      "name": "Daniel Callus"
     }
   ],
   "main": "./src/main/main.ts",
