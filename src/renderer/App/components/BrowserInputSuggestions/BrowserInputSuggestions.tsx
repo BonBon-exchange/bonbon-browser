@@ -13,7 +13,7 @@ import './style.scss';
 export const BrowserInputSuggestions: React.FC<
   BrowserInputSuggestionsProps
 > = ({ inputValue, handleSuggestionClick }: BrowserInputSuggestionsProps) => {
-  const [suggetions, setSuggestions] = useState<SuggestionItem[]>([]);
+  const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
 
   useEffect(() => {
     if (inputValue.length === 0) {
@@ -31,7 +31,7 @@ export const BrowserInputSuggestions: React.FC<
         // 2 suggestions of bookmarks
         const rows = result[0].rows.slice(0, 2);
 
-        // 2 suggetsions of domains
+        // 2 suggestions of domains
         const domains = getDomainsFromHistory(result[1].rows);
         rows.push(
           ...domains.filter((d) => d.url.includes(inputValue)).slice(0, 2)
@@ -48,7 +48,7 @@ export const BrowserInputSuggestions: React.FC<
   return (
     <div className="BrowserInputSuggestions__container">
       <ul>
-        {suggetions.map((s) => (
+        {suggestions.map((s) => (
           <li
             key={`${s.id}::${s.url}`}
             onClick={() => handleSuggestionClick(s.url)}
