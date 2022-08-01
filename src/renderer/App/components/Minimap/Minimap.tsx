@@ -54,10 +54,11 @@ export const Minimap: React.FC<MinimapProps> = ({
           key={`miniwindow_${w.id}`}
         >
           <img
-            src={w.isLoading ? loadingImg : w.favicon || icon}
+            src={w.capture || (w.isLoading ? loadingImg : w.favicon || icon)}
             className="Minimap__browserFavImg"
             onError={handleImageError}
-            width={w.height / 2}
+            height={w.height}
+            width={w.width}
           />
         </motion.div>
       );
@@ -78,6 +79,7 @@ export const Minimap: React.FC<MinimapProps> = ({
           left: b.left * ratioX,
           favicon: b.favicon,
           isLoading: b.isLoading,
+          capture: b.capture,
         };
       });
       const toSort = [...tmpWindows];

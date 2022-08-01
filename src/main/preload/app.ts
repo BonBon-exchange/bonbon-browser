@@ -131,6 +131,9 @@ contextBridge.exposeInMainWorld('app', {
     }) => {
       ipcRenderer.send('certificate-error-answser', args);
     },
+    requestCapture: (webContentsId: number) => {
+      return ipcRenderer.invoke('request-capture', webContentsId);
+    },
   },
   listener: {
     newWindow: (

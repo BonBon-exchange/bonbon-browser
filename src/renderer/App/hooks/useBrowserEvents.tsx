@@ -1,3 +1,4 @@
+/* eslint-disable promise/always-return */
 /* eslint-disable no-case-declarations */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
@@ -23,11 +24,13 @@ import {
   getWebviewFromBrowserId,
 } from 'renderer/App/helpers/dom';
 import { useBrowserMethods } from './useBrowserMethods';
+import { useStoreHelpers } from './useStoreHelpers';
 
 export const useBrowserEvents = (browserId: string) => {
   const { bringBrowserToTheFront } = useBrowserMethods();
   const container = getContainerFromBrowserId(browserId);
   const webview = getWebviewFromBrowserId(browserId);
+  const helpers = useStoreHelpers();
 
   const dispatch = useAppDispatch();
 
@@ -155,8 +158,10 @@ export const useBrowserEvents = (browserId: string) => {
           })
         );
       }, 0);
+
+      helpers.browser.requestCapture(browserId);
     },
-    [browserId, dispatch]
+    [browserId, dispatch, helpers.browser]
   );
 
   const pageFaviconUpdatedListener = useCallback(
@@ -182,7 +187,9 @@ export const useBrowserEvents = (browserId: string) => {
         browserId,
       })
     );
-  }, [browserId, dispatch, webview]);
+
+    helpers.browser.requestCapture(browserId);
+  }, [browserId, dispatch, webview, helpers.browser]);
 
   const didStartLoadListener = useCallback(() => {
     dispatch(

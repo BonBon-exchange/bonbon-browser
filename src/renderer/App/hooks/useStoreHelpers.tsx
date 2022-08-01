@@ -312,6 +312,26 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
     return sortedBrowsers as BrowserProps[];
   };
 
+  const requestCapture = (browserId: string) => {
+    const browser = board.browsers.find((b) => b.id === browserId);
+    const wcId = browser?.webContentsId;
+    if (wcId) {
+      window.app.browser
+        .requestCapture(wcId)
+        .then((capture) => {
+          dispatch(
+            updateBrowser({
+              browserId,
+              params: {
+                capture,
+              },
+            })
+          );
+        })
+        .catch(console.log);
+    }
+  };
+
   return {
     browser: {
       add: makeAndAddBrowser,
@@ -320,6 +340,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       minimize: minBrowser,
       show: showBrowser,
       toggleSearch: togSearch,
+      requestCapture,
     },
     board: {
       create: createBoard,

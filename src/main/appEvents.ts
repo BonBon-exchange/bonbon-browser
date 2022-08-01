@@ -1,3 +1,4 @@
+/* eslint-disable promise/catch-or-return */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable promise/no-callback-in-promise */
 /* eslint-disable promise/no-nesting */

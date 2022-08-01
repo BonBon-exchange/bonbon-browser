@@ -57,6 +57,7 @@ declare global {
         select: (webContentsId: number) => void;
         selectBrowserView: () => void;
         certificateErrorAnswser: (args: { webContentsId: number, fingerprint: string, isTrusted: boolean }) => void;
+        requestCapture: (webContentsId: number) => Promise<string>;
       };
       listener: {
         newWindow: (action: unknown) => void;
