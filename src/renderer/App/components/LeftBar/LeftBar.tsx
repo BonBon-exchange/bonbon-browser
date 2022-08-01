@@ -65,18 +65,21 @@ export const LeftBar: React.FC = () => {
             <Reorder.Item key={`reorderItem-${b.id}`} value={b}>
               <Tooltip title={b.title || ''} placement="right" key={b.id}>
                 <div className="LeftBar__browserContainer">
-                  {!b.isMinimized ? (
-                    <div
-                      className="LeftBar__closeBrowser"
-                      onClick={() => browser.close(b.id)}
-                    >
-                      <CloseIcon />
-                    </div>
-                  ) : (
-                    <div className="LeftBar__maximizeBrowser ">
-                      <OpenInFullIcon />
-                    </div>
-                  )}
+                  <div
+                    className={
+                      !b.isMinimized
+                        ? 'LeftBar__closeBrowser'
+                        : 'LeftBar__maximizeBrowser'
+                    }
+                    onClick={() => {
+                      if (!b.isMinimized) {
+                        browser.close(b.id);
+                      }
+                      b.isMinimized = false;
+                    }}
+                  >
+                    {!b.isMinimized ? <CloseIcon /> : <OpenInFullIcon />}
+                  </div>
                   <div
                     className={clsx({
                       selected: b.id === boardState.activeBrowser,
