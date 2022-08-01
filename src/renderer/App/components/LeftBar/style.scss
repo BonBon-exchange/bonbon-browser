@@ -10,7 +10,8 @@
 
   .LeftBar__browserContainer:hover {
 
-    .LeftBar__closeBrowser {
+    .LeftBar__closeBrowser, 
+    .LeftBar__maximizeBrowser {
       display: block;
     }
 
@@ -28,6 +29,7 @@
   .LeftBar__closeBrowser,
   .LeftBar__maximizeBrowser {
     position: relative;
+    display: none;
     transform: translate(26px, 11px);
     color: var(--color-icon-primary);
     margin-top: -19px;
@@ -37,7 +39,6 @@
 }
 
 .LeftBar__closeBrowser {
-  display: none;
 
   svg {
     height: 15px;
@@ -47,7 +48,6 @@
 .LeftBar__maximizeBrowser {
   top: 3px;
   right: 3px;
-  display: block;
   pointer-events: none;
   
   svg {
@@ -76,4 +76,9 @@
   height: 24px;
   pointer-events: none;
   cursor: pointer;
+}
+
+.LeftBar__maximizeBrowser ~ .LeftBar__browserFav img {
+  filter: grayscale(70%);
+  opacity: 0.3;
 }
