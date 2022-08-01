@@ -6,6 +6,7 @@ import React, { ReactEventHandler, useEffect, useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { Reorder } from 'framer-motion';
 import CloseIcon from '@mui/icons-material/Close';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import clsx from 'clsx';
 
 import { useBoard } from 'renderer/App/hooks/useBoard';
@@ -60,37 +61,44 @@ export const LeftBar: React.FC = () => {
     <div id="LeftBar__browserFavContainer">
       <Reorder.Group values={items} onReorder={handleReorder} axis="y">
         <div id="LeftBar__browserFavContainerItems">
-          {items.map((b: BrowserProps) => {
-            return (
-              <Reorder.Item key={`reorderItem-${b.id}`} value={b}>
-                <Tooltip title={b.title || ''} placement="right" key={b.id}>
-                  <div className="LeftBar__browserContainer">
-                    <div
-                      className="LeftBar__closeBrowser"
-                      onClick={() => browser.close(b.id)}
-                    >
-                      <CloseIcon />
-                    </div>
-                    <div
-                      className={clsx({
-                        selected: b.id === boardState.activeBrowser,
-                        LeftBar__browserFav: true,
-                      })}
-                      key={b.id}
-                      onClick={() => handleClickFavicon(b.id)}
-                      data-browserid={b.id}
-                    >
-                      <img
-                        src={b.isLoading ? loadingImg : b.favicon || icon}
-                        className="LeftBar__browserFavImg"
-                        onError={handleImageError}
-                      />
-                    </div>
+          {items.map((b: BrowserProps) => (
+            <Reorder.Item key={`reorderItem-${b.id}`} value={b}>
+              <Tooltip title={b.title || ''} placement="right" key={b.id}>
+                <div className="LeftBar__browserContainer">
+                  <div
+                    className={
+                      !b.isMinimized
+                        ? 'LeftBar__closeBrowser'
+                        : 'LeftBar__maximizeBrowser'
+                    }
+                    onClick={() => {
+                      if (!b.isMinimized) {
+                        browser.close(b.id);
+                      }
+                      b.isMinimized = false;
+                    }}
+                  >
+                    {!b.isMinimized ? <CloseIcon /> : <OpenInFullIcon />}
                   </div>
-                </Tooltip>
-              </Reorder.Item>
-            );
-          })}
+                  <div
+                    className={clsx({
+                      selected: b.id === boardState.activeBrowser,
+                      LeftBar__browserFav: true,
+                    })}
+                    key={b.id}
+                    onClick={() => handleClickFavicon(b.id)}
+                    data-browserid={b.id}
+                  >
+                    <img
+                      src={b.isLoading ? loadingImg : b.favicon || icon}
+                      className="LeftBar__browserFavImg"
+                      onError={handleImageError}
+                    />
+                  </div>
+                </div>
+              </Tooltip>
+            </Reorder.Item>
+          ))}
         </div>
         <ButtonAddBrowser onClick={browser.add} />
       </Reorder.Group>
