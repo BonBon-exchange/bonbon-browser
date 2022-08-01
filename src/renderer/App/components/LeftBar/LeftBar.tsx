@@ -60,37 +60,37 @@ export const LeftBar: React.FC = () => {
     <div id="LeftBar__browserFavContainer">
       <Reorder.Group values={items} onReorder={handleReorder} axis="y">
         <div id="LeftBar__browserFavContainerItems">
-          {items.map((b: BrowserProps) => {
-            return (
-              <Reorder.Item key={`reorderItem-${b.id}`} value={b}>
-                <Tooltip title={b.title || ''} placement="right" key={b.id}>
-                  <div className="LeftBar__browserContainer">
+          {items.map((b: BrowserProps) => (
+            <Reorder.Item key={`reorderItem-${b.id}`} value={b}>
+              <Tooltip title={b.title || ''} placement="right" key={b.id}>
+                <div className="LeftBar__browserContainer">
+                  {!b.isMinimized && (
                     <div
                       className="LeftBar__closeBrowser"
                       onClick={() => browser.close(b.id)}
                     >
                       <CloseIcon />
                     </div>
-                    <div
-                      className={clsx({
-                        selected: b.id === boardState.activeBrowser,
-                        LeftBar__browserFav: true,
-                      })}
-                      key={b.id}
-                      onClick={() => handleClickFavicon(b.id)}
-                      data-browserid={b.id}
-                    >
-                      <img
-                        src={b.isLoading ? loadingImg : b.favicon || icon}
-                        className="LeftBar__browserFavImg"
-                        onError={handleImageError}
-                      />
-                    </div>
+                  )}
+                  <div
+                    className={clsx({
+                      selected: b.id === boardState.activeBrowser,
+                      LeftBar__browserFav: true,
+                    })}
+                    key={b.id}
+                    onClick={() => handleClickFavicon(b.id)}
+                    data-browserid={b.id}
+                  >
+                    <img
+                      src={b.isLoading ? loadingImg : b.favicon || icon}
+                      className="LeftBar__browserFavImg"
+                      onError={handleImageError}
+                    />
                   </div>
-                </Tooltip>
-              </Reorder.Item>
-            );
-          })}
+                </div>
+              </Tooltip>
+            </Reorder.Item>
+          ))}
         </div>
         <ButtonAddBrowser onClick={browser.add} />
       </Reorder.Group>
