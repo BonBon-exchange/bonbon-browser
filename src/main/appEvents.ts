@@ -107,15 +107,6 @@ const makeAppEvents = () => {
         }
       );
 
-      webContents.on('did-finish-load', () => {
-        webContents.capturePage().then((img) => {
-          getSelectedView()?.webContents.send('capture', {
-            webContentsId: webContents.id,
-            capture: img.toDataURL(),
-          });
-        });
-      });
-
       webContents.session.on('will-download', (_e, item, _wc) => {
         item.on('updated', (_ei, state) => {
           downloadItemEventAction(item, state);

@@ -199,6 +199,7 @@ export const Browser: React.FC<BrowserProps> = ({
     setRndWidth(ref.offsetWidth);
     setRndHeight(ref.offsetHeight);
 
+    helpers.browser.requestCapture(id);
     enablePointerEventsForAll();
   };
 

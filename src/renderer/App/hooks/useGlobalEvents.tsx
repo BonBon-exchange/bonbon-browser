@@ -10,7 +10,6 @@ import {
   removeAllBrowsersExcept,
   renameBoard,
   updateBrowserCertificateErrorFingerprint,
-  updateBrowser,
 } from 'renderer/App/store/reducers/Board';
 import { setDownloadItem } from 'renderer/App/store/reducers/Downloads';
 import { useAppDispatch } from 'renderer/App/store/hooks';
@@ -230,31 +229,6 @@ export const useGlobalEvents = () => {
     },
     [boardState.browsers]
   );
-
-  const captureAction = useCallback(
-    (_e: any, args: { webContentsId: number; capture: string }) => {
-      console.log(args);
-      const browserId = boardState.browsers.find(
-        (b) => b.webContentsId === args.webContentsId
-      )?.id;
-      if (browserId) {
-        dispatch(
-          updateBrowser({
-            browserId,
-            params: {
-              capture: args.capture,
-            },
-          })
-        );
-      }
-    },
-    [boardState.browsers, dispatch]
-  );
-
-  useEffect(() => {
-    window.app.listener.capture(captureAction);
-    return () => window.app.off.capture();
-  }, [captureAction]);
 
   useEffect(() => {
     window.app.listener.setDefaultWindowSize(setDefaultWindowSizeAction);

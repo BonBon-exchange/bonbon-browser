@@ -131,6 +131,9 @@ contextBridge.exposeInMainWorld('app', {
     }) => {
       ipcRenderer.send('certificate-error-answser', args);
     },
+    requestCapture: (webContentsId: number) => {
+      return ipcRenderer.invoke('request-capture', webContentsId);
+    },
   },
   listener: {
     newWindow: (
@@ -196,11 +199,6 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('set-default-window-size', action);
     },
-    capture: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
-    ) => {
-      ipcRenderer.on('capture', action);
-    },
   },
   off: {
     newWindow: () => {
@@ -241,9 +239,6 @@ contextBridge.exposeInMainWorld('app', {
     },
     setDefaultWindowSize: () => {
       ipcRenderer.removeAllListeners('set-default-window-size');
-    },
-    capture: () => {
-      ipcRenderer.removeAllListeners('capture');
     },
   },
 });

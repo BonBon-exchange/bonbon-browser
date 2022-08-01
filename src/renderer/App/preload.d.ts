@@ -57,6 +57,7 @@ declare global {
         select: (webContentsId: number) => void;
         selectBrowserView: () => void;
         certificateErrorAnswser: (args: { webContentsId: number, fingerprint: string, isTrusted: boolean }) => void;
+        requestCapture: (webContentsId: number) => Promise<string>;
       };
       listener: {
         newWindow: (action: unknown) => void;
@@ -75,7 +76,6 @@ declare global {
         showDownloadsPreview: (action: unknown) => void;
         distributeWindowsEvenly: (action: unknown) => void;
         setDefaultWindowSize: (action: unknown) => void;
-        capture: (action: unknown) => void;
       };
       off: {
         newWindow: () => void;
@@ -94,7 +94,6 @@ declare global {
         showDownloadsPreview: () => void;
         distributeWindowsEvenly: () => void;
         setDefaultWindowSize: () => void;
-        capture: () => void;
       };
     };
     darkMode: {

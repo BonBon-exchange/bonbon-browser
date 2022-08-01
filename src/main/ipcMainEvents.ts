@@ -508,4 +508,19 @@ export const makeIpcMainEvents = (): void => {
       );
     });
   });
+
+  ipcMain.handle('request-capture', (_e, wcId: number) => {
+    return new Promise((resolve, reject) => {
+      if (browsers[wcId]) {
+        browsers[wcId]
+          .capturePage()
+          .then((img) => {
+            return resolve(img.resize({ width: 185 }).toDataURL());
+          })
+          .catch(reject);
+      } else {
+        reject(new Error('WebContentId does not exists.'));
+      }
+    });
+  });
 };
