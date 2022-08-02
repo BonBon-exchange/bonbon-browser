@@ -83,10 +83,19 @@ const makeAppEvents = () => {
     contents.on('did-attach-webview', (_daw, webContents) => {
       getBrowsers()[webContents.id] = webContents;
       webContents.addListener('dom-ready', () => {
+        if (webContents.getURL() === 'https://web.whatsapp.com/') {
+          webContents.setUserAgent(
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
+          );
+        } else {
+          webContents.setUserAgent('');
+        }
+
         webContents.send('created-webcontents', {
           webContentsId: webContents.id,
         });
       });
+
       const mainWindow = getMainWindow();
       if (mainWindow) extensions.addTab(webContents, mainWindow);
 
