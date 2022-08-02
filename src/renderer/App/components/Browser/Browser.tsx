@@ -152,6 +152,20 @@ export const Browser: React.FC<BrowserProps> = ({
           setY(10 + scrollTop);
           setRndWidth(resizeWidth);
           setRndHeight(resizeHeight);
+          dispatch(
+            updateBrowser({
+              browserId: id,
+              params: {
+                top: 10 + scrollTop,
+                left: 10,
+                width: resizeWidth,
+                height: resizeHeight,
+              },
+            })
+          );
+          dispatch(
+            setLastReiszedBrowserDimensions([resizeWidth, resizeHeight])
+          );
           break;
 
         case edgeRightValue:
@@ -161,6 +175,20 @@ export const Browser: React.FC<BrowserProps> = ({
           setY(10 + scrollTop);
           setRndWidth(resizeWidth);
           setRndHeight(resizeHeight);
+          dispatch(
+            updateBrowser({
+              browserId: id,
+              params: {
+                top: 10 + scrollTop,
+                left: boardContainer?.clientWidth / 2 + 5,
+                width: resizeWidth,
+                height: resizeHeight,
+              },
+            })
+          );
+          dispatch(
+            setLastReiszedBrowserDimensions([resizeWidth, resizeHeight])
+          );
           break;
 
         default:
@@ -177,11 +205,34 @@ export const Browser: React.FC<BrowserProps> = ({
                 setY(10 + scrollTop);
                 setRndWidth(resizeWidth);
                 setRndHeight(resizeHeight);
+                dispatch(
+                  updateBrowser({
+                    browserId: id,
+                    params: {
+                      top: 10 + scrollTop,
+                      left: 10,
+                      width: resizeWidth,
+                      height: resizeHeight,
+                    },
+                  })
+                );
+                dispatch(
+                  setLastReiszedBrowserDimensions([resizeWidth, resizeHeight])
+                );
               }
             });
           } else {
             setX(d.x);
             setY(d.y);
+            dispatch(
+              updateBrowser({
+                browserId: id,
+                params: {
+                  top: d.y,
+                  left: d.x,
+                },
+              })
+            );
           }
           break;
       }
@@ -201,6 +252,21 @@ export const Browser: React.FC<BrowserProps> = ({
 
     helpers.browser.requestCapture(id);
     enablePointerEventsForAll();
+
+    dispatch(
+      updateBrowser({
+        browserId: id,
+        params: {
+          top: position.y,
+          left: position.x,
+          width: ref.offsetWidth,
+          height: ref.offsetHeight,
+        },
+      })
+    );
+    dispatch(
+      setLastReiszedBrowserDimensions([ref.offsetWidth, ref.offsetHeight])
+    );
   };
 
   const onResizeStart = () => {
@@ -274,24 +340,12 @@ export const Browser: React.FC<BrowserProps> = ({
           setX(left - diff);
           setRndWidth(width);
         }
+      } else {
+        setX(left);
+        setY(top);
       }
     }
   }, [left, top, width, height, boardContainer, dispatch, id]);
-
-  useEffect(() => {
-    dispatch(
-      updateBrowser({
-        browserId: id,
-        params: {
-          top: y,
-          left: x,
-          width: rndWidth,
-          height: rndHeight,
-        },
-      })
-    );
-    dispatch(setLastReiszedBrowserDimensions([rndWidth, rndHeight]));
-  }, [x, y, rndWidth, rndHeight, dispatch, id]);
 
   useEffect(() => {
     window.addEventListener('scroll', scrollListener);
@@ -339,7 +393,7 @@ export const Browser: React.FC<BrowserProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        // layout={!board?.isFullSize}
+        // layout={!isFullSize}
       >
         <BrowserTopBar
           closeBrowser={() => setTimeout(() => helpers.browser.close(id), 0)}
