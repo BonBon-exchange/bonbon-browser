@@ -7,6 +7,7 @@ import {
   PageFaviconUpdatedEvent,
   PageTitleUpdatedEvent,
   IpcMessageEvent,
+  LoadCommitEvent,
 } from 'electron';
 import { useCallback, useEffect } from 'react';
 
@@ -25,14 +26,17 @@ import {
 } from 'renderer/App/helpers/dom';
 import { useBrowserMethods } from './useBrowserMethods';
 import { useStoreHelpers } from './useStoreHelpers';
+import { useBoard } from './useBoard';
 
 export const useBrowserEvents = (browserId: string) => {
   const { bringBrowserToTheFront } = useBrowserMethods();
   const container = getContainerFromBrowserId(browserId);
   const webview = getWebviewFromBrowserId(browserId);
   const helpers = useStoreHelpers();
-
+  const board = useBoard();
   const dispatch = useAppDispatch();
+
+  const browser = board.browsers.find((b) => b.id === browserId);
 
   const ipcMessageListener = useCallback(
     (e: Event & { args: any }) => {
@@ -148,28 +152,29 @@ export const useBrowserEvents = (browserId: string) => {
   );
 
   const loadCommitListener = useCallback(
-    (e: Event) => {
+    (e: LoadCommitEvent) => {
       const target = e.target as HTMLSourceElement;
-      setTimeout(() => {
-        dispatch(
-          updateBrowserUrl({
-            url: target?.src,
-            browserId,
-          })
-        );
-      }, 0);
+      if (e.url !== 'https://web.whatsapp.com/' || e.url !== browser?.url) {
+        setTimeout(() => {
+          dispatch(
+            updateBrowserUrl({
+              url: target?.src,
+              browserId,
+            })
+          );
+        }, 0);
 
-      helpers.browser.requestCapture(browserId);
+        helpers.browser.requestCapture(browserId);
+      }
     },
-    [browserId, dispatch, helpers.browser]
+    [browserId, dispatch, helpers.browser, browser?.url]
   );
 
   const pageFaviconUpdatedListener = useCallback(
-    (e: Event) => {
-      const event = e as PageFaviconUpdatedEvent;
+    (e: PageFaviconUpdatedEvent) => {
       dispatch(
         updateBrowserFav({
-          favicon: event.favicons[0],
+          favicon: e.favicons[0],
           browserId,
         })
       );
@@ -177,33 +182,56 @@ export const useBrowserEvents = (browserId: string) => {
     [browserId, dispatch]
   );
 
-  const didFinishLoadListener = useCallback(() => {
-    webview?.blur();
-    webview?.focus();
+  const didFinishLoadListener = useCallback(
+    (e: any) => {
+      if (
+        e.target.src !== 'https://web.whatsapp.com/' ||
+        e.target.src !== browser?.url ||
+        browser?.isLoading
+      ) {
+        webview?.blur();
+        webview?.focus();
 
-    dispatch(
-      updateBrowserLoading({
-        isLoading: false,
-        browserId,
-      })
-    );
+        dispatch(
+          updateBrowserLoading({
+            isLoading: false,
+            browserId,
+          })
+        );
 
-    helpers.browser.requestCapture(browserId);
-  }, [browserId, dispatch, webview, helpers.browser]);
+        helpers.browser.requestCapture(browserId);
+      }
+    },
+    [
+      browserId,
+      dispatch,
+      webview,
+      helpers.browser,
+      browser?.url,
+      browser?.isLoading,
+    ]
+  );
 
-  const didStartLoadListener = useCallback(() => {
-    dispatch(
-      updateBrowserLoading({
-        isLoading: true,
-        browserId,
-      })
-    );
-  }, [browserId, dispatch]);
+  const didStartLoadListener = useCallback(
+    (e: any) => {
+      if (
+        e.target.src !== 'https://web.whatsapp.com/' ||
+        e.target.src !== browser?.url
+      ) {
+        dispatch(
+          updateBrowserLoading({
+            isLoading: true,
+            browserId,
+          })
+        );
+      }
+    },
+    [browserId, dispatch, browser?.url]
+  );
 
   const pageTitleUpdatedListener = useCallback(
-    (e: Event) => {
-      const event = e as PageTitleUpdatedEvent;
-      dispatch(updateBrowserTitle({ browserId, title: event.title }));
+    (e: PageTitleUpdatedEvent) => {
+      dispatch(updateBrowserTitle({ browserId, title: e.title }));
     },
     [browserId, dispatch]
   );

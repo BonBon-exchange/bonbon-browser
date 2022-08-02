@@ -1,5 +1,23 @@
 const { ipcRenderer } = require('electron');
 
+//////////////////////////
+// Whatsapp
+//////////////////////////
+async function unregisterServiceWorkers() {
+  const registrations = await window.navigator.serviceWorker.getRegistrations();
+  for (const registration of registrations) {
+    registration.unregister();
+  }
+}
+
+function isWhatsappLoadFailed() {
+  const titleEl = document.querySelector('.landing-title');
+  return titleEl && titleEl.innerHTML.includes('Google Chrome');
+}
+
+//////////////////////////
+// Chrome Extensiosn
+//////////////////////////
 const injectChromeWebstoreInstallButton = () => {
   const ibText = 'Add to BonBon';
   const ibTemplate =
@@ -146,3 +164,12 @@ document.addEventListener(
 if (window.location.host === 'chrome.google.com') {
   injectChromeWebstoreInstallButton();
 }
+
+window.onload = async () => {
+  if (window.location.host === 'web.whatsapp.com') {
+    if (isWhatsappLoadFailed()) {
+      await unregisterServiceWorkers();
+      window.location.reload();
+    }
+  }
+};
