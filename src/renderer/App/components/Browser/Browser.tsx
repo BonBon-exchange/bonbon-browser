@@ -247,7 +247,7 @@ export const Browser: React.FC<BrowserProps> = ({
 
   useEffect(() => {
     const maxWidth = boardContainer?.clientWidth;
-    const margin = 10;
+    const margin = 5;
     if (maxWidth) {
       const diff = left + width + margin - maxWidth;
       if (diff > 0) {
@@ -274,12 +274,7 @@ export const Browser: React.FC<BrowserProps> = ({
           setX(left - diff);
           setRndWidth(width);
         }
-      } else {
-        setRndWidth(width);
-        setX(left);
       }
-      setY(top);
-      setRndHeight(height);
     }
   }, [left, top, width, height, boardContainer, dispatch, id]);
 
