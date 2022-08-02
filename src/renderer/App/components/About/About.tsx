@@ -18,11 +18,10 @@ export const About: React.FC = () => {
       <div className="About__property-line">
         <span className="About__property">{t('Team')}:</span> Daniel Febrero,
         Anthony Cettour, Braian Eric Dickson, 0xCUBE, Nuklusone, Howard Huang,
-        Faouzi Benali
+        Faouzi Benali, Daniel Callus
       </div>
       <div className="About__property-line">
-        <span className="About__property">{t('Past collaborators')}:</span>{' '}
-        Aitor
+        <span className="About__property">{t('Past contributors')}:</span> Aitor
       </div>
     </>
   );
