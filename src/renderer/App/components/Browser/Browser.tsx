@@ -247,8 +247,9 @@ export const Browser: React.FC<BrowserProps> = ({
 
   useEffect(() => {
     const maxWidth = boardContainer?.clientWidth;
+    const margin = 10;
     if (maxWidth) {
-      const diff = left + width - maxWidth;
+      const diff = left + width + margin - maxWidth;
       if (diff > 0) {
         if (width - diff > 300) {
           dispatch(
