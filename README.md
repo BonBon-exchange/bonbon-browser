@@ -29,22 +29,22 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#-about-the-project">About The Project</a>
       <ul>
-        <li><a href="#communities">Communities</a></li>
+        <li><a href="#-communities">Communities</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#-getting-started">Getting Started</a>
       <ul>
-        <li><a href="#download">Download</a></li>
-        <li><a href="#run-locally">Run locally</a></li>
+        <li><a href="#-download">Download</a></li>
+        <li><a href="#-run-locally">Run locally</a></li>
       </ul>
     </li>
-    <li><a href="#features">Features</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#team">Team</a></li>
+    <li><a href="#-features">Features</a></li>
+    <li><a href="#-contributing">Contributing</a></li>
+    <li><a href="#-license">License</a></li>
+    <li><a href="#-team">Team</a></li>
   </ol>
 </details>
 
