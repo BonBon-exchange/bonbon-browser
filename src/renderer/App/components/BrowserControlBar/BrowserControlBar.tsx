@@ -69,7 +69,7 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
     target?.setSelectionRange(target?.value.length, target?.value.length);
   };
 
-  const urlInputOnKeyPress: KeyboardEventHandler = async (e) => {
+  const urlInputOnKeyDown: KeyboardEventHandler = async (e) => {
     const target = e.target as HTMLInputElement;
     if (selectedSuggestion && showSuggestions && e.key === 'Enter') {
       handleSuggestionClick(selectedSuggestion);
@@ -220,8 +220,7 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
         variant="standard"
         value={urlInputValue}
         className="BrowserControlBar_url-input"
-        // onKeyPress={urlInputOnKeyPress}
-        onKeyDown={urlInputOnKeyPress}
+        onKeyDown={urlInputOnKeyDown}
         onKeyUp={urlInputOnKeyUp}
         onFocus={onFocusInput}
         onChange={(e) => setUrlInputValue(e.target.value)}
