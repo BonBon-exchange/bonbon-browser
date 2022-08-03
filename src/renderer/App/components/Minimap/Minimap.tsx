@@ -92,7 +92,7 @@ export const Minimap: React.FC<MinimapProps> = ({
     }
   }, [board.browsers, minimapContainer, boardContainer]);
 
-  const mouseMoveHandler = useCallback(
+  const mouseMoveWithClickHandler = useCallback(
     (e: any) => {
       if (minimapContainer && boardContainer) {
         const ratioY =
@@ -108,7 +108,6 @@ export const Minimap: React.FC<MinimapProps> = ({
   );
 
   const mouseEnterHandler = useCallback(() => {
-    if (hideTimeout.current) clearTimeout(hideTimeout.current);
     if (minimapContainer && boardContainer) {
       const top = window.scrollY;
       const ratioY =
@@ -123,16 +122,16 @@ export const Minimap: React.FC<MinimapProps> = ({
 
   const mouseLeaveHandler = useCallback(() => {
     setShowView(false);
-    hideTimeout.current = setTimeout(() => {
-      handleHide();
-    }, 1000);
-  }, [handleHide]);
+  }, []);
 
   const mouseUpHandler = useCallback(
     (_e: any) => {
-      minimapContainer?.removeEventListener('mousemove', mouseMoveHandler);
+      minimapContainer?.removeEventListener(
+        'mousemove',
+        mouseMoveWithClickHandler
+      );
     },
-    [mouseMoveHandler, minimapContainer]
+    [mouseMoveWithClickHandler, minimapContainer]
   );
 
   const clickHandler = useCallback(
@@ -147,22 +146,29 @@ export const Minimap: React.FC<MinimapProps> = ({
         setView({ top, height });
         window.scrollTo(0, top / ratioY);
 
-        document
-          .querySelector('#Minimap__container')
-          ?.addEventListener('mousemove', mouseMoveHandler);
+        minimapContainer?.addEventListener(
+          'mousemove',
+          mouseMoveWithClickHandler
+        );
       }
     },
-    [view.height, minimapContainer, boardContainer, mouseMoveHandler]
+    [view.height, minimapContainer, boardContainer, mouseMoveWithClickHandler]
   );
 
-  useEffect(() => {
-    prepareMiniWindows();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [board.isFullSize]);
+  const mouseMoveHandler = useCallback(() => {
+    if (hideTimeout.current) clearTimeout(hideTimeout.current);
+    hideTimeout.current = setTimeout(() => handleHide(), 1000);
+  }, [handleHide]);
 
   useEffect(() => {
     prepareMiniWindows();
-  }, [board.browsers, boardContainer, minimapContainer, prepareMiniWindows]);
+  }, [
+    board.browsers,
+    boardContainer,
+    minimapContainer,
+    prepareMiniWindows,
+    board.isFullSize,
+  ]);
 
   useEffect(() => {
     if (minimapContainer && boardContainer) {
@@ -172,6 +178,12 @@ export const Minimap: React.FC<MinimapProps> = ({
       setView({ top: 0, height });
     }
   }, [boardContainer, minimapContainer]);
+
+  useEffect(() => {
+    minimapContainer?.addEventListener('mousemove', mouseMoveHandler);
+    return () =>
+      minimapContainer?.removeEventListener('mousemove', mouseMoveHandler);
+  }, [mouseMoveHandler, minimapContainer]);
 
   useEffect(() => {
     minimapContainer?.addEventListener('mousedown', clickHandler);
