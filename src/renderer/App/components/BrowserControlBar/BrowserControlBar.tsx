@@ -34,19 +34,59 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   url,
   browserId,
 }) => {
+  const [urlInputForSuggestion, setUrlInputForSuggestion] =
+    useState<string>(url);
   const [urlInputValue, setUrlInputValue] = useState<string>(url);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
+  const [selectedSuggestion, setSelectedSuggestion] = useState<string | null>(
+    null
+  );
   const dispatch = useAppDispatch();
   const webview = getWebviewFromBrowserId(browserId);
   const board = useBoard();
   const browser = board.browsers.find((b) => b.id === browserId);
 
-  const urlInputOnKeyPress: KeyboardEventHandler = async (e) => {
-    setShowSuggestions(true);
+  const hideSuggestions = () => {
+    setShowSuggestions(false);
+    setSelectedSuggestion(null);
+  };
+
+  const handleSuggestionClick = (clickedUrl: string) => {
+    hideSuggestions();
+    dispatch(
+      updateBrowserUrl({
+        url: clickedUrl,
+        browserId,
+      })
+    );
+    webview?.loadURL(clickedUrl).catch(console.log);
+  };
+
+  const urlInputOnKeyUp: KeyboardEventHandler = (e) => {
+    if (e.key !== 'ArrowUp') return;
+    const target = e.target as HTMLInputElement;
+    target?.setSelectionRange(target?.value.length, target?.value.length);
+  };
+
+  const urlInputOnKeyDown: KeyboardEventHandler = async (e) => {
+    const target = e.target as HTMLInputElement;
+    if (selectedSuggestion && showSuggestions && e.key === 'Enter') {
+      handleSuggestionClick(selectedSuggestion);
+      return;
+    }
+
+    if (
+      showSuggestions &&
+      selectedSuggestion &&
+      (e.key === 'ArrowDown' || e.key === 'ArrowUp')
+    ) {
+      setUrlInputValue(selectedSuggestion);
+      return;
+    }
+
     if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-      setShowSuggestions(false);
-      const target = e.target as HTMLInputElement;
+      hideSuggestions();
 
       const re =
         /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
@@ -73,18 +113,16 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
           browserId,
         })
       );
+
+      return;
     }
+
+    setShowSuggestions(true);
   };
 
   const onFocusInput: FocusEventHandler = (e) => {
     const target = e.target as HTMLInputElement;
     target.select();
-  };
-
-  const hideSuggestions = () => setShowSuggestions(false);
-
-  const handleSuggestionClick = (clickedUrl: string) => {
-    webview?.loadURL(clickedUrl).catch(console.log);
   };
 
   const handleBookmark = () => {
@@ -129,6 +167,12 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   };
 
   useEffect(() => {
+    if (urlInputValue !== selectedSuggestion)
+      setUrlInputForSuggestion(urlInputValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlInputValue]);
+
+  useEffect(() => {
     setUrlInputValue(url);
   }, [url]);
 
@@ -145,6 +189,10 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
         .catch(console.log);
     }
   }, [browser?.url]);
+
+  useEffect(() => {
+    if (urlInputValue.length === 0) hideSuggestions();
+  }, [urlInputValue.length]);
 
   return (
     <div className="BrowserControlBar__container">
@@ -172,7 +220,8 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
         variant="standard"
         value={urlInputValue}
         className="BrowserControlBar_url-input"
-        onKeyPress={urlInputOnKeyPress}
+        onKeyDown={urlInputOnKeyDown}
+        onKeyUp={urlInputOnKeyUp}
         onFocus={onFocusInput}
         onChange={(e) => setUrlInputValue(e.target.value)}
       />
@@ -184,8 +233,9 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
       </div>
       {showSuggestions && (
         <BrowserInputSuggestions
-          inputValue={urlInputValue}
+          inputValue={urlInputForSuggestion}
           handleSuggestionClick={handleSuggestionClick}
+          setSelectedSuggestion={setSelectedSuggestion}
         />
       )}
     </div>
