@@ -9,6 +9,7 @@ import React, {
   KeyboardEventHandler,
   useEffect,
   useState,
+  useRef,
 } from 'react';
 import TextField from '@mui/material/TextField';
 import CachedIcon from '@mui/icons-material/Cached';
@@ -36,12 +37,20 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
 }) => {
   const [urlInputForSuggestion, setUrlInputForSuggestion] =
     useState<string>(url);
+  const [urlInputForAutocomplete, setUrlInputForAutocomplete] =
+    useState<string>();
   const [urlInputValue, setUrlInputValue] = useState<string>(url);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const [selectedSuggestion, setSelectedSuggestion] = useState<string | null>(
     null
   );
+  const [suggestionResults, setSuggestionResults] = useState<string[]>([]);
+  const [inputCursor, setInputCursor] = useState<number>(0);
+  const [userTyped, setUserTyped] = useState<string>('');
+  const [userDeleting, setUserDeleting] = useState<boolean>(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const webview = getWebviewFromBrowserId(browserId);
   const board = useBoard();
@@ -71,17 +80,16 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
 
   const urlInputOnKeyDown: KeyboardEventHandler = async (e) => {
     const target = e.target as HTMLInputElement;
-    if (selectedSuggestion && showSuggestions && e.key === 'Enter') {
-      handleSuggestionClick(selectedSuggestion);
-      return;
+
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      setUserDeleting(true);
+      setUrlInputForAutocomplete(undefined);
+    } else {
+      setUserDeleting(false);
     }
 
-    if (
-      showSuggestions &&
-      selectedSuggestion &&
-      (e.key === 'ArrowDown' || e.key === 'ArrowUp')
-    ) {
-      setUrlInputValue(selectedSuggestion);
+    if (selectedSuggestion && showSuggestions && e.key === 'Enter') {
+      handleSuggestionClick(selectedSuggestion);
       return;
     }
 
@@ -167,8 +175,63 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   };
 
   useEffect(() => {
-    if (urlInputValue !== selectedSuggestion)
-      setUrlInputForSuggestion(urlInputValue);
+    if (selectedSuggestion) setUrlInputValue(selectedSuggestion);
+  }, [selectedSuggestion]);
+
+  useEffect(() => {
+    if (
+      suggestionResults[0] &&
+      urlInputValue.length > 0 &&
+      !userDeleting &&
+      selectedSuggestion !== urlInputValue
+    )
+      setUrlInputForAutocomplete(suggestionResults[0]);
+    else setUrlInputForAutocomplete(undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [suggestionResults]);
+
+  useEffect(() => {
+    if (
+      urlInputForAutocomplete &&
+      urlInputValue.length > 0 &&
+      urlInputForAutocomplete.indexOf(urlInputValue) === 0 &&
+      selectedSuggestion !== urlInputValue
+    )
+      setUrlInputValue(urlInputForAutocomplete);
+
+    if (!urlInputForAutocomplete) setUrlInputValue(userTyped);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlInputForAutocomplete]);
+
+  useEffect(() => {
+    if (
+      urlInputValue !== urlInputForAutocomplete &&
+      urlInputForAutocomplete &&
+      urlInputForAutocomplete.indexOf(urlInputValue) === 0 &&
+      urlInputValue !== selectedSuggestion &&
+      showSuggestions
+    ) {
+      setUrlInputValue(urlInputForAutocomplete);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlInputValue]);
+
+  useEffect(() => {
+    if (urlInputValue !== urlInputForAutocomplete) {
+      if (urlInputValue.length < userTyped.length) {
+        setUrlInputForAutocomplete(undefined);
+      }
+
+      if (urlInputValue !== selectedSuggestion) {
+        setInputCursor(urlInputValue.length);
+        setUrlInputForSuggestion(urlInputValue);
+        setUserTyped(urlInputValue);
+      }
+    } else {
+      const target = inputRef.current?.querySelector('input');
+      if (target?.value)
+        target?.setSelectionRange(inputCursor, target.value.length);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlInputValue]);
 
@@ -223,6 +286,7 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
         onKeyDown={urlInputOnKeyDown}
         onKeyUp={urlInputOnKeyUp}
         onFocus={onFocusInput}
+        ref={inputRef}
         onChange={(e) => setUrlInputValue(e.target.value)}
       />
       <div
@@ -236,6 +300,7 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
           inputValue={urlInputForSuggestion}
           handleSuggestionClick={handleSuggestionClick}
           setSelectedSuggestion={setSelectedSuggestion}
+          setSuggestionResults={setSuggestionResults}
         />
       )}
     </div>

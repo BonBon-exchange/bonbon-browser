@@ -5,7 +5,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useEffect, useState, useCallback } from 'react';
 
-import { getDomainsFromHistory } from 'renderer/App/helpers/web';
+import { getHostsFromHistory } from 'renderer/App/helpers/web';
 
 import { BrowserInputSuggestionsProps, SuggestionItem } from './Types';
 
@@ -17,6 +17,7 @@ export const BrowserInputSuggestions: React.FC<
   inputValue,
   handleSuggestionClick,
   setSelectedSuggestion,
+  setSuggestionResults,
 }: BrowserInputSuggestionsProps) => {
   const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
   const [selected, setSelected] = useState<SuggestionItem | null>(null);
@@ -90,13 +91,22 @@ export const BrowserInputSuggestions: React.FC<
           .slice(0, 2)
           .map((r: SuggestionItem) => ({ ...r, id: `bookmark::${r.id}` }));
 
-        // 2 suggestions of domains
-        const domains = getDomainsFromHistory(result[1].rows);
+        // 4 suggestions of domains
+        const domains = getHostsFromHistory([
+          ...result[1].rows,
+          ...result[0].rows,
+        ]);
         rows.push(
           ...domains
             .filter((d) => d.url.includes(inputValue))
-            .slice(0, 2)
-            .map((r: SuggestionItem) => ({ ...r, id: `domains::${r.id}` }))
+            .slice(0, 4)
+            .map((r: SuggestionItem) => ({ ...r, id: `domain::${r.id}` }))
+        );
+
+        setSuggestionResults(
+          domains
+            .map((d) => (d.url.indexOf(inputValue) === 0 ? d.url : ''))
+            .filter((u) => u !== '')
         );
 
         // 2 suggestions of history
@@ -109,7 +119,7 @@ export const BrowserInputSuggestions: React.FC<
         setSuggestions(rows || []);
       })
       .catch(console.log);
-  }, [inputValue]);
+  }, [inputValue, setSuggestionResults]);
 
   useEffect(() => {
     window.addEventListener('keydown', keyDownListener);
