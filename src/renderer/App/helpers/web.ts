@@ -59,3 +59,22 @@ export const getDomainsFromHistory = (items: HistoryItem[]) => {
     return exists ? acc : [val, ...acc];
   }, [] as HistoryItem[]);
 };
+
+export const getHostsFromHistory = (items: HistoryItem[]) => {
+  const objects = items.map((i) => {
+    try {
+      const url = new URL(i.url);
+      return {
+        ...i,
+        url: url.host.indexOf('www.') === 0 ? url.host.substring(4) : url.host,
+      };
+    } catch (e) {
+      return i;
+    }
+  });
+
+  return objects.reduce((acc, val) => {
+    const exists = acc.find((a) => a.url === val.url);
+    return exists ? acc : [val, ...acc];
+  }, [] as HistoryItem[]);
+};
