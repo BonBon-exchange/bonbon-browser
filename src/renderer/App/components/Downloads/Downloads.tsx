@@ -26,7 +26,7 @@ export const Downloads: React.FC<DownloadsProps> = ({
   };
 
   const handleDeleteDownload = (id: number) => {
-    window.app.db.removeDownload(id);
+    window.app.download.removeDownload(id);
     const newItems = [...items];
     const index = newItems.findIndex((i) => i.id === id);
     if (index > -1) newItems.splice(index, 1);
@@ -35,7 +35,7 @@ export const Downloads: React.FC<DownloadsProps> = ({
 
   const handleClearDownloads = () => {
     setItems([]);
-    window.app.db.clearDownloads();
+    window.app.download.clearDownloads();
   };
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export const Downloads: React.FC<DownloadsProps> = ({
   }, [search, items]);
 
   useEffect(() => {
-    window.app.db
+    window.app.download
       .getAllDownloads()
       .then((val) => {
         setItems(val);

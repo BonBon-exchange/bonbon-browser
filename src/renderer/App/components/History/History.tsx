@@ -34,7 +34,7 @@ export const History: React.FC<HistoryProps> = ({
   };
 
   const handleDeleteHistory = (id: number) => {
-    window.app.db.removeHistory(id);
+    window.app.history.removeHistory(id);
     const newItems = [...items];
     const index = newItems.findIndex((i) => i.id === id);
     if (index > -1) newItems.splice(index, 1);
@@ -43,7 +43,7 @@ export const History: React.FC<HistoryProps> = ({
 
   const handleClearHistory = () => {
     setItems([]);
-    window.app.db.clearHistory();
+    window.app.history.clearHistory();
   };
 
   const Item = ({
@@ -88,7 +88,7 @@ export const History: React.FC<HistoryProps> = ({
   }, [search, items]);
 
   useEffect(() => {
-    window.app.db
+    window.app.history
       .getAllHistory()
       .then((val) => {
         setItems(val);

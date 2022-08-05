@@ -1,47 +1,8 @@
 declare global {
   interface Window {
     app: {
-      app: {
-        showLeftbarContextMenu: (params: { x: number; y: number }) => void;
-        showBoardContextMenu: (params: { x: number; y: number }) => void;
-        getAllExtensions: () => Promise<any>;
-        deleteExtension: (id: string) => void;
-        installExtension: (id: string) => void;
-        hideDownloadsPreview: () => void;
-        getBookmarksProviders: () => Promise<any>;
-        getBookmarksFromProvider: (provider: string) => Promise<any>;
-        importBookmarks: (bookmarks: any[]) => void;
-        getBookmarksTags: () => Promise<any>;
-        editBookmark: (bookmark: any) => void;
-      },
       analytics: {
         event: (eventName: string, params?: Record<string, string>) => void;
-      };
-      db: {
-        addHistory: (args: {url: string, title: string}) => void;
-        findInHistory: (str: string) => Promise<any>;
-        removeHistory: (id: number) => void;
-        clearHistory: () => void;
-        getAllHistory: () => Promise<any>;
-        isBookmarked: (url: string) => Promise<boolean>;
-        addBookmark: (args: { title: string; url: string }) => void;
-        removeBookmark: (url: string) => void;
-        getAllBookmarks: () => Promise<any>;
-        addDownload: (args: {savePath: string, filename: string, startTime: number}) => void;
-        getAllDownloads: () => Promise<any>;
-        clearDownloads: () => void;
-        removeDownload: (id: number) => void;
-        findInBookmarks: (str: string) => Promise<any>;
-      };
-      config: {
-        get: (key: string) => Promise<unknown>;
-        set: (args: {key: string, value: unknown}) => void;
-      }
-      tools: {
-        inspectElement: (point: { x: number; y: number }) => void;
-        toggleDarkMode: () => void;
-        changeLanguage: (locale: string) => void;
-        showItemInFolder: (filepath: string) => void;
       };
       board: {
         open: (board: {
@@ -53,11 +14,46 @@ declare global {
         selectNext: () => void;
         setWindowsCount: (args: { boardId: string; count: number }) => void;
       };
+      bookmark: {
+        importBookmarks: (bookmarks: any[]) => void;
+        getBookmarksTags: () => Promise<any>;
+        editBookmark: (bookmark: any) => void;
+        getBookmarksProviders: () => Promise<any>;
+        getBookmarksFromProvider: (provider: string) => Promise<any>;
+        isBookmarked: (url: string) => Promise<boolean>;
+        addBookmark: (args: { title: string; url: string }) => void;
+        removeBookmark: (url: string) => void;
+        getAllBookmarks: () => Promise<any>;
+        findInBookmarks: (str: string) => Promise<any>;
+      };
       browser: {
         select: (webContentsId: number) => void;
         selectBrowserView: () => void;
         certificateErrorAnswser: (args: { webContentsId: number, fingerprint: string, isTrusted: boolean }) => void;
         requestCapture: (webContentsId: number) => Promise<string>;
+      };
+      config: {
+        get: (key: string) => Promise<unknown>;
+        set: (args: {key: string, value: unknown}) => void;
+      }
+      download: {
+        hideDownloadsPreview: () => void;
+        addDownload: (args: {savePath: string, filename: string, startTime: number}) => void;
+        getAllDownloads: () => Promise<any>;
+        clearDownloads: () => void;
+        removeDownload: (id: number) => void;
+      };
+      extension: {
+        getAllExtensions: () => Promise<any>;
+        deleteExtension: (id: string) => void;
+        installExtension: (id: string) => void;
+      };
+      history: {
+        addHistory: (args: {url: string, title: string}) => void;
+        findInHistory: (str: string) => Promise<any>;
+        removeHistory: (id: number) => void;
+        clearHistory: () => void;
+        getAllHistory: () => Promise<any>;
       };
       listener: {
         newWindow: (action: unknown) => void;
@@ -95,10 +91,14 @@ declare global {
         distributeWindowsEvenly: () => void;
         setDefaultWindowSize: () => void;
       };
-    };
-    darkMode: {
-      toggle: () => void;
-      system: () => void;
+      tools: {
+        inspectElement: (point: { x: number; y: number }) => void;
+        toggleDarkMode: () => void;
+        changeLanguage: (locale: string) => void;
+        showItemInFolder: (filepath: string) => void;
+        showLeftbarContextMenu: (params: { x: number; y: number }) => void;
+        showBoardContextMenu: (params: { x: number; y: number }) => void;
+      };
     };
   }
 }

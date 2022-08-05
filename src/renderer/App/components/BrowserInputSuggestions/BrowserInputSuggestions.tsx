@@ -80,8 +80,8 @@ export const BrowserInputSuggestions: React.FC<
     }
 
     const promises = [
-      window.app.db.findInBookmarks(inputValue),
-      window.app.db.findInHistory(inputValue),
+      window.app.bookmark.findInBookmarks(inputValue),
+      window.app.history.findInHistory(inputValue),
     ];
 
     Promise.all(promises)

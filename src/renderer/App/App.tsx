@@ -58,7 +58,7 @@ export function App() {
           .getElementById('LeftBar__browserFavContainerItems')
           ?.contains(target)
       )
-        window.app.app.showLeftbarContextMenu({ x: e.clientX, y: e.clientY });
+        window.app.tools.showLeftbarContextMenu({ x: e.clientX, y: e.clientY });
     });
   }, []);
 

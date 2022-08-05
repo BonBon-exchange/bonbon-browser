@@ -1,107 +1,9 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 contextBridge.exposeInMainWorld('app', {
-  app: {
-    showLeftbarContextMenu: (params: { x: number; y: number }) => {
-      ipcRenderer.send('show-leftbar-context-menu', params);
-    },
-    showBoardContextMenu: (params: { x: number; y: number }) => {
-      ipcRenderer.send('show-board-context-menu', params);
-    },
-    getAllExtensions: () => {
-      return ipcRenderer.invoke('get-all-extensions');
-    },
-    deleteExtension: (id: string) => {
-      ipcRenderer.send('delete-extension', id);
-    },
-    installExtension: (id: string) => {
-      ipcRenderer.send('install-extension', id);
-    },
-    hideDownloadsPreview: () => {
-      ipcRenderer.send('hide-downloads-preview');
-    },
-    getBookmarksProviders: () => {
-      return ipcRenderer.invoke('get-bookmarks-providers');
-    },
-    getBookmarksFromProvider: (provider: string) => {
-      return ipcRenderer.invoke('get-bookmarks-from-provider', provider);
-    },
-    importBookmarks: (bookmarks: any[]) => {
-      ipcRenderer.send('import-bookmarks', bookmarks);
-    },
-    getBookmarksTags: () => {
-      return ipcRenderer.invoke('get-bookmarks-tags');
-    },
-    editBookmark: (bookmark: any) => {
-      ipcRenderer.send('edit-bookmark', bookmark);
-    },
-  },
   analytics: {
     event: (eventName: string, params: Record<string, string>) => {
       ipcRenderer.send('analytics', { eventName, params });
-    },
-  },
-  db: {
-    addHistory: (args: { url: string; title: string }) => {
-      ipcRenderer.send('add-history', args);
-    },
-    findInHistory: (str: string) => {
-      return ipcRenderer.invoke('find-in-history', str);
-    },
-    removeHistory: (id: number) => {
-      ipcRenderer.send('remove-history', id);
-    },
-    clearHistory: () => {
-      ipcRenderer.send('clear-history');
-    },
-    getAllHistory: () => {
-      return ipcRenderer.invoke('get-all-history');
-    },
-    isBookmarked: (url: string) => {
-      return ipcRenderer.invoke('is-bookmarked', url);
-    },
-    addBookmark: (args: { url: string; parent: number }) => {
-      ipcRenderer.send('add-bookmark', args);
-    },
-    removeBookmark: (url: string) => {
-      ipcRenderer.send('remove-bookmark', url);
-    },
-    getAllBookmarks: () => {
-      return ipcRenderer.invoke('get-all-bookmarks');
-    },
-    addDownload: (args: { savePath: string; filename: string }) => {
-      ipcRenderer.send('add-download', args);
-    },
-    getAllDownloads: () => {
-      return ipcRenderer.invoke('get-all-downloads');
-    },
-    clearDownloads: () => {
-      ipcRenderer.send('clear-downloads');
-    },
-    removeDownload: (id: number) => {
-      ipcRenderer.send('remove-download', id);
-    },
-    findInBookmarks: (str: string) => {
-      return ipcRenderer.invoke('find-in-bookmarks', str);
-    },
-  },
-  config: {
-    get: (key: string) => ipcRenderer.invoke('get-store-value', key),
-    set: (args: { key: string; value: unknown }) =>
-      ipcRenderer.send('set-store-value', args),
-  },
-  tools: {
-    inspectElement: (point: { x: number; y: number }) => {
-      ipcRenderer.send('inspectElement', point);
-    },
-    toggleDarkMode: () => {
-      ipcRenderer.invoke('dark-mode:toggle');
-    },
-    changeLanguage: (locale: string) => {
-      ipcRenderer.send('change-language', locale);
-    },
-    showItemInFolder: (filepath: string) => {
-      ipcRenderer.send('show-item-in-folder', filepath);
     },
   },
   board: {
@@ -116,6 +18,35 @@ contextBridge.exposeInMainWorld('app', {
     },
     setWindowsCount: (args: { boardId: string; count: number }) => {
       ipcRenderer.send('set-windows-count', args);
+    },
+  },
+  bookmark: {
+    findInBookmarks: (str: string) => {
+      return ipcRenderer.invoke('find-in-bookmarks', str);
+    },
+    editBookmark: (bookmark: any) => {
+      ipcRenderer.send('edit-bookmark', bookmark);
+    },
+    getBookmarksProviders: () => {
+      return ipcRenderer.invoke('get-bookmarks-providers');
+    },
+    getBookmarksFromProvider: (provider: string) => {
+      return ipcRenderer.invoke('get-bookmarks-from-provider', provider);
+    },
+    importBookmarks: (bookmarks: any[]) => {
+      ipcRenderer.send('import-bookmarks', bookmarks);
+    },
+    getBookmarksTags: () => {
+      return ipcRenderer.invoke('get-bookmarks-tags');
+    },
+    isBookmarked: (url: string) => {
+      return ipcRenderer.invoke('is-bookmarked', url);
+    },
+    addBookmark: (args: { url: string; parent: number }) => {
+      ipcRenderer.send('add-bookmark', args);
+    },
+    removeBookmark: (url: string) => {
+      ipcRenderer.send('remove-bookmark', url);
     },
   },
   browser: {
@@ -133,6 +64,59 @@ contextBridge.exposeInMainWorld('app', {
     },
     requestCapture: (webContentsId: number) => {
       return ipcRenderer.invoke('request-capture', webContentsId);
+    },
+  },
+  config: {
+    get: (key: string) => ipcRenderer.invoke('get-store-value', key),
+    set: (args: { key: string; value: unknown }) =>
+      ipcRenderer.send('set-store-value', args),
+  },
+  download: {
+    removeDownload: (id: number) => {
+      ipcRenderer.send('remove-download', id);
+    },
+    getAllBookmarks: () => {
+      return ipcRenderer.invoke('get-all-bookmarks');
+    },
+    addDownload: (args: { savePath: string; filename: string }) => {
+      ipcRenderer.send('add-download', args);
+    },
+    getAllDownloads: () => {
+      return ipcRenderer.invoke('get-all-downloads');
+    },
+    clearDownloads: () => {
+      ipcRenderer.send('clear-downloads');
+    },
+    hideDownloadsPreview: () => {
+      ipcRenderer.send('hide-downloads-preview');
+    },
+  },
+  extension: {
+    getAllExtensions: () => {
+      return ipcRenderer.invoke('get-all-extensions');
+    },
+    deleteExtension: (id: string) => {
+      ipcRenderer.send('delete-extension', id);
+    },
+    installExtension: (id: string) => {
+      ipcRenderer.send('install-extension', id);
+    },
+  },
+  history: {
+    addHistory: (args: { url: string; title: string }) => {
+      ipcRenderer.send('add-history', args);
+    },
+    findInHistory: (str: string) => {
+      return ipcRenderer.invoke('find-in-history', str);
+    },
+    removeHistory: (id: number) => {
+      ipcRenderer.send('remove-history', id);
+    },
+    clearHistory: () => {
+      ipcRenderer.send('clear-history');
+    },
+    getAllHistory: () => {
+      return ipcRenderer.invoke('get-all-history');
     },
   },
   listener: {
@@ -239,6 +223,26 @@ contextBridge.exposeInMainWorld('app', {
     },
     setDefaultWindowSize: () => {
       ipcRenderer.removeAllListeners('set-default-window-size');
+    },
+  },
+  tools: {
+    inspectElement: (point: { x: number; y: number }) => {
+      ipcRenderer.send('inspectElement', point);
+    },
+    toggleDarkMode: () => {
+      ipcRenderer.invoke('dark-mode:toggle');
+    },
+    changeLanguage: (locale: string) => {
+      ipcRenderer.send('change-language', locale);
+    },
+    showItemInFolder: (filepath: string) => {
+      ipcRenderer.send('show-item-in-folder', filepath);
+    },
+    showLeftbarContextMenu: (params: { x: number; y: number }) => {
+      ipcRenderer.send('show-leftbar-context-menu', params);
+    },
+    showBoardContextMenu: (params: { x: number; y: number }) => {
+      ipcRenderer.send('show-board-context-menu', params);
     },
   },
 });

@@ -28,7 +28,7 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
 
   const handleImportAll = () => {
     if (selectedBookmarksProviders?.length === 0) return;
-    window.app.app.importBookmarks(filteredItems);
+    window.app.bookmark.importBookmarks(filteredItems);
     setImportButtonText(t('Importing...'));
     setTimeout(() => {
       setImportButtonText(t('Done'));
@@ -59,7 +59,7 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
   }, [search, items]);
 
   useEffect(() => {
-    window.app.app
+    window.app.bookmark
       .getBookmarksProviders()
       .then((val) => {
         setBookmarksProviders(val);
@@ -70,7 +70,7 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
   useEffect(() => {
     if (selectedBookmarksProviders && selectedBookmarksProviders.length > 0) {
       setImportButtonText(t('Import all'));
-      window.app.app
+      window.app.bookmark
         .getBookmarksFromProvider(selectedBookmarksProviders)
         .then((val) => {
           setItems(val);
