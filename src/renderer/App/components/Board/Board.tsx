@@ -30,7 +30,7 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
 
   const contextMenuListener = (e: MouseEvent) => {
     e.preventDefault();
-    window.app.app.showBoardContextMenu({ x: e.clientX, y: e.clientY });
+    window.app.tools.showBoardContextMenu({ x: e.clientX, y: e.clientY });
   };
 
   useEffect(() => {

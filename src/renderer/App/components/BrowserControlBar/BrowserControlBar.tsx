@@ -136,10 +136,13 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   const handleBookmark = () => {
     if (browser?.url && browser?.title) {
       if (isBookmarked) {
-        window.app.db.removeBookmark(browser?.url);
+        window.app.bookmark.removeBookmark(browser?.url);
         setIsBookmarked(false);
       } else {
-        window.app.db.addBookmark({ url: browser?.url, title: browser?.title });
+        window.app.bookmark.addBookmark({
+          url: browser?.url,
+          title: browser?.title,
+        });
         setIsBookmarked(true);
       }
     }
@@ -246,7 +249,7 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
 
   useEffect(() => {
     if (browser?.url) {
-      window.app.db
+      window.app.bookmark
         .isBookmarked(browser?.url)
         .then((val) => setIsBookmarked(val))
         .catch(console.log);

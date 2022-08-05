@@ -34,7 +34,7 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
 
   const handleDeleteBookmark = (id: number) => {
     const url = items.find((i) => i.id === id)?.url;
-    if (url) window.app.db.removeBookmark(url);
+    if (url) window.app.bookmark.removeBookmark(url);
     const newItems = [...items];
     const index = newItems.findIndex((i) => i.id === id);
     if (index > -1) newItems.splice(index, 1);
@@ -47,7 +47,7 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
   };
 
   const refreshList = () => {
-    window.app.db
+    window.app.bookmark
       .getAllBookmarks()
       .then((val) => {
         setItems(val);

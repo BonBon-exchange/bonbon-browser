@@ -180,7 +180,7 @@ export const useGlobalEvents = () => {
     ) => {
       dispatch(setDownloadItem(args));
       if (args.state === 'completed') {
-        window.app.db.addDownload({
+        window.app.download.addDownload({
           savePath: args.savePath,
           filename: args.filename,
           startTime: args.startTime,

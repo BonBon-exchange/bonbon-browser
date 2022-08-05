@@ -27,7 +27,7 @@ export const DownloadsPreview: React.FC = () => {
 
   const handleClear = () => {
     dispatch(clearDownloads());
-    window.app.app.hideDownloadsPreview();
+    window.app.download.hideDownloadsPreview();
   };
 
   return (

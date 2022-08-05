@@ -144,7 +144,7 @@ export const useBrowserEvents = (browserId: string) => {
           break;
 
         case 'install-extension':
-          window.app.app.installExtension(e.args[0]);
+          window.app.extension.installExtension(e.args[0]);
           break;
       }
     },
