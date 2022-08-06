@@ -47,10 +47,9 @@ export const useBrowserMethods = () => {
     (browserId: string, dontScroll?: boolean) => {
       if (!dontScroll) scrollToBrowser(browserId);
       bringBrowserToTheFront(browserId);
-      dispatch(setActiveBrowser(browserId));
       window.app.analytics.event('switch_browser');
     },
-    [dispatch, scrollToBrowser, bringBrowserToTheFront]
+    [scrollToBrowser, bringBrowserToTheFront]
   );
 
   const next = useMemo(() => {
