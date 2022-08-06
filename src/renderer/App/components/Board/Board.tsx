@@ -1,11 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, lazy } from 'react';
 import clsx from 'clsx';
 import { AnimatePresence } from 'framer-motion';
 
-import { Browser } from 'renderer/App/components/Browser';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
@@ -17,6 +16,8 @@ import { BoardProps } from './Types';
 
 import './style.scss';
 
+const Browser = lazy(() => import('renderer/App/components/Browser'));
+
 export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
   const board = useBoard();
   const dispatch = useAppDispatch();
@@ -24,9 +25,17 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
   const [items, setItems] = useState<BrowserProps[]>([]);
   const helpers = useStoreHelpers();
 
-  const makeBrowsers = useCallback((sorted: BrowserProps[]) => {
-    return sorted.map((b) => <Browser {...b} key={b.id} firstRendering />);
-  }, []);
+  const makeBrowser = useCallback(
+    (b: BrowserProps) => <Browser {...b} firstRendering />,
+    []
+  );
+
+  const makeBrowsers = useCallback(
+    (sorted: BrowserProps[]) => {
+      return sorted.map((b) => makeBrowser(b));
+    },
+    [makeBrowser]
+  );
 
   const contextMenuListener = (e: MouseEvent) => {
     e.preventDefault();

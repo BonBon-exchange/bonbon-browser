@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { setActiveBrowser } from 'renderer/App/store/reducers/Board';
 import { getContainerFromBrowserId } from '../helpers/dom';
 import { useBoard } from './useBoard';
 
-export const focusUrlBar = (browserId: string) => {
-  const container = getContainerFromBrowserId(browserId);
-  const urlBar = container
-    ?.querySelector('.BrowserControlBar__container')
-    ?.querySelector('input');
-  urlBar?.select();
-};
-
 export const useBrowserMethods = () => {
   const dispatch = useAppDispatch();
   const boardState = useBoard();
+
+  const focusUrlBar = useCallback((browserId: string) => {
+    const container = getContainerFromBrowserId(browserId);
+    const urlBar = container
+      ?.querySelector('.BrowserControlBar__container')
+      ?.querySelector('input');
+    urlBar?.select();
+  }, []);
 
   const bringBrowserToTheFront = useCallback(
     (browserId: string) => {
@@ -53,30 +53,33 @@ export const useBrowserMethods = () => {
     [dispatch, scrollToBrowser, bringBrowserToTheFront]
   );
 
-  const next = useCallback(() => {
+  const next = useMemo(() => {
     const pos = boardState.browsers.findIndex(
       (b) => b.id === boardState.activeBrowser
     );
     const focusPos = pos === boardState.browsers.length - 1 ? 0 : pos + 1;
-    const focusId = boardState.browsers[focusPos].id;
+    const focusId = boardState.browsers[focusPos]
+      ? boardState.browsers[focusPos].id
+      : null;
+
     return focusId;
   }, [boardState.activeBrowser, boardState.browsers]);
 
-  const disablePointerEventsForAll = () => {
+  const disablePointerEventsForAll = useCallback(() => {
     const containers = document.querySelectorAll('.Browser__webview-container');
     containers.forEach((c) => {
       // @ts-ignore
       c.style['pointer-events'] = 'none';
     });
-  };
+  }, []);
 
-  const enablePointerEventsForAll = () => {
+  const enablePointerEventsForAll = useCallback(() => {
     const containers = document.querySelectorAll('.Browser__webview-container');
     containers.forEach((c) => {
       // @ts-ignore
       c.style['pointer-events'] = 'auto';
     });
-  };
+  }, []);
 
   return {
     focus,

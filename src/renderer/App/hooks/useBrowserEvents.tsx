@@ -28,10 +28,13 @@ import { useBrowserMethods } from './useBrowserMethods';
 import { useStoreHelpers } from './useStoreHelpers';
 import { useBoard } from './useBoard';
 
-export const useBrowserEvents = (browserId: string) => {
+export const useBrowserEvents = (
+  browserId: string,
+  manualWebview?: Electron.WebviewTag | null
+) => {
   const { bringBrowserToTheFront } = useBrowserMethods();
   const container = getContainerFromBrowserId(browserId);
-  const webview = getWebviewFromBrowserId(browserId);
+  const webview = manualWebview || getWebviewFromBrowserId(browserId);
   const helpers = useStoreHelpers();
   const board = useBoard();
   const dispatch = useAppDispatch();
@@ -141,6 +144,7 @@ export const useBrowserEvents = (browserId: string) => {
               params: { webContentsId: e.args[0].webContentsId },
             })
           );
+          window.app.browser.requestCapture(e.args[0].webContentsId);
           break;
 
         case 'install-extension':
