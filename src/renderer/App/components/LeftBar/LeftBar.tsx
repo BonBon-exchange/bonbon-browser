@@ -49,7 +49,7 @@ export const LeftBar: React.FC = () => {
 
   useEffect(() => {
     if (!boardState.isFullSize) {
-      setItems(board.getSortedBrowsers());
+      setItems(board.getSortedBrowsers);
     } else {
       setItems(boardState.browsers);
     }

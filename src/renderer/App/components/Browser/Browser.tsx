@@ -44,7 +44,6 @@ export const Browser: React.FC<BrowserProps> = ({
   webContentsId,
   isSearching,
 }) => {
-  useBrowserEvents(id);
   const dispatch = useAppDispatch();
   const {
     enablePointerEventsForAll,
@@ -65,11 +64,12 @@ export const Browser: React.FC<BrowserProps> = ({
   const [rndWidth, setRndWidth] = useState<number>(width);
   const [rndHeight, setRndHeight] = useState<number>(height);
   const [scrollY, setScrollY] = useState<null | number>(null);
+  const [hasBeenActive, setHasBeenActive] = useState<boolean>(
+    board.activeBrowser === id
+  );
   const blockScrollTimer = useRef<any>(null);
-
-  const webview = container.current?.querySelector(
-    'webview'
-  ) as Electron.WebviewTag;
+  const webviewRef = useRef<Electron.WebviewTag>(null);
+  useBrowserEvents(id);
 
   const edgeLeft = document.querySelector('.Board__edge-snap-left');
   const edgeRight = document.querySelector('.Board__edge-snap-right');
@@ -274,13 +274,17 @@ export const Browser: React.FC<BrowserProps> = ({
   };
 
   const reload = () => {
-    webview?.reload();
+    webviewRef.current?.reload();
     window.app.analytics.event('browser_reload');
   };
 
   const scrollListener = useCallback(() => {
     if (scrollY) window.scrollTo(0, scrollY);
   }, [scrollY]);
+
+  useEffect(() => {
+    if (id === board.activeBrowser) setHasBeenActive(true);
+  }, [board.activeBrowser, id]);
 
   useEffect(() => {
     if (firstRenderingState) {
@@ -380,6 +384,7 @@ export const Browser: React.FC<BrowserProps> = ({
       className={clsx({
         'Browser__is-full-size': isFullSize,
         'Browser__is-minimized': isMinimized,
+        'Browser__display-none': board.isFullSize && id !== board.activeBrowser,
         'Browser__draggable-container': true,
       })}
       disableDragging={board?.isFullSize}
@@ -393,7 +398,6 @@ export const Browser: React.FC<BrowserProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        // layout={!isFullSize}
       >
         <BrowserTopBar
           closeBrowser={() => setTimeout(() => helpers.browser.close(id), 0)}
@@ -418,8 +422,9 @@ export const Browser: React.FC<BrowserProps> = ({
           <webview
             // @ts-ignore
             allowpopups="true"
-            src={renderedUrl}
+            src={hasBeenActive || !board.isFullSize ? renderedUrl : undefined}
             partition="persist:user-partition"
+            ref={webviewRef}
           />
         </div>
       </motion.div>

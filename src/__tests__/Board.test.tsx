@@ -58,9 +58,12 @@ describe('Board', () => {
         <Board />
       </Provider>
     );
-    expect(
-      container.getElementsByClassName('Browser__draggable-container').length
-    ).toBe(1);
+
+    setTimeout(() => {
+      expect(
+        container.getElementsByClassName('Browser__draggable-container').length
+      ).toBe(1);
+    }, 0);
   });
 
   it('should have 0 browser in board after remove', () => {

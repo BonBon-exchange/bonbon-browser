@@ -59,7 +59,7 @@ export const useGlobalEvents = () => {
       }
       if (e.ctrlKey && !e.shiftKey && e.key === 'Tab') {
         if (boardState.browsers.length > 0) {
-          focus(next());
+          if (next) focus(next);
         }
       }
       if (e.ctrlKey && e.shiftKey && e.key === 'Tab') {
