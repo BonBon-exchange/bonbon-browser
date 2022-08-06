@@ -28,6 +28,7 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
+    <li><a href="#-about-the-project">About The Browser</a></li>
     <li>
       <a href="#-about-the-project">About The Project</a>
       <ul>
@@ -49,14 +50,20 @@
 </details>
 
 <!-- ABOUT THE PROJECT -->
+## 🌍 About The Browser
+**BonBon Browser** is a lightweight and innovative browser. It is open source and available for Windows, macOS and Linux. It makes you appreciate your browsing experience, and offers privacy. We don’t collect any data.  Since the project is still in its early stages, we appreciate any feedback that you can offer us.
+
 
 ## 😎 About The Project
 
+**BonBon** is a project that allows web users to obtain full control of their browsing data. Rather than accepting the inevitable theft of their data from Big Tech, BonBon's vision is to allow people the deserved freedom of controlling what happens to their data and not have it sold to big tech without their consent. 
+
+Note that we use [Nucleus.sh](https://www.nucleus.sh/) to provide us analytics about app usage and app errors.
+
 [![Product Name Screen Shot][product-screenshot]](https://github.com/BonBon-exchange/bonbon-web-browser)
 
-BonBon is a browser offering an innovative interface and privacy. Nothing is collected, we don't have any database nor any backend. We use [Nucleus.sh](https://www.nucleus.sh/) to provide us analytics about app usage and app errors.
-
 <p align="right">(<a href="#top">back to top</a>)</p>
+
 
 ### 👁️‍ Communities
 
