@@ -52,48 +52,55 @@ export const LeftBar: React.FC = () => {
         focus(browserId);
       }, 0);
     },
-    [browser, focus]
+    [focus, browser]
+  );
+
+  const makeItem = useCallback(
+    (b: BrowserProps) => {
+      return (
+        <Reorder.Item key={`reorderItem-${b.id}`} value={b}>
+          <Tooltip title={b.title || ''} placement="right" key={b.id}>
+            <div className="LeftBar__browserContainer">
+              <div
+                className={
+                  !b.isMinimized
+                    ? 'LeftBar__closeBrowser'
+                    : 'LeftBar__maximizeBrowser'
+                }
+                onClick={() => {
+                  if (!b.isMinimized) {
+                    browser.close(b.id);
+                  }
+                }}
+              >
+                {!b.isMinimized ? <CloseIcon /> : <OpenInFullIcon />}
+              </div>
+              <div
+                className={clsx({
+                  selected: b.id === boardState.activeBrowser,
+                  LeftBar__browserFav: true,
+                })}
+                key={b.id}
+                onClick={() => handleClickFavicon(b.id)}
+                data-browserid={b.id}
+              >
+                <img
+                  src={b.isLoading ? loadingImg : b.favicon || icon}
+                  className="LeftBar__browserFavImg"
+                  onError={handleImageError}
+                />
+              </div>
+            </div>
+          </Tooltip>
+        </Reorder.Item>
+      );
+    },
+    [boardState.activeBrowser, browser, handleClickFavicon]
   );
 
   const makeFavicons = useCallback(() => {
-    return items.map((b: BrowserProps) => (
-      <Reorder.Item key={`reorderItem-${b.id}`} value={b}>
-        <Tooltip title={b.title || ''} placement="right" key={b.id}>
-          <div className="LeftBar__browserContainer">
-            <div
-              className={
-                !b.isMinimized
-                  ? 'LeftBar__closeBrowser'
-                  : 'LeftBar__maximizeBrowser'
-              }
-              onClick={() => {
-                if (!b.isMinimized) {
-                  browser.close(b.id);
-                }
-              }}
-            >
-              {!b.isMinimized ? <CloseIcon /> : <OpenInFullIcon />}
-            </div>
-            <div
-              className={clsx({
-                selected: b.id === boardState.activeBrowser,
-                LeftBar__browserFav: true,
-              })}
-              key={b.id}
-              onClick={() => handleClickFavicon(b.id)}
-              data-browserid={b.id}
-            >
-              <img
-                src={b.isLoading ? loadingImg : b.favicon || icon}
-                className="LeftBar__browserFavImg"
-                onError={handleImageError}
-              />
-            </div>
-          </div>
-        </Tooltip>
-      </Reorder.Item>
-    ));
-  }, [boardState.activeBrowser, items, handleClickFavicon, browser]);
+    return items.map((b: BrowserProps) => makeItem(b));
+  }, [items, makeItem]);
 
   useEffect(() => {
     if (boardState.isFullSize) {
