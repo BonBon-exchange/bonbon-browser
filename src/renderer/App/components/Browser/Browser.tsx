@@ -422,7 +422,7 @@ export const Browser: React.FC<BrowserProps> = ({
           <webview
             // @ts-ignore
             allowpopups="true"
-            src={hasBeenActive ? renderedUrl : undefined}
+            src={hasBeenActive || !board.isFullSize ? renderedUrl : undefined}
             partition="persist:user-partition"
             ref={webviewRef}
           />
