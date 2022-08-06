@@ -21,10 +21,6 @@
     }
   }
 
-  li {
-    width: calc(100% + 5px);
-  }
-
   ul {
     list-style: none;
     padding: 0;
@@ -66,13 +62,11 @@
   border-radius: 3px;
 
   &.selected {
-    width: 25px;
     background-color: var(--color-background-5);
   }
 }
 
 .LeftBar__browserFav:hover {
-  width: 25px;
   cursor: pointer;
   background-color: var(--color-background-5);
 }
