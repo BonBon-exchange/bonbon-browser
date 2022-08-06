@@ -11,7 +11,7 @@ labels: 'bug'
 <!--- What should have happened? -->
 
 ## Current Behavior
-
+If you can, use https://gifcap.dev/ to record your screen.
 <!--- What went wrong? -->
 
 ## Steps to Reproduce
