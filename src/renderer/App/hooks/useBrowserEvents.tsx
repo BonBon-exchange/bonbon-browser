@@ -57,7 +57,6 @@ export const useBrowserEvents = (browserId: string) => {
 
         case 'clickOnPage':
           bringBrowserToTheFront(browserId);
-          dispatch(setActiveBrowser(browserId));
           const clickEvent = new MouseEvent('click');
           window.dispatchEvent(clickEvent);
           break;
