@@ -95,7 +95,7 @@ Download BonBon for macOS: [BonBon Browser 0.30.4 for macOS](https://github.com/
 
 Download BonBon for Linux: [BonBon Browser 0.30.4 for Linux (AppImage)](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.4/BonBon-0.30.4.AppImage)
 
-**Notes: the program is detected as potentially dangerous for the system, because it is not signed using a certificate. On Windows, to obtain this certificate, we need to have a registered company. It will be done by October 2022. In the meantime, we need you to try BonBon and give us as much feedback as possible. Thank you for your trust.**
+**Notes: the program is detected as potentially dangerous for the system, because it is not signed using a certificate. On Windows, to obtain this certificate, we need to have a registered company. It will be done by October 2022.**
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
