@@ -81,6 +81,11 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   const urlInputOnKeyDown: KeyboardEventHandler = async (e) => {
     const target = e.target as HTMLInputElement;
 
+    if (e.key === 'Escape') {
+      setShowSuggestions(false);
+      return;
+    }
+
     if (e.key === 'Backspace' || e.key === 'Delete') {
       setUserDeleting(true);
       setUrlInputForAutocomplete(undefined);
