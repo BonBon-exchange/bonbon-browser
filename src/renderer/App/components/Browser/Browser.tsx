@@ -69,7 +69,7 @@ export const Browser: React.FC<BrowserProps> = ({
   );
   const blockScrollTimer = useRef<any>(null);
   const webviewRef = useRef<Electron.WebviewTag>(null);
-  useBrowserEvents(id, webviewRef.current);
+  useBrowserEvents(id);
 
   const edgeLeft = document.querySelector('.Board__edge-snap-left');
   const edgeRight = document.querySelector('.Board__edge-snap-right');

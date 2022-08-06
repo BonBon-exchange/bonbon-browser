@@ -4,7 +4,7 @@
 /* eslint-disable promise/always-return */
 /* eslint-disable promise/catch-or-return */
 /* eslint-disable import/prefer-default-export */
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { v4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 
@@ -184,7 +184,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
     [dispatch]
   );
 
-  const makeSortedContainers = useCallback(() => {
+  const makeSortedContainers = useMemo(() => {
     const containers = document.querySelectorAll(
       '.Browser__draggable-container'
     );
@@ -281,27 +281,30 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
     [dispatch]
   );
 
-  const distributeWindowsByOrder = (newOrder: BrowserProps[]) => {
-    const sortedIds = newOrder.map((b) => b.id);
-    const containers = document.querySelectorAll(
-      '.Browser__draggable-container'
-    );
-    const sortedContainers = sortedIds
-      .map((id) =>
-        Array.from(containers).find((c) => c.getAttribute('data-id') === id)
-      )
-      .filter((e) => e !== undefined);
-    if (sortedContainers && !board.isFullSize)
-      distributeWindowsEvenly(sortedContainers as Element[]);
-  };
+  const distributeWindowsByOrder = useCallback(
+    (newOrder: BrowserProps[]) => {
+      const sortedIds = newOrder.map((b) => b.id);
+      const containers = document.querySelectorAll(
+        '.Browser__draggable-container'
+      );
+      const sortedContainers = sortedIds
+        .map((id) =>
+          Array.from(containers).find((c) => c.getAttribute('data-id') === id)
+        )
+        .filter((e) => e !== undefined);
+      if (sortedContainers && !board.isFullSize)
+        distributeWindowsEvenly(sortedContainers as Element[]);
+    },
+    [board.isFullSize, distributeWindowsEvenly]
+  );
 
   const distributeWindowsEvenlyDefault = useCallback(() => {
-    const sortedContainers = makeSortedContainers();
+    const sortedContainers = makeSortedContainers;
     distributeWindowsEvenly(sortedContainers);
   }, [distributeWindowsEvenly, makeSortedContainers]);
 
-  const getSortedBrowsers = () => {
-    const sortedContainers = makeSortedContainers();
+  const getSortedBrowsers = useMemo(() => {
+    const sortedContainers = makeSortedContainers;
     const sortedBrowsers = sortedContainers
       .map((s) => {
         const id = s.getAttribute('data-id');
@@ -310,7 +313,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       })
       .filter((b) => b !== undefined);
     return sortedBrowsers as BrowserProps[];
-  };
+  }, [board.browsers, makeSortedContainers]);
 
   const requestCapture = (browserId: string) => {
     const browser = board.browsers.find((b) => b.id === browserId);
