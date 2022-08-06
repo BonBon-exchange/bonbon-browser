@@ -46,10 +46,8 @@ const downloadItemEventAction = (
 
 const makeAppEvents = () => {
   app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-      event('close_app');
-      app.quit();
-    }
+    event('close_app');
+    app.quit();
   });
 
   app.on('web-contents-created', (_event, contents) => {
