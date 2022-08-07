@@ -295,8 +295,8 @@ export const Browser: React.FC<BrowserProps> = ({
   }, [scrollY, height, top, helpers.browser, id, lastScreenshot, capture]);
 
   useEffect(() => {
-    if (id === board.activeBrowser) setHasBeenActive(true);
-  }, [board.activeBrowser, id]);
+    if (id === board.activeBrowser || !board.isFullSize) setHasBeenActive(true);
+  }, [board.activeBrowser, id, board.isFullSize]);
 
   useEffect(() => {
     if (firstRenderingState) {
