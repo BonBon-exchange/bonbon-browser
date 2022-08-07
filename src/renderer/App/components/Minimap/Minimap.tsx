@@ -57,8 +57,6 @@ export const Minimap: React.FC<MinimapProps> = ({
             src={w.capture || (w.isLoading ? loadingImg : w.favicon || icon)}
             className="Minimap__browserFavImg"
             onError={handleImageError}
-            height={w.height}
-            width={w.width}
           />
         </motion.div>
       );
@@ -115,8 +113,8 @@ export const Minimap: React.FC<MinimapProps> = ({
 
       const height = minimapContainer.clientHeight * ratioY;
       setView({ top: top * ratioY, height });
-      setShowView(true);
       prepareMiniWindows();
+      setShowView(true);
     }
   }, [boardContainer, minimapContainer, prepareMiniWindows]);
 

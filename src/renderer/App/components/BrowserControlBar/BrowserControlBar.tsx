@@ -61,15 +61,35 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
     setSelectedSuggestion(null);
   };
 
-  const handleSuggestionClick = (clickedUrl: string) => {
-    hideSuggestions();
+  const handleLoadUserUrl = async (loadUrl: string) => {
+    const re =
+      /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+
+    const addHttps =
+      !isValidHttpUrl(loadUrl) &&
+      isValidHttpUrl(`https://${loadUrl}`) &&
+      `https://${loadUrl}`.match(re);
+
+    let newUrl;
+    if (addHttps) {
+      newUrl = `https://${loadUrl}`;
+    } else {
+      newUrl = isValidHttpUrl(loadUrl) ? loadUrl : await makeSearchUrl(loadUrl);
+    }
+
+    webview?.loadURL(newUrl).catch(console.log);
+
     dispatch(
       updateBrowserUrl({
-        url: clickedUrl,
+        url: newUrl,
         browserId,
       })
     );
-    webview?.loadURL(clickedUrl).catch(console.log);
+  };
+
+  const handleSuggestionClick = (clickedUrl: string) => {
+    hideSuggestions();
+    handleLoadUserUrl(clickedUrl);
   };
 
   const urlInputOnKeyUp: KeyboardEventHandler = (e) => {
@@ -78,7 +98,7 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
     target?.setSelectionRange(target?.value.length, target?.value.length);
   };
 
-  const urlInputOnKeyDown: KeyboardEventHandler = async (e) => {
+  const urlInputOnKeyDown: KeyboardEventHandler = (e) => {
     const target = e.target as HTMLInputElement;
 
     if (e.key === 'Escape') {
@@ -94,39 +114,14 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
     }
 
     if (selectedSuggestion && showSuggestions && e.key === 'Enter') {
-      handleSuggestionClick(selectedSuggestion);
+      hideSuggestions();
+      handleLoadUserUrl(selectedSuggestion);
       return;
     }
 
     if (e.code === 'Enter' || e.code === 'NumpadEnter') {
       hideSuggestions();
-
-      const re =
-        /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
-
-      const addHttps =
-        !isValidHttpUrl(target?.value) &&
-        isValidHttpUrl(`https://${target?.value}`) &&
-        `https://${target?.value}`.match(re);
-
-      let newUrl;
-      if (addHttps) {
-        newUrl = `https://${target?.value}`;
-      } else {
-        newUrl = isValidHttpUrl(target?.value)
-          ? target?.value
-          : await makeSearchUrl(target?.value);
-      }
-
-      webview?.loadURL(newUrl).catch(console.log);
-
-      dispatch(
-        updateBrowserUrl({
-          url: newUrl,
-          browserId,
-        })
-      );
-
+      handleLoadUserUrl(target?.value);
       return;
     }
 
