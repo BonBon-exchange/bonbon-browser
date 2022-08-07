@@ -1,6 +1,7 @@
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": true // deletes unused imports on save
-  }
+    "source.sortImports": true// deletes unused imports on save
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative" // references baseUrl in tsconfig
 }
