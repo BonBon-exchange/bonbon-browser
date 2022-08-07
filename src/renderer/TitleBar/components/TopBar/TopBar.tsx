@@ -361,7 +361,7 @@ export const TopBar: React.FC = () => {
                     id="TopBar__tab-renaming"
                   />
                 ) : (
-                  `${t.label} (${t.windowsCount || '?'})`
+                  `${t.label} (${t.windowsCount || '0'})`
                 )}
               </div>
 
