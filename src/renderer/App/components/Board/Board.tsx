@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
@@ -22,6 +23,7 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
   const dispatch = useAppDispatch();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>([]);
+  const [maxHeight, setMaxHeight] = useState<number>(3000);
   const helpers = useStoreHelpers();
 
   const makeBrowsers = useCallback((sorted: BrowserProps[]) => {
@@ -49,6 +51,12 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
       return a.id > b.id ? 1 : -1;
     });
     setItems(sorted);
+
+    const max = board.browsers.reduce(
+      (acc, val) => Math.max(acc, val.top + val.height + 100),
+      0
+    );
+    setMaxHeight(max);
   }, [board.browsers]);
 
   useEffect(() => {
@@ -72,6 +80,13 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
     }, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    // @ts-ignore
+    document.querySelector('#Board__container').style.height = `${
+      Number(maxHeight) + 100
+    }px`;
+  }, [maxHeight]);
 
   useEffect(() => {
     document

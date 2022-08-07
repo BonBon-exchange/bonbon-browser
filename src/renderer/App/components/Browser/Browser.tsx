@@ -43,6 +43,7 @@ export const Browser: React.FC<BrowserProps> = ({
   certificateErrorFingerprint,
   webContentsId,
   isSearching,
+  capture,
 }) => {
   const dispatch = useAppDispatch();
   const {
@@ -69,6 +70,7 @@ export const Browser: React.FC<BrowserProps> = ({
   );
   const blockScrollTimer = useRef<any>(null);
   const webviewRef = useRef<Electron.WebviewTag>(null);
+  const [lastScreenshot, setLastScreenshot] = useState<number>(0);
   useBrowserEvents(id);
 
   const edgeLeft = document.querySelector('.Board__edge-snap-left');
@@ -279,12 +281,22 @@ export const Browser: React.FC<BrowserProps> = ({
   };
 
   const scrollListener = useCallback(() => {
+    const timestamp = new Date().getTime();
     if (scrollY) window.scrollTo(0, scrollY);
-  }, [scrollY]);
+    if (
+      window.scrollY < top &&
+      window.scrollY + window.innerHeight > top + height &&
+      timestamp - lastScreenshot > 1000 &&
+      (!capture || capture.length < 150)
+    ) {
+      helpers.browser.requestCapture(id);
+      setLastScreenshot(timestamp);
+    }
+  }, [scrollY, height, top, helpers.browser, id, lastScreenshot, capture]);
 
   useEffect(() => {
-    if (id === board.activeBrowser) setHasBeenActive(true);
-  }, [board.activeBrowser, id]);
+    if (id === board.activeBrowser || !board.isFullSize) setHasBeenActive(true);
+  }, [board.activeBrowser, id, board.isFullSize]);
 
   useEffect(() => {
     if (firstRenderingState) {

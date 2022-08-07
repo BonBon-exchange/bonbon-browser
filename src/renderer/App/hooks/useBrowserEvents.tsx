@@ -140,6 +140,8 @@ export const useBrowserEvents = (browserId: string) => {
               params: { webContentsId: e.args[0].webContentsId },
             })
           );
+
+          helpers.browser.requestCapture(browserId);
           break;
 
         case 'install-extension':
@@ -147,7 +149,7 @@ export const useBrowserEvents = (browserId: string) => {
           break;
       }
     },
-    [browserId, dispatch, bringBrowserToTheFront]
+    [browserId, dispatch, bringBrowserToTheFront, helpers.browser]
   );
 
   const loadCommitListener = useCallback(
@@ -202,12 +204,12 @@ export const useBrowserEvents = (browserId: string) => {
       }
     },
     [
-      browserId,
-      dispatch,
-      webview,
-      helpers.browser,
       browser?.url,
       browser?.isLoading,
+      webview,
+      dispatch,
+      browserId,
+      helpers.browser,
     ]
   );
 
