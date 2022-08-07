@@ -28,7 +28,7 @@ import { useBrowserMethods } from './useBrowserMethods';
 export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const dispatch = useAppDispatch();
   const board = useBoard();
-  const { focus, focusUrlBar } = useBrowserMethods();
+  const { focus, focusUrlBar, next } = useBrowserMethods();
   const { t } = useTranslation();
 
   const boardContainer = document.getElementById('#Board__container');
@@ -155,8 +155,11 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const minBrowser = useCallback(
     (browserId: string) => {
       dispatch(minimizeBrowser(browserId));
+      setTimeout(() => {
+        if (next) focus(next);
+      }, 0);
     },
-    [dispatch]
+    [dispatch, focus, next]
   );
 
   const showBrowser = useCallback(
