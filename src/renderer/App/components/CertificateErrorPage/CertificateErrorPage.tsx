@@ -20,7 +20,7 @@ export const CertificateErrorPage: React.FC<CertificateErrorPageProps> = ({
 
   const handleContinue = () => {
     console.log(webContentsId, fingerprint);
-    window.app.browser.certificateErrorAnswser({
+    window.app.browser.certificateErrorAnswer({
       webContentsId,
       fingerprint,
       isTrusted: true,
@@ -40,7 +40,7 @@ export const CertificateErrorPage: React.FC<CertificateErrorPageProps> = ({
     <div className="CertificateErrorPage__container">
       <div className="CertificateErrorPage__message">
         {t(
-          'The cerficate for this page is incorrect. Visiting the website could be dangerous.'
+          'The certificate for this page is incorrect. Visiting the website could be dangerous.'
         )}
       </div>
       <div className="CertificateErrorPage__button">

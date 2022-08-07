@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/prefer-default-export */
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import './style.scss';
@@ -54,7 +54,7 @@ export const BrowsingSettings: React.FC = () => {
     });
   };
 
-  const updateBrowsingSettingSeachEngine = (value: string) => {
+  const updateBrowsingSettingSearchEngine = (value: string) => {
     setBrowsingSettingDefaultSearchEngine(value);
     window.app.config.set({
       key: 'browsing.searchEngine',
@@ -162,7 +162,7 @@ export const BrowsingSettings: React.FC = () => {
         </label>
         <select
           id="browsing-settings-default-search-engine"
-          onChange={(e) => updateBrowsingSettingSeachEngine(e.target.value)}
+          onChange={(e) => updateBrowsingSettingSearchEngine(e.target.value)}
           value={browsingSettingDefaultSearchEngine}
         >
           {searchEngines.map((se) => {

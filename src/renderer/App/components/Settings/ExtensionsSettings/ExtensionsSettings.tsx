@@ -2,14 +2,14 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/prefer-default-export */
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const ExtensionsSettings: React.FC = () => {
   const { t } = useTranslation();
   const [extForceUBlock, setForceUBlock] = useState<boolean>(false);
 
-  const udpateSetForceUBlock = (value: boolean) => {
+  const updateSetForceUBlock = (value: boolean) => {
     setForceUBlock(value);
     window.app.config.set({
       key: 'extensions.forceInstallUBlockOrigin',
@@ -31,7 +31,7 @@ export const ExtensionsSettings: React.FC = () => {
           type="checkbox"
           id="extensions-force-install-u-block"
           checked={extForceUBlock}
-          onChange={(e) => udpateSetForceUBlock(e.target.checked)}
+          onChange={(e) => updateSetForceUBlock(e.target.checked)}
         />
         <label htmlFor="extensions-force-install-u-block">
           {t('Force uBlockOrigin installation at startup')}

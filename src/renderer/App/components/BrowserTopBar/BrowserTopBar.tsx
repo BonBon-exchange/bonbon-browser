@@ -3,10 +3,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
-import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import MinimizeIcon from '@mui/icons-material/Minimize';
+import React from 'react';
 
 import loadingImg from 'renderer/App/svg/loading.svg';
 
@@ -16,7 +16,7 @@ import './style.scss';
 
 export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
   closeBrowser,
-  toggleFullsizeBrowser,
+  toggleFullSizeBrowser,
   minimizeBrowser,
   title,
   favicon,
@@ -26,7 +26,7 @@ export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
   return (
     <div
       className="BrowserTopBar__container"
-      onDoubleClick={toggleFullsizeBrowser}
+      onDoubleClick={toggleFullSizeBrowser}
       onClick={onClick}
     >
       {favicon && (
@@ -48,7 +48,7 @@ export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
         </div>
         <div
           className="BrowserTopBar__control-button"
-          onClick={toggleFullsizeBrowser}
+          onClick={toggleFullSizeBrowser}
           data-testid="toggle-enlarge-browser"
         >
           <CropSquareIcon />

@@ -4,25 +4,25 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
-import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Rnd } from 'react-rnd';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Rnd } from 'react-rnd';
 
-import { useBrowserEvents } from 'renderer/App/hooks/useBrowserEvents';
 import { BrowserControlBar } from 'renderer/App/components/BrowserControlBar';
 import { BrowserTopBar } from 'renderer/App/components/BrowserTopBar';
 import { CertificateErrorPage } from 'renderer/App/components/CertificateErrorPage';
 import { SearchForm } from 'renderer/App/components/SearchForm';
-import { useAppDispatch } from 'renderer/App/store/hooks';
-import {
-  updateBrowser,
-  toggleBoardFullSize,
-  setLastReiszedBrowserDimensions,
-} from 'renderer/App/store/reducers/Board';
 import { useBoard } from 'renderer/App/hooks/useBoard';
+import { useBrowserEvents } from 'renderer/App/hooks/useBrowserEvents';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
+import { useAppDispatch } from 'renderer/App/store/hooks';
+import {
+  setLastResizedBrowserDimensions,
+  toggleBoardFullSize,
+  updateBrowser,
+} from 'renderer/App/store/reducers/Board';
 
 import { BrowserProps } from './Types';
 
@@ -76,7 +76,7 @@ export const Browser: React.FC<BrowserProps> = ({
   const edgeMaximized = document.querySelector('.Board__edge-snap-maximized');
   const boardContainer = document.querySelector('#Board__container');
 
-  const toggleFullsizeBrowser = () => {
+  const toggleFullSizeBrowser = () => {
     dispatch(toggleBoardFullSize());
     setTimeout(() => focus(id), 0);
   };
@@ -164,7 +164,7 @@ export const Browser: React.FC<BrowserProps> = ({
             })
           );
           dispatch(
-            setLastReiszedBrowserDimensions([resizeWidth, resizeHeight])
+            setLastResizedBrowserDimensions([resizeWidth, resizeHeight])
           );
           break;
 
@@ -187,7 +187,7 @@ export const Browser: React.FC<BrowserProps> = ({
             })
           );
           dispatch(
-            setLastReiszedBrowserDimensions([resizeWidth, resizeHeight])
+            setLastResizedBrowserDimensions([resizeWidth, resizeHeight])
           );
           break;
 
@@ -195,7 +195,7 @@ export const Browser: React.FC<BrowserProps> = ({
           if (edgeTopValue <= 0 && scrollY !== null) {
             window.app.config.get('browsing.topEdge').then((res: unknown) => {
               if (res === 'maximize') {
-                toggleFullsizeBrowser();
+                toggleFullSizeBrowser();
                 focus(id, true);
               }
               if (res === 'fit') {
@@ -217,7 +217,7 @@ export const Browser: React.FC<BrowserProps> = ({
                   })
                 );
                 dispatch(
-                  setLastReiszedBrowserDimensions([resizeWidth, resizeHeight])
+                  setLastResizedBrowserDimensions([resizeWidth, resizeHeight])
                 );
               }
             });
@@ -265,7 +265,7 @@ export const Browser: React.FC<BrowserProps> = ({
       })
     );
     dispatch(
-      setLastReiszedBrowserDimensions([ref.offsetWidth, ref.offsetHeight])
+      setLastResizedBrowserDimensions([ref.offsetWidth, ref.offsetHeight])
     );
   };
 
@@ -402,7 +402,7 @@ export const Browser: React.FC<BrowserProps> = ({
         <BrowserTopBar
           closeBrowser={() => setTimeout(() => helpers.browser.close(id), 0)}
           minimizeBrowser={() => helpers.browser.minimize(id)}
-          toggleFullsizeBrowser={toggleFullsizeBrowser}
+          toggleFullSizeBrowser={toggleFullSizeBrowser}
           onClick={() => focus(id, true)}
           title={title}
           favicon={favicon}

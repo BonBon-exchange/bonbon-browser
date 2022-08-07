@@ -3,13 +3,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
-import { useState, useEffect } from 'react';
-import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DoneIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
-import { TextField, Chip } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { Chip, TextField } from '@mui/material';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import { useEffect, useState } from 'react';
 
 import { BookmarksItemProps, TagOptionType } from './Types';
 
@@ -27,15 +27,15 @@ export const BookmarksItem: React.FC<BookmarksItemProps> = ({
 
   const handleEditBookmark = () => setIsEditing(true);
   const handleSaveBookmark = () => {
-    const formatedBookmark = {
+    const formattedBookmark = {
       id: bookmark.id,
       name,
       url,
       tags: tags.map((tg) => (tg.inputValue ? tg.inputValue : tg.tag)),
     };
-    window.app.bookmark.editBookmark(formatedBookmark);
+    window.app.bookmark.editBookmark(formattedBookmark);
     setIsEditing(false);
-    replaceItem(formatedBookmark);
+    replaceItem(formattedBookmark);
   };
 
   const filter = createFilterOptions<TagOptionType>();

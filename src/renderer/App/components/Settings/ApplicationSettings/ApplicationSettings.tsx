@@ -2,14 +2,14 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/prefer-default-export */
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const ApplicationSettings: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [appSettingLaunch, setAppSettingLaunch] = useState<boolean>(false);
 
-  const udpateAppSettingLaunch = (value: boolean) => {
+  const updateAppSettingLaunch = (value: boolean) => {
     setAppSettingLaunch(value);
     window.app.config.set({
       key: 'application.launchAtStartup',
@@ -36,7 +36,7 @@ export const ApplicationSettings: React.FC = () => {
           type="checkbox"
           id="application-settings-launch-at-startup"
           checked={appSettingLaunch}
-          onChange={(e) => udpateAppSettingLaunch(e.target.checked)}
+          onChange={(e) => updateAppSettingLaunch(e.target.checked)}
         />
         <label htmlFor="application-settings-launch-at-startup">
           {t('Launch at startup')}
@@ -46,9 +46,9 @@ export const ApplicationSettings: React.FC = () => {
         </div>
       </div>
       <div className="Settings__item">
-        <label htmlFor="application-settigns-language">{t('Language')}:</label>
+        <label htmlFor="application-settings-language">{t('Language')}:</label>
         <select
-          id="application-settigns-language"
+          id="application-settings-language"
           value={i18n.language}
           onChange={(e) => updateLanguage(e.target.value)}
         >
