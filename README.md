@@ -50,20 +50,20 @@
 </details>
 
 <!-- ABOUT THE PROJECT -->
-## 🌍 About The Browser
-**BonBon Browser** is a lightweight and innovative browser. It is open source and available for Windows, macOS and Linux. It makes you appreciate your browsing experience, and offers privacy. We don’t collect any data.  Since the project is still in its early stages, we appreciate any feedback that you can offer us.
 
+## 🌍 About The Browser
+
+**BonBon Browser** is a lightweight and innovative browser. It is open source and available for Windows, macOS and Linux. It makes you appreciate your browsing experience, and offers privacy. We don’t collect any data. Since the project is still in its early stages, we appreciate any feedback that you can offer us.
 
 ## 😎 About The Project
 
-**BonBon** is a project that allows web users to obtain full control of their browsing data. Rather than accepting the inevitable theft of their data from Big Tech, BonBon's vision is to allow people the deserved freedom of controlling what happens to their data and not have it sold to big tech without their consent. 
+**BonBon** is a project that allows web users to obtain full control of their browsing data. Rather than accepting the inevitable theft of their data from Big Tech, BonBon's vision is to allow people the deserved freedom of controlling what happens to their data and not have it sold to big tech without their consent.
 
 Note that we use [Nucleus.sh](https://www.nucleus.sh/) to provide us analytics about app usage and app errors.
 
 [![Product Name Screen Shot][product-screenshot]](https://github.com/BonBon-exchange/bonbon-web-browser)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 ### 👁️‍ Communities
 
@@ -151,6 +151,16 @@ Don't forget to give the project a star! Thanks again!
 5. Open a Pull Request
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+### Recommended VSCode extensions
+
+Recommended VSCode extensions should be shown when you open the workspace for the first time.
+Otherwise use ctrl+shift+p (cmd+shift+p on Mac) and choose 'Extensions: Show Recommended Extensions'.
+
+Prettier is configured to format on save.
+Typos/spelling errors have a blue underline.
+
+For words that are not typos but have a blue underline, you can right click and choose 'Spelling > Add words to CSpell configuration'. If it is a non-English word choose 'Spelling > Ignore', this helps keep things tidy.
 
 <!-- LICENSE -->
 
