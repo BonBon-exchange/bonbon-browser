@@ -50,7 +50,6 @@
 </details>
 
 <!-- ABOUT THE PROJECT -->
-
 ## 🌍 About The Browser
 
 **BonBon Browser** is a lightweight and innovative browser. It is open source and available for Windows, macOS and Linux. It makes you appreciate your browsing experience, and offers privacy. We don’t collect any data. Since the project is still in its early stages, we appreciate any feedback that you can offer us.
