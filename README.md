@@ -160,7 +160,7 @@ Otherwise use ctrl+shift+p (cmd+shift+p on Mac) and choose 'Extensions: Show Rec
 Prettier is configured to format on save.
 Typos/spelling errors have a blue underline.
 
-For words that are not typos but have a blue underline, you can right click and choose 'Spelling > Add words to CSpell configuration'. If it is a non-English word choose 'Spelling > Ignore', this helps keep things tidy.
+For words that are not typos but have a blue underline, you can right click and choose 'Spelling > Add words to CSpell configuration'. If it is a non-English word (such a those in language folders) choose 'Spelling > Ignore', this helps keeps things separate and tidy.
 
 <!-- LICENSE -->
 
