@@ -3,28 +3,28 @@
 /* eslint-disable promise/no-callback-in-promise */
 /* eslint-disable promise/no-nesting */
 /* eslint-disable promise/always-return */
-import { app, session } from 'electron';
 import contextMenu from 'electron-context-menu';
-import Nucleus from 'nucleus-nodejs';
 import path from 'path';
+import { app, session } from 'electron';
+import Nucleus from 'nucleus-nodejs';
 import i18n from './i18n';
 
 import { event } from './analytics';
-import {
-  createWindow,
-  getMainWindow,
-  getSelectedView,
-  setBrowserViewBonds,
-} from './browser';
 import {
   getExtensionsObject,
   installAndLoadUserExtensions,
   makeChromeExtensionSupport,
 } from './extensions';
 import {
+  getMainWindow,
+  getSelectedView,
+  createWindow,
+  setBrowserViewBonds,
+} from './browser';
+import {
+  makeIpcMainEvents,
   getBrowsers,
   getCertificateErrorAuth,
-  makeIpcMainEvents,
 } from './ipcMainEvents';
 
 const downloadItemEventAction = (
@@ -70,12 +70,12 @@ const makeAppEvents = () => {
     });
 
     contents.on('will-attach-webview', (wawevent) => {
-      const pathToPreloadScript = app.isPackaged
+      const pathToPreloadScipt = app.isPackaged
         ? path.join(__dirname, '../../../assets/webview-preload.js')
         : path.join(__dirname, '../../assets/webview-preload.js');
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      wawevent.sender.session.setPreloads([`${pathToPreloadScript}`]);
+      wawevent.sender.session.setPreloads([`${pathToPreloadScipt}`]);
     });
 
     contents.on('did-attach-webview', (_daw, webContents) => {
