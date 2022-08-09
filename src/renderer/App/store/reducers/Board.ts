@@ -2,9 +2,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 } from 'uuid';
 
-import { BrowserProps } from 'renderer/App/components/Browser/Types';
-import { BoardType } from 'renderer/App/components/Board/Types';
 import { WritableDraft } from 'immer/dist/internal';
+import { BoardType } from 'renderer/App/components/Board/Types';
+import { BrowserProps } from 'renderer/App/components/Browser/Types';
 
 type UpdateBrowserType = {
   browserId: string;
@@ -247,7 +247,7 @@ export const boardSlice = createSlice({
       state.board.browsers[browserIndex].isSearching =
         !state.board.browsers[browserIndex].isSearching;
     },
-    setLastReiszedBrowserDimensions: (
+    setLastResizedBrowserDimensions: (
       state,
       action: PayloadAction<[number, number]>
     ) => {
@@ -276,7 +276,7 @@ export const {
   updateBrowserLoading,
   updateBrowserCertificateErrorFingerprint,
   toggleSearch,
-  setLastReiszedBrowserDimensions,
+  setLastResizedBrowserDimensions,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

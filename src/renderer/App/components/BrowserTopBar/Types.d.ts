@@ -1,7 +1,7 @@
 export interface BrowserTopBarProps {
   closeBrowser: () => void;
   minimizeBrowser: () => void;
-  toggleFullsizeBrowser: () => void;
+  toggleFullSizeBrowser: () => void;
   onClick: () => void;
   title?: string;
   favicon?: string;

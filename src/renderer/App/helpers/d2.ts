@@ -10,9 +10,9 @@ export const overlaps = (
   width: number,
   rect2: { x: number; y: number; width: number; height: number }
 ) => {
-  const isInHoriztonalBounds = x < rect2.x + rect2.width && x + width > rect2.x;
+  const isInHorizontalBounds = x < rect2.x + rect2.width && x + width > rect2.x;
   const isInVerticalBounds = y < rect2.y + rect2.height && y + height > rect2.y;
-  const isOverlapping = isInHoriztonalBounds && isInVerticalBounds;
+  const isOverlapping = isInHorizontalBounds && isInVerticalBounds;
   return isOverlapping;
 };
 

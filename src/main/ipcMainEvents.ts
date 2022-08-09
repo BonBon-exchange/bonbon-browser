@@ -1,25 +1,29 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/prefer-default-export */
+import AutoLaunch from 'easy-auto-launch';
 import {
   app,
   BrowserView,
+  BrowserWindow,
   ipcMain,
+  Menu,
   nativeTheme,
   shell,
   WebContents,
-  Menu,
-  BrowserWindow,
 } from 'electron';
-import AutoLaunch from 'easy-auto-launch';
 
-import {
-  getExtensionsObject,
-  getAllExtensions,
-  deleteExtension,
-  installExtension,
-} from './extensions';
 import { event } from './analytics';
+import {
+  editBookmark,
+  getAllBookmarks,
+  getBookmarksFromProvider,
+  getBookmarksProviders,
+  getBookmarksTags,
+  importBookmarks,
+  isBookmarked,
+  removeBookmark,
+} from './bookmarks';
 import {
   createBrowserView,
   getMainWindow,
@@ -27,19 +31,15 @@ import {
   setBrowserViewBonds,
   setSelectedView,
 } from './browser';
-import { getStore } from './store';
-import i18n from './i18n';
 import db from './db';
 import {
-  getBookmarksProviders,
-  getBookmarksFromProvider,
-  importBookmarks,
-  isBookmarked,
-  removeBookmark,
-  getAllBookmarks,
-  getBookmarksTags,
-  editBookmark,
-} from './bookmarks';
+  deleteExtension,
+  getAllExtensions,
+  getExtensionsObject,
+  installExtension,
+} from './extensions';
+import i18n from './i18n';
+import { getStore } from './store';
 
 const store = getStore();
 const views: Record<string, BrowserView> = {};
@@ -94,17 +94,17 @@ export const makeIpcMainEvents = (): void => {
     getMainWindow()?.setTopBrowserView(viewToShow);
     viewToShow.webContents.send('load-board', { boardId: args.tabId });
     viewToShow.webContents.on('dom-ready', () => {
-      const interv = setInterval(() => {
+      const interval = setInterval(() => {
         try {
           viewToShow.webContents.send('load-board', { boardId: args.tabId });
         } catch (e) {
           console.log(e);
-          clearInterval(interv);
+          clearInterval(interval);
         }
       }, 100);
 
       setTimeout(() => {
-        if (interv) clearInterval(interv);
+        if (interval) clearInterval(interval);
       }, 10000);
     });
     setSelectedView(viewToShow);
@@ -279,7 +279,7 @@ export const makeIpcMainEvents = (): void => {
     return getAllBookmarks();
   });
 
-  ipcMain.on('certificate-error-answser', (_e, args) => {
+  ipcMain.on('certificate-error-answer', (_e, args) => {
     if (args.isTrusted) {
       certificateErrorAuth.push({
         webContentsId: args.webContentsId,

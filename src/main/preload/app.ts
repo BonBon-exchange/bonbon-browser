@@ -56,11 +56,11 @@ contextBridge.exposeInMainWorld('app', {
     selectBrowserView: () => {
       ipcRenderer.send('select-browserView');
     },
-    certificateErrorAnswser: (args: {
+    certificateErrorAnswer: (args: {
       webContentsId: number;
       isTrusted: boolean;
     }) => {
-      ipcRenderer.send('certificate-error-answser', args);
+      ipcRenderer.send('certificate-error-answer', args);
     },
     requestCapture: (webContentsId: number) => {
       return ipcRenderer.invoke('request-capture', webContentsId);

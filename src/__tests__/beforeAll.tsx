@@ -26,7 +26,7 @@ export const mockWindow = () => {
       browser: {
         select: jest.fn(),
         selectBrowserView: jest.fn(),
-        certificateErrorAnswser: jest.fn(),
+        certificateErrorAnswer: jest.fn(),
         requestCapture: jest.fn(() => Promise.resolve()),
       },
       config: {

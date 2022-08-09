@@ -29,16 +29,24 @@ declare global {
       browser: {
         select: (webContentsId: number) => void;
         selectBrowserView: () => void;
-        certificateErrorAnswser: (args: { webContentsId: number, fingerprint: string, isTrusted: boolean }) => void;
+        certificateErrorAnswer: (args: {
+          webContentsId: number;
+          fingerprint: string;
+          isTrusted: boolean;
+        }) => void;
         requestCapture: (webContentsId: number) => Promise<string>;
       };
       config: {
         get: (key: string) => Promise<unknown>;
-        set: (args: {key: string, value: unknown}) => void;
-      }
+        set: (args: { key: string; value: unknown }) => void;
+      };
       download: {
         hideDownloadsPreview: () => void;
-        addDownload: (args: {savePath: string, filename: string, startTime: number}) => void;
+        addDownload: (args: {
+          savePath: string;
+          filename: string;
+          startTime: number;
+        }) => void;
         getAllDownloads: () => Promise<any>;
         clearDownloads: () => void;
         removeDownload: (id: number) => void;
@@ -49,7 +57,7 @@ declare global {
         installExtension: (id: string) => void;
       };
       history: {
-        addHistory: (args: {url: string, title: string}) => void;
+        addHistory: (args: { url: string; title: string }) => void;
         findInHistory: (str: string) => Promise<any>;
         removeHistory: (id: number) => void;
         clearHistory: () => void;
