@@ -24,16 +24,20 @@
 
   .Board__edge-snap-right {
     border: 5px dotted var(--color-text-primary);
-    top: 10px;
-    bottom: 10px;
-    right: 10px;
-    width: 25;
-    height: 25%;
+    // top: 10px;
+    // bottom: 10px;
+    // right: 10px;
     position: fixed;
     z-index: 99;
-    opacity: 0;
-    background: var(--color-background-primary);
+    top: calc(50vh - 6.25vh);
+		right: 0; 
+		width: 25vw;
+		height: 25vw;
+		border-radius: 15px;
+		background: var(--color-background-primary);
     transition: width 0.34s, height 0.2s, opacity 0.04s ease;
+    transform: translateX(0px) translateY(calc(-50vh + 6.25vh));
+    opacity: 0;
   }
 
   .Board__edge-snap-maximized {

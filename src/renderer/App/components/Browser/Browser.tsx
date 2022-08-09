@@ -90,6 +90,24 @@ export const Browser: React.FC<BrowserProps> = ({
     setTimeout(() => focus(id), 0);
   }, [dispatch, focus, id]);
 
+  const zoomEdgeClass = (edgeClass: Element | null) => {
+    // @ts-ignore
+    edgeClass.style.opacity = '0.3';
+    // @ts-ignore
+    edgeClass.style.height = '100vh';
+    // @ts-ignore
+    edgeClass.style.width = '50vw';
+  };
+
+  const resetEdgeClass = (edgeClass: Element | null) => {
+    // @ts-ignore
+    edgeClass.style.opacity = '0';
+    // @ts-ignore
+    edgeClass.style.height = '25vh';
+    // @ts-ignore
+    edgeClass.style.width = '25vw';
+  };
+
   const onDrag = (_e: any, d: { x: number; y: number }) => {
     if (boardContainer) {
       const edgeRightWidth = container.current?.clientWidth
@@ -106,20 +124,9 @@ export const Browser: React.FC<BrowserProps> = ({
         // edgeRight.style.visibility = 'visible';
       }
       if (d.x === edgeRightValue) {
-        // @ts-ignore
-        edgeRight.style.opacity = 0.3;
-        // @ts-ignore
-        edgeRight.style.width = '50%';
-        // @ts-ignore
-        edgeRight.style.height = '100%';
+        zoomEdgeClass(edgeRight);
       } else {
-        // @ts-ignore
-        edgeRight.style.opacity = 0;
-        // @ts-ignore
-        edgeRight.style.width = '25%';
-        // @ts-ignore
-        edgeRight.style.height = '25%';
-        // edgeRight.style.visibility = 'hidden';
+        resetEdgeClass(edgeRight);
       }
 
       if (d.y - window.scrollY <= 20) {
@@ -148,12 +155,7 @@ export const Browser: React.FC<BrowserProps> = ({
   const onDragStop = (_e: any, d: any) => {
     if (boardContainer) {
       const scrollTop = window.pageYOffset;
-      // @ts-ignore
-      edgeRight.style.opacity = 0;
-      // @ts-ignore
-      edgeRight.style.width = '25%';
-      // @ts-ignore
-      edgeRight.style.height = '25%';
+      resetEdgeClass(edgeRight);
       // @ts-ignore
       edgeLeft.style.display = 'none';
       // @ts-ignore
