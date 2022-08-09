@@ -14,18 +14,18 @@ import {
   createWindow,
   getMainWindow,
   getSelectedView,
-  setBrowserViewBonds
+  setBrowserViewBonds,
 } from './browser';
 import {
   getExtensionsObject,
   installAndLoadUserExtensions,
-  makeChromeExtensionSupport
+  makeChromeExtensionSupport,
 } from './extensions';
 import i18n from './i18n';
 import {
   getBrowsers,
   getCertificateErrorAuth,
-  makeIpcMainEvents
+  makeIpcMainEvents,
 } from './ipcMainEvents';
 
 const downloadItemEventAction = (
