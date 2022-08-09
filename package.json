@@ -259,6 +259,17 @@
     "portable": {
       "artifactName": "BonBon Browser - portable.exe"
     },
+    "protocols": [
+      {
+        "name": "BonBon",
+        "schemes": [
+          "https",
+          "http",
+          "bonbon"
+        ],
+        "role": "Shell"
+      }
+    ],
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {
       "target": {

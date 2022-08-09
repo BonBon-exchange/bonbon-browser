@@ -27,6 +27,7 @@ import {
   getCertificateErrorAuth,
   makeIpcMainEvents,
 } from './ipcMainEvents';
+import { isValidUrl } from './util';
 
 const downloadItemEventAction = (
   item: Electron.DownloadItem,
@@ -45,18 +46,6 @@ const downloadItemEventAction = (
   }
 };
 
-export const isValidHttpUrl = (s: string) => {
-  let url;
-
-  try {
-    url = new URL(s);
-  } catch (_) {
-    return false;
-  }
-
-  return url.protocol === 'http:' || url.protocol === 'https:';
-};
-
 const makeAppEvents = () => {
   const gotTheLock = app.requestSingleInstanceLock();
 
@@ -64,7 +53,7 @@ const makeAppEvents = () => {
 
   app.on('second-instance', (_e, argv) => {
     const mainWindow = getMainWindow();
-    if (argv.length > 0 && isValidHttpUrl(argv[argv.length - 1])) {
+    if (argv.length > 0 && isValidUrl(argv[argv.length - 1])) {
       const selectedView = getSelectedView();
       selectedView?.webContents.send('new-window', {
         url: argv[argv.length - 1],
@@ -74,6 +63,16 @@ const makeAppEvents = () => {
         if (mainWindow.isMinimized()) mainWindow.restore();
         mainWindow.focus();
       }
+    }
+  });
+
+  app.on('open-url', (_e, url) => {
+    const mainWindow = getMainWindow();
+    const selectedView = getSelectedView();
+    if (isValidUrl(url)) selectedView?.webContents.send('new-window', { url });
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
     }
   });
 
