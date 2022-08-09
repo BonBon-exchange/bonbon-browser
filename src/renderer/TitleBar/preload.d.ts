@@ -30,6 +30,7 @@ declare global {
         downloadState: (action: unknown) => void;
         removeExtension: (action: unknown) => void;
         hideDownloadsPreview: (action: unknown) => void;
+        appClicked: (action: unknown) => void;
       };
       off: {
         openTab: () => void;
@@ -44,6 +45,7 @@ declare global {
         downloadState: () => void;
         removeExtension: () => void;
         hideDownloadsPreview: () => void;
+        appClicked: () => void;
       };
       tabs: {
         select: (tabId: string) => void;

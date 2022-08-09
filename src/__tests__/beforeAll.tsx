@@ -89,6 +89,7 @@ export const mockWindow = () => {
         showItemInFolder: jest.fn(),
         showTabContextMenu: jest.fn(),
         showBoardContextMenu: jest.fn(),
+        clicked: jest.fn(),
       },
     },
   });

@@ -528,4 +528,8 @@ export const makeIpcMainEvents = (): void => {
       }
     });
   });
+
+  ipcMain.on('app-clicked', () => {
+    getMainWindow()?.webContents.send('app-clicked');
+  });
 };
