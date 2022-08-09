@@ -7,9 +7,9 @@ import { app, session } from 'electron';
 import contextMenu from 'electron-context-menu';
 import Nucleus from 'nucleus-nodejs';
 import path from 'path';
-import i18n from './i18n';
 
 import { event } from './analytics';
+import { makeAssociation } from './association';
 import {
   createWindow,
   getMainWindow,
@@ -21,11 +21,13 @@ import {
   installAndLoadUserExtensions,
   makeChromeExtensionSupport,
 } from './extensions';
+import i18n from './i18n';
 import {
   getBrowsers,
   getCertificateErrorAuth,
   makeIpcMainEvents,
 } from './ipcMainEvents';
+import { isValidUrl } from './util';
 
 const downloadItemEventAction = (
   item: Electron.DownloadItem,
@@ -45,6 +47,35 @@ const downloadItemEventAction = (
 };
 
 const makeAppEvents = () => {
+  const gotTheLock = app.requestSingleInstanceLock();
+
+  if (!gotTheLock) app.quit();
+
+  app.on('second-instance', (_e, argv) => {
+    const mainWindow = getMainWindow();
+    if (argv.length > 0 && isValidUrl(argv[argv.length - 1])) {
+      const selectedView = getSelectedView();
+      selectedView?.webContents.send('new-window', {
+        url: argv[argv.length - 1],
+      });
+
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) mainWindow.restore();
+        mainWindow.focus();
+      }
+    }
+  });
+
+  app.on('open-url', (_e, url) => {
+    const mainWindow = getMainWindow();
+    const selectedView = getSelectedView();
+    if (isValidUrl(url)) selectedView?.webContents.send('new-window', { url });
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+  });
+
   app.on('window-all-closed', () => {
     event('close_app');
     app.quit();
@@ -151,6 +182,7 @@ app
   .whenReady()
   .then(() => {
     Nucleus.appStarted();
+    makeAssociation();
     makeChromeExtensionSupport();
     makeIpcMainEvents();
     makeAppEvents();

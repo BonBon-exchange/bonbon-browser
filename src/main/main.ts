@@ -7,11 +7,12 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import Nucleus from 'nucleus-nodejs';
 import { app } from 'electron';
 import { machineIdSync } from 'node-machine-id';
+import Nucleus from 'nucleus-nodejs';
 
 import './appEvents';
+import './logger';
 
 const machineId = machineIdSync();
 const appVersion = app.getVersion();

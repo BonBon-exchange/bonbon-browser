@@ -59,3 +59,19 @@ export const getPath = () => {
   const savePath = app.getPath('userData');
   return path.resolve(`${savePath}/extensions`);
 };
+
+export const isValidHttpUrl = (s: string): boolean => {
+  let url;
+
+  try {
+    url = new URL(s);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === 'http:' || url.protocol === 'https:';
+};
+
+export const isValidUrl = (s: string): boolean => {
+  return s.toLowerCase().indexOf('bonbon://') === 0 || isValidHttpUrl(s);
+};
