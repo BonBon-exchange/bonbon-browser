@@ -102,13 +102,24 @@ export const Browser: React.FC<BrowserProps> = ({
       } else {
         // @ts-ignore
         edgeLeft.style.display = 'none';
+        // @ts-ignore
+        // edgeRight.style.visibility = 'visible';
       }
       if (d.x === edgeRightValue) {
         // @ts-ignore
-        edgeRight.style.display = 'block';
+        edgeRight.style.opacity = 0.3;
+        // @ts-ignore
+        edgeRight.style.width = '50%';
+        // @ts-ignore
+        edgeRight.style.height = '100%';
       } else {
         // @ts-ignore
-        edgeRight.style.display = 'none';
+        edgeRight.style.opacity = 0;
+        // @ts-ignore
+        edgeRight.style.width = '25%';
+        // @ts-ignore
+        edgeRight.style.height = '25%';
+        // edgeRight.style.visibility = 'hidden';
       }
 
       if (d.y - window.scrollY <= 20) {
@@ -138,7 +149,11 @@ export const Browser: React.FC<BrowserProps> = ({
     if (boardContainer) {
       const scrollTop = window.pageYOffset;
       // @ts-ignore
-      edgeRight.style.display = 'none';
+      edgeRight.style.opacity = 0;
+      // @ts-ignore
+      edgeRight.style.width = '25%';
+      // @ts-ignore
+      edgeRight.style.height = '25%';
       // @ts-ignore
       edgeLeft.style.display = 'none';
       // @ts-ignore
