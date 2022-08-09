@@ -2,16 +2,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
-import React, { useEffect, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { AnimatePresence } from 'framer-motion';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { Browser } from 'renderer/App/components/Browser';
+import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { useAppDispatch } from 'renderer/App/store/hooks';
-import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { setActiveBrowser } from 'renderer/App/store/reducers/Board';
 
 import { BoardProps } from './Types';
