@@ -48,6 +48,9 @@ contextBridge.exposeInMainWorld('app', {
     removeBookmark: (url: string) => {
       ipcRenderer.send('remove-bookmark', url);
     },
+    getAllBookmarks: () => {
+      return ipcRenderer.invoke('get-all-bookmarks');
+    },
   },
   browser: {
     select: (webContentsId: number) => {
@@ -74,9 +77,6 @@ contextBridge.exposeInMainWorld('app', {
   download: {
     removeDownload: (id: number) => {
       ipcRenderer.send('remove-download', id);
-    },
-    getAllBookmarks: () => {
-      return ipcRenderer.invoke('get-all-bookmarks');
     },
     addDownload: (args: { savePath: string; filename: string }) => {
       ipcRenderer.send('add-download', args);
