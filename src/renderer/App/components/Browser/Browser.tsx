@@ -94,7 +94,7 @@ export const Browser: React.FC<BrowserProps> = ({
     // @ts-ignore
     edgeClass.style.opacity = '0.3';
     // @ts-ignore
-    edgeClass.style.height = '100vh';
+    edgeClass.style.height = 'calc(100vh - 10px)';
     // @ts-ignore
     edgeClass.style.width = '50vw';
   };
