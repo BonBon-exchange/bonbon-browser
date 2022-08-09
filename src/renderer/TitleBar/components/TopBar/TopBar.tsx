@@ -28,7 +28,7 @@ import {
   TabProps,
   setTabs,
 } from 'renderer/TitleBar/store/reducers/Tabs';
-import { AppControls } from '../AppControls';
+import { AppControls } from 'renderer/TitleBar/components/AppControls';
 
 import './style.scss';
 import { DownloadState } from './Types';
@@ -209,6 +209,10 @@ export const TopBar: React.FC = () => {
     dispatch(setTabs(newOrder));
   };
 
+  const appClickedListener = useCallback(() => {
+    dispatch(setIsRenaming(null));
+  }, [dispatch]);
+
   useEffect(() => {
     // @ts-ignore
     window.document.querySelector('body').className = window.matchMedia(
@@ -302,6 +306,11 @@ export const TopBar: React.FC = () => {
   }, [hideDownloadsPreviewListener]);
 
   useEffect(() => {
+    window.titleBar.listener.appClicked(appClickedListener);
+    return () => window.titleBar.off.appClicked();
+  }, [appClickedListener]);
+
+  useEffect(() => {
     if (tabs.length === 0) pushTab({});
   }, [tabs, pushTab]);
 
@@ -364,9 +373,10 @@ export const TopBar: React.FC = () => {
                   `${t.label} (${t.windowsCount || '0'})`
                 )}
               </div>
-
               <div className="TopBar__closeTab">
-                <CloseIcon onClick={() => handleCloseTab(t.id)} />
+                {isRenaming === null && (
+                  <CloseIcon onClick={() => handleCloseTab(t.id)} />
+                )}
               </div>
             </Reorder.Item>
           );

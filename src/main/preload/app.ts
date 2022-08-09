@@ -244,5 +244,8 @@ contextBridge.exposeInMainWorld('app', {
     showBoardContextMenu: (params: { x: number; y: number }) => {
       ipcRenderer.send('show-board-context-menu', params);
     },
+    clicked: () => {
+      ipcRenderer.send('app-clicked');
+    },
   },
 });

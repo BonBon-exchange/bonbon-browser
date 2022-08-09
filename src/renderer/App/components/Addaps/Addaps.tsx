@@ -70,6 +70,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   const windowClickListener = () => {
     setShowAppMenu(false);
     setShowDownloadsPreview(false);
+    window.app.tools.clicked();
   };
 
   const minimapMouseEnterListener = () => {

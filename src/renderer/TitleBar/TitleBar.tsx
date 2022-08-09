@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -11,15 +11,18 @@ import 'renderer/TitleBar/style/dark.css';
 import 'renderer/TitleBar/style/light.css';
 
 export const TitleBar: React.FC = () => {
-  useEffect(() => {
-    window.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      const target = e.target as HTMLDivElement;
+  const contextMenuListener = useCallback((e: MouseEvent) => {
+    e.preventDefault();
+    const target = e.target as HTMLDivElement;
 
-      if (target.className.includes && target.className.includes('TopBar__tab'))
-        window.titleBar.app.showTabContextMenu({ x: e.clientX, y: e.clientY });
-    });
+    if (target.className.includes && target.className.includes('TopBar__tab'))
+      window.titleBar.app.showTabContextMenu({ x: e.clientX, y: e.clientY });
   }, []);
+
+  useEffect(() => {
+    window.addEventListener('contextmenu', contextMenuListener);
+    return () => window.removeEventListener('contextmenu', contextMenuListener);
+  }, [contextMenuListener]);
 
   return (
     <Provider store={store}>

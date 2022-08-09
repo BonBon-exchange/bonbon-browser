@@ -106,6 +106,11 @@ contextBridge.exposeInMainWorld('titleBar', {
     ) => {
       ipcRenderer.on('hide-downloads-preview', action);
     },
+    appClicked: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('app-clicked', action);
+    },
   },
   off: {
     openTab: () => {
@@ -143,6 +148,9 @@ contextBridge.exposeInMainWorld('titleBar', {
     },
     hideDownloadsPreview: () => {
       ipcRenderer.removeAllListeners('hide-downloads-preview');
+    },
+    appClicked: () => {
+      ipcRenderer.removeAllListeners('app-clicked');
     },
   },
   screens: {

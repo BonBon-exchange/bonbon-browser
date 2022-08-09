@@ -106,6 +106,7 @@ declare global {
         showItemInFolder: (filepath: string) => void;
         showLeftbarContextMenu: (params: { x: number; y: number }) => void;
         showBoardContextMenu: (params: { x: number; y: number }) => void;
+        clicked: () => void;
       };
     };
   }
