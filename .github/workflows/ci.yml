@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [windows-latest]
 
     steps:
       - name: Check out Git repository
@@ -20,10 +20,10 @@ jobs:
         with:
           node-version: 16
           cache: npm
-      
+
       - name: Install dependencies
         run: npm ci
-  
+
       - name: Check types
         run: npm exec tsc
 
@@ -31,39 +31,7 @@ jobs:
         run: npm run lint
 
       - name: Compile
-        run:
-          npm run build
+        run: npm run build
 
       - name: Check tests
         run: npm run test
-
-      - name: Package
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm exec electron-builder build --publish=never
-
-      - if: matrix.os == 'ubuntu-latest'
-        name: Ubuntu release
-        uses: actions/upload-artifact@v3
-        with:
-          name: BonBon-linux
-          path: |
-            release/build/*-latest.yml
-            release/build/BonBon-*.*.*.AppImage
-      - if: matrix.os == 'macos-latest'
-        name: MacOS release
-        uses: actions/upload-artifact@v3
-        with:
-          name: BonBon-macos
-          path: |
-            release/build/*-latest.yml
-            release/build/BonBon-*.*.*-arm64.dmg
-            release/build/BonBon-*.*.*.dmg
-      - if: matrix.os == 'windows-latest'
-        name: BonBon-windows
-        uses: actions/upload-artifact@v3
-        with:
-          name: Windows exe
-          path: |
-            release/build/*-latest.yml
-            release/build/BonBon Setup *.*.*.exe
