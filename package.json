@@ -133,6 +133,7 @@
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
     "@reduxjs/toolkit": "^1.8.2",
+    "@sentry/electron": "^3.0.7",
     "clsx": "^1.1.1",
     "easy-auto-launch": "^6.0.2",
     "electron-chrome-extensions": "^3.9.0",
