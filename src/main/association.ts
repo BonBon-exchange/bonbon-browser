@@ -3,6 +3,7 @@ import { app } from 'electron';
 import { Registry } from 'rage-edit';
 
 export const makeAssociation = () => {
+  if (!app.isPackaged) return;
   app.setAsDefaultProtocolClient('http');
   app.setAsDefaultProtocolClient('https');
   app.setAsDefaultProtocolClient('bonbon');
