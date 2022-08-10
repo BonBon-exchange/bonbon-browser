@@ -34,6 +34,7 @@
     transition: width 0.24s, height 0.2s, opacity 0.04s ease;
     transform: translateX(0px) translateY(calc(-50vh + 6.25vh - 10px));
     opacity: 0;
+    pointer-events: none;
   }
 
   .Board__edge-snap-maximized {
