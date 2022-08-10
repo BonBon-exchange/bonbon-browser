@@ -90,6 +90,24 @@ export const Browser: React.FC<BrowserProps> = ({
     setTimeout(() => focus(id), 0);
   }, [dispatch, focus, id]);
 
+  const zoomEdgeClass = (edgeClass: Element | null, max = false) => {
+    // @ts-ignore
+    edgeClass.style.opacity = '0.3';
+    // @ts-ignore
+    edgeClass.style.height = 'calc(100vh - 30px)';
+    // @ts-ignore
+    edgeClass.style.width = max ? 'calc(94vw + 5px)' : '47vw';
+  };
+
+  const resetEdgeClass = (edgeClass: Element | null) => {
+    // @ts-ignore
+    edgeClass.style.opacity = '0';
+    // @ts-ignore
+    edgeClass.style.height = '25vh';
+    // @ts-ignore
+    edgeClass.style.width = '25vw';
+  };
+
   const onDrag = (_e: any, d: { x: number; y: number }) => {
     if (boardContainer) {
       const edgeRightWidth = container.current?.clientWidth
@@ -97,35 +115,28 @@ export const Browser: React.FC<BrowserProps> = ({
         : 0;
       const edgeRightValue = boardContainer?.clientWidth - edgeRightWidth - 2;
       if (d.x === 0) {
-        // @ts-ignore
-        edgeLeft.style.display = 'block';
+        zoomEdgeClass(edgeLeft);
       } else {
-        // @ts-ignore
-        edgeLeft.style.display = 'none';
+        resetEdgeClass(edgeLeft);
       }
       if (d.x === edgeRightValue) {
-        // @ts-ignore
-        edgeRight.style.display = 'block';
+        zoomEdgeClass(edgeRight);
       } else {
-        // @ts-ignore
-        edgeRight.style.display = 'none';
+        resetEdgeClass(edgeRight);
       }
 
       if (d.y - window.scrollY <= 20) {
         if (!blockScrollTimer.current) {
-          // @ts-ignore
-          edgeMaximized.style.display = 'block';
+          zoomEdgeClass(edgeMaximized, true);
           setScrollY(window.scrollY);
           blockScrollTimer.current = setTimeout(() => {
             setScrollY(null);
             blockScrollTimer.current = null;
-            // @ts-ignore
-            edgeMaximized.style.display = 'none';
+            resetEdgeClass(edgeMaximized);
           }, 1000);
         }
       } else {
-        // @ts-ignore
-        edgeMaximized.style.display = 'none';
+        resetEdgeClass(edgeMaximized);
       }
     }
   };
@@ -137,12 +148,9 @@ export const Browser: React.FC<BrowserProps> = ({
   const onDragStop = (_e: any, d: any) => {
     if (boardContainer) {
       const scrollTop = window.pageYOffset;
-      // @ts-ignore
-      edgeRight.style.display = 'none';
-      // @ts-ignore
-      edgeLeft.style.display = 'none';
-      // @ts-ignore
-      edgeMaximized.style.display = 'none';
+      resetEdgeClass(edgeRight);
+      resetEdgeClass(edgeLeft);
+      resetEdgeClass(edgeMaximized);
 
       const edgeRightWidth = container.current?.clientWidth
         ? container.current?.clientWidth
