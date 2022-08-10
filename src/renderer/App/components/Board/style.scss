@@ -17,7 +17,6 @@
 		border-radius: 25px;
 		background: var(--color-background-primary);
     transition: width 0.24s, height 0.2s, opacity 0.04s ease;
-    transform: translateX(0px) translateY(calc(-50vh + 6.25vh - 10px));
     opacity: 0;
     pointer-events: none;
   }
@@ -25,21 +24,11 @@
   .Board__edge-snap-left, 
   .Board__edge-snap-right {
     top: calc(50vh - 6.25vh + 20px);
+    transform: translateX(0px) translateY(calc(-50vh + 6.25vh - 10px));
   }
 
   .Board__edge-snap-left {
-    border: 5px dotted var(--color-text-primary);
     left: 60px;
-    top: 10px;
-    bottom: 10px;
-    right: calc(50% + 30px);
-    height: calc(100% - 20px);
-    position: fixed;
-    pointer-events: visible;
-    display: none;
-    background: var(--color-background-primary);
-    z-index: 99;
-    opacity: 0.3;
   }
 
   .Board__edge-snap-right {
@@ -47,16 +36,8 @@
   }
 
   .Board__edge-snap-maximized {
-    border: 5px dotted var(--color-text-primary);
     left: 60px;
     top: 10px;
-    bottom: 10px;
-    right: 10px;
-    position: fixed;
-    display: none;
-    z-index: 99;
-    opacity: 0.3;
-    background: var(--color-background-primary);
   }
 }
 
