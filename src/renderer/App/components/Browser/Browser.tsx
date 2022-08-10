@@ -6,7 +6,13 @@
 /* eslint-disable no-use-before-define */
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from 'react';
 import { Rnd } from 'react-rnd';
 
 import { BrowserControlBar } from 'renderer/App/components/BrowserControlBar';
@@ -69,6 +75,7 @@ export const Browser: React.FC<BrowserProps> = ({
     board.activeBrowser === id
   );
   const blockScrollTimer = useRef<any>(null);
+  const rndRef = useRef<Rnd>(null);
   const webviewRef = useRef<Electron.WebviewTag>(null);
   const [lastScreenshot, setLastScreenshot] = useState<number>(0);
   useBrowserEvents(id);
@@ -78,10 +85,10 @@ export const Browser: React.FC<BrowserProps> = ({
   const edgeMaximized = document.querySelector('.Board__edge-snap-maximized');
   const boardContainer = document.querySelector('#Board__container');
 
-  const toggleFullSizeBrowser = () => {
+  const toggleFullSizeBrowser = useCallback(() => {
     dispatch(toggleBoardFullSize());
     setTimeout(() => focus(id), 0);
-  };
+  }, [dispatch, focus, id]);
 
   const onDrag = (_e: any, d: { x: number; y: number }) => {
     if (boardContainer) {
@@ -294,6 +301,62 @@ export const Browser: React.FC<BrowserProps> = ({
     }
   }, [scrollY, height, top, helpers.browser, id, lastScreenshot, capture]);
 
+  const makeBrowser = useMemo(() => {
+    return (
+      <motion.div
+        className="Browser__container"
+        ref={container}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <BrowserTopBar
+          closeBrowser={() => setTimeout(() => helpers.browser.close(id), 0)}
+          minimizeBrowser={() => helpers.browser.minimize(id)}
+          toggleFullSizeBrowser={toggleFullSizeBrowser}
+          onClick={() => focus(id, true)}
+          title={title}
+          favicon={favicon}
+          isLoading={isLoading}
+        />
+        <BrowserControlBar url={url} browserId={id} />
+        <div className="Browser__webview-container">
+          {isSearching && <SearchForm browserId={id} />}
+          {certificateErrorFingerprint && webContentsId && (
+            <CertificateErrorPage
+              reload={reload}
+              webContentsId={webContentsId}
+              fingerprint={certificateErrorFingerprint}
+              browserId={id}
+            />
+          )}
+          <webview
+            // @ts-ignore
+            allowpopups="true"
+            src={hasBeenActive || !board.isFullSize ? renderedUrl : undefined}
+            partition="persist:user-partition"
+            ref={webviewRef}
+          />
+        </div>
+      </motion.div>
+    );
+  }, [
+    board.isFullSize,
+    certificateErrorFingerprint,
+    favicon,
+    focus,
+    hasBeenActive,
+    helpers.browser,
+    id,
+    isLoading,
+    isSearching,
+    renderedUrl,
+    title,
+    toggleFullSizeBrowser,
+    url,
+    webContentsId,
+  ]);
+
   useEffect(() => {
     if (id === board.activeBrowser || !board.isFullSize) setHasBeenActive(true);
   }, [board.activeBrowser, id, board.isFullSize]);
@@ -396,50 +459,16 @@ export const Browser: React.FC<BrowserProps> = ({
       className={clsx({
         'Browser__is-full-size': isFullSize,
         'Browser__is-minimized': isMinimized,
-        'Browser__display-none': board.isFullSize && id !== board.activeBrowser,
+        'Browser__display-none': isFullSize && id !== board.activeBrowser,
         'Browser__draggable-container': true,
       })}
-      disableDragging={board?.isFullSize}
-      enableResizing={board?.isFullSize ? {} : undefined}
+      disableDragging={isFullSize}
+      enableResizing={isFullSize ? {} : undefined}
       data-testid="browser-window"
       data-id={id}
+      ref={rndRef}
     >
-      <motion.div
-        className="Browser__container"
-        ref={container}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        <BrowserTopBar
-          closeBrowser={() => setTimeout(() => helpers.browser.close(id), 0)}
-          minimizeBrowser={() => helpers.browser.minimize(id)}
-          toggleFullSizeBrowser={toggleFullSizeBrowser}
-          onClick={() => focus(id, true)}
-          title={title}
-          favicon={favicon}
-          isLoading={isLoading}
-        />
-        <BrowserControlBar url={url} browserId={id} />
-        <div className="Browser__webview-container">
-          {isSearching && <SearchForm browserId={id} />}
-          {certificateErrorFingerprint && webContentsId && (
-            <CertificateErrorPage
-              reload={reload}
-              webContentsId={webContentsId}
-              fingerprint={certificateErrorFingerprint}
-              browserId={id}
-            />
-          )}
-          <webview
-            // @ts-ignore
-            allowpopups="true"
-            src={hasBeenActive || !board.isFullSize ? renderedUrl : undefined}
-            partition="persist:user-partition"
-            ref={webviewRef}
-          />
-        </div>
-      </motion.div>
+      {makeBrowser}
     </Rnd>
   );
 };
