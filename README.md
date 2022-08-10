@@ -27,7 +27,7 @@
 
 -----
 
-#+html: <div align="center"> <a href="https://bonbon.exchange">Homepage</a> | <a href="#-download">Downloads</a> | <a href="#-features">Features</a> | <a href="#-communities">Discord</a> | <a href="#-communities">Reddit</a> | <a href="#-communities">Telegram</a> </div>
+<div align="center"> <a href="https://bonbon.exchange">Homepage</a> | <a href="#-download">Downloads</a> | <a href="#-features">Features</a> | <a href="#-communities">Discord</a> | <a href="#-communities">Reddit</a> | <a href="#-communities">Telegram</a> </div>
 
 -----
 
