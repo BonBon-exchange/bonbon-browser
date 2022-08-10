@@ -104,19 +104,24 @@ Download BonBon for Linux: [BonBon Browser 0.30.5-beta-1 for Linux (AppImage)](h
 
 ### Collections
 The tabs at the top of the app are Collections. The classic tabs are represented by the website Favicon in the left bar of each collection.
-[Collections][collection-image]
+
+[![Collection][collection-image]]()
+
 
 ### Minimap
 On the right side of the screen, you will find the minimap. A representation of your collection. It's a quick and efficient way of scrolling.
-[Minimap][minimap-image]
+
+[![Minimap][minimap-image]]()
 
 ### Snap windows
 Snap your windows to the left, to the right or to the top, just by dragging it! So it perfectly fits your screen.
-[Snap][snap-image]
+
+[![Snap][snap-image]]()
 
 ### Extensions
 Install extensions from the Chrome Web Store, as simple as "Add to BonBon".
-[Extensions][extensions-image]
+
+[![Extensions][extensions-image]]()
 
 ### and more...
 
@@ -228,5 +233,5 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 [product-screenshot]: https://media.giphy.com/media/P9hq4y6F1ijINhE6kf/giphy.gif
 [collection-image]: https://github.com/BonBon-exchange/bonbon-web-browser/raw/main/images/collection.PNG
 [extensions-image]: https://github.com/BonBon-exchange/bonbon-web-browser/raw/main/images/extensions.PNG
-[minimap-image]: https://github.com/BonBon-exchange/bonbon-web-browser/raw/main/images/minimap.PNG
+[minimap-image]: https://github.com/BonBon-exchange/bonbon-web-browser/raw/main/images/minimap.png
 [snap-image]: https://github.com/BonBon-exchange/bonbon-web-browser/raw/main/images/snap.PNG
