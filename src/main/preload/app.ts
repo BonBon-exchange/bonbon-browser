@@ -1,4 +1,10 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import * as Sentry from '@sentry/electron/renderer';
+
+Sentry.init({
+  dsn: 'https://42d1a849a9ce4cc98d47a7cf45ddbef3@o1316624.ingest.sentry.io/6569337',
+  debug: true,
+});
 
 contextBridge.exposeInMainWorld('app', {
   analytics: {

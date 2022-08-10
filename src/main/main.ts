@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 /* eslint-disable global-require */
 /**
  * This module executes inside of electron's main process. You can start
@@ -10,6 +11,12 @@
 import { app } from 'electron';
 import { machineIdSync } from 'node-machine-id';
 import Nucleus from 'nucleus-nodejs';
+import { init } from '@sentry/electron';
+
+init({
+  dsn: 'https://42d1a849a9ce4cc98d47a7cf45ddbef3@o1316624.ingest.sentry.io/6569337',
+  debug: true,
+});
 
 import './appEvents';
 import './logger';
