@@ -69,7 +69,9 @@ describe('Minimap', () => {
     );
 
     setTimeout(() => {
-      expect(container.getElementsByClassName('Minimap__window').length).toBe(1);
+      expect(container.getElementsByClassName('Minimap__window').length).toBe(
+        1
+      );
     }, 0);
   });
 
