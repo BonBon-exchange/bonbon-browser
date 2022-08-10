@@ -23,8 +23,7 @@
 
   .Board__edge-snap-left, 
   .Board__edge-snap-right {
-    top: calc(50vh - 6.25vh + 20px);
-    transform: translateX(0px) translateY(calc(-50vh + 6.25vh - 10px));
+    top: 10px;
   }
 
   .Board__edge-snap-left {
