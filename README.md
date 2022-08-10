@@ -85,15 +85,15 @@ To stay up to date with the project, submit bugs, and submit features, please jo
 
 ## 🚀 Download
 
-Download BonBon for Windows: [BonBon Browser 0.30.4 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.4/BonBon-Setup-0.30.4.exe)
+Download BonBon for Windows: [BonBon Browser 0.30.5-beta-1 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.5-beta-1/BonBon-Setup-0.30.5-beta-1.exe)
 
-Download BonBon portable for Windows: [BonBon Browser portable 0.30.4 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.4/BonBon-Browser---portable.exe)
+Download BonBon portable for Windows: [BonBon Browser portable 0.30.5-beta-1 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.5-beta-1/BonBon-Browser---portable.exe)
 
-Download BonBon for macOS arm64: [BonBon Browser 0.30.4 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.4/BonBon-0.30.4-arm64.dmg)
+Download BonBon for macOS arm64: [BonBon Browser 0.30.5-beta-1 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.5-beta-1/BonBon-0.30.5-beta-1-arm64.dmg)
 
-Download BonBon for macOS: [BonBon Browser 0.30.4 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.4/BonBon-0.30.4.dmg)
+Download BonBon for macOS: [BonBon Browser 0.30.5-beta-1 for macOS](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.5-beta-1/BonBon-0.30.5-beta-1.dmg)
 
-Download BonBon for Linux: [BonBon Browser 0.30.4 for Linux (AppImage)](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.4/BonBon-0.30.4.AppImage)
+Download BonBon for Linux: [BonBon Browser 0.30.5-beta-1 for Linux (AppImage)](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.5-beta-1/BonBon-0.30.5-beta-1.AppImage)
 
 **Notes: the program is detected as potentially dangerous for the system, because it is not signed using a certificate. On Windows, to obtain this certificate, we need to have a registered company. It will be done by October 2022.**
 
