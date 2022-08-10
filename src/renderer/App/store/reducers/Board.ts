@@ -48,6 +48,7 @@ const newBoard = {
   activeBrowser: null,
   closedUrls: [],
   isFullSize: false,
+  browsersActivity: [],
 };
 
 export const initialState: BoardState = {
@@ -61,49 +62,88 @@ const addCLosedUrl = (state: WritableDraft<BoardState>, url: string) => {
   state.board.closedUrls.push(url);
 };
 
+const addBrowserActivity = (
+  state: WritableDraft<BoardState>,
+  browserId: string
+) => {
+  if (state.board.browsersActivity.length > 20) {
+    state.board.browsersActivity.splice(0, 1);
+  }
+  state.board.browsersActivity = state.board.browsersActivity.filter(
+    (b) => b !== browserId
+  );
+  state.board.browsersActivity.push(browserId);
+};
+
+const findAndSelectTabForExtensionsFromBrowserId = (
+  state: WritableDraft<BoardState>,
+  browserId: string
+): void => {
+  const wcId = state.board.browsers.find(
+    (b) => b.id === browserId
+  )?.webContentsId;
+  if (wcId) window.app.browser.select(wcId);
+};
+
+const setStateActiveBrowser = (
+  state: WritableDraft<BoardState>,
+  browserId: string
+): void => {
+  state.board.activeBrowser = browserId;
+  addBrowserActivity(state, browserId);
+  findAndSelectTabForExtensionsFromBrowserId(state, browserId);
+};
+
+const getBrowserIndexFromBrowserId = (
+  state: WritableDraft<BoardState>,
+  browserId: string
+): number => {
+  return state.board.browsers.findIndex((b) => b.id === browserId);
+};
+
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
   reducers: {
     setBoard: (state, action: PayloadAction<BoardType>) => {
       state.board = action.payload;
-      const finded = state.board.browsers.find(
+      const activeBrowser = state.board.browsers.find(
         (b) => b.id === state.board.activeBrowser
       );
-      if (!state.board.activeBrowser || !finded) {
+      if (!state.board.activeBrowser || !activeBrowser) {
         if (state.board.browsers.length > 0) {
-          state.board.activeBrowser =
-            state.board.browsers[state.board.browsers.length - 1].id;
+          setStateActiveBrowser(
+            state,
+            state.board.browsers[state.board.browsers.length - 1].id
+          );
         }
       }
-      const wcId = state.board.browsers.find(
-        (b) => b.id === state.board.activeBrowser
-      )?.webContentsId;
-      if (wcId) window.app.browser.select(wcId);
+      if (state.board.activeBrowser) {
+        findAndSelectTabForExtensionsFromBrowserId(
+          state,
+          state.board.activeBrowser
+        );
+      }
     },
     toggleBoardFullSize: (state) => {
       state.board.isFullSize = !state.board.isFullSize;
       window.app.analytics.event(`toggle_fullsize_${!state.board.isFullSize}`);
     },
     setActiveBrowser: (state, action: PayloadAction<string>) => {
-      state.board.activeBrowser = action.payload;
-
-      const wcId = state.board.browsers.find(
-        (b) => b.id === action.payload
-      )?.webContentsId;
-      if (wcId) window.app.browser.select(wcId);
+      setStateActiveBrowser(state, action.payload);
     },
     addBrowser: (state, action: PayloadAction<BrowserProps>) => {
       state.board.browsers.push(action.payload);
-      state.board.activeBrowser = action.payload.id;
+      setStateActiveBrowser(state, action.payload.id);
       window.app.analytics.event('add_browser');
     },
     setBrowsers: (state, action: PayloadAction<BrowserProps[]>) => {
       state.board.browsers = action.payload;
     },
     updateBrowser: (state, action: PayloadAction<UpdateBrowserType>) => {
-      const browserIndex = state.board.browsers.findIndex(
-        (b) => b.id === action.payload.browserId
+      const browserIndex = getBrowserIndexFromBrowserId(
+        state,
+        action.payload.browserId
       );
       if (browserIndex > -1) {
         state.board.browsers[browserIndex] = {
@@ -113,8 +153,9 @@ export const boardSlice = createSlice({
       }
     },
     updateBrowserUrl: (state, action: PayloadAction<UpdateBrowserUrlType>) => {
-      const browserIndex = state.board.browsers.findIndex(
-        (b) => b.id === action.payload.browserId
+      const browserIndex = getBrowserIndexFromBrowserId(
+        state,
+        action.payload.browserId
       );
       if (browserIndex > -1) {
         state.board.browsers[browserIndex].url = action.payload.url;
@@ -124,8 +165,9 @@ export const boardSlice = createSlice({
       state,
       action: PayloadAction<UpdateBrowserLoadingType>
     ) => {
-      const browserIndex = state.board.browsers.findIndex(
-        (b) => b.id === action.payload.browserId
+      const browserIndex = getBrowserIndexFromBrowserId(
+        state,
+        action.payload.browserId
       );
       if (browserIndex > -1) {
         state.board.browsers[browserIndex].isLoading = action.payload.isLoading;
@@ -135,16 +177,18 @@ export const boardSlice = createSlice({
       state,
       action: PayloadAction<UpdateBrowserTitleType>
     ) => {
-      const browserIndex = state.board.browsers.findIndex(
-        (b) => b.id === action.payload.browserId
+      const browserIndex = getBrowserIndexFromBrowserId(
+        state,
+        action.payload.browserId
       );
       if (browserIndex > -1) {
         state.board.browsers[browserIndex].title = action.payload.title;
       }
     },
     updateBrowserFav: (state, action: PayloadAction<UpdateBrowserFavType>) => {
-      const browserIndex = state.board.browsers.findIndex(
-        (b) => b.id === action.payload.browserId
+      const browserIndex = getBrowserIndexFromBrowserId(
+        state,
+        action.payload.browserId
       );
       if (browserIndex > -1) {
         state.board.browsers[browserIndex].favicon = action.payload.favicon;
@@ -155,21 +199,16 @@ export const boardSlice = createSlice({
       window.app.analytics.event('rename_board');
     },
     minimizeBrowser: (state, action: PayloadAction<string>) => {
-      const browserIndex = state.board.browsers.findIndex(
-        (b) => b.id === action.payload
-      );
+      const browserIndex = getBrowserIndexFromBrowserId(state, action.payload);
       state.board.browsers[browserIndex].isMinimized = true;
     },
     unminimizeBrowser: (state, action: PayloadAction<string>) => {
-      const browserIndex = state.board.browsers.findIndex(
-        (b) => b.id === action.payload
-      );
+      const browserIndex = getBrowserIndexFromBrowserId(state, action.payload);
+
       state.board.browsers[browserIndex].isMinimized = false;
     },
     removeBrowser: (state, action: PayloadAction<string>) => {
-      const browserIndex = state.board.browsers.findIndex(
-        (b) => b.id === action.payload
-      );
+      const browserIndex = getBrowserIndexFromBrowserId(state, action.payload);
 
       // remove browser from state
       if (browserIndex > -1) {
@@ -180,41 +219,52 @@ export const boardSlice = createSlice({
           state.board.browsers[browserIndex].height,
         ];
         state.board.browsers.splice(browserIndex, 1);
+
+        // clean browsersActivity state
+        state.board.browsersActivity = state.board.browsersActivity.filter(
+          (b) => b !== action.payload
+        );
       }
 
       // clean activeBrowser
       if (state.board.activeBrowser === action.payload) {
         if (state.board.browsers.length > 0) {
-          state.board.browsers[browserIndex]
-            ? (state.board.activeBrowser =
-                state.board.browsers[browserIndex].id)
-            : (state.board.activeBrowser =
-                state.board.browsers[browserIndex - 1].id);
+          // state.board.browsers[browserIndex]
+          //   ? (state.board.activeBrowser =
+          //       state.board.browsers[browserIndex].id)
+          //   : (state.board.activeBrowser =
+          //       state.board.browsers[browserIndex - 1].id);
 
-          const wcId = state.board.browsers.find(
-            (b) => b.id === state.board.activeBrowser
-          )?.webContentsId;
-          if (wcId) window.app.browser.select(wcId);
+          setStateActiveBrowser(
+            state,
+            state.board.browsersActivity[
+              state.board.browsersActivity.length - 1
+            ]
+          );
         } else {
           state.board.activeBrowser = null;
           window.app.browser.selectBrowserView();
         }
       }
 
-      // send event
       window.app.analytics.event('close_browser');
     },
     removeAllBrowsersExcept: (state, action: PayloadAction<string>) => {
+      state.board.browsers
+        .filter((b) => b.id !== action.payload)
+        .forEach((b) => addCLosedUrl(state, b.url));
+
       state.board.browsers = state.board.browsers.filter(
         (b) => b.id === action.payload
       );
 
       // clean activeBrowser
-      state.board.activeBrowser = action.payload;
-      const wcId = state.board.browsers.find(
-        (b) => b.id === state.board.activeBrowser
-      )?.webContentsId;
-      if (wcId) window.app.browser.select(wcId);
+      setStateActiveBrowser(state, action.payload);
+
+      // clean browsersActivity state
+      state.board.browsersActivity = state.board.browsersActivity.filter(
+        (b) => b === action.payload
+      );
 
       // send event
       window.app.analytics.event('close_others_browser');
@@ -223,8 +273,9 @@ export const boardSlice = createSlice({
       state,
       action: PayloadAction<UpdateBrowserCertificateFingerprintType>
     ) => {
-      const browserIndex = state.board.browsers.findIndex(
-        (b) => b.id === action.payload.browserId
+      const browserIndex = getBrowserIndexFromBrowserId(
+        state,
+        action.payload.browserId
       );
       if (browserIndex > -1) {
         state.board.browsers[browserIndex].certificateErrorFingerprint =
@@ -235,15 +286,16 @@ export const boardSlice = createSlice({
       if (!state.board.closedUrls) state.board.closedUrls = [];
       state.board.browsers.forEach((b) => addCLosedUrl(state, b.url));
       state.board.browsers = [];
+      state.board.browsersActivity = [];
+      state.board.activeBrowser = null;
+      window.app.browser.selectBrowserView();
       window.app.analytics.event('close_all_browsers');
     },
-    removeLastCloseUrl: (state) => {
+    removeLastClosedUrl: (state) => {
       state.board.closedUrls.splice(state.board.closedUrls.length - 1, 1);
     },
     toggleSearch: (state, action: PayloadAction<string>) => {
-      const browserIndex = state.board.browsers.findIndex(
-        (b) => b.id === action.payload
-      );
+      const browserIndex = getBrowserIndexFromBrowserId(state, action.payload);
       state.board.browsers[browserIndex].isSearching =
         !state.board.browsers[browserIndex].isSearching;
     },
@@ -270,7 +322,7 @@ export const {
   updateBrowserTitle,
   updateBrowser,
   toggleBoardFullSize,
-  removeLastCloseUrl,
+  removeLastClosedUrl,
   setBrowsers,
   removeAllBrowsersExcept,
   updateBrowserLoading,

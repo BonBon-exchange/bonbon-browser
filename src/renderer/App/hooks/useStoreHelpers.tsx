@@ -16,7 +16,7 @@ import {
   removeBrowser,
   minimizeBrowser,
   unminimizeBrowser,
-  removeLastCloseUrl,
+  removeLastClosedUrl,
   toggleSearch,
   updateBrowser,
 } from 'renderer/App/store/reducers/Board';
@@ -128,6 +128,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         browsers: [newBrowser],
         closedUrls: [],
         isFullSize: false,
+        browsersActivity: [],
       };
 
       dispatch(setBoard(newBoard));
@@ -176,7 +177,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const reopenLastClosed = useCallback(() => {
     if (board.closedUrls.length > 0) {
       makeAndAddBrowser({ url: board.closedUrls[board.closedUrls.length - 1] });
-      dispatch(removeLastCloseUrl());
+      dispatch(removeLastClosedUrl());
     }
   }, [board.closedUrls, dispatch, makeAndAddBrowser]);
 
