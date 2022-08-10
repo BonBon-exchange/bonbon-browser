@@ -66,7 +66,7 @@
 
 ## 👉 Getting Started
 
-## 🚀 Download
+### 🚀 Download
 
 Download BonBon for Windows: [BonBon Browser 0.30.5-beta-1 for Windows](https://github.com/BonBon-exchange/bonbon-web-browser/releases/download/v0.30.5-beta-1/BonBon-Setup-0.30.5-beta-1.exe)
 
