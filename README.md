@@ -24,17 +24,18 @@
   </p>
 </div>
 
+
+-----
+
+#+html: <div align="center"> <a href="https://bonbon.exchange">Homepage</a> | <a href="#-download">Downloads</a> | <a href="#-features">Features</a> | <a href="#-communities">Discord</a> | <a href="#-communities">Reddit</a> | <a href="#-communities">Telegram</a> </div>
+
+-----
+
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#-about-the-project">About The Browser</a></li>
-    <li>
-      <a href="#-about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#-communities">Communities</a></li>
-      </ul>
-    </li>
     <li>
       <a href="#-getting-started">Getting Started</a>
       <ul>
@@ -44,6 +45,12 @@
     </li>
     <li><a href="#-features">Features</a></li>
     <li><a href="#-contributing">Contributing</a></li>
+    <li>
+      <a href="#-about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#-communities">Communities</a></li>
+      </ul>
+    </li>
     <li><a href="#-license">License</a></li>
     <li><a href="#-team">Team</a></li>
   </ol>
@@ -54,30 +61,6 @@
 ## 🌍 About The Browser
 
 **BonBon Browser** is a lightweight and innovative browser. It is open source and available for Windows, macOS and Linux. It makes you appreciate your browsing experience, and offers privacy. We don’t collect any data. Since the project is still in its early stages, we appreciate any feedback that you can offer us.
-
-## 😎 About The Project
-
-**BonBon** is a project that allows web users to obtain full control of their browsing data. Rather than accepting the inevitable theft of their data from Big Tech, BonBon's vision is to allow people the deserved freedom of controlling what happens to their data and not have it sold to big tech without their consent.
-
-Note that we use [Nucleus.sh](https://www.nucleus.sh/) to provide us analytics about app usage and app errors.
-
-[![Product Name Screen Shot][product-screenshot]](https://github.com/BonBon-exchange/bonbon-web-browser)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-### 👁️‍ Communities
-
-To stay up to date with the project, submit bugs, and submit features, please join:
-
-- Discord server: [https://discord.gg/hrpp8G9Fqs](https://discord.gg/hrpp8G9Fqs)
-
-- Subreddit: [https://www.reddit.com/r/bonbonbrowser](https://www.reddit.com/r/bonbonbrowser)
-
-- Telegram channel: [https://t.me/bonbonbrowser](https://t.me/bonbonbrowser)
-
-- Telegram chat: [https://t.me/bonbonbrowserchat](https://t.me/bonbonbrowserchat)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 
@@ -118,6 +101,24 @@ Download BonBon for Linux: [BonBon Browser 0.30.5-beta-1 for Linux (AppImage)](h
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## 🗝 Features
+
+### Collections
+The tabs at the top of the app are Collections. The classic tabs are represented by the website Favicon in the left bar of each collection.
+[Collections][collection-image]
+
+### Minimap
+On the right side of the screen, you will find the minimap. A representation of your collection. It's a quick and efficient way of scrolling.
+[Minimap][minimap-image]
+
+### Snap windows
+Snap your windows to the left, to the right or to the top, just by dragging it! So it perfectly fits your screen.
+[Snap][snap-image]
+
+### Extensions
+Install extensions from the Chrome Web Store, as simple as "Add to BonBon".
+[Extensions][extensions-image]
+
+### and more...
 
 - [x] Collections: create a composition of webviews
 - [x] Bookmarks
@@ -162,6 +163,30 @@ Typos/spelling errors have a blue underline.
 
 For words that are not typos but have a blue underline, you can right click and choose 'Spelling > Add words to CSpell configuration'. If it is a non-English word (such a those in language folders) choose 'Spelling > Ignore', this helps keeps things separate and tidy.
 
+## 😎 About The Project
+
+**BonBon** is a project that allows web users to obtain full control of their browsing data. Rather than accepting the inevitable theft of their data from Big Tech, BonBon's vision is to allow people the deserved freedom of controlling what happens to their data and not have it sold to big tech without their consent.
+
+Note that we use [Nucleus.sh](https://www.nucleus.sh/) to provide us analytics about app usage and app errors.
+
+[![Product Name Screen Shot][product-screenshot]](https://github.com/BonBon-exchange/bonbon-web-browser)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+### 👁️‍ Communities
+
+To stay up to date with the project, submit bugs, and submit features, please join:
+
+- Discord server: [https://discord.gg/hrpp8G9Fqs](https://discord.gg/hrpp8G9Fqs)
+
+- Subreddit: [https://www.reddit.com/r/bonbonbrowser](https://www.reddit.com/r/bonbonbrowser)
+
+- Telegram channel: [https://t.me/bonbonbrowser](https://t.me/bonbonbrowser)
+
+- Telegram chat: [https://t.me/bonbonbrowserchat](https://t.me/bonbonbrowserchat)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 <!-- LICENSE -->
 
 ## ⚖ License
@@ -201,3 +226,7 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 [license-shield]: https://img.shields.io/github/license/BonBon-exchange/bonbon-web-browser.svg?style=for-the-badge
 [license-url]: https://github.com/BonBon-exchange/bonbon-web-browser/blob/master/LICENSE.txt
 [product-screenshot]: https://media.giphy.com/media/P9hq4y6F1ijINhE6kf/giphy.gif
+[collection-image]: https://github.com/BonBon-exchange/bonbon-web-browser/raw/main/images/collection.PNG
+[extensions-image]: https://github.com/BonBon-exchange/bonbon-web-browser/raw/main/images/extensions.PNG
+[minimap-image]: https://github.com/BonBon-exchange/bonbon-web-browser/raw/main/images/minimap.PNG
+[snap-image]: https://github.com/BonBon-exchange/bonbon-web-browser/raw/main/images/snap.PNG
