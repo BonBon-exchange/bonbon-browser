@@ -94,9 +94,9 @@ export const Browser: React.FC<BrowserProps> = ({
     // @ts-ignore
     edgeClass.style.opacity = '0.3';
     // @ts-ignore
-    edgeClass.style.height = 'calc(100vh - 10px)';
+    edgeClass.style.height = 'calc(100vh - 30px)';
     // @ts-ignore
-    edgeClass.style.width = '50vw';
+    edgeClass.style.width = '47vw';
   };
 
   const resetEdgeClass = (edgeClass: Element | null) => {
