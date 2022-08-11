@@ -5,11 +5,14 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@mui/material';
+import { FixedSizeList as List } from 'react-window';
+import AutoSize from 'react-virtualized-auto-sizer';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
-import { Import } from './Import';
+import { Loader } from 'renderer/App/components/Loader';
 import { BookmarksItem } from './BookmarksItem';
+import { Import } from './Import';
 
 import { BookmarksProps, BookmarkType } from './Types';
 
@@ -21,6 +24,7 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
   const { t } = useTranslation();
   const [search, setSearch] = useState<string>('');
   const [showImport, setShowImport] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [items, setItems] = useState<BookmarkType[]>([]);
   const [filteredItems, setFilteredItems] = useState<BookmarkType[]>([]);
   const { browser } = useStoreHelpers();
@@ -52,14 +56,40 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
       .then((val) => {
         setItems(val);
         setFilteredItems(val);
+        setIsLoading(false);
       })
-      .catch(console.log);
+      .catch((e) => {
+        console.log(e);
+        setIsLoading(false);
+      });
   };
 
   const handleImport = () => setShowImport(true);
   const handleCloseImport = () => {
     setShowImport(false);
     refreshList();
+  };
+
+  const Item = ({
+    data,
+    index,
+    style,
+  }: {
+    data: BookmarkType[];
+    index: number;
+    style: any;
+  }) => {
+    return (
+      <div style={style}>
+        <BookmarksItem
+          key={data[index].id}
+          bookmark={data[index]}
+          handleClick={handleBookmarkClick}
+          handleDelete={handleDeleteBookmark}
+          replaceItem={replaceItem}
+        />
+      </div>
+    );
   };
 
   useEffect(() => {
@@ -98,15 +128,23 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
             onChange={(e) => setSearch(e.target.value)}
             placeholder={t('Search')}
           />
-          {filteredItems?.map((i) => (
-            <BookmarksItem
-              key={i.id}
-              bookmark={i}
-              handleClick={handleBookmarkClick}
-              handleDelete={handleDeleteBookmark}
-              replaceItem={replaceItem}
-            />
-          ))}
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <AutoSize>
+              {({ height }) => (
+                <List
+                  height={height - 230}
+                  itemCount={filteredItems.length}
+                  width={800}
+                  itemData={filteredItems}
+                  itemSize={150}
+                >
+                  {Item}
+                </List>
+              )}
+            </AutoSize>
+          )}
         </div>
       </div>
     </>

@@ -14,6 +14,7 @@
     display: flex;
     width: 800px;
     flex-direction: column;
+    flex-grow: 1;
 
     .Bookmarks__search {
       margin-bottom: 30px;
@@ -59,6 +60,12 @@
 
     .Bookmarks__item-name {
       font-weight: bold;
+    }
+
+    .Bookmarks__item-url {
+      overflow: hidden;
+      overflow-wrap: break-word;
+      height: 18px;
     }
   }
 
