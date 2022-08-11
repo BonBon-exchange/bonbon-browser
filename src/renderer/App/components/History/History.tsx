@@ -78,6 +78,7 @@ export const History: React.FC<HistoryProps> = ({
       </div>
     );
   };
+
   useEffect(() => {
     const filtered = items.filter(
       (i) =>

@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Button, Select, MenuItem, Chip } from '@mui/material';
+import { FixedSizeList as List } from 'react-window';
+import AutoSize from 'react-virtualized-auto-sizer';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
 
@@ -42,6 +44,40 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
     const index = newItems.findIndex((i) => i.id === id);
     if (index > -1) newItems.splice(index, 1);
     setItems(newItems);
+  };
+
+  const Item = ({
+    data,
+    index,
+    style,
+  }: {
+    data: BookmarkType[];
+    index: number;
+    style: any;
+  }) => {
+    return (
+      <div style={style}>
+        <div className="Bookmarks__item" key={data[index].id}>
+          <div className="Bookmarks__item-text">
+            <div className="Bookmarks__item-name">{data[index].name}</div>
+            <div className="Bookmarks__item-url">{data[index].url}</div>
+            <div className="Bookmarks__item-tags">
+              {data[index].tags?.map((tag) => (
+                <Chip label={tag} key={tag} />
+              ))}
+            </div>
+          </div>
+          <div className="Bookmarks__item-controls">
+            <div
+              className="Bookmarks__item-control"
+              onClick={() => handleDeleteBookmark(data[index].id)}
+            >
+              <DeleteForeverIcon />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   useEffect(() => {
@@ -117,29 +153,19 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t('Search')}
         />
-        {filteredItems.map((i) => {
-          return (
-            <div className="Bookmarks__item" key={i.id}>
-              <div className="Bookmarks__item-text">
-                <div className="Bookmarks__item-name">{i.name}</div>
-                <div className="Bookmarks__item-url">{i.url}</div>
-                <div className="Bookmarks__item-tags">
-                  {i.tags?.map((tag) => (
-                    <Chip label={tag} />
-                  ))}
-                </div>
-              </div>
-              <div className="Bookmarks__item-controls">
-                <div
-                  className="Bookmarks__item-control"
-                  onClick={() => handleDeleteBookmark(i.id)}
-                >
-                  <DeleteForeverIcon />
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        <AutoSize>
+          {({ height }) => (
+            <List
+              height={height - 290}
+              itemCount={filteredItems.length}
+              width={800}
+              itemData={filteredItems}
+              itemSize={150}
+            >
+              {Item}
+            </List>
+          )}
+        </AutoSize>
       </div>
     </div>
   );
