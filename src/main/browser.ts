@@ -36,13 +36,14 @@ export const setBrowserViewBonds = (
   let bHeight;
   let bY;
 
+  const darwin = process.platform === 'darwin';
   if (isFullScreen) {
     bWidth = width;
     bHeight = height;
     bY = 0;
   } else {
-    bWidth = width - 15;
-    bHeight = height - 45;
+    bWidth = darwin ? width : width - 15;
+    bHeight = darwin ? width : height - 45;
     bY = 30;
   }
 
