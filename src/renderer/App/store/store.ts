@@ -33,7 +33,7 @@ export const getPersistedStoreAndPersistor = (
 ): { persistor: Persistor; store: Store } => {
   const persistConfig = {
     key: id,
-    version: 2,
+    version: 3,
     storage,
     migrate: createMigrate(migrations, { debug: true }),
   };
