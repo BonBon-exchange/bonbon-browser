@@ -25,6 +25,7 @@ import {
   importBookmarks,
   isBookmarked,
   removeBookmark,
+  addBookmark,
 } from './bookmarks';
 import {
   createBrowserView,
@@ -269,12 +270,8 @@ export const makeIpcMainEvents = (): void => {
     return isBookmarked(str);
   });
 
-  ipcMain.on('add-bookmark', (_e, args) => {
-    db.run(
-      'INSERT INTO bookmarks (url, name) VALUES (?, ?)',
-      args.url,
-      args.title
-    );
+  ipcMain.on('add-bookmark', (_e, args: { url: string; title: string }) => {
+    addBookmark(args);
   });
 
   ipcMain.on('remove-bookmark', (_e, url) => {

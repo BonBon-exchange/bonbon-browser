@@ -210,3 +210,28 @@ export const editBookmark = (bookmark: any) => {
     );
   });
 };
+
+export const addBookmark = (args: { url: string; title: string }) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const urlObject = new URL(args.url);
+      isBookmarked(args.url)
+        .then((res) => {
+          if (!res) {
+            db.run(
+              'INSERT INTO bookmarks (url, name, host) VALUES (?, ?, ?)',
+              args.url,
+              args.title,
+              urlObject.host,
+              () => resolve({ ...args, host: urlObject.host })
+            );
+          }
+        })
+        .catch((e) => {
+          reject(new Error(`Error when adding bookmark: ${e?.message}`));
+        });
+    } catch (e: any) {
+      reject(new Error(`Error when adding bookmark: ${e?.message}`));
+    }
+  });
+};
