@@ -35,6 +35,7 @@ declare global {
           isTrusted: boolean;
         }) => void;
         requestCapture: (webContentsId: number) => Promise<string>;
+        getUrlToOpen: () => Promise<string|undefined>;
       };
       config: {
         get: (key: string) => Promise<unknown>;

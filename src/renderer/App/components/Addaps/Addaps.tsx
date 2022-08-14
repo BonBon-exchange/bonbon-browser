@@ -140,6 +140,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
         <div id="Addaps__background" />
         <LeftBar />
         <Board
+          boardId={boardId}
           isFullSize={
             showSettings ||
             showBookmarks ||

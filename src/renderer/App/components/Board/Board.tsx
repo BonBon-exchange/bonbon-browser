@@ -1,3 +1,4 @@
+/* eslint-disable promise/always-return */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/prefer-default-export */
@@ -18,7 +19,7 @@ import { BoardProps } from './Types';
 
 import './style.scss';
 
-export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
+export const Board: React.FC<BoardProps> = ({ isFullSize, boardId }) => {
   const board = useBoard();
   const dispatch = useAppDispatch();
   const { focus } = useBrowserMethods();
@@ -77,6 +78,14 @@ export const Board: React.FC<BoardProps> = ({ isFullSize }) => {
   useEffect(() => {
     setTimeout(() => {
       if (board.activeBrowser) focus(board.activeBrowser);
+      if (boardId) {
+        window.app.browser
+          .getUrlToOpen()
+          .then((res) => {
+            if (res) helpers.browser.add({ url: res });
+          })
+          .catch(console.log);
+      }
     }, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/prefer-default-export */
@@ -14,6 +15,7 @@ import {
 } from 'electron';
 
 import { event } from './analytics';
+import { getUrlToOpen, setUrlToOpen } from './appEvents';
 import {
   editBookmark,
   getAllBookmarks,
@@ -92,11 +94,15 @@ export const makeIpcMainEvents = (): void => {
       : createBrowserView();
     views[args.tabId] = viewToShow;
     getMainWindow()?.setTopBrowserView(viewToShow);
-    viewToShow.webContents.send('load-board', { boardId: args.tabId });
+    viewToShow.webContents.send('load-board', {
+      boardId: args.tabId,
+    });
     viewToShow.webContents.on('dom-ready', () => {
       const interval = setInterval(() => {
         try {
-          viewToShow.webContents.send('load-board', { boardId: args.tabId });
+          viewToShow.webContents.send('load-board', {
+            boardId: args.tabId,
+          });
         } catch (e) {
           console.log(e);
           clearInterval(interval);
@@ -531,5 +537,13 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('app-clicked', () => {
     getMainWindow()?.webContents.send('app-clicked');
+  });
+
+  ipcMain.handle('get-url-to-open', () => {
+    return new Promise((resolve) => {
+      const urlToOpen = getUrlToOpen();
+      setUrlToOpen(undefined);
+      resolve(urlToOpen);
+    });
   });
 };
