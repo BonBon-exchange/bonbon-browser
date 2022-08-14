@@ -11,13 +11,6 @@
 import { app, session } from 'electron';
 import { machineIdSync } from 'node-machine-id';
 import Nucleus from 'nucleus-nodejs';
-import { init } from '@sentry/electron';
-
-init({
-  dsn: 'https://42d1a849a9ce4cc98d47a7cf45ddbef3@o1316624.ingest.sentry.io/6569337',
-  debug: true,
-  getSessions: () => [session.fromPartition('persist:user-partition')],
-});
 
 import './appEvents';
 import './logger';
