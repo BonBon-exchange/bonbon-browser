@@ -8,7 +8,7 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import { app, session } from 'electron';
+import { app } from 'electron';
 import { machineIdSync } from 'node-machine-id';
 import Nucleus from 'nucleus-nodejs';
 
