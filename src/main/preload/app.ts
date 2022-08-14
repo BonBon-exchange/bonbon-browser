@@ -68,6 +68,9 @@ contextBridge.exposeInMainWorld('app', {
     requestCapture: (webContentsId: number) => {
       return ipcRenderer.invoke('request-capture', webContentsId);
     },
+    getUrlToOpen: () => {
+      return ipcRenderer.invoke('get-url-to-open');
+    },
   },
   config: {
     get: (key: string) => ipcRenderer.invoke('get-store-value', key),

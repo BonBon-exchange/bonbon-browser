@@ -14,4 +14,5 @@ export interface BoardType {
 
 export interface BoardProps {
   isFullSize?: boolean;
+  boardId?: string;
 }

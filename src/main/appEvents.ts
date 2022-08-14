@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable promise/catch-or-return */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable promise/no-callback-in-promise */
@@ -28,6 +29,20 @@ import {
   makeIpcMainEvents,
 } from './ipcMainEvents';
 import { isValidUrl } from './util';
+
+let urlToOpen: string | undefined;
+
+export const setUrlToOpen = (url: string | undefined) => {
+  urlToOpen = url;
+};
+export const getUrlToOpen = () => urlToOpen;
+
+const getUrlInArgv = (argv: string[]) => {
+  if (argv.length > 0 && isValidUrl(argv[argv.length - 1])) {
+    return argv[argv.length - 1];
+  }
+  return undefined;
+};
 
 const downloadItemEventAction = (
   item: Electron.DownloadItem,
@@ -194,6 +209,8 @@ app
           .then((locale) => {
             if (locale) i18n.changeLanguage(locale);
           });
+
+        setUrlToOpen(getUrlInArgv(process.argv));
 
         session
           .fromPartition('persist:user-partition')
