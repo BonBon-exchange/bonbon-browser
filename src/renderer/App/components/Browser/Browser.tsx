@@ -300,9 +300,10 @@ export const Browser: React.FC<BrowserProps> = ({
     if (scrollY) window.scrollTo(0, scrollY);
     if (
       window.scrollY < top &&
-      window.scrollY + window.innerHeight > top + height &&
-      timestamp - lastScreenshot > 1000 &&
-      (!capture || capture.length < 150)
+      (window.scrollY + window.innerHeight > top + height ||
+        window.innerHeight < height) &&
+      timestamp - lastScreenshot > 5000 &&
+      (!capture || capture === 'data:image/png;base64,')
     ) {
       helpers.browser.requestCapture(id);
       setLastScreenshot(timestamp);
