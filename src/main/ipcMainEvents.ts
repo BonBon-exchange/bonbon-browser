@@ -9,6 +9,7 @@ import {
   BrowserView,
   BrowserWindow,
   ipcMain,
+  IpcMainEvent,
   Menu,
   nativeTheme,
   shell,
@@ -16,6 +17,14 @@ import {
 } from 'electron';
 
 import { Provider as BookmarkProvider } from 'types/bookmarks';
+import {
+  IpcAnalytics,
+  IpcInspectElement,
+  IpcRenameTab,
+  IpcSaveTab,
+  IpcTabPurge,
+  IpcTabSelect,
+} from 'types/ipc';
 
 import { event } from './analytics';
 import { getUrlToOpen, setUrlToOpen } from './appEvents';
@@ -86,15 +95,15 @@ export const makeIpcMainEvents = (): void => {
     nativeTheme.themeSource = 'system';
   });
 
-  ipcMain.on('inspectElement', (e, args) => {
+  ipcMain.on('inspectElement', (e: IpcMainEvent, args: IpcInspectElement) => {
     e.sender.inspectElement(args.x, args.y);
   });
 
-  ipcMain.on('analytics', (_event, args) => {
+  ipcMain.on('analytics', (_event, args: IpcAnalytics) => {
     event(args.eventName, args.params);
   });
 
-  ipcMain.on('tab-select', (_event, args) => {
+  ipcMain.on('tab-select', (_event, args: IpcTabSelect) => {
     const viewToShow: BrowserView = views[args.tabId]
       ? views[args.tabId]
       : createBrowserView();
@@ -123,21 +132,6 @@ export const makeIpcMainEvents = (): void => {
     getSelectedView()?.webContents.focus();
   });
 
-  ipcMain.on('open-board', (_event, args) => {
-    getMainWindow()?.webContents.send('open-tab', args);
-
-    const viewToShow: BrowserView = views[args.boardId]
-      ? views[args.boardId]
-      : createBrowserView();
-    views[args.boardId] = viewToShow;
-    getMainWindow()?.setTopBrowserView(viewToShow);
-    viewToShow.webContents.on('dom-ready', () => {
-      viewToShow.webContents.send('load-board', { boardId: args.id });
-    });
-    setSelectedView(viewToShow);
-    getSelectedView()?.webContents.focus();
-  });
-
   ipcMain.on('close-active-board', () => {
     getMainWindow()?.webContents.send('close-active-tab');
   });
@@ -150,7 +144,7 @@ export const makeIpcMainEvents = (): void => {
     getSelectedView()?.webContents.send('show-settings');
   });
 
-  ipcMain.on('tab-purge', (_event, args) => {
+  ipcMain.on('tab-purge', (_event, args: IpcTabPurge) => {
     const view = views[args.tabId] as any;
     if (view) {
       view.webContents.send('purge');
@@ -160,17 +154,17 @@ export const makeIpcMainEvents = (): void => {
     delete views[args.tabId];
   });
 
-  ipcMain.on('save-tab', (_event, args) => {
+  ipcMain.on('save-tab', (_event, args: IpcSaveTab) => {
     const view = views[args.tabId];
     if (view) view.webContents.send('save-board');
   });
 
-  ipcMain.on('rename-tab', (_event, args) => {
+  ipcMain.on('rename-tab', (_event, args: IpcRenameTab) => {
     const view = views[args.tabId];
     if (view) view.webContents.send('rename-board', { label: args.label });
   });
 
-  ipcMain.on('select-browser', (_event, webContentsId) => {
+  ipcMain.on('select-browser', (_event, webContentsId: string) => {
     if (browsers[webContentsId]) extensions.selectTab(browsers[webContentsId]);
   });
 

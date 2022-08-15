@@ -7,9 +7,6 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   board: {
-    open: (board: { id: string; label: string; isFullSize: boolean }) => {
-      ipcRenderer.send('open-board', board);
-    },
     close: () => {
       ipcRenderer.send('close-active-board');
     },

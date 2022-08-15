@@ -6,7 +6,6 @@ export const mockWindow = () => {
         event: jest.fn(),
       },
       board: {
-        open: jest.fn(),
         close: jest.fn(),
         selectNext: jest.fn(),
         setWindowsCount: jest.fn(),

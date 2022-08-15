@@ -5,11 +5,6 @@ declare global {
         event: (eventName: string, params?: Record<string, string>) => void;
       };
       board: {
-        open: (board: {
-          id: string;
-          label: string;
-          isFullSize: boolean;
-        }) => void;
         close: () => void;
         selectNext: () => void;
         setWindowsCount: (args: { boardId: string; count: number }) => void;
