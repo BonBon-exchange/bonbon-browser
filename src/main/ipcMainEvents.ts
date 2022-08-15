@@ -1,3 +1,4 @@
+/* eslint-disable promise/always-return */
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
@@ -26,6 +27,7 @@ import {
   isBookmarked,
   removeBookmark,
   addBookmark,
+  findBookmarksByDomain,
 } from './bookmarks';
 import {
   createBrowserView,
@@ -41,6 +43,7 @@ import {
   getExtensionsObject,
   installExtension,
 } from './extensions';
+import { addHistory, findHistoryByDomain } from './history';
 import i18n from './i18n';
 import { getStore } from './store';
 
@@ -233,11 +236,7 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('add-history', (_e, args) => {
-    db.run(
-      'INSERT INTO history (url, date, title) VALUES (?, datetime("now", "localtime"), ?)',
-      args.url,
-      args.title
-    );
+    addHistory(args);
   });
 
   ipcMain.on('remove-history', (_e, id) => {
@@ -541,6 +540,19 @@ export const makeIpcMainEvents = (): void => {
       const urlToOpen = getUrlToOpen();
       setUrlToOpen(undefined);
       resolve(urlToOpen);
+    });
+  });
+
+  ipcMain.handle('find-in-known-domains', (_e, input: string) => {
+    return new Promise((resolve, reject) => {
+      Promise.all([findBookmarksByDomain(input), findHistoryByDomain(input)])
+        .then((res) => {
+          const result = res.flat();
+          resolve(result);
+        })
+        .catch((e) =>
+          reject(new Error(`Error while looking for domains: ${e.message}`))
+        );
     });
   });
 };

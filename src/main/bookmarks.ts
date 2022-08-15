@@ -9,6 +9,7 @@
 import { app } from 'electron';
 import path from 'path';
 import fs from 'fs';
+import { parseDomain, fromUrl, ParseResultType } from 'parse-domain';
 
 import db from './db';
 
@@ -214,24 +215,48 @@ export const editBookmark = (bookmark: any) => {
 export const addBookmark = (args: { url: string; title: string }) => {
   return new Promise((resolve, reject) => {
     try {
-      const urlObject = new URL(args.url);
-      isBookmarked(args.url)
-        .then((res) => {
-          if (!res) {
-            db.run(
-              'INSERT INTO bookmarks (url, name, host) VALUES (?, ?, ?)',
-              args.url,
-              args.title,
-              urlObject.host,
-              () => resolve({ ...args, host: urlObject.host })
-            );
-          }
-        })
-        .catch((e) => {
-          reject(new Error(`Error when adding bookmark: ${e?.message}`));
-        });
+      const parseResult = parseDomain(fromUrl(args.url));
+
+      if (parseResult.type === ParseResultType.Listed) {
+        const domain = [
+          parseResult.domain,
+          parseResult.topLevelDomains.join('.'),
+        ].join('.');
+
+        isBookmarked(args.url)
+          .then((res) => {
+            if (!res) {
+              db.run(
+                'INSERT INTO bookmarks (url, name, host, domain) VALUES (?, ?, ?, ?)',
+                args.url,
+                args.title,
+                parseResult.hostname,
+                domain,
+                () => resolve({ ...args, host: parseResult.hostname, domain })
+              );
+            }
+          })
+          .catch((e) => {
+            reject(new Error(`Error when adding bookmark: ${e?.message}`));
+          });
+      } else {
+        reject(new Error(`Error when adding bookmark: invalid url.`));
+      }
     } catch (e: any) {
       reject(new Error(`Error when adding bookmark: ${e?.message}`));
     }
+  });
+};
+
+export const findBookmarksByDomain = (input: string) => {
+  return new Promise((resolve, reject) => {
+    db.all(
+      'SELECT id, url, domain FROM bookmarks WHERE domain LIKE ? LIMIT 10',
+      `${input}%`,
+      (err, rows) => {
+        if (err) reject(err);
+        else resolve(rows);
+      }
+    );
   });
 };

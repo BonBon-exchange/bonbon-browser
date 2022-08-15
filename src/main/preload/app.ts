@@ -250,5 +250,8 @@ contextBridge.exposeInMainWorld('app', {
     clicked: () => {
       ipcRenderer.send('app-clicked');
     },
+    findInKnownDomains: (input: string) => {
+      return ipcRenderer.invoke('find-in-known-domains', input);
+    },
   },
 });
