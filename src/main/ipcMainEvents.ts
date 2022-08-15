@@ -15,6 +15,8 @@ import {
   WebContents,
 } from 'electron';
 
+import { Provider as BookmarkProvider } from 'types/bookmarks';
+
 import { event } from './analytics';
 import { getUrlToOpen, setUrlToOpen } from './appEvents';
 import {
@@ -489,7 +491,7 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.handle('get-bookmarks-from-provider', (_e: any, provider: string) => {
     return new Promise((resolve) => {
-      const bookmarks = getBookmarksFromProvider(provider);
+      const bookmarks = getBookmarksFromProvider(provider as BookmarkProvider);
       resolve(bookmarks);
     });
   });
