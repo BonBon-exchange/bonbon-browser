@@ -16,8 +16,11 @@ if (store.get('browsing.width') === undefined) store.set('browsing.width', 600);
 if (store.get('browsing.height') === undefined)
   store.set('browsing.height', 800);
 
-if (store.get('browsing.size') === undefined)
+if (
+  store.get('browsing.size') === undefined ||
+  store.get('browsing.size') === 'fit' // fix related with issue #341 https://github.com/BonBon-exchange/bonbon-web-browser/issues/341
+)
   store.set('browsing.size', 'lastResized');
 
 if (store.get('browsing.topEdge') === undefined)
-  store.set('browsing.size', 'fit');
+  store.set('browsing.topEdge', 'fit');
