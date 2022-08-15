@@ -269,7 +269,7 @@ export const makeIpcMainEvents = (): void => {
     return isBookmarked(str);
   });
 
-  ipcMain.on('add-bookmark', (_e, args: { url: string; title: string }) => {
+  ipcMain.on('add-bookmark', (_e, args: { url: string; name: string }) => {
     addBookmark(args);
   });
 

@@ -21,7 +21,7 @@ declare global {
         getBookmarksProviders: () => Promise<any>;
         getBookmarksFromProvider: (provider: string) => Promise<any>;
         isBookmarked: (url: string) => Promise<boolean>;
-        addBookmark: (args: { title: string; url: string }) => void;
+        addBookmark: (args: { name: string; url: string }) => void;
         removeBookmark: (url: string) => void;
         getAllBookmarks: () => Promise<any>;
         findInBookmarks: (str: string) => Promise<any>;

@@ -11,9 +11,11 @@ import path from 'path';
 import fs from 'fs';
 import { parseDomain, fromUrl, ParseResultType } from 'parse-domain';
 
+import { Bookmark, DomainSuggestion, Provider } from 'types/bookmarks';
+
 import db from './db';
 
-const BOOKMARKS_PATH: Record<string, string[]> = {
+const BOOKMARKS_PATH: Record<Provider, string[]> = {
   Chrome: [
     path.join(
       app.getPath('userData'),
@@ -42,25 +44,37 @@ const BOOKMARKS_PATH: Record<string, string[]> = {
   ],
 };
 
-export const getBookmarksProviders = () => {
-  const result: string[] = [];
+export const getBookmarksProviders = (): Provider[] => {
+  const result: Provider[] = [];
   for (const brow in BOOKMARKS_PATH) {
-    const res = BOOKMARKS_PATH[brow].every((p: string) => !fs.existsSync(p));
-    if (!res) result.push(brow);
+    const res = BOOKMARKS_PATH[brow as Provider].every(
+      (p: string) => !fs.existsSync(p)
+    );
+    if (!res) result.push(brow as Provider);
   }
   return result;
 };
 
-const itemToBookmark = (item: any, tags: string[]) => {
+const itemToBookmark = (item: any, tags: string[]): Bookmark => {
+  const parseResult = parseDomain(fromUrl(item.url));
+  let domain = '';
+
+  if (parseResult.type === ParseResultType.Listed) {
+    domain = [parseResult.domain, parseResult.topLevelDomains.join('.')].join(
+      '.'
+    );
+  }
   return {
     id: item.id,
     name: item.name,
     url: item.url,
+    domain,
+    host: parseResult.hostname.toString(),
     tags,
   };
 };
 
-const folderToBms = (folder: any, tags: string[]): any[] => {
+const folderToBms = (folder: any, tags: string[]): Bookmark[] => {
   const bms: any[] = [];
   folder.forEach((item: any) => {
     if (item.type === 'folder') {
@@ -72,7 +86,7 @@ const folderToBms = (folder: any, tags: string[]): any[] => {
   return bms;
 };
 
-const rawToBookmarks = (raw: any) => {
+const rawToBookmarks = (raw: any): Bookmark[] => {
   let bms: any[] = [];
   if (raw.roots) {
     for (const folder in raw.roots) {
@@ -85,7 +99,7 @@ const rawToBookmarks = (raw: any) => {
   return bms;
 };
 
-export const getBookmarksFromProvider = (provider: string) => {
+export const getBookmarksFromProvider = (provider: Provider): Bookmark[] => {
   if (BOOKMARKS_PATH[provider]) {
     return BOOKMARKS_PATH[provider].reduce((acc: any[], curr: string) => {
       const rawBm = JSON.parse(fs.readFileSync(curr, 'utf-8'));
@@ -97,7 +111,7 @@ export const getBookmarksFromProvider = (provider: string) => {
   return [];
 };
 
-export const isBookmarked = (url: string) => {
+export const isBookmarked = (url: string): Promise<boolean> => {
   return new Promise((resolve) => {
     db.get('SELECT * FROM bookmarks WHERE url = ?', url, (_err, row) =>
       resolve(row !== undefined)
@@ -105,7 +119,7 @@ export const isBookmarked = (url: string) => {
   });
 };
 
-const getBookmark = (url: string) => {
+const getBookmark = (url: string): Promise<Bookmark> => {
   return new Promise((resolve) => {
     db.get('SELECT * FROM bookmarks WHERE url = ?', url, (_err, row) =>
       resolve(row)
@@ -128,7 +142,7 @@ export const removeBookmark = (url: string) => {
     .catch(console.log);
 };
 
-export const getAllBookmarks = () => {
+export const getAllBookmarks = (): Promise<Bookmark[]> => {
   return new Promise((resolve) => {
     db.all(
       'SELECT b.*, json_group_array(bt.tag) as tags FROM bookmarks b LEFT JOIN bookmarks_tags bt ON bt.bookmark_id = b.id GROUP BY b.id',
@@ -151,15 +165,17 @@ export const getAllBookmarks = () => {
   });
 };
 
-export const importBookmarks = (bookmarks: any[]) => {
+export const importBookmarks = (bookmarks: Bookmark[]) => {
   bookmarks.forEach((b) => {
     isBookmarked(b.url)
       .then((res) => {
         if (res === false) {
           db.run(
-            'INSERT INTO bookmarks (url, name) VALUES (?, ?)',
+            'INSERT INTO bookmarks (url, name, domain, host) VALUES (?, ?, ?, ?)',
             b.url,
             b.name,
+            b.domain,
+            b.host,
             (err?: any) => {
               if (err) {
                 console.log(err);
@@ -169,7 +185,7 @@ export const importBookmarks = (bookmarks: any[]) => {
               getBookmark(b.url)
                 .then((book: any) => {
                   if (!book || !book.id) return;
-                  b.tags.forEach((tag: string) => {
+                  b.tags?.forEach((tag: string) => {
                     db.run(
                       'INSERT INTO bookmarks_tags (bookmark_id, tag) VALUES (?, ?)',
                       book.id,
@@ -186,7 +202,7 @@ export const importBookmarks = (bookmarks: any[]) => {
   });
 };
 
-export const getBookmarksTags = () => {
+export const getBookmarksTags = (): Promise<string[]> => {
   return new Promise((resolve, reject) => {
     db.all('SELECT DISTINCT tag FROM bookmarks_tags', (err, rows) => {
       if (err) reject(err);
@@ -195,15 +211,15 @@ export const getBookmarksTags = () => {
   });
 };
 
-export const editBookmark = (bookmark: any) => {
+export const editBookmark = (bookmark: Partial<Bookmark>) => {
   db.run(
     'UPDATE bookmarks SET url = ?, name = ? WHERE id = ?',
     bookmark.url,
     bookmark.name,
     bookmark.id
   );
-  removeTags(bookmark.id);
-  bookmark.tags.forEach((tag: string) => {
+  if (bookmark.id) removeTags(bookmark.id);
+  bookmark.tags?.forEach((tag: string) => {
     db.run(
       'INSERT INTO bookmarks_tags (bookmark_id, tag) VALUES (?, ?)',
       bookmark.id,
@@ -212,7 +228,10 @@ export const editBookmark = (bookmark: any) => {
   });
 };
 
-export const addBookmark = (args: { url: string; title: string }) => {
+export const addBookmark = (args: {
+  url: string;
+  name: string;
+}): Promise<Bookmark> => {
   return new Promise((resolve, reject) => {
     try {
       const parseResult = parseDomain(fromUrl(args.url));
@@ -229,10 +248,22 @@ export const addBookmark = (args: { url: string; title: string }) => {
               db.run(
                 'INSERT INTO bookmarks (url, name, host, domain) VALUES (?, ?, ?, ?)',
                 args.url,
-                args.title,
+                args.name,
                 parseResult.hostname,
                 domain,
-                () => resolve({ ...args, host: parseResult.hostname, domain })
+                () => {
+                  db.get(
+                    'SELECT id FROM bookmarks WHERE url = ?',
+                    args.url,
+                    (_err, row) =>
+                      resolve({
+                        ...args,
+                        id: row.id,
+                        host: parseResult.hostname,
+                        domain,
+                      })
+                  );
+                }
               );
             }
           })
@@ -248,7 +279,9 @@ export const addBookmark = (args: { url: string; title: string }) => {
   });
 };
 
-export const findBookmarksByDomain = (input: string) => {
+export const findBookmarksByDomain = (
+  input: string
+): Promise<DomainSuggestion[]> => {
   return new Promise((resolve, reject) => {
     db.all(
       'SELECT id, url, domain FROM bookmarks WHERE domain LIKE ? LIMIT 10',

@@ -42,7 +42,7 @@ contextBridge.exposeInMainWorld('app', {
     isBookmarked: (url: string) => {
       return ipcRenderer.invoke('is-bookmarked', url);
     },
-    addBookmark: (args: { url: string; parent: number }) => {
+    addBookmark: (args: { url: string; name: string }) => {
       ipcRenderer.send('add-bookmark', args);
     },
     removeBookmark: (url: string) => {
