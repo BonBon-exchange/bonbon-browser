@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable promise/always-return */
 /* eslint-disable promise/no-nesting */
 /* eslint-disable promise/catch-or-return */
@@ -21,6 +22,7 @@ import StarIcon from '@mui/icons-material/Star';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { BrowserInputSuggestions } from 'renderer/App/components/BrowserInputSuggestions';
+import { SuggestionItem } from 'renderer/App/components/BrowserInputSuggestions/Types';
 import { updateBrowserUrl } from 'renderer/App/store/reducers/Board';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { isValidHttpUrl, makeSearchUrl } from 'renderer/App/helpers/web';
@@ -45,7 +47,9 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   const [selectedSuggestion, setSelectedSuggestion] = useState<string | null>(
     null
   );
-  const [suggestionResults, setSuggestionResults] = useState<string[]>([]);
+  const [domainSuggestionResults, setDomainSuggestionResults] = useState<
+    SuggestionItem[]
+  >([]);
   const [inputCursor, setInputCursor] = useState<number>(0);
   const [userTyped, setUserTyped] = useState<string>('');
   const [userDeleting, setUserDeleting] = useState<boolean>(false);
@@ -109,6 +113,7 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
     if (e.key === 'Backspace' || e.key === 'Delete') {
       setUserDeleting(true);
       setUrlInputForAutocomplete(undefined);
+      setDomainSuggestionResults([]);
     } else {
       setUserDeleting(false);
     }
@@ -121,7 +126,9 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
 
     if (e.code === 'Enter' || e.code === 'NumpadEnter') {
       hideSuggestions();
-      handleLoadUserUrl(target?.value);
+      domainSuggestionResults[0]
+        ? handleLoadUserUrl(domainSuggestionResults[0].url)
+        : handleLoadUserUrl(target?.value);
       return;
     }
 
@@ -183,15 +190,15 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
 
   useEffect(() => {
     if (
-      suggestionResults[0] &&
+      domainSuggestionResults[0] &&
       urlInputValue.length > 0 &&
       !userDeleting &&
       selectedSuggestion !== urlInputValue
     )
-      setUrlInputForAutocomplete(suggestionResults[0]);
+      setUrlInputForAutocomplete(domainSuggestionResults[0].display);
     else setUrlInputForAutocomplete(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [suggestionResults]);
+  }, [domainSuggestionResults]);
 
   useEffect(() => {
     if (
@@ -303,7 +310,7 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
           inputValue={urlInputForSuggestion}
           handleSuggestionClick={handleSuggestionClick}
           setSelectedSuggestion={setSelectedSuggestion}
-          setSuggestionResults={setSuggestionResults}
+          setDomainSuggestionResults={setDomainSuggestionResults}
         />
       )}
     </div>

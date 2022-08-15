@@ -6,11 +6,11 @@ const dbPath = path.join(app.getPath('userData'), 'db.db');
 const db = new sqlite3.Database(dbPath);
 
 db.run(
-  'CREATE TABLE IF NOT EXISTS history (id INTEGER PRIMARY KEY, url TEXT NOT NULL, date TEXT NOT NULL, title TEXT)'
+  'CREATE TABLE IF NOT EXISTS history (id INTEGER PRIMARY KEY, url TEXT NOT NULL, date TEXT NOT NULL, title TEXT, domain TEXT NOT NULL, host TEXT NOT NULL)'
 );
 
 db.run(
-  'CREATE TABLE IF NOT EXISTS bookmarks (id INTEGER PRIMARY KEY, url TEXT NOT NULL, name TEXT)'
+  'CREATE TABLE IF NOT EXISTS bookmarks (id INTEGER PRIMARY KEY, url TEXT NOT NULL, name TEXT, domain NOT NULL, host TEXT NOT NULL)'
 );
 
 db.run(
@@ -27,6 +27,46 @@ db.get(
   (_err, row) => {
     if (row.CNTREC === 0) {
       db.run('ALTER TABLE history ADD title TEXT');
+    }
+  }
+);
+
+// migrate history table => add domain column
+db.get(
+  'SELECT COUNT(*) AS CNTREC FROM pragma_table_info("history") WHERE name="domain"',
+  (_err, row) => {
+    if (row.CNTREC === 0) {
+      db.run('ALTER TABLE history ADD domain TEXT');
+    }
+  }
+);
+
+// migrate bookmarks table => add domain column
+db.get(
+  'SELECT COUNT(*) AS CNTREC FROM pragma_table_info("bookmarks") WHERE name="domain"',
+  (_err, row) => {
+    if (row.CNTREC === 0) {
+      db.run('ALTER TABLE bookmarks ADD domain TEXT');
+    }
+  }
+);
+
+// migrate history table => add host column
+db.get(
+  'SELECT COUNT(*) AS CNTREC FROM pragma_table_info("history") WHERE name="host"',
+  (_err, row) => {
+    if (row.CNTREC === 0) {
+      db.run('ALTER TABLE history ADD host TEXT');
+    }
+  }
+);
+
+// migrate bookmarks table => add host column
+db.get(
+  'SELECT COUNT(*) AS CNTREC FROM pragma_table_info("bookmarks") WHERE name="host"',
+  (_err, row) => {
+    if (row.CNTREC === 0) {
+      db.run('ALTER TABLE bookmarks ADD host TEXT');
     }
   }
 );

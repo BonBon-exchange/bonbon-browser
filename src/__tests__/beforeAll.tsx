@@ -91,6 +91,7 @@ export const mockWindow = () => {
         showTabContextMenu: jest.fn(),
         showBoardContextMenu: jest.fn(),
         clicked: jest.fn(),
+        findInKnownDomains: jest.fn(() => Promise.resolve()),
       },
     },
   });

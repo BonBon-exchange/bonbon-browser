@@ -146,6 +146,7 @@
     "i18next-browser-languagedetector": "^6.1.4",
     "node-machine-id": "^1.1.12",
     "nucleus-nodejs": "^3.0.9",
+    "parse-domain": "^5.0.0",
     "rage-edit": "^1.2.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",

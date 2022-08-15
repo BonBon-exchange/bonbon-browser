@@ -16,7 +16,7 @@ const props = {
   inputValue: 'dani',
   handleSuggestionClick: jest.fn(),
   setSelectedSuggestion: jest.fn(),
-  setSuggestionResults: jest.fn(),
+  setDomainSuggestionResults: jest.fn(),
 };
 
 describe('BrowserInputSuggestions', () => {

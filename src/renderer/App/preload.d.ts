@@ -108,6 +108,7 @@ declare global {
         showLeftbarContextMenu: (params: { x: number; y: number }) => void;
         showBoardContextMenu: (params: { x: number; y: number }) => void;
         clicked: () => void;
+        findInKnownDomains: (input: string) => Promise<any>;
       };
     };
   }

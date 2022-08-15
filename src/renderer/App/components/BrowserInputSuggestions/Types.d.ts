@@ -2,7 +2,7 @@ export interface BrowserInputSuggestionsProps {
   inputValue: string;
   handleSuggestionClick: (url: string) => void;
   setSelectedSuggestion: (url: string | null) => void;
-  setSuggestionResults: (urls: string[]) => void;
+  setDomainSuggestionResults: (items: SuggestionItem[]) => void;
 }
 
 export type HistoryItem = {
@@ -12,6 +12,7 @@ export type HistoryItem = {
 }
 
 export type SuggestionItem = {
-  id: number;
+  id: string;
   url: string;
+  display?: string;
 }
