@@ -126,7 +126,7 @@ const getBookmark = (url: string): Promise<Bookmark> => {
       'SELECT b.*, json_group_array(bt.tag) as tags FROM bookmarks b LEFT JOIN bookmarks_tags bt ON bt.bookmark_id = b.id WHERE b.url = ? GROUP BY b.id',
       url,
       (err, row) => {
-        if (err) reject(new Error(`Couldn't get bookmark: ${err.message}`))
+        if (err) reject(new Error(`Couldn't get bookmark: ${err.message}`));
         else resolve(row);
       }
     );
@@ -171,56 +171,6 @@ export const getAllBookmarks = (): Promise<Bookmark[]> => {
   });
 };
 
-export const importBookmarks = (bookmarks: Partial<Bookmark>[]) => {
-  bookmarks.forEach((b) => {
-    if (b.url) {
-      isBookmarked(b.url)
-        .then((res) => {
-          if (res === false) {
-            db.run(
-              'INSERT INTO bookmarks (url, name, domain, host) VALUES (?, ?, ?, ?)',
-              b.url,
-              b.name,
-              b.domain,
-              b.host,
-              (err?: Error) => {
-                if (err) {
-                  console.log(err);
-                  return;
-                }
-
-                if (b.url) {
-                  getBookmark(b.url)
-                    .then((book: any) => {
-                      if (!book || !book.id) return;
-                      b.tags?.forEach((tag: string) => {
-                        db.run(
-                          'INSERT INTO bookmarks_tags (bookmark_id, tag) VALUES (?, ?)',
-                          book.id,
-                          tag
-                        );
-                      });
-                    })
-                    .catch(console.log);
-                }
-              }
-            );
-          }
-        })
-        .catch(console.log);
-    }
-  });
-};
-
-export const getBookmarksTags = (): Promise<Tag[]> => {
-  return new Promise((resolve, reject) => {
-    db.all('SELECT DISTINCT tag FROM bookmarks_tags', (err, rows) => {
-      if (err) reject(err);
-      else resolve(rows);
-    });
-  });
-};
-
 const insertTag = (bookmarkId: number, tag: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     db.run(
@@ -232,6 +182,57 @@ const insertTag = (bookmarkId: number, tag: string): Promise<void> => {
         else resolve();
       }
     );
+  });
+};
+
+export const importBookmarks = (
+  bookmarks: Partial<Bookmark>[]
+): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    bookmarks.forEach((b) => {
+      if (b.url) {
+        isBookmarked(b.url)
+          .then((res) => {
+            if (res === false) {
+              db.run(
+                'INSERT INTO bookmarks (url, name, domain, host) VALUES (?, ?, ?, ?)',
+                b.url,
+                b.name,
+                b.domain,
+                b.host,
+                (err?: Error) => {
+                  if (err) {
+                    reject(
+                      new Error(`Couldn't import bookmark: ${err.message}`)
+                    );
+                  } else if (b.url) {
+                    getBookmark(b.url)
+                      .then((book: any) => {
+                        if (!book || !book.id) return;
+                        const promises: Promise<unknown>[] = [];
+                        b.tags?.forEach((tag: string) => {
+                          promises.push(insertTag(book.id, tag));
+                        });
+                        Promise.all(promises).then(() => resolve()).catch(reject);
+                      })
+                      .catch(reject);
+                  }
+                }
+              );
+            }
+          })
+          .catch(console.log);
+      }
+    });
+  });
+};
+
+export const getBookmarksTags = (): Promise<Tag[]> => {
+  return new Promise((resolve, reject) => {
+    db.all('SELECT DISTINCT tag FROM bookmarks_tags', (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
+    });
   });
 };
 

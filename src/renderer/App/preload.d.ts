@@ -29,7 +29,7 @@ declare global {
         setWindowsCount: (args: IpcSetWindowsCount) => void;
       };
       bookmark: {
-        importBookmarks: (bookmarks: Partial<Bookmark>[]) => void;
+        importBookmarks: (bookmarks: Partial<Bookmark>[]) => Promise<void>;
         getBookmarksTags: () => Promise<Tag[]>;
         editBookmark: (bookmark: Partial<Bookmark>) => Promise<Bookmark>;
         getBookmarksProviders: () => Promise<Provider[]>;

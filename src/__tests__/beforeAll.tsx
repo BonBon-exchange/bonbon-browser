@@ -18,9 +18,9 @@ export const mockWindow = () => {
         findInBookmarks: jest.fn(() => Promise.resolve()),
         getBookmarksProviders: jest.fn(() => Promise.resolve()),
         getBookmarksFromProvider: jest.fn(() => Promise.resolve()),
-        importBookmarks: jest.fn(),
+        importBookmarks: jest.fn(() => Promise.resolve()),
         getBookmarksTags: jest.fn(() => Promise.resolve()),
-        editBookmark: jest.fn(() => Promise.resolve())
+        editBookmark: jest.fn(() => Promise.resolve()),
       },
       browser: {
         select: jest.fn(),

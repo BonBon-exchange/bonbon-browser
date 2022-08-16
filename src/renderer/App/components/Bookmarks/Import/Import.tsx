@@ -30,13 +30,15 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
 
   const handleImportAll = () => {
     if (selectedBookmarksProviders?.length === 0) return;
-    window.app.bookmark.importBookmarks(filteredItems);
     setImportButtonText(t('Importing...'));
-    setTimeout(() => {
-      setImportButtonText(t('Done'));
-      setSelectedBookmarksProviders(undefined);
-      setItems([]);
-    }, 1500);
+    window.app.bookmark
+      .importBookmarks(filteredItems)
+      .then(() => {
+        setImportButtonText(t('Done'));
+        setSelectedBookmarksProviders(undefined);
+        setItems([]);
+      })
+      .catch(console.log);
   };
 
   const handleDeleteBookmark = (id: number) => {

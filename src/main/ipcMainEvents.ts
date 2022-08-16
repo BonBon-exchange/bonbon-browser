@@ -353,9 +353,12 @@ export const makeIpcMainEvents = (): void => {
     }
   );
 
-  ipcMain.on('import-bookmarks', (_e, bookmarks: Partial<Bookmark>[]) => {
-    importBookmarks(bookmarks);
-  });
+  ipcMain.handle(
+    'import-bookmarks',
+    (_e, bookmarks: Partial<Bookmark>[]): Promise<void> => {
+      return importBookmarks(bookmarks);
+    }
+  );
 
   ipcMain.handle('get-bookmarks-tags', (): Promise<Tag[]> => {
     return getBookmarksTags();

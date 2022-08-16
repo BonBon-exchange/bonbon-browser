@@ -170,7 +170,7 @@ export const BookmarksItem: React.FC<BookmarksItemProps> = ({
         <div className="Bookmarks__item-name">{bookmark.name}</div>
         <div className="Bookmarks__item-url">{bookmark.url}</div>
         <div className="Bookmarks__item-tags">
-          {bookmark.tags?.map((tag) => (
+          {bookmark.tags?.map((tag: string) => (
             <Chip label={tag} />
           ))}
         </div>

@@ -48,8 +48,8 @@ contextBridge.exposeInMainWorld('app', {
     getBookmarksFromProvider: (provider: Provider): Promise<Bookmark[]> => {
       return ipcRenderer.invoke('get-bookmarks-from-provider', provider);
     },
-    importBookmarks: (bookmarks: Partial<Bookmark>[]) => {
-      ipcRenderer.send('import-bookmarks', bookmarks);
+    importBookmarks: (bookmarks: Partial<Bookmark>[]): Promise<void> => {
+      return ipcRenderer.invoke('import-bookmarks', bookmarks);
     },
     getBookmarksTags: (): Promise<Tag[]> => {
       return ipcRenderer.invoke('get-bookmarks-tags');
