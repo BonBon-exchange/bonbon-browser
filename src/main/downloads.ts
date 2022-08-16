@@ -34,8 +34,13 @@ export const getAllDownloads = (): Promise<Download[]> => {
   });
 };
 
-export const clearDownloads = (): void => {
-  db.run('DELETE FROM downloads');
+export const clearDownloads = (): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    db.run('DELETE FROM downloads', (err?) => {
+      if (err) reject(new Error(`Couldn't clear downloads: ${err.message}`));
+      else resolve();
+    });
+  });
 };
 
 export const removeDownload = (id: number): Promise<void> => {

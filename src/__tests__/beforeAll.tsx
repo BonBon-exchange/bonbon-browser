@@ -36,7 +36,7 @@ export const mockWindow = () => {
       download: {
         addDownload: jest.fn(),
         getAllDownloads: jest.fn(() => Promise.resolve()),
-        clearDownloads: jest.fn(),
+        clearDownloads: jest.fn(() => Promise.resolve()),
         removeDownload: jest.fn(() => Promise.resolve()),
         hideDownloadsPreview: jest.fn(),
       },

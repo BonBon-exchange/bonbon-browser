@@ -55,7 +55,7 @@ declare global {
         hideDownloadsPreview: () => void;
         addDownload: (args: IpcAddDownload) => void;
         getAllDownloads: () => Promise<Download[]>;
-        clearDownloads: () => void;
+        clearDownloads: () => Promise<void>;
         removeDownload: (id: number) => Promise<void>;
       };
       extension: {

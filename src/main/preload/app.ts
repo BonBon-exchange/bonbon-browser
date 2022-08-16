@@ -98,8 +98,8 @@ contextBridge.exposeInMainWorld('app', {
     getAllDownloads: (): Promise<Download[]> => {
       return ipcRenderer.invoke('get-all-downloads');
     },
-    clearDownloads: () => {
-      ipcRenderer.send('clear-downloads');
+    clearDownloads: (): Promise<void> => {
+      return ipcRenderer.invoke('clear-downloads');
     },
     hideDownloadsPreview: () => {
       ipcRenderer.send('hide-downloads-preview');

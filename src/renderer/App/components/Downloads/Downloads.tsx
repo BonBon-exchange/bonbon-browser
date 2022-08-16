@@ -38,8 +38,12 @@ export const Downloads: React.FC<DownloadsProps> = ({
   };
 
   const handleClearDownloads = () => {
-    setItems([]);
-    window.app.download.clearDownloads();
+    window.app.download
+      .clearDownloads()
+      .then(() => {
+        setItems([]);
+      })
+      .catch(console.log);
   };
 
   useEffect(() => {
