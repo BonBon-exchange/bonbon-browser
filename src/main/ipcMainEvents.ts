@@ -327,8 +327,8 @@ export const makeIpcMainEvents = (): void => {
     deleteExtension(id);
   });
 
-  ipcMain.on('install-extension', (_e, id: string) => {
-    installExtension(id);
+  ipcMain.handle('install-extension', (_e, id: string) => {
+    return installExtension(id);
   });
 
   ipcMain.on('hide-downloads-preview', () => {

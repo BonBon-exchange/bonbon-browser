@@ -145,16 +145,22 @@ export const loadExtensions = () => {
   });
 };
 
-export const installExtension = (id: string, forceDownload?: boolean) => {
-  downloadChromeExtension(id, forceDownload)
-    .then(() => {
-      session.fromPartition('persist:user-partition').removeExtension(id);
-
-      session
-        .fromPartition('persist:user-partition')
-        .loadExtension(path.join(getPath(), id));
-    })
-    .catch(console.log);
+export const installExtension = (
+  id: string,
+  forceDownload?: boolean
+): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    downloadChromeExtension(id, forceDownload)
+      .then(() => {
+        session.fromPartition('persist:user-partition').removeExtension(id);
+        session
+          .fromPartition('persist:user-partition')
+          .loadExtension(path.join(getPath(), id))
+          .then(() => resolve())
+          .catch(() => reject(new Error(`Couldn't install extension.`)));
+      })
+      .catch(() => reject(new Error(`Couldn't install extension.`)));
+  });
 };
 
 export const updateExtensions = (extId?: string) => {

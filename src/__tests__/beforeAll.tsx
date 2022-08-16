@@ -43,7 +43,7 @@ export const mockWindow = () => {
       extension: {
         getAllExtensions: jest.fn(() => Promise.resolve()),
         deleteExtension: jest.fn(),
-        installExtension: jest.fn(),
+        installExtension: jest.fn(() => Promise.resolve()),
       },
       history: {
         addHistory: jest.fn(),

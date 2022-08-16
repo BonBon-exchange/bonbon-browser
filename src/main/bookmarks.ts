@@ -213,7 +213,9 @@ export const importBookmarks = (
                         b.tags?.forEach((tag: string) => {
                           promises.push(insertTag(book.id, tag));
                         });
-                        Promise.all(promises).then(() => resolve()).catch(reject);
+                        Promise.all(promises)
+                          .then(() => resolve())
+                          .catch(reject);
                       })
                       .catch(reject);
                   }
@@ -247,11 +249,11 @@ export const editBookmark = (bookmark: Partial<Bookmark>) => {
     if (bookmark.id) removeTags(bookmark.id);
     const promises: Promise<unknown>[] = [];
     bookmark.tags?.forEach((tag: string) => {
-      promises.push(insertTag(bookmark.id, tag));
+      if (bookmark.id) promises.push(insertTag(Number(bookmark.id), tag));
     });
     Promise.all(promises)
       .then(() => {
-        getBookmark(bookmark.url).then(resolve).catch(reject);
+        if (bookmark.url) getBookmark(bookmark.url).then(resolve).catch(reject);
       })
       .catch(reject);
   });

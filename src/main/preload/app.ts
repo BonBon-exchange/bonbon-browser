@@ -112,8 +112,8 @@ contextBridge.exposeInMainWorld('app', {
     deleteExtension: (id: string) => {
       ipcRenderer.send('delete-extension', id);
     },
-    installExtension: (id: string) => {
-      ipcRenderer.send('install-extension', id);
+    installExtension: (id: string): Promise<void> => {
+      return ipcRenderer.invoke('install-extension', id);
     },
   },
   history: {
