@@ -209,14 +209,20 @@ export const installAndLoadUserExtensions = () => {
     store.set('extensions.forceInstallUBlockOrigin', false);
 };
 
-export const deleteExtension = (id: string) => {
-  const ext = session.fromPartition('persist:user-partition').getExtension(id);
-  session.fromPartition('persist:user-partition').removeExtension(id);
-  rimraf(ext.path, (err) => {
-    if (!err) {
-      rimraf(`${ext.path}.crx`, console.log);
-      getExtensionsObject().removeExtension(ext);
-      getMainWindow()?.webContents.send('remove-extension', id);
-    }
+export const deleteExtension = (id: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const ext = session
+      .fromPartition('persist:user-partition')
+      .getExtension(id);
+    session.fromPartition('persist:user-partition').removeExtension(id);
+    rimraf(ext.path, (err) => {
+      if (!err) {
+        rimraf(`${ext.path}.crx`, () => resolve());
+        getExtensionsObject().removeExtension(ext);
+        getMainWindow()?.webContents.send('remove-extension', id);
+      } else {
+        reject();
+      }
+    });
   });
 };

@@ -323,11 +323,11 @@ export const makeIpcMainEvents = (): void => {
     });
   });
 
-  ipcMain.on('delete-extension', (_e, id: string) => {
-    deleteExtension(id);
+  ipcMain.handle('delete-extension', (_e, id: string): Promise<void> => {
+    return deleteExtension(id);
   });
 
-  ipcMain.handle('install-extension', (_e, id: string) => {
+  ipcMain.handle('install-extension', (_e, id: string): Promise<void> => {
     return installExtension(id);
   });
 

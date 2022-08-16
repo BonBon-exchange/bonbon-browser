@@ -60,7 +60,7 @@ declare global {
       };
       extension: {
         getAllExtensions: () => Promise<Extension[]>;
-        deleteExtension: (id: string) => void;
+        deleteExtension: (id: string) => Promise<void>;
         installExtension: (id: string) => Promise<void>;
       };
       history: {

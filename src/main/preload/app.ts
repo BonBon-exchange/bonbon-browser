@@ -109,8 +109,8 @@ contextBridge.exposeInMainWorld('app', {
     getAllExtensions: (): Promise<Extension[]> => {
       return ipcRenderer.invoke('get-all-extensions');
     },
-    deleteExtension: (id: string) => {
-      ipcRenderer.send('delete-extension', id);
+    deleteExtension: (id: string): Promise<void> => {
+      return ipcRenderer.invoke('delete-extension', id);
     },
     installExtension: (id: string): Promise<void> => {
       return ipcRenderer.invoke('install-extension', id);
