@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
-import { IpcMainEvent, BrowserWindow, Menu } from "electron";
+import { IpcMainEvent, BrowserWindow, Menu } from 'electron';
 import {
   IpcShowBoardContextMenu,
   IpcShowLeftbarContextMenu,
   IpcShowTabContextMenu,
 } from 'types/ipc';
 
-import { getMainWindow, getSelectedView } from "./browser";
+import { getMainWindow, getSelectedView } from './browser';
 import i18n from './i18n';
 
 export const showTabContextMenu = (
