@@ -298,3 +298,16 @@ export const findBookmarksByDomain = (
     );
   });
 };
+
+export const findInBookmarks = (str: string): Promise<Bookmark[]> => {
+  return new Promise((resolve, reject) => {
+    db.all(
+      'SELECT * FROM bookmarks WHERE url LIKE ? GROUP BY url ORDER BY id DESC LIMIT 5',
+      `%${str}%`,
+      (err, rows) => {
+        if (err) reject(new Error(`Couldn't get bookmarks: ${err.message}`));
+        else resolve(rows);
+      }
+    );
+  });
+};

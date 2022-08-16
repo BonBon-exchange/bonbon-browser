@@ -7,10 +7,8 @@ import AutoLaunch from 'easy-auto-launch';
 import {
   app,
   BrowserView,
-  BrowserWindow,
   ipcMain,
   IpcMainEvent,
-  Menu,
   nativeTheme,
   shell,
   WebContents,
@@ -53,32 +51,49 @@ import {
   removeBookmark,
   addBookmark,
   findBookmarksByDomain,
+  findInBookmarks,
 } from './bookmarks';
+import { getMainWindow, getSelectedView, setBrowserViewBonds } from './browser';
 import {
-  createBrowserView,
-  getMainWindow,
-  getSelectedView,
-  setBrowserViewBonds,
-  setSelectedView,
-} from './browser';
-import db from './db';
+  showBoardContextMenu,
+  showLeftbarContextMenu,
+  showTabContextMenu,
+} from './contextMenu';
+import {
+  addDownload,
+  clearDownloads,
+  getAllDownloads,
+  removeDownload,
+} from './downloads';
 import {
   deleteExtension,
   getAllExtensions,
   getExtensionsObject,
   installExtension,
 } from './extensions';
-import { addHistory, findHistoryByDomain } from './history';
+import {
+  addHistory,
+  clearHistory,
+  findHistoryByDomain,
+  findInHistory,
+  getAllHistory,
+  removeHistory,
+} from './history';
 import i18n from './i18n';
 import { getStore } from './store';
+import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
 
 const store = getStore();
-const views: Record<string, BrowserView> = {};
+let views: Record<string, BrowserView> = {};
 const browsers: Record<string, WebContents> = {};
 const certificateErrorAuth: { webContentsId: number; fingerprint: string }[] =
   [];
 
 export const getBrowsers = () => browsers;
+export const getViews = () => views;
+export const setViews = (newViews: Record<string, BrowserView>) => {
+  views = newViews;
+};
 
 export const getCertificateErrorAuth = (
   webContentsId: number,
@@ -118,32 +133,7 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('tab-select', (_event, args: IpcTabSelect) => {
-    const viewToShow: BrowserView = views[args.tabId]
-      ? views[args.tabId]
-      : createBrowserView();
-    views[args.tabId] = viewToShow;
-    getMainWindow()?.setTopBrowserView(viewToShow);
-    viewToShow.webContents.send('load-board', {
-      boardId: args.tabId,
-    });
-    viewToShow.webContents.on('dom-ready', () => {
-      const interval = setInterval(() => {
-        try {
-          viewToShow.webContents.send('load-board', {
-            boardId: args.tabId,
-          });
-        } catch (e) {
-          console.log(e);
-          clearInterval(interval);
-        }
-      }, 100);
-
-      setTimeout(() => {
-        if (interval) clearInterval(interval);
-      }, 10000);
-    });
-    setSelectedView(viewToShow);
-    getSelectedView()?.webContents.focus();
+    selectTab(args);
   });
 
   ipcMain.on('close-active-board', () => {
@@ -159,23 +149,15 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('tab-purge', (_event, args: IpcTabPurge) => {
-    const view = views[args.tabId] as any;
-    if (view) {
-      view.webContents.send('purge');
-      getMainWindow()?.removeBrowserView(view);
-      view.webContents.destroy();
-    }
-    delete views[args.tabId];
+    purgeTab(args);
   });
 
   ipcMain.on('save-tab', (_event, args: IpcSaveTab) => {
-    const view = views[args.tabId];
-    if (view) view.webContents.send('save-board');
+    saveTab(args);
   });
 
   ipcMain.on('rename-tab', (_event, args: IpcRenameTab) => {
-    const view = views[args.tabId];
-    if (view) view.webContents.send('rename-board', { label: args.label });
+    renameTab(args);
   });
 
   ipcMain.on('select-browser', (_event, webContentsId: string) => {
@@ -250,36 +232,19 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('remove-history', (_e, id: number) => {
-    db.run('DELETE FROM history WHERE id = ?', id);
+    removeHistory(id);
   });
 
   ipcMain.on('clear-history', () => {
-    db.run('DELETE FROM history');
+    clearHistory();
   });
 
   ipcMain.handle('find-in-history', (_e, str: string): Promise<History[]> => {
-    return new Promise((resolve, reject) => {
-      db.all(
-        'SELECT * FROM history WHERE url LIKE ? GROUP BY url ORDER BY date DESC LIMIT 20',
-        `%${str}%`,
-        (err, rows: History[]) => {
-          if (err) reject(new Error(`Couldn't get history: ${err.message}`));
-          else resolve(rows);
-        }
-      );
-    });
+    return findInHistory(str);
   });
 
   ipcMain.handle('get-all-history', (_e): Promise<History[]> => {
-    return new Promise((resolve, reject) => {
-      db.all(
-        'SELECT * FROM history ORDER BY date DESC',
-        (err: Error | null, rows: History[]) => {
-          if (err) reject(new Error(`Couldn't get history: ${err.message}`));
-          else resolve(rows);
-        }
-      );
-    });
+    return getAllHistory();
   });
 
   ipcMain.handle('is-bookmarked', (_e, str: string): Promise<boolean> => {
@@ -314,176 +279,40 @@ export const makeIpcMainEvents = (): void => {
     shell.showItemInFolder(filepath);
   });
 
-  ipcMain.on('add-download', (_e, args: IpcAddDownload) => {
-    db.get(
-      'SELECT * FROM downloads WHERE savePath = ? AND startTime = ?',
-      args.savePath,
-      args.startTime,
-      (_err: unknown, row: Download[]) => {
-        if (!row) {
-          db.run(
-            'INSERT INTO downloads (savePath, filename, date, startTime) VALUES (?, ?, datetime("now", "localtime"), ?)',
-            args.savePath,
-            args.filename,
-            args.startTime
-          );
-        }
-      }
-    );
+  ipcMain.on('add-download', (_e, args: IpcAddDownload): void => {
+    addDownload(args);
   });
 
   ipcMain.handle('get-all-downloads', (): Promise<Download[]> => {
-    return new Promise((resolve, reject) => {
-      db.all(
-        'SELECT * FROM downloads ORDER BY date DESC',
-        (err, rows: Download[]) => {
-          if (err) reject(new Error(`Couldn't get downloads: ${err.message}`));
-          else resolve(rows);
-        }
-      );
-    });
+    return getAllDownloads();
   });
 
   ipcMain.on('clear-downloads', () => {
-    db.run('DELETE FROM downloads');
+    clearDownloads();
   });
 
   ipcMain.on('remove-download', (_e, id: number) => {
-    db.run('DELETE FROM downloads WHERE id = ?', id);
+    removeDownload(id);
   });
 
   ipcMain.on(
     'show-tab-context-menu',
     (e, params: IpcShowTabContextMenu): void => {
-      const mainWindow = getMainWindow();
-      const template = [
-        {
-          label: i18n.t('Close tab'),
-          click: () => {
-            mainWindow?.webContents.send('close-tab', {
-              x: params.x,
-              y: params.y,
-            });
-          },
-        },
-        {
-          label: i18n.t('Close all tabs'),
-          click: () => {
-            mainWindow?.webContents.send('close-all-tab');
-          },
-        },
-        {
-          label: i18n.t('Close others tabs'),
-          click: () => {
-            mainWindow?.webContents.send('close-others-tab', {
-              x: params.x,
-              y: params.y,
-            });
-          },
-        },
-        {
-          label: i18n.t('Rename tab'),
-          click: () => {
-            mainWindow?.webContents.send('rename-tab', {
-              x: params.x,
-              y: params.y,
-            });
-          },
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: i18n.t('Inspect element'),
-          click: () => {
-            e.sender.inspectElement(params.x, params.y);
-          },
-        },
-      ];
-
-      // @ts-ignore
-      const menu = Menu.buildFromTemplate(template);
-      menu.popup({
-        window: BrowserWindow.fromWebContents(e.sender) || undefined,
-      });
+      showTabContextMenu(e, params);
     }
   );
 
   ipcMain.on(
     'show-leftbar-context-menu',
     (e, params: IpcShowLeftbarContextMenu): void => {
-      const selectedView = getSelectedView();
-      const template = [
-        {
-          label: i18n.t('Close window'),
-          click: () => {
-            selectedView?.webContents.send('close-webview', {
-              x: params.x,
-              y: params.y,
-            });
-          },
-        },
-        {
-          label: i18n.t('Close all windows'),
-          click: () => {
-            selectedView?.webContents.send('close-all-webview');
-          },
-        },
-        {
-          label: i18n.t('Close others windows'),
-          click: () => {
-            selectedView?.webContents.send('close-others-webview', {
-              x: params.x,
-              y: params.y,
-            });
-          },
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: i18n.t('Inspect element'),
-          click: () => {
-            e.sender.inspectElement(params.x, params.y);
-          },
-        },
-      ];
-
-      // @ts-ignore
-      const menu = Menu.buildFromTemplate(template);
-      menu.popup({
-        window: BrowserWindow.fromWebContents(e.sender) || undefined,
-      });
+      showLeftbarContextMenu(e, params);
     }
   );
 
   ipcMain.on(
     'show-board-context-menu',
     (e, params: IpcShowBoardContextMenu): void => {
-      const selectedView = getSelectedView();
-      const template = [
-        {
-          label: i18n.t('Distribute windows evenly'),
-          click: () => {
-            selectedView?.webContents.send('distribute-windows-evenly');
-          },
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: i18n.t('Inspect element'),
-          click: () => {
-            e.sender.inspectElement(params.x, params.y);
-          },
-        },
-      ];
-
-      // @ts-ignore
-      const menu = Menu.buildFromTemplate(template);
-      menu.popup({
-        window: BrowserWindow.fromWebContents(e.sender) || undefined,
-      });
+      showBoardContextMenu(e, params);
     }
   );
 
@@ -539,17 +368,7 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.handle(
     'find-in-bookmarks',
     (_e, str: string): Promise<Bookmark[]> => {
-      return new Promise((resolve, reject) => {
-        db.all(
-          'SELECT * FROM bookmarks WHERE url LIKE ? GROUP BY url ORDER BY id DESC LIMIT 5',
-          `%${str}%`,
-          (err, rows) => {
-            if (err)
-              reject(new Error(`Couldn't get bookmarks: ${err.message}`));
-            else resolve(rows);
-          }
-        );
-      });
+      return findInBookmarks(str);
     }
   );
 
