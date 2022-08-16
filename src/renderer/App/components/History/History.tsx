@@ -14,7 +14,9 @@ import { CloseButton } from 'renderer/App/components/CloseButton';
 import { Loader } from 'renderer/App/components/Loader';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 
-import { HistoryProps, HistoryType } from './Types';
+import { History as HistoryType } from 'types/history';
+
+import { HistoryProps } from './Types';
 
 import './style.scss';
 
@@ -93,7 +95,7 @@ export const History: React.FC<HistoryProps> = ({
       .getAllHistory()
       .then((val) => {
         setItems(val);
-        setFilteredItems(val);
+        setFilteredItems(val as HistoryType[]);
         setIsLoading(false);
       })
       .catch((e) => {

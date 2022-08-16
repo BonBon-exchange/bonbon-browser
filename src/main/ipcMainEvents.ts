@@ -16,7 +16,7 @@ import {
   WebContents,
 } from 'electron';
 
-import { Bookmark, Provider as BookmarkProvider } from 'types/bookmarks';
+import { Bookmark, Provider as BookmarkProvider, Tag } from 'types/bookmarks';
 import { Download } from 'types/downloads';
 import { Extension } from 'types/extensions';
 import { History } from 'types/history';
@@ -528,7 +528,7 @@ export const makeIpcMainEvents = (): void => {
     importBookmarks(bookmarks);
   });
 
-  ipcMain.handle('get-bookmarks-tags', (): Promise<string[]> => {
+  ipcMain.handle('get-bookmarks-tags', (): Promise<Tag[]> => {
     return getBookmarksTags();
   });
 

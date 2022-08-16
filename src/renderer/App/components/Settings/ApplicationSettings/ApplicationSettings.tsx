@@ -5,6 +5,8 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Locale } from 'types/i18n';
+
 export const ApplicationSettings: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [appSettingLaunch, setAppSettingLaunch] = useState<boolean>(false);
@@ -17,7 +19,7 @@ export const ApplicationSettings: React.FC = () => {
     });
   };
 
-  const updateLanguage = (value: string) => {
+  const updateLanguage = (value: Locale) => {
     i18n.changeLanguage(value);
     window.app.tools.changeLanguage(value);
   };
@@ -50,7 +52,7 @@ export const ApplicationSettings: React.FC = () => {
         <select
           id="application-settings-language"
           value={i18n.language}
-          onChange={(e) => updateLanguage(e.target.value)}
+          onChange={(e) => updateLanguage(e.target.value as Locale)}
         >
           <option value="en">{t('English')}</option>
           <option value="es">{t('Spanish')}</option>

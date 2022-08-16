@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 import { EventParams } from 'types/analytics';
-import { Bookmark, Provider } from 'types/bookmarks';
+import { Bookmark, Provider, Tag } from 'types/bookmarks';
 import { Download } from 'types/downloads';
 import { Extension } from 'types/extensions';
 import { Locale } from 'types/i18n';
@@ -51,7 +51,7 @@ contextBridge.exposeInMainWorld('app', {
     importBookmarks: (bookmarks: Partial<Bookmark>[]) => {
       ipcRenderer.send('import-bookmarks', bookmarks);
     },
-    getBookmarksTags: (): Promise<string[]> => {
+    getBookmarksTags: (): Promise<Tag[]> => {
       return ipcRenderer.invoke('get-bookmarks-tags');
     },
     isBookmarked: (url: string): Promise<boolean> => {

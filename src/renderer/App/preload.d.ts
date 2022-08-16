@@ -1,7 +1,8 @@
 import { EventParams } from "types/analytics";
-import { Bookmark, Provider } from "types/bookmarks";
+import { Bookmark, Provider, Tag } from "types/bookmarks";
 import { Download } from "types/downloads";
 import { Extension } from "types/extensions";
+import { History } from "types/history";
 import { Locale } from "types/i18n";
 import {
   IpcAddBookmark,
@@ -29,7 +30,7 @@ declare global {
       };
       bookmark: {
         importBookmarks: (bookmarks: Partial<Bookmark>[]) => void;
-        getBookmarksTags: () => Promise<string[]>;
+        getBookmarksTags: () => Promise<Tag[]>;
         editBookmark: (bookmark: Partial<Bookmark>) => void;
         getBookmarksProviders: () => Promise<Provider[]>;
         getBookmarksFromProvider: (provider: Provider) => Promise<Bookmark[]>;

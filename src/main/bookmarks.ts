@@ -11,7 +11,7 @@ import path from 'path';
 import fs from 'fs';
 import { parseDomain, fromUrl, ParseResultType } from 'parse-domain';
 
-import { Bookmark, Provider } from 'types/bookmarks';
+import { Bookmark, Provider, Tag } from 'types/bookmarks';
 import { DomainSuggestion } from 'types/suggestions';
 
 import db from './db';
@@ -207,7 +207,7 @@ export const importBookmarks = (bookmarks: Partial<Bookmark>[]) => {
   });
 };
 
-export const getBookmarksTags = (): Promise<string[]> => {
+export const getBookmarksTags = (): Promise<Tag[]> => {
   return new Promise((resolve, reject) => {
     db.all('SELECT DISTINCT tag FROM bookmarks_tags', (err, rows) => {
       if (err) reject(err);

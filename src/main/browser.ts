@@ -7,6 +7,7 @@ import { machineIdSync } from 'node-machine-id';
 import { getExtensionsObject, installDevtoolsExtensions } from './extensions';
 import { resolveHtmlPath } from './util';
 import { event } from './analytics';
+import { DARWIN } from './constants';
 
 const machineId = machineIdSync();
 
@@ -36,14 +37,13 @@ export const setBrowserViewBonds = (
   let bHeight: number;
   let bY: number;
 
-  const darwin = process.platform === 'darwin';
   if (isFullScreen) {
     bWidth = width;
     bHeight = height;
     bY = 0;
   } else {
-    bWidth = darwin ? width : width - 15;
-    bHeight = darwin ? height - 30 : height - 45;
+    bWidth = DARWIN ? width : width - 15;
+    bHeight = DARWIN ? height - 30 : height - 45;
     bY = 30;
   }
 

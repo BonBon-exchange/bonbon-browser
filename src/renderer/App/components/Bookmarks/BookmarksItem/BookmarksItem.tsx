@@ -11,7 +11,9 @@ import { Chip, TextField } from '@mui/material';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { useEffect, useState } from 'react';
 
-import { BookmarksItemProps, TagOptionType } from './Types';
+import { Tag } from 'types/bookmarks';
+
+import { BookmarksItemProps } from './Types';
 
 export const BookmarksItem: React.FC<BookmarksItemProps> = ({
   bookmark,
@@ -22,8 +24,8 @@ export const BookmarksItem: React.FC<BookmarksItemProps> = ({
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [name, setName] = useState<string>(bookmark.name);
   const [url, setUrl] = useState<string>(bookmark.url);
-  const [tags, setTags] = useState<TagOptionType[]>([]);
-  const [tagsOption, setTagsOptions] = useState<TagOptionType[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [tagsOption, setTagsOptions] = useState<Tag[]>([]);
 
   const handleEditBookmark = () => setIsEditing(true);
   const handleSaveBookmark = () => {
@@ -31,6 +33,8 @@ export const BookmarksItem: React.FC<BookmarksItemProps> = ({
       id: bookmark.id,
       name,
       url,
+      host: bookmark.host,
+      domain: bookmark.domain,
       tags: tags.map((tg) => (tg.inputValue ? tg.inputValue : tg.tag)),
     };
     window.app.bookmark.editBookmark(formattedBookmark);
@@ -38,7 +42,7 @@ export const BookmarksItem: React.FC<BookmarksItemProps> = ({
     replaceItem(formattedBookmark);
   };
 
-  const filter = createFilterOptions<TagOptionType>();
+  const filter = createFilterOptions<Tag>();
 
   useEffect(() => {
     window.app.bookmark

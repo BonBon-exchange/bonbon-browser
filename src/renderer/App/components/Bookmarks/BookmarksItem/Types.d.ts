@@ -1,13 +1,9 @@
-import { BookmarkType } from "renderer/App/components/Bookmarks/Types";
+import { Bookmark } from "types/bookmarks";
 
 export interface BookmarksItemProps {
-  bookmark: BookmarkType;
+  bookmark: Bookmark;
   handleDelete: (id: number) => void;
   handleClick: (url: string) => void;
-  replaceItem: (bookmark: BookmarkType) => void;
+  replaceItem: (bookmark: Bookmark) => void;
 }
 
-export type TagOptionType = {
-  tag: string;
-  inputValue?: string;
-}

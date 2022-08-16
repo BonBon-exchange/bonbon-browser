@@ -7,4 +7,9 @@ export type Bookmark = {
   tags?: string[];
 };
 
+export type Tag = {
+  tag: string;
+  inputValue?: string;
+};
+
 export type Provider = 'Chrome' | 'Edge' | 'Brave';
