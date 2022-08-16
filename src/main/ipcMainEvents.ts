@@ -279,8 +279,8 @@ export const makeIpcMainEvents = (): void => {
     shell.showItemInFolder(filepath);
   });
 
-  ipcMain.on('add-download', (_e, args: IpcAddDownload): void => {
-    addDownload(args);
+  ipcMain.handle('add-download', (_e, args: IpcAddDownload): Promise<void> => {
+    return addDownload(args);
   });
 
   ipcMain.handle('get-all-downloads', (): Promise<Download[]> => {

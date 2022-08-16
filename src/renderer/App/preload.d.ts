@@ -53,7 +53,7 @@ declare global {
       };
       download: {
         hideDownloadsPreview: () => void;
-        addDownload: (args: IpcAddDownload) => void;
+        addDownload: (args: IpcAddDownload) => Promise<void>;
         getAllDownloads: () => Promise<Download[]>;
         clearDownloads: () => Promise<void>;
         removeDownload: (id: number) => Promise<void>;

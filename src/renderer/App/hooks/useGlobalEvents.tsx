@@ -182,11 +182,13 @@ export const useGlobalEvents = () => {
     ) => {
       dispatch(setDownloadItem(args));
       if (args.state === 'completed') {
-        window.app.download.addDownload({
-          savePath: args.savePath,
-          filename: args.filename,
-          startTime: args.startTime,
-        });
+        window.app.download
+          .addDownload({
+            savePath: args.savePath,
+            filename: args.filename,
+            startTime: args.startTime,
+          })
+          .catch(console.log);
       }
     },
     [dispatch]

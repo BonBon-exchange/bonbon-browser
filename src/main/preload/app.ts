@@ -92,8 +92,8 @@ contextBridge.exposeInMainWorld('app', {
     removeDownload: (id: number): Promise<void> => {
       return ipcRenderer.invoke('remove-download', id);
     },
-    addDownload: (args: IpcAddDownload) => {
-      ipcRenderer.send('add-download', args);
+    addDownload: (args: IpcAddDownload): Promise<void> => {
+      return ipcRenderer.invoke('add-download', args);
     },
     getAllDownloads: (): Promise<Download[]> => {
       return ipcRenderer.invoke('get-all-downloads');
