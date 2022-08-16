@@ -291,8 +291,8 @@ export const makeIpcMainEvents = (): void => {
     clearDownloads();
   });
 
-  ipcMain.on('remove-download', (_e, id: number) => {
-    removeDownload(id);
+  ipcMain.handle('remove-download', (_e, id: number): Promise<void> => {
+    return removeDownload(id);
   });
 
   ipcMain.on(

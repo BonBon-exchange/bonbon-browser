@@ -38,6 +38,11 @@ export const clearDownloads = (): void => {
   db.run('DELETE FROM downloads');
 };
 
-export const removeDownload = (id: number): void => {
-  db.run('DELETE FROM downloads WHERE id = ?', id);
+export const removeDownload = (id: number): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    db.run('DELETE FROM downloads WHERE id = ?', id, (err?) => {
+      if (err) reject(new Error(`Couldn't delete download: ${err.message}`));
+      else resolve();
+    });
+  });
 };
