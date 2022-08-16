@@ -53,6 +53,7 @@ import {
   removeBookmark,
   addBookmark,
   findBookmarksByDomain,
+  findInBookmarks,
 } from './bookmarks';
 import {
   createBrowserView,
@@ -63,12 +64,25 @@ import {
 } from './browser';
 import db from './db';
 import {
+  addDownload,
+  clearDownloads,
+  getAllDownloads,
+  removeDownload,
+} from './downloads';
+import {
   deleteExtension,
   getAllExtensions,
   getExtensionsObject,
   installExtension,
 } from './extensions';
-import { addHistory, findHistoryByDomain } from './history';
+import {
+  addHistory,
+  clearHistory,
+  findHistoryByDomain,
+  findInHistory,
+  getAllHistory,
+  removeHistory,
+} from './history';
 import i18n from './i18n';
 import { getStore } from './store';
 
@@ -250,36 +264,19 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('remove-history', (_e, id: number) => {
-    db.run('DELETE FROM history WHERE id = ?', id);
+    removeHistory(id);
   });
 
   ipcMain.on('clear-history', () => {
-    db.run('DELETE FROM history');
+    clearHistory();
   });
 
   ipcMain.handle('find-in-history', (_e, str: string): Promise<History[]> => {
-    return new Promise((resolve, reject) => {
-      db.all(
-        'SELECT * FROM history WHERE url LIKE ? GROUP BY url ORDER BY date DESC LIMIT 20',
-        `%${str}%`,
-        (err, rows: History[]) => {
-          if (err) reject(new Error(`Couldn't get history: ${err.message}`));
-          else resolve(rows);
-        }
-      );
-    });
+    return findInHistory(str);
   });
 
   ipcMain.handle('get-all-history', (_e): Promise<History[]> => {
-    return new Promise((resolve, reject) => {
-      db.all(
-        'SELECT * FROM history ORDER BY date DESC',
-        (err: Error | null, rows: History[]) => {
-          if (err) reject(new Error(`Couldn't get history: ${err.message}`));
-          else resolve(rows);
-        }
-      );
-    });
+    return getAllHistory();
   });
 
   ipcMain.handle('is-bookmarked', (_e, str: string): Promise<boolean> => {
@@ -314,42 +311,20 @@ export const makeIpcMainEvents = (): void => {
     shell.showItemInFolder(filepath);
   });
 
-  ipcMain.on('add-download', (_e, args: IpcAddDownload) => {
-    db.get(
-      'SELECT * FROM downloads WHERE savePath = ? AND startTime = ?',
-      args.savePath,
-      args.startTime,
-      (_err: unknown, row: Download[]) => {
-        if (!row) {
-          db.run(
-            'INSERT INTO downloads (savePath, filename, date, startTime) VALUES (?, ?, datetime("now", "localtime"), ?)',
-            args.savePath,
-            args.filename,
-            args.startTime
-          );
-        }
-      }
-    );
+  ipcMain.on('add-download', (_e, args: IpcAddDownload): void => {
+    addDownload(args);
   });
 
   ipcMain.handle('get-all-downloads', (): Promise<Download[]> => {
-    return new Promise((resolve, reject) => {
-      db.all(
-        'SELECT * FROM downloads ORDER BY date DESC',
-        (err, rows: Download[]) => {
-          if (err) reject(new Error(`Couldn't get downloads: ${err.message}`));
-          else resolve(rows);
-        }
-      );
-    });
+    return getAllDownloads();
   });
 
   ipcMain.on('clear-downloads', () => {
-    db.run('DELETE FROM downloads');
+    clearDownloads();
   });
 
   ipcMain.on('remove-download', (_e, id: number) => {
-    db.run('DELETE FROM downloads WHERE id = ?', id);
+    removeDownload(id);
   });
 
   ipcMain.on(
@@ -539,17 +514,7 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.handle(
     'find-in-bookmarks',
     (_e, str: string): Promise<Bookmark[]> => {
-      return new Promise((resolve, reject) => {
-        db.all(
-          'SELECT * FROM bookmarks WHERE url LIKE ? GROUP BY url ORDER BY id DESC LIMIT 5',
-          `%${str}%`,
-          (err, rows) => {
-            if (err)
-              reject(new Error(`Couldn't get bookmarks: ${err.message}`));
-            else resolve(rows);
-          }
-        );
-      });
+      return findInBookmarks(str);
     }
   );
 

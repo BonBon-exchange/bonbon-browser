@@ -73,3 +73,36 @@ export const findHistoryByDomain = (
     );
   });
 };
+
+export const removeHistory = (id: number) => {
+  db.run('DELETE FROM history WHERE id = ?', id);
+};
+
+export const clearHistory = () => {
+  db.run('DELETE FROM history');
+};
+
+export const findInHistory = (str: string): Promise<History[]> => {
+  return new Promise((resolve, reject) => {
+    db.all(
+      'SELECT * FROM history WHERE url LIKE ? GROUP BY url ORDER BY date DESC LIMIT 20',
+      `%${str}%`,
+      (err, rows: History[]) => {
+        if (err) reject(new Error(`Couldn't get history: ${err.message}`));
+        else resolve(rows);
+      }
+    );
+  });
+};
+
+export const getAllHistory = (): Promise<History[]> => {
+  return new Promise((resolve, reject) => {
+    db.all(
+      'SELECT * FROM history ORDER BY date DESC',
+      (err: Error | null, rows: History[]) => {
+        if (err) reject(new Error(`Couldn't get history: ${err.message}`));
+        else resolve(rows);
+      }
+    );
+  });
+};
