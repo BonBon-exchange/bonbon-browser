@@ -26,11 +26,15 @@ export const Downloads: React.FC<DownloadsProps> = ({
   };
 
   const handleDeleteDownload = (id: number) => {
-    window.app.download.removeDownload(id);
-    const newItems = [...items];
-    const index = newItems.findIndex((i) => i.id === id);
-    if (index > -1) newItems.splice(index, 1);
-    setItems(newItems);
+    window.app.download
+      .removeDownload(id)
+      .then(() => {
+        const newItems = [...items];
+        const index = newItems.findIndex((i) => i.id === id);
+        if (index > -1) newItems.splice(index, 1);
+        setItems(newItems);
+      })
+      .catch(console.log);
   };
 
   const handleClearDownloads = () => {
