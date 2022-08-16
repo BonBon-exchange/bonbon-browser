@@ -11,10 +11,11 @@ import AutoSize from 'react-virtualized-auto-sizer';
 import { CloseButton } from 'renderer/App/components/CloseButton';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { Loader } from 'renderer/App/components/Loader';
+import { Bookmark as BookmarkType } from 'types/bookmarks';
 import { BookmarksItem } from './BookmarksItem';
 import { Import } from './Import';
 
-import { BookmarksProps, BookmarkType } from './Types';
+import { BookmarksProps } from './Types';
 
 import './style.scss';
 

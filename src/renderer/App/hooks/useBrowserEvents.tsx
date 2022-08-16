@@ -39,8 +39,8 @@ export const useBrowserEvents = (browserId: string) => {
   const browser = board.browsers.find((b) => b.id === browserId);
 
   const ipcMessageListener = useCallback(
-    (e: Event & { args: any }) => {
-      const event = e as IpcMessageEvent;
+    (e: Event & { args?: unknown[] }) => {
+      const event = e as unknown as IpcMessageEvent;
       switch (event.channel) {
         default:
           break;
@@ -134,10 +134,15 @@ export const useBrowserEvents = (browserId: string) => {
           break;
 
         case 'created-webcontents':
+          const argsCreatedWebcontents = e.args as unknown as [
+            { webContentsId: number }
+          ];
           dispatch(
             updateBrowser({
               browserId,
-              params: { webContentsId: e.args[0].webContentsId },
+              params: {
+                webContentsId: argsCreatedWebcontents[0].webContentsId,
+              },
             })
           );
 
@@ -145,7 +150,8 @@ export const useBrowserEvents = (browserId: string) => {
           break;
 
         case 'install-extension':
-          window.app.extension.installExtension(e.args[0]);
+          const argsInstallExtension = e.args as unknown as [string];
+          window.app.extension.installExtension(argsInstallExtension[0]);
           break;
       }
     },
@@ -184,10 +190,11 @@ export const useBrowserEvents = (browserId: string) => {
   );
 
   const didFinishLoadListener = useCallback(
-    (e: any) => {
+    (e: Event) => {
+      const target = e.target as HTMLSourceElement;
       if (
-        e.target.src !== 'https://web.whatsapp.com/' ||
-        e.target.src !== browser?.url ||
+        target.src !== 'https://web.whatsapp.com/' ||
+        target.src !== browser?.url ||
         browser?.isLoading
       ) {
         webview?.blur();
@@ -214,10 +221,11 @@ export const useBrowserEvents = (browserId: string) => {
   );
 
   const didStartLoadListener = useCallback(
-    (e: any) => {
+    (e: Event) => {
+      const target = e.target as HTMLSourceElement;
       if (
-        e.target.src !== 'https://web.whatsapp.com/' ||
-        e.target.src !== browser?.url
+        target.src !== 'https://web.whatsapp.com/' ||
+        target.src !== browser?.url
       ) {
         dispatch(
           updateBrowserLoading({

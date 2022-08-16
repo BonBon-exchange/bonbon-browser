@@ -86,7 +86,7 @@ export const BrowserInputSuggestions: React.FC<
     Promise.all(promises)
       .then((result: any[]) => {
         // 2 suggestions of bookmarks
-        const rows = result[0].rows
+        const rows = result[0]
           .slice(0, 2)
           .map((r: SuggestionItem) => ({ ...r, id: `bookmark::${r.id}` }));
 
@@ -110,7 +110,7 @@ export const BrowserInputSuggestions: React.FC<
 
         // 2 suggestions of history
         rows.push(
-          ...result[1].rows
+          ...result[1]
             .slice(0, 2)
             .map((r: SuggestionItem) => ({ ...r, id: `history::${r.id}` }))
         );

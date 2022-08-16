@@ -1,9 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import Nucleus from 'nucleus-nodejs';
 
-export const event = (
-  eventName: string,
-  params?: { [key: string]: string | number | boolean } | undefined
-) => {
+import { Event } from 'types/analytics';
+
+export const event: Event = (eventName, params) => {
   Nucleus.track(eventName, params);
 };

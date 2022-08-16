@@ -7,6 +7,7 @@ import { machineIdSync } from 'node-machine-id';
 import { getExtensionsObject, installDevtoolsExtensions } from './extensions';
 import { resolveHtmlPath } from './util';
 import { event } from './analytics';
+import { DARWIN } from './constants';
 
 const machineId = machineIdSync();
 
@@ -14,21 +15,21 @@ let selectedView: BrowserView | null = null;
 let freeView: BrowserView | null = null;
 let mainWindow: BrowserWindow | null = null;
 
-export const getSelectedView = () => selectedView;
-export const getFreeView = () => freeView;
-export const setFreeView = (view: BrowserView) => {
+export const getSelectedView = (): BrowserView | null => selectedView;
+export const getFreeView = (): BrowserView | null => freeView;
+export const setFreeView = (view: BrowserView): void => {
   freeView = view;
 };
-export const setSelectedView = (view: BrowserView) => {
+export const setSelectedView = (view: BrowserView): void => {
   selectedView = view;
 };
 
-export const getMainWindow = () => mainWindow;
+export const getMainWindow = (): BrowserWindow | null => mainWindow;
 
 export const setBrowserViewBonds = (
   view: BrowserView,
   isFullScreen: boolean
-) => {
+): void => {
   const sizes = mainWindow?.getSize();
   const width = sizes && sizes[0] ? sizes[0] : 0;
   const height = sizes && sizes[1] ? sizes[1] : 0;
@@ -36,14 +37,13 @@ export const setBrowserViewBonds = (
   let bHeight: number;
   let bY: number;
 
-  const darwin = process.platform === 'darwin';
   if (isFullScreen) {
     bWidth = width;
     bHeight = height;
     bY = 0;
   } else {
-    bWidth = darwin ? width : width - 15;
-    bHeight = darwin ? height - 30 : height - 45;
+    bWidth = DARWIN ? width : width - 15;
+    bHeight = DARWIN ? height - 30 : height - 45;
     bY = 30;
   }
 
@@ -55,7 +55,7 @@ export const setBrowserViewBonds = (
   view.setBounds({ x: 0, y: bY, width: bWidth, height: bHeight });
 };
 
-const createFreeBrowserView = () => {
+const createFreeBrowserView = (): BrowserView => {
   const view = new BrowserView({
     webPreferences: {
       partition: 'persist:user-partition',
@@ -87,7 +87,7 @@ export const createBrowserView = (): BrowserView => {
   return view;
 };
 
-export const createWindow = async (): Promise<void> => {
+export const createWindow = async (): Promise<BrowserWindow> => {
   if (!app.isPackaged) {
     await installDevtoolsExtensions();
   }
@@ -138,4 +138,6 @@ export const createWindow = async (): Promise<void> => {
   );
 
   event('open_app');
+
+  return mainWindow;
 };

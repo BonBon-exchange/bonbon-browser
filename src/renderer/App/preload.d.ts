@@ -1,68 +1,74 @@
+import { EventParams } from "types/analytics";
+import { Bookmark, Provider, Tag } from "types/bookmarks";
+import { Download } from "types/downloads";
+import { Extension } from "types/extensions";
+import { History } from "types/history";
+import { Locale } from "types/i18n";
+import {
+  IpcAddBookmark,
+  IpcAddDownload,
+  IpcAddHistory,
+  IpcCertificateErrorAnswer,
+  IpcInspectElement,
+  IpcSetStoreValue,
+  IpcSetWindowsCount,
+  IpcShowBoardContextMenu,
+  IpcShowLeftbarContextMenu
+} from "types/ipc";
+import { DomainSuggestion } from "types/suggestions";
+
 declare global {
   interface Window {
     app: {
       analytics: {
-        event: (eventName: string, params?: Record<string, string>) => void;
+        event: (eventName: string, params?: EventParams) => void;
       };
       board: {
-        open: (board: {
-          id: string;
-          label: string;
-          isFullSize: boolean;
-        }) => void;
         close: () => void;
         selectNext: () => void;
-        setWindowsCount: (args: { boardId: string; count: number }) => void;
+        setWindowsCount: (args: IpcSetWindowsCount) => void;
       };
       bookmark: {
-        importBookmarks: (bookmarks: any[]) => void;
-        getBookmarksTags: () => Promise<any>;
-        editBookmark: (bookmark: any) => void;
-        getBookmarksProviders: () => Promise<any>;
-        getBookmarksFromProvider: (provider: string) => Promise<any>;
+        importBookmarks: (bookmarks: Partial<Bookmark>[]) => void;
+        getBookmarksTags: () => Promise<Tag[]>;
+        editBookmark: (bookmark: Partial<Bookmark>) => void;
+        getBookmarksProviders: () => Promise<Provider[]>;
+        getBookmarksFromProvider: (provider: Provider) => Promise<Bookmark[]>;
         isBookmarked: (url: string) => Promise<boolean>;
-        addBookmark: (args: { title: string; url: string }) => void;
+        addBookmark: (args: IpcAddBookmark) => void;
         removeBookmark: (url: string) => void;
-        getAllBookmarks: () => Promise<any>;
+        getAllBookmarks: () => Promise<Bookmark[]>;
         findInBookmarks: (str: string) => Promise<any>;
       };
       browser: {
         select: (webContentsId: number) => void;
         selectBrowserView: () => void;
-        certificateErrorAnswer: (args: {
-          webContentsId: number;
-          fingerprint: string;
-          isTrusted: boolean;
-        }) => void;
+        certificateErrorAnswer: (args: IpcCertificateErrorAnswer) => void;
         requestCapture: (webContentsId: number) => Promise<string>;
-        getUrlToOpen: () => Promise<string|undefined>;
+        getUrlToOpen: () => Promise<string | undefined>;
       };
       config: {
         get: (key: string) => Promise<unknown>;
-        set: (args: { key: string; value: unknown }) => void;
+        set: (args: IpcSetStoreValue) => void;
       };
       download: {
         hideDownloadsPreview: () => void;
-        addDownload: (args: {
-          savePath: string;
-          filename: string;
-          startTime: number;
-        }) => void;
-        getAllDownloads: () => Promise<any>;
+        addDownload: (args: IpcAddDownload) => void;
+        getAllDownloads: () => Promise<Download[]>;
         clearDownloads: () => void;
         removeDownload: (id: number) => void;
       };
       extension: {
-        getAllExtensions: () => Promise<any>;
+        getAllExtensions: () => Promise<Extension[]>;
         deleteExtension: (id: string) => void;
         installExtension: (id: string) => void;
       };
       history: {
-        addHistory: (args: { url: string; title: string }) => void;
-        findInHistory: (str: string) => Promise<any>;
+        addHistory: (args: IpcAddHistory) => void;
+        findInHistory: (str: string) => Promise<History[]>;
         removeHistory: (id: number) => void;
         clearHistory: () => void;
-        getAllHistory: () => Promise<any>;
+        getAllHistory: () => Promise<History[]>;
       };
       listener: {
         newWindow: (action: unknown) => void;
@@ -101,14 +107,14 @@ declare global {
         setDefaultWindowSize: () => void;
       };
       tools: {
-        inspectElement: (point: { x: number; y: number }) => void;
+        inspectElement: (point: IpcInspectElement) => void;
         toggleDarkMode: () => void;
-        changeLanguage: (locale: string) => void;
+        changeLanguage: (locale: Locale) => void;
         showItemInFolder: (filepath: string) => void;
-        showLeftbarContextMenu: (params: { x: number; y: number }) => void;
-        showBoardContextMenu: (params: { x: number; y: number }) => void;
+        showLeftbarContextMenu: (params: IpcShowLeftbarContextMenu) => void;
+        showBoardContextMenu: (params: IpcShowBoardContextMenu) => void;
         clicked: () => void;
-        findInKnownDomains: (input: string) => Promise<any>;
+        findInKnownDomains: (input: string) => Promise<DomainSuggestion[]>;
       };
     };
   }

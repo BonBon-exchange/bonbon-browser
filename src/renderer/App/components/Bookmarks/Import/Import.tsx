@@ -10,20 +10,20 @@ import { FixedSizeList as List } from 'react-window';
 import AutoSize from 'react-virtualized-auto-sizer';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
+import { Provider, Bookmark } from 'types/bookmarks';
 
 import { ImportProps } from './Types';
-import { BookmarkType } from '../Types';
 
 import './style.scss';
 
 export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState<string>('');
-  const [items, setItems] = useState<BookmarkType[]>([]);
-  const [bookmarksProviders, setBookmarksProviders] = useState<string[]>([]);
+  const [items, setItems] = useState<Bookmark[]>([]);
+  const [bookmarksProviders, setBookmarksProviders] = useState<Provider[]>([]);
   const [selectedBookmarksProviders, setSelectedBookmarksProviders] =
-    useState<string>('');
-  const [filteredItems, setFilteredItems] = useState<BookmarkType[]>([]);
+    useState<Provider>();
+  const [filteredItems, setFilteredItems] = useState<Bookmark[]>([]);
   const [importButtonText, setImportButtonText] = useState<string>(
     t('Import all')
   );
@@ -34,7 +34,7 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
     setImportButtonText(t('Importing...'));
     setTimeout(() => {
       setImportButtonText(t('Done'));
-      setSelectedBookmarksProviders('');
+      setSelectedBookmarksProviders(undefined);
       setItems([]);
     }, 1500);
   };
@@ -51,7 +51,7 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
     index,
     style,
   }: {
-    data: BookmarkType[];
+    data: Bookmark[];
     index: number;
     style: any;
   }) => {
@@ -104,7 +104,7 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
   }, []);
 
   useEffect(() => {
-    if (selectedBookmarksProviders && selectedBookmarksProviders.length > 0) {
+    if (selectedBookmarksProviders) {
       setImportButtonText(t('Import all'));
       window.app.bookmark
         .getBookmarksFromProvider(selectedBookmarksProviders)
@@ -128,7 +128,9 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
             className="Import_providers-list"
             label="Browsers"
             value={selectedBookmarksProviders}
-            onChange={(e) => setSelectedBookmarksProviders(e.target.value)}
+            onChange={(e) =>
+              setSelectedBookmarksProviders(e.target.value as Provider)
+            }
           >
             {bookmarksProviders.map((b) => {
               return (

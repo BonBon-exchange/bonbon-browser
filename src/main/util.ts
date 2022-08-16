@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
   };
 }
 
-export const downloadFile = (from: string, to: string) => {
+export const downloadFile = (from: string, to: string): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
     const req = https.get(from);
     // eslint-disable-next-line consistent-return
@@ -55,7 +55,7 @@ export const changePermissions = (dir: string, mode: string | number) => {
   });
 };
 
-export const getPath = () => {
+export const getPath = (): string => {
   const savePath = app.getPath('userData');
   return path.resolve(`${savePath}/extensions`);
 };

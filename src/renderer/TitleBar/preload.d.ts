@@ -1,4 +1,5 @@
-import { BrowserWindow, Menu, MenuItem, MenuItemConstructorOptions } from "electron";
+import { EventParams } from "types/analytics";
+import { IpcInspectElement, IpcRenameTab, IpcShowTabContextMenu } from "types/ipc";
 
 declare global {
   interface Window {
@@ -9,13 +10,13 @@ declare global {
         maximize: () => void;
         showMenu: () => void;
         showDownloadsPreview: () => void;
-        showTabContextMenu: (params: { x: number; y: number }) => void;
+        showTabContextMenu: (params: IpcShowTabContextMenu) => void;
       };
       analytics: {
-        event: (eventName: string, params?: Record<string, string>) => void;
+        event: (eventName: string, params?: EventParams) => void;
       };
       tools: {
-        inspectElement: (point: { x: number; y: number }) => void;
+        inspectElement: (point: IpcInspectElement) => void;
       };
       listener: {
         openTab: (action: unknown) => void;
@@ -51,7 +52,7 @@ declare global {
         select: (tabId: string) => void;
         purge: (tabId: string) => void;
         save: (tabId: string) => void;
-        rename: ({ tabId, label }: { tabId: string; label: string }) => void;
+        rename: (args: IpcRenameTab) => void;
       };
       screens: {
         library: () => void;
