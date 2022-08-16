@@ -121,9 +121,14 @@ export const isBookmarked = (url: string): Promise<boolean> => {
 };
 
 const getBookmark = (url: string): Promise<Bookmark> => {
-  return new Promise((resolve) => {
-    db.get('SELECT * FROM bookmarks WHERE url = ?', url, (_err, row) =>
-      resolve(row)
+  return new Promise((resolve, reject) => {
+    db.get(
+      'SELECT b.*, json_group_array(bt.tag) as tags FROM bookmarks b LEFT JOIN bookmarks_tags bt ON bt.bookmark_id = b.id WHERE b.url = ? GROUP BY b.id',
+      url,
+      (err, row) => {
+        if (err) reject(new Error(`Couldn't get bookmark: ${err.message}`))
+        else resolve(row);
+      }
     );
   });
 };
@@ -216,20 +221,38 @@ export const getBookmarksTags = (): Promise<Tag[]> => {
   });
 };
 
-export const editBookmark = (bookmark: Partial<Bookmark>) => {
-  db.run(
-    'UPDATE bookmarks SET url = ?, name = ? WHERE id = ?',
-    bookmark.url,
-    bookmark.name,
-    bookmark.id
-  );
-  if (bookmark.id) removeTags(bookmark.id);
-  bookmark.tags?.forEach((tag: string) => {
+const insertTag = (bookmarkId: number, tag: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
     db.run(
       'INSERT INTO bookmarks_tags (bookmark_id, tag) VALUES (?, ?)',
-      bookmark.id,
-      tag
+      bookmarkId,
+      tag,
+      (err?: Error) => {
+        if (err) reject();
+        else resolve();
+      }
     );
+  });
+};
+
+export const editBookmark = (bookmark: Partial<Bookmark>) => {
+  return new Promise((resolve, reject) => {
+    db.run(
+      'UPDATE bookmarks SET url = ?, name = ? WHERE id = ?',
+      bookmark.url,
+      bookmark.name,
+      bookmark.id
+    );
+    if (bookmark.id) removeTags(bookmark.id);
+    const promises: Promise<unknown>[] = [];
+    bookmark.tags?.forEach((tag: string) => {
+      promises.push(insertTag(bookmark.id, tag));
+    });
+    Promise.all(promises)
+      .then(() => {
+        getBookmark(bookmark.url).then(resolve).catch(reject);
+      })
+      .catch(reject);
   });
 };
 

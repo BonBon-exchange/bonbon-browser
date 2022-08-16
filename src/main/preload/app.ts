@@ -39,8 +39,8 @@ contextBridge.exposeInMainWorld('app', {
     findInBookmarks: (str: string): Promise<Bookmark[]> => {
       return ipcRenderer.invoke('find-in-bookmarks', str);
     },
-    editBookmark: (bookmark: Partial<Bookmark>) => {
-      ipcRenderer.send('edit-bookmark', bookmark);
+    editBookmark: (bookmark: Partial<Bookmark>): Promise<Bookmark> => {
+      return ipcRenderer.invoke('edit-bookmark', bookmark);
     },
     getBookmarksProviders: (): Promise<Provider[]> => {
       return ipcRenderer.invoke('get-bookmarks-providers');

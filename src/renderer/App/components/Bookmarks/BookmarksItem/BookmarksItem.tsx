@@ -37,9 +37,13 @@ export const BookmarksItem: React.FC<BookmarksItemProps> = ({
       domain: bookmark.domain,
       tags: tags.map((tg) => (tg.inputValue ? tg.inputValue : tg.tag)),
     };
-    window.app.bookmark.editBookmark(formattedBookmark);
-    setIsEditing(false);
-    replaceItem(formattedBookmark);
+    window.app.bookmark
+      .editBookmark(formattedBookmark)
+      .then((b) => {
+        setIsEditing(false);
+        replaceItem(b);
+      })
+      .catch(console.log);
   };
 
   const filter = createFilterOptions<Tag>();

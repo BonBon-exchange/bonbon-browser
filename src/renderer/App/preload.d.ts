@@ -31,7 +31,7 @@ declare global {
       bookmark: {
         importBookmarks: (bookmarks: Partial<Bookmark>[]) => void;
         getBookmarksTags: () => Promise<Tag[]>;
-        editBookmark: (bookmark: Partial<Bookmark>) => void;
+        editBookmark: (bookmark: Partial<Bookmark>) => Promise<Bookmark>;
         getBookmarksProviders: () => Promise<Provider[]>;
         getBookmarksFromProvider: (provider: Provider) => Promise<Bookmark[]>;
         isBookmarked: (url: string) => Promise<boolean>;

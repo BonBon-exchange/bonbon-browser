@@ -361,8 +361,8 @@ export const makeIpcMainEvents = (): void => {
     return getBookmarksTags();
   });
 
-  ipcMain.on('edit-bookmark', (_e, bookmark: Partial<Bookmark>) => {
-    editBookmark(bookmark);
+  ipcMain.handle('edit-bookmark', (_e, bookmark: Partial<Bookmark>) => {
+    return editBookmark(bookmark);
   });
 
   ipcMain.handle(
