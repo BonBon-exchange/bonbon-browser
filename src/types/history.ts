@@ -4,10 +4,5 @@ export type History = {
   date: string;
   title: string;
   domain: string;
-};
-
-export type DomainSuggestion = {
-  id: number;
-  url: string;
-  domain: string;
+  host: string;
 };

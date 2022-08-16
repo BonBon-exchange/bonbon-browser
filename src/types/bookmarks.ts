@@ -7,10 +7,4 @@ export type Bookmark = {
   tags?: string[];
 };
 
-export type DomainSuggestion = {
-  id: number;
-  url: string;
-  domain: string;
-};
-
 export type Provider = 'Chrome' | 'Edge' | 'Brave';

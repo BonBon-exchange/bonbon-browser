@@ -16,15 +16,29 @@ import {
   WebContents,
 } from 'electron';
 
-import { Provider as BookmarkProvider } from 'types/bookmarks';
+import { Bookmark, Provider as BookmarkProvider } from 'types/bookmarks';
+import { Download } from 'types/downloads';
+import { Extension } from 'types/extensions';
+import { History } from 'types/history';
+import { Locale } from 'types/i18n';
 import {
+  IpcAddBookmark,
+  IpcAddDownload,
+  IpcAddHistory,
   IpcAnalytics,
+  IpcCertificateErrorAnswer,
   IpcInspectElement,
   IpcRenameTab,
   IpcSaveTab,
+  IpcSetStoreValue,
+  IpcSetWindowsCount,
+  IpcShowBoardContextMenu,
+  IpcShowLeftbarContextMenu,
+  IpcShowTabContextMenu,
   IpcTabPurge,
   IpcTabSelect,
 } from 'types/ipc';
+import { DomainSuggestion } from 'types/suggestions';
 
 import { event } from './analytics';
 import { getUrlToOpen, setUrlToOpen } from './appEvents';
@@ -177,7 +191,7 @@ export const makeIpcMainEvents = (): void => {
     getMainWindow()?.webContents.send('select-next-board');
   });
 
-  ipcMain.on('set-windows-count', (_event, args) => {
+  ipcMain.on('set-windows-count', (_event, args: IpcSetWindowsCount) => {
     getMainWindow()?.webContents.send('set-windows-count', args);
   });
 
@@ -208,11 +222,11 @@ export const makeIpcMainEvents = (): void => {
     getSelectedView()?.webContents.send('show-downloads-preview');
   });
 
-  ipcMain.handle('get-store-value', (_event, key) => {
+  ipcMain.handle('get-store-value', (_event, key: string) => {
     return store.get(key);
   });
 
-  ipcMain.on('set-store-value', (_e, args) => {
+  ipcMain.on('set-store-value', (_e, args: IpcSetStoreValue) => {
     store.set(args.key, args.value);
 
     switch (args.key) {
@@ -227,15 +241,15 @@ export const makeIpcMainEvents = (): void => {
     }
   });
 
-  ipcMain.on('change-language', (_e, locale) => {
+  ipcMain.on('change-language', (_e, locale: Locale) => {
     i18n.changeLanguage(locale);
   });
 
-  ipcMain.on('add-history', (_e, args) => {
+  ipcMain.on('add-history', (_e, args: IpcAddHistory) => {
     addHistory(args);
   });
 
-  ipcMain.on('remove-history', (_e, id) => {
+  ipcMain.on('remove-history', (_e, id: number) => {
     db.run('DELETE FROM history WHERE id = ?', id);
   });
 
@@ -243,33 +257,40 @@ export const makeIpcMainEvents = (): void => {
     db.run('DELETE FROM history');
   });
 
-  ipcMain.handle('find-in-history', (_e, str) => {
-    return new Promise((resolve, _reject) => {
+  ipcMain.handle('find-in-history', (_e, str: string): Promise<History[]> => {
+    return new Promise((resolve, reject) => {
       db.all(
         'SELECT * FROM history WHERE url LIKE ? GROUP BY url ORDER BY date DESC LIMIT 20',
         `%${str}%`,
-        (err, rows) => resolve({ err, rows })
+        (err, rows: History[]) => {
+          if (err) reject(new Error(`Couldn't get history: ${err.message}`));
+          else resolve(rows);
+        }
       );
     });
   });
 
-  ipcMain.handle('get-all-history', (_e) => {
-    return new Promise((resolve, _reject) => {
-      db.all('SELECT * FROM history ORDER BY date DESC', (_err, rows) =>
-        resolve(rows)
+  ipcMain.handle('get-all-history', (_e): Promise<History[]> => {
+    return new Promise((resolve, reject) => {
+      db.all(
+        'SELECT * FROM history ORDER BY date DESC',
+        (err: Error | null, rows: History[]) => {
+          if (err) reject(new Error(`Couldn't get history: ${err.message}`));
+          else resolve(rows);
+        }
       );
     });
   });
 
-  ipcMain.handle('is-bookmarked', (_e, str) => {
+  ipcMain.handle('is-bookmarked', (_e, str: string): Promise<boolean> => {
     return isBookmarked(str);
   });
 
-  ipcMain.on('add-bookmark', (_e, args: { url: string; name: string }) => {
+  ipcMain.on('add-bookmark', (_e, args: IpcAddBookmark) => {
     addBookmark(args);
   });
 
-  ipcMain.on('remove-bookmark', (_e, url) => {
+  ipcMain.on('remove-bookmark', (_e, url: string) => {
     removeBookmark(url);
   });
 
@@ -277,25 +298,28 @@ export const makeIpcMainEvents = (): void => {
     return getAllBookmarks();
   });
 
-  ipcMain.on('certificate-error-answer', (_e, args) => {
-    if (args.isTrusted) {
-      certificateErrorAuth.push({
-        webContentsId: args.webContentsId,
-        fingerprint: args.fingerprint,
-      });
+  ipcMain.on(
+    'certificate-error-answer',
+    (_e, args: IpcCertificateErrorAnswer) => {
+      if (args.isTrusted) {
+        certificateErrorAuth.push({
+          webContentsId: args.webContentsId,
+          fingerprint: args.fingerprint,
+        });
+      }
     }
-  });
+  );
 
-  ipcMain.on('show-item-in-folder', (_e, filepath) => {
+  ipcMain.on('show-item-in-folder', (_e, filepath: string) => {
     shell.showItemInFolder(filepath);
   });
 
-  ipcMain.on('add-download', (_e, args) => {
+  ipcMain.on('add-download', (_e, args: IpcAddDownload) => {
     db.get(
       'SELECT * FROM downloads WHERE savePath = ? AND startTime = ?',
       args.savePath,
       args.startTime,
-      (_err: unknown, row: unknown) => {
+      (_err: unknown, row: Download[]) => {
         if (!row) {
           db.run(
             'INSERT INTO downloads (savePath, filename, date, startTime) VALUES (?, ?, datetime("now", "localtime"), ?)',
@@ -308,10 +332,14 @@ export const makeIpcMainEvents = (): void => {
     );
   });
 
-  ipcMain.handle('get-all-downloads', () => {
-    return new Promise((resolve, _reject) => {
-      db.all('SELECT * FROM downloads ORDER BY date DESC', (_err, rows) =>
-        resolve(rows)
+  ipcMain.handle('get-all-downloads', (): Promise<Download[]> => {
+    return new Promise((resolve, reject) => {
+      db.all(
+        'SELECT * FROM downloads ORDER BY date DESC',
+        (err, rows: Download[]) => {
+          if (err) reject(new Error(`Couldn't get downloads: ${err.message}`));
+          else resolve(rows);
+        }
       );
     });
   });
@@ -320,67 +348,70 @@ export const makeIpcMainEvents = (): void => {
     db.run('DELETE FROM downloads');
   });
 
-  ipcMain.on('remove-download', (_e, id) => {
+  ipcMain.on('remove-download', (_e, id: number) => {
     db.run('DELETE FROM downloads WHERE id = ?', id);
   });
 
-  ipcMain.on('show-tab-context-menu', (e, params: { x: number; y: number }) => {
-    const mainWindow = getMainWindow();
-    const template = [
-      {
-        label: i18n.t('Close tab'),
-        click: () => {
-          mainWindow?.webContents.send('close-tab', {
-            x: params.x,
-            y: params.y,
-          });
+  ipcMain.on(
+    'show-tab-context-menu',
+    (e, params: IpcShowTabContextMenu): void => {
+      const mainWindow = getMainWindow();
+      const template = [
+        {
+          label: i18n.t('Close tab'),
+          click: () => {
+            mainWindow?.webContents.send('close-tab', {
+              x: params.x,
+              y: params.y,
+            });
+          },
         },
-      },
-      {
-        label: i18n.t('Close all tabs'),
-        click: () => {
-          mainWindow?.webContents.send('close-all-tab');
+        {
+          label: i18n.t('Close all tabs'),
+          click: () => {
+            mainWindow?.webContents.send('close-all-tab');
+          },
         },
-      },
-      {
-        label: i18n.t('Close others tabs'),
-        click: () => {
-          mainWindow?.webContents.send('close-others-tab', {
-            x: params.x,
-            y: params.y,
-          });
+        {
+          label: i18n.t('Close others tabs'),
+          click: () => {
+            mainWindow?.webContents.send('close-others-tab', {
+              x: params.x,
+              y: params.y,
+            });
+          },
         },
-      },
-      {
-        label: i18n.t('Rename tab'),
-        click: () => {
-          mainWindow?.webContents.send('rename-tab', {
-            x: params.x,
-            y: params.y,
-          });
+        {
+          label: i18n.t('Rename tab'),
+          click: () => {
+            mainWindow?.webContents.send('rename-tab', {
+              x: params.x,
+              y: params.y,
+            });
+          },
         },
-      },
-      {
-        type: 'separator',
-      },
-      {
-        label: i18n.t('Inspect element'),
-        click: () => {
-          e.sender.inspectElement(params.x, params.y);
+        {
+          type: 'separator',
         },
-      },
-    ];
+        {
+          label: i18n.t('Inspect element'),
+          click: () => {
+            e.sender.inspectElement(params.x, params.y);
+          },
+        },
+      ];
 
-    // @ts-ignore
-    const menu = Menu.buildFromTemplate(template);
-    menu.popup({
-      window: BrowserWindow.fromWebContents(e.sender) || undefined,
-    });
-  });
+      // @ts-ignore
+      const menu = Menu.buildFromTemplate(template);
+      menu.popup({
+        window: BrowserWindow.fromWebContents(e.sender) || undefined,
+      });
+    }
+  );
 
   ipcMain.on(
     'show-leftbar-context-menu',
-    (e, params: { x: number; y: number }) => {
+    (e, params: IpcShowLeftbarContextMenu): void => {
       const selectedView = getSelectedView();
       const template = [
         {
@@ -428,7 +459,7 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on(
     'show-board-context-menu',
-    (e, params: { x: number; y: number }) => {
+    (e, params: IpcShowBoardContextMenu): void => {
       const selectedView = getSelectedView();
       const template = [
         {
@@ -456,7 +487,7 @@ export const makeIpcMainEvents = (): void => {
     }
   );
 
-  ipcMain.handle('get-all-extensions', () => {
+  ipcMain.handle('get-all-extensions', (): Promise<Extension[]> => {
     return new Promise((resolve) => {
       const allExts = getAllExtensions();
       resolve(allExts);
@@ -476,43 +507,53 @@ export const makeIpcMainEvents = (): void => {
     mainWindow?.webContents.send('hide-downloads-preview');
   });
 
-  ipcMain.handle('get-bookmarks-providers', () => {
+  ipcMain.handle('get-bookmarks-providers', (): Promise<BookmarkProvider[]> => {
     return new Promise((resolve) => {
       const bp = getBookmarksProviders();
       resolve(bp);
     });
   });
 
-  ipcMain.handle('get-bookmarks-from-provider', (_e: any, provider: string) => {
-    return new Promise((resolve) => {
-      const bookmarks = getBookmarksFromProvider(provider as BookmarkProvider);
-      resolve(bookmarks);
-    });
-  });
+  ipcMain.handle(
+    'get-bookmarks-from-provider',
+    (_e: any, provider: BookmarkProvider): Promise<Bookmark[]> => {
+      return new Promise((resolve) => {
+        const bookmarks = getBookmarksFromProvider(provider);
+        resolve(bookmarks);
+      });
+    }
+  );
 
-  ipcMain.on('import-bookmarks', (_e, bookmarks: any[]) => {
+  ipcMain.on('import-bookmarks', (_e, bookmarks: Partial<Bookmark>[]) => {
     importBookmarks(bookmarks);
   });
 
-  ipcMain.handle('get-bookmarks-tags', () => {
+  ipcMain.handle('get-bookmarks-tags', (): Promise<string[]> => {
     return getBookmarksTags();
   });
 
-  ipcMain.on('edit-bookmark', (_e, bookmark: any) => {
+  ipcMain.on('edit-bookmark', (_e, bookmark: Partial<Bookmark>) => {
     editBookmark(bookmark);
   });
 
-  ipcMain.handle('find-in-bookmarks', (_e, str) => {
-    return new Promise((resolve, _reject) => {
-      db.all(
-        'SELECT * FROM bookmarks WHERE url LIKE ? GROUP BY url ORDER BY id DESC LIMIT 5',
-        `%${str}%`,
-        (err, rows) => resolve({ err, rows })
-      );
-    });
-  });
+  ipcMain.handle(
+    'find-in-bookmarks',
+    (_e, str: string): Promise<Bookmark[]> => {
+      return new Promise((resolve, reject) => {
+        db.all(
+          'SELECT * FROM bookmarks WHERE url LIKE ? GROUP BY url ORDER BY id DESC LIMIT 5',
+          `%${str}%`,
+          (err, rows) => {
+            if (err)
+              reject(new Error(`Couldn't get bookmarks: ${err.message}`));
+            else resolve(rows);
+          }
+        );
+      });
+    }
+  );
 
-  ipcMain.handle('request-capture', (_e, wcId: number) => {
+  ipcMain.handle('request-capture', (_e, wcId: number): Promise<string> => {
     return new Promise((resolve, reject) => {
       if (browsers[wcId]) {
         browsers[wcId]
@@ -531,7 +572,7 @@ export const makeIpcMainEvents = (): void => {
     getMainWindow()?.webContents.send('app-clicked');
   });
 
-  ipcMain.handle('get-url-to-open', () => {
+  ipcMain.handle('get-url-to-open', (): Promise<string | undefined> => {
     return new Promise((resolve) => {
       const urlToOpen = getUrlToOpen();
       setUrlToOpen(undefined);
@@ -539,16 +580,19 @@ export const makeIpcMainEvents = (): void => {
     });
   });
 
-  ipcMain.handle('find-in-known-domains', (_e, input: string) => {
-    return new Promise((resolve, reject) => {
-      Promise.all([findBookmarksByDomain(input), findHistoryByDomain(input)])
-        .then((res) => {
-          const result = res.flat();
-          resolve(result);
-        })
-        .catch((e) =>
-          reject(new Error(`Error while looking for domains: ${e.message}`))
-        );
-    });
-  });
+  ipcMain.handle(
+    'find-in-known-domains',
+    (_e, input: string): Promise<DomainSuggestion[]> => {
+      return new Promise((resolve, reject) => {
+        Promise.all([findBookmarksByDomain(input), findHistoryByDomain(input)])
+          .then((res) => {
+            const result = res.flat();
+            resolve(result);
+          })
+          .catch((e) =>
+            reject(new Error(`Error while looking for domains: ${e.message}`))
+          );
+      });
+    }
+  );
 };

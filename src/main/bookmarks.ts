@@ -11,7 +11,8 @@ import path from 'path';
 import fs from 'fs';
 import { parseDomain, fromUrl, ParseResultType } from 'parse-domain';
 
-import { Bookmark, DomainSuggestion, Provider } from 'types/bookmarks';
+import { Bookmark, Provider } from 'types/bookmarks';
+import { DomainSuggestion } from 'types/suggestions';
 
 import db from './db';
 
@@ -165,40 +166,44 @@ export const getAllBookmarks = (): Promise<Bookmark[]> => {
   });
 };
 
-export const importBookmarks = (bookmarks: Bookmark[]) => {
+export const importBookmarks = (bookmarks: Partial<Bookmark>[]) => {
   bookmarks.forEach((b) => {
-    isBookmarked(b.url)
-      .then((res) => {
-        if (res === false) {
-          db.run(
-            'INSERT INTO bookmarks (url, name, domain, host) VALUES (?, ?, ?, ?)',
-            b.url,
-            b.name,
-            b.domain,
-            b.host,
-            (err?: any) => {
-              if (err) {
-                console.log(err);
-                return;
-              }
+    if (b.url) {
+      isBookmarked(b.url)
+        .then((res) => {
+          if (res === false) {
+            db.run(
+              'INSERT INTO bookmarks (url, name, domain, host) VALUES (?, ?, ?, ?)',
+              b.url,
+              b.name,
+              b.domain,
+              b.host,
+              (err?: Error) => {
+                if (err) {
+                  console.log(err);
+                  return;
+                }
 
-              getBookmark(b.url)
-                .then((book: any) => {
-                  if (!book || !book.id) return;
-                  b.tags?.forEach((tag: string) => {
-                    db.run(
-                      'INSERT INTO bookmarks_tags (bookmark_id, tag) VALUES (?, ?)',
-                      book.id,
-                      tag
-                    );
-                  });
-                })
-                .catch(console.log);
-            }
-          );
-        }
-      })
-      .catch(console.log);
+                if (b.url) {
+                  getBookmark(b.url)
+                    .then((book: any) => {
+                      if (!book || !book.id) return;
+                      b.tags?.forEach((tag: string) => {
+                        db.run(
+                          'INSERT INTO bookmarks_tags (bookmark_id, tag) VALUES (?, ?)',
+                          book.id,
+                          tag
+                        );
+                      });
+                    })
+                    .catch(console.log);
+                }
+              }
+            );
+          }
+        })
+        .catch(console.log);
+    }
   });
 };
 

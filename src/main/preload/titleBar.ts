@@ -6,6 +6,13 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { injectBrowserAction } from 'electron-chrome-extensions-production/dist/browser-action';
 
+import { EventParams } from 'types/analytics';
+import {
+  IpcInspectElement,
+  IpcRenameTab,
+  IpcShowTabContextMenu,
+} from 'types/ipc';
+
 injectBrowserAction();
 
 contextBridge.exposeInMainWorld('titleBar', {
@@ -25,17 +32,17 @@ contextBridge.exposeInMainWorld('titleBar', {
     showDownloadsPreview: () => {
       ipcRenderer.send('show-downloads-preview');
     },
-    showTabContextMenu: (params: { x: number; y: number }) => {
+    showTabContextMenu: (params: IpcShowTabContextMenu) => {
       ipcRenderer.send('show-tab-context-menu', params);
     },
   },
   analytics: {
-    event: (eventName: string, params: Record<string, string>) => {
+    event: (eventName: string, params: EventParams) => {
       ipcRenderer.send('analytics', { eventName, params });
     },
   },
   tools: {
-    inspectElement: (point: { x: number; y: number }) => {
+    inspectElement: (point: IpcInspectElement) => {
       ipcRenderer.send('inspectElement', point);
     },
   },
@@ -49,8 +56,8 @@ contextBridge.exposeInMainWorld('titleBar', {
     save: (tabId: string) => {
       ipcRenderer.send('save-tab', { tabId });
     },
-    rename: ({ tabId, label }: { tabId: string; label: string }) => {
-      ipcRenderer.send('rename-tab', { tabId, label });
+    rename: (args: IpcRenameTab) => {
+      ipcRenderer.send('rename-tab', args);
     },
   },
   listener: {

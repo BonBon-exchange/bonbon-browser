@@ -1,7 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import { parseDomain, fromUrl, ParseResultType } from 'parse-domain';
 
-import { DomainSuggestion, History } from 'types/history';
+import { History } from 'types/history';
+import { DomainSuggestion } from 'types/suggestions';
 
 import db from './db';
 
@@ -20,10 +21,11 @@ export const addHistory = (args: {
         ].join('.');
 
         db.run(
-          'INSERT INTO history (url, date, title, domain) VALUES (?, datetime("now", "localtime"), ?, ?)',
+          'INSERT INTO history (url, date, title, domain, host) VALUES (?, datetime("now", "localtime"), ?, ?, ?)',
           args.url,
           args.title,
           domain,
+          parseResult.hostname,
           () => {
             db.all(
               'SELECT id, date FROM history WHERE url = ? ORDER BY id DESC LIMIT 1',
@@ -41,6 +43,7 @@ export const addHistory = (args: {
                     id: Number(rows[0].id),
                     date: rows[0].date.toString(),
                     domain,
+                    host: parseResult.hostname,
                   });
                 }
               }

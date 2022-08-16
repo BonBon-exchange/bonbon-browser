@@ -1,8 +1,26 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
+import { EventParams } from 'types/analytics';
+import { Bookmark, Provider } from 'types/bookmarks';
+import { Download } from 'types/downloads';
+import { Extension } from 'types/extensions';
+import { Locale } from 'types/i18n';
+import {
+  IpcAddBookmark,
+  IpcAddDownload,
+  IpcAddHistory,
+  IpcCertificateErrorAnswer,
+  IpcInspectElement,
+  IpcSetStoreValue,
+  IpcSetWindowsCount,
+  IpcShowBoardContextMenu,
+  IpcShowLeftbarContextMenu,
+} from 'types/ipc';
+import { DomainSuggestion } from 'types/suggestions';
+
 contextBridge.exposeInMainWorld('app', {
   analytics: {
-    event: (eventName: string, params: Record<string, string>) => {
+    event: (eventName: string, params: EventParams) => {
       ipcRenderer.send('analytics', { eventName, params });
     },
   },
@@ -13,39 +31,39 @@ contextBridge.exposeInMainWorld('app', {
     selectNext: () => {
       ipcRenderer.send('select-next-board');
     },
-    setWindowsCount: (args: { boardId: string; count: number }) => {
+    setWindowsCount: (args: IpcSetWindowsCount) => {
       ipcRenderer.send('set-windows-count', args);
     },
   },
   bookmark: {
-    findInBookmarks: (str: string) => {
+    findInBookmarks: (str: string): Promise<Bookmark[]> => {
       return ipcRenderer.invoke('find-in-bookmarks', str);
     },
-    editBookmark: (bookmark: any) => {
+    editBookmark: (bookmark: Partial<Bookmark>) => {
       ipcRenderer.send('edit-bookmark', bookmark);
     },
-    getBookmarksProviders: () => {
+    getBookmarksProviders: (): Promise<Provider[]> => {
       return ipcRenderer.invoke('get-bookmarks-providers');
     },
-    getBookmarksFromProvider: (provider: string) => {
+    getBookmarksFromProvider: (provider: Provider): Promise<Bookmark[]> => {
       return ipcRenderer.invoke('get-bookmarks-from-provider', provider);
     },
-    importBookmarks: (bookmarks: any[]) => {
+    importBookmarks: (bookmarks: Partial<Bookmark>[]) => {
       ipcRenderer.send('import-bookmarks', bookmarks);
     },
-    getBookmarksTags: () => {
+    getBookmarksTags: (): Promise<string[]> => {
       return ipcRenderer.invoke('get-bookmarks-tags');
     },
-    isBookmarked: (url: string) => {
+    isBookmarked: (url: string): Promise<boolean> => {
       return ipcRenderer.invoke('is-bookmarked', url);
     },
-    addBookmark: (args: { url: string; name: string }) => {
+    addBookmark: (args: IpcAddBookmark) => {
       ipcRenderer.send('add-bookmark', args);
     },
     removeBookmark: (url: string) => {
       ipcRenderer.send('remove-bookmark', url);
     },
-    getAllBookmarks: () => {
+    getAllBookmarks: (): Promise<Bookmark[]> => {
       return ipcRenderer.invoke('get-all-bookmarks');
     },
   },
@@ -56,32 +74,28 @@ contextBridge.exposeInMainWorld('app', {
     selectBrowserView: () => {
       ipcRenderer.send('select-browserView');
     },
-    certificateErrorAnswer: (args: {
-      webContentsId: number;
-      isTrusted: boolean;
-    }) => {
+    certificateErrorAnswer: (args: IpcCertificateErrorAnswer) => {
       ipcRenderer.send('certificate-error-answer', args);
     },
-    requestCapture: (webContentsId: number) => {
+    requestCapture: (webContentsId: number): Promise<string> => {
       return ipcRenderer.invoke('request-capture', webContentsId);
     },
-    getUrlToOpen: () => {
+    getUrlToOpen: (): Promise<string | undefined> => {
       return ipcRenderer.invoke('get-url-to-open');
     },
   },
   config: {
     get: (key: string) => ipcRenderer.invoke('get-store-value', key),
-    set: (args: { key: string; value: unknown }) =>
-      ipcRenderer.send('set-store-value', args),
+    set: (args: IpcSetStoreValue) => ipcRenderer.send('set-store-value', args),
   },
   download: {
     removeDownload: (id: number) => {
       ipcRenderer.send('remove-download', id);
     },
-    addDownload: (args: { savePath: string; filename: string }) => {
+    addDownload: (args: IpcAddDownload) => {
       ipcRenderer.send('add-download', args);
     },
-    getAllDownloads: () => {
+    getAllDownloads: (): Promise<Download[]> => {
       return ipcRenderer.invoke('get-all-downloads');
     },
     clearDownloads: () => {
@@ -92,7 +106,7 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   extension: {
-    getAllExtensions: () => {
+    getAllExtensions: (): Promise<Extension[]> => {
       return ipcRenderer.invoke('get-all-extensions');
     },
     deleteExtension: (id: string) => {
@@ -103,10 +117,10 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   history: {
-    addHistory: (args: { url: string; title: string }) => {
+    addHistory: (args: IpcAddHistory) => {
       ipcRenderer.send('add-history', args);
     },
-    findInHistory: (str: string) => {
+    findInHistory: (str: string): Promise<History[]> => {
       return ipcRenderer.invoke('find-in-history', str);
     },
     removeHistory: (id: number) => {
@@ -115,7 +129,7 @@ contextBridge.exposeInMainWorld('app', {
     clearHistory: () => {
       ipcRenderer.send('clear-history');
     },
-    getAllHistory: () => {
+    getAllHistory: (): Promise<History[]> => {
       return ipcRenderer.invoke('get-all-history');
     },
   },
@@ -226,28 +240,28 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   tools: {
-    inspectElement: (point: { x: number; y: number }) => {
+    inspectElement: (point: IpcInspectElement) => {
       ipcRenderer.send('inspectElement', point);
     },
     toggleDarkMode: () => {
       ipcRenderer.invoke('dark-mode:toggle');
     },
-    changeLanguage: (locale: string) => {
+    changeLanguage: (locale: Locale) => {
       ipcRenderer.send('change-language', locale);
     },
     showItemInFolder: (filepath: string) => {
       ipcRenderer.send('show-item-in-folder', filepath);
     },
-    showLeftbarContextMenu: (params: { x: number; y: number }) => {
+    showLeftbarContextMenu: (params: IpcShowLeftbarContextMenu) => {
       ipcRenderer.send('show-leftbar-context-menu', params);
     },
-    showBoardContextMenu: (params: { x: number; y: number }) => {
+    showBoardContextMenu: (params: IpcShowBoardContextMenu) => {
       ipcRenderer.send('show-board-context-menu', params);
     },
     clicked: () => {
       ipcRenderer.send('app-clicked');
     },
-    findInKnownDomains: (input: string) => {
+    findInKnownDomains: (input: string): Promise<DomainSuggestion[]> => {
       return ipcRenderer.invoke('find-in-known-domains', input);
     },
   },
