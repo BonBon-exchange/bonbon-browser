@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
 import { useCallback, useEffect, useState } from 'react';
+import { IpcRendererEvent } from 'electron';
 
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import {
@@ -15,6 +16,7 @@ import { setDownloadItem } from 'renderer/App/store/reducers/Downloads';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { DownloadState } from 'renderer/TitleBar/components/TopBar/Types';
 import { getContainerFromBrowserId } from 'renderer/App/helpers/dom';
+import { Position } from 'types/ipc';
 import { useBoard } from './useBoard';
 import { useBrowserMethods } from './useBrowserMethods';
 
@@ -119,12 +121,12 @@ export const useGlobalEvents = () => {
   }, []);
 
   const newWindowAction = useCallback(
-    (_e: any, args: { url: string }) => browser.add(args),
+    (_e: IpcRendererEvent, args: { url: string }) => browser.add(args),
     [browser]
   );
 
   const closeWebviewAction = useCallback(
-    (_e: any, args: { x: number; y: number }) => {
+    (_e: IpcRendererEvent, args: Position) => {
       const el = document.elementFromPoint(args.x, args.y);
       const browserId = el?.getAttribute('data-browserid');
       if (browserId) {
@@ -136,7 +138,7 @@ export const useGlobalEvents = () => {
   );
 
   const closeOthersWebviewAction = useCallback(
-    (_e: any, args: { x: number; y: number }) => {
+    (_e: IpcRendererEvent, args: Position) => {
       const el = document.elementFromPoint(args.x, args.y);
       const browserId = el?.getAttribute('data-browserid');
       if (browserId) {
@@ -160,7 +162,7 @@ export const useGlobalEvents = () => {
   };
 
   const renameBoardAction = useCallback(
-    (_e: unknown, args: { label: string }) => {
+    (_e: IpcRendererEvent, args: { label: string }) => {
       dispatch(renameBoard(args.label));
     },
     [dispatch]
@@ -168,7 +170,7 @@ export const useGlobalEvents = () => {
 
   const downloadingAction = useCallback(
     (
-      _e: unknown,
+      _e: IpcRendererEvent,
       args: {
         savePath: string;
         filename: string;
@@ -191,7 +193,10 @@ export const useGlobalEvents = () => {
   );
 
   const certificateErrorAction = useCallback(
-    (_e: any, args: { webContentsId: number; fingerprint: string }) => {
+    (
+      _e: IpcRendererEvent,
+      args: { webContentsId: number; fingerprint: string }
+    ) => {
       const browserId = boardState.browsers.find(
         (b) => b.webContentsId === args.webContentsId
       )?.id;
@@ -212,7 +217,7 @@ export const useGlobalEvents = () => {
   }, [board]);
 
   const setDefaultWindowSizeAction = useCallback(
-    (_e: any, wcId: number) => {
+    (_e: IpcRendererEvent, wcId: number) => {
       const brow = boardState.browsers.find((b) => b.webContentsId === wcId);
       window.app.config.set({
         key: 'browsing.height',
