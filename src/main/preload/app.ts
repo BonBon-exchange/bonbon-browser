@@ -86,8 +86,10 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   config: {
-    get: (key: string) => ipcRenderer.invoke('get-store-value', key),
-    set: (args: IpcSetStoreValue) => ipcRenderer.send('set-store-value', args),
+    get: (key: string): Promise<unknown> =>
+      ipcRenderer.invoke('get-store-value', key),
+    set: (args: IpcSetStoreValue): Promise<void> =>
+      ipcRenderer.invoke('set-store-value', args),
   },
   download: {
     removeDownload: (id: number): Promise<void> => {

@@ -31,7 +31,7 @@ export const mockWindow = () => {
       },
       config: {
         get: jest.fn(() => Promise.resolve()),
-        set: jest.fn(),
+        set: jest.fn(() => Promise.resolve()),
       },
       download: {
         addDownload: jest.fn(() => Promise.resolve()),

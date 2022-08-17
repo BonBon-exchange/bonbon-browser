@@ -209,19 +209,33 @@ export const makeIpcMainEvents = (): void => {
     return store.get(key);
   });
 
-  ipcMain.on('set-store-value', (_e, args: IpcSetStoreValue) => {
-    store.set(args.key, args.value);
+  ipcMain.on('set-store-value', (_e, args: IpcSetStoreValue): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      let rejected = false;
 
-    switch (args.key) {
-      default:
-        break;
+      store.set(args.key, args.value);
 
-      case 'application.launchAtStartup':
-        args.value === true
-          ? bonbonAutoLauncher.enable().catch(console.log)
-          : bonbonAutoLauncher.disable().catch(console.log);
-        break;
-    }
+      switch (args.key) {
+        default:
+          break;
+
+        case 'application.launchAtStartup':
+          args.value === true
+            ? bonbonAutoLauncher.enable().catch(() => {
+                reject(new Error(`Couldn't enable BonBon Browser at startup.`));
+                rejected = true;
+              })
+            : bonbonAutoLauncher.disable().catch(() => {
+                reject(
+                  new Error(`Couldn't disable BonBon Browser at startup.`)
+                );
+                rejected = true;
+              });
+          break;
+      }
+
+      if (!rejected) resolve();
+    });
   });
 
   ipcMain.handle(

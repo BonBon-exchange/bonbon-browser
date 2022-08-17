@@ -50,7 +50,7 @@ declare global {
       };
       config: {
         get: (key: string) => Promise<unknown>;
-        set: (args: IpcSetStoreValue) => void;
+        set: (args: IpcSetStoreValue) => Promise<void>;
       };
       download: {
         hideDownloadsPreview: () => void;
