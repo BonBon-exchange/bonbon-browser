@@ -48,7 +48,7 @@ export const mockWindow = () => {
       history: {
         addHistory: jest.fn(),
         findInHistory: jest.fn(() => Promise.resolve()),
-        removeHistory: jest.fn(),
+        removeHistory: jest.fn(() => Promise.resolve()),
         getAllHistory: jest.fn(() => Promise.resolve()),
         clearHistory: jest.fn(() => Promise.resolve()),
       },

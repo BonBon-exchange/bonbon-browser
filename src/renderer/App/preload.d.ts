@@ -66,7 +66,7 @@ declare global {
       history: {
         addHistory: (args: IpcAddHistory) => void;
         findInHistory: (str: string) => Promise<History[]>;
-        removeHistory: (id: number) => void;
+        removeHistory: (id: number) => Promise<void>;
         clearHistory: () => Promise<void>;
         getAllHistory: () => Promise<History[]>;
       };

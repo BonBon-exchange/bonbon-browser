@@ -231,8 +231,8 @@ export const makeIpcMainEvents = (): void => {
     addHistory(args);
   });
 
-  ipcMain.on('remove-history', (_e, id: number) => {
-    removeHistory(id);
+  ipcMain.handle('remove-history', (_e, id: number): Promise<void> => {
+    return removeHistory(id);
   });
 
   ipcMain.handle('clear-history', (): Promise<void> => {

@@ -123,8 +123,8 @@ contextBridge.exposeInMainWorld('app', {
     findInHistory: (str: string): Promise<History[]> => {
       return ipcRenderer.invoke('find-in-history', str);
     },
-    removeHistory: (id: number) => {
-      ipcRenderer.send('remove-history', id);
+    removeHistory: (id: number): Promise<void> => {
+      return ipcRenderer.invoke('remove-history', id);
     },
     clearHistory: (): Promise<void> => {
       return ipcRenderer.invoke('clear-history');
