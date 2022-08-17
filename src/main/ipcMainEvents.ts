@@ -227,8 +227,8 @@ export const makeIpcMainEvents = (): void => {
     i18n.changeLanguage(locale);
   });
 
-  ipcMain.on('add-history', (_e, args: IpcAddHistory) => {
-    addHistory(args);
+  ipcMain.handle('add-history', (_e, args: IpcAddHistory): Promise<History> => {
+    return addHistory(args);
   });
 
   ipcMain.handle('remove-history', (_e, id: number): Promise<void> => {

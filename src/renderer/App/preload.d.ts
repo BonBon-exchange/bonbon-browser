@@ -64,7 +64,7 @@ declare global {
         installExtension: (id: string) => Promise<void>;
       };
       history: {
-        addHistory: (args: IpcAddHistory) => void;
+        addHistory: (args: IpcAddHistory) => Promise<History>;
         findInHistory: (str: string) => Promise<History[]>;
         removeHistory: (id: number) => Promise<void>;
         clearHistory: () => Promise<void>;

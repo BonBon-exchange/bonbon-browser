@@ -117,8 +117,8 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   history: {
-    addHistory: (args: IpcAddHistory) => {
-      ipcRenderer.send('add-history', args);
+    addHistory: (args: IpcAddHistory): Promise<History> => {
+      return ipcRenderer.invoke('add-history', args);
     },
     findInHistory: (str: string): Promise<History[]> => {
       return ipcRenderer.invoke('find-in-history', str);
