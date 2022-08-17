@@ -8,9 +8,20 @@
   z-index: 10;
   background-color: var(--color-background-tertiary);
 
+  #LeftBar__browserFavContainerItems {
+    max-height: calc(100vh - 50px);
+    overflow: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  #LeftBar__browserFavContainerItems::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+  }
+
   .LeftBar__browserContainer:hover {
 
-    .LeftBar__closeBrowser, 
+    .LeftBar__closeBrowser,
     .LeftBar__maximizeBrowser {
       display: block;
     }
