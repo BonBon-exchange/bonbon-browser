@@ -13,7 +13,7 @@ export const mockWindow = () => {
       bookmark: {
         isBookmarked: jest.fn(() => Promise.resolve()),
         addBookmark: jest.fn(),
-        removeBookmark: jest.fn(),
+        removeBookmark: jest.fn(() => Promise.resolve()),
         getAllBookmarks: jest.fn(() => Promise.resolve()),
         findInBookmarks: jest.fn(() => Promise.resolve()),
         getBookmarksProviders: jest.fn(() => Promise.resolve()),

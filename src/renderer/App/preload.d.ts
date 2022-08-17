@@ -36,7 +36,7 @@ declare global {
         getBookmarksFromProvider: (provider: Provider) => Promise<Bookmark[]>;
         isBookmarked: (url: string) => Promise<boolean>;
         addBookmark: (args: IpcAddBookmark) => void;
-        removeBookmark: (url: string) => void;
+        removeBookmark: (url: string) => Promise<void>;
         getAllBookmarks: () => Promise<Bookmark[]>;
         findInBookmarks: (str: string) => Promise<any>;
       };

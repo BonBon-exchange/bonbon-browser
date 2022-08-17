@@ -137,15 +137,27 @@ const removeTags = (bookmarkId: number) => {
   db.run('DELETE FROM bookmarks_tags WHERE bookmark_id = ?', bookmarkId);
 };
 
-export const removeBookmark = (url: string) => {
-  getBookmark(url)
-    .then((b: any) => {
-      if (b && b.id) {
-        removeTags(b.id);
-        db.run('DELETE FROM bookmarks WHERE url = ?', url);
-      }
-    })
-    .catch(console.log);
+export const removeBookmark = (url: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    getBookmark(url)
+      .then((b: any) => {
+        if (b && b.id) {
+          removeTags(b.id);
+          db.run('DELETE FROM bookmarks WHERE url = ?', url, (err?: Error) => {
+            if (err)
+              reject(new Error(`Couldn't delete bookmark: ${err.message}`));
+            else resolve();
+          });
+        }
+      })
+      .catch((e: Error) =>
+        reject(
+          new Error(
+            `Couldn't delete bookmark because of getBookmark error: ${e.message}.`
+          )
+        )
+      );
+  });
 };
 
 export const getAllBookmarks = (): Promise<Bookmark[]> => {
