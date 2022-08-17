@@ -1,3 +1,4 @@
+import { TFunction } from "react-i18next";
 import { EventParams } from "types/analytics";
 import { Bookmark, Provider, Tag } from "types/bookmarks";
 import { Download } from "types/downloads";
@@ -29,14 +30,14 @@ declare global {
         setWindowsCount: (args: IpcSetWindowsCount) => void;
       };
       bookmark: {
-        importBookmarks: (bookmarks: Partial<Bookmark>[]) => void;
+        importBookmarks: (bookmarks: Partial<Bookmark>[]) => Promise<void>;
         getBookmarksTags: () => Promise<Tag[]>;
-        editBookmark: (bookmark: Partial<Bookmark>) => void;
+        editBookmark: (bookmark: Partial<Bookmark>) => Promise<Bookmark>;
         getBookmarksProviders: () => Promise<Provider[]>;
         getBookmarksFromProvider: (provider: Provider) => Promise<Bookmark[]>;
         isBookmarked: (url: string) => Promise<boolean>;
-        addBookmark: (args: IpcAddBookmark) => void;
-        removeBookmark: (url: string) => void;
+        addBookmark: (args: IpcAddBookmark) => Promise<Bookmark>;
+        removeBookmark: (url: string) => Promise<void>;
         getAllBookmarks: () => Promise<Bookmark[]>;
         findInBookmarks: (str: string) => Promise<any>;
       };
@@ -49,25 +50,25 @@ declare global {
       };
       config: {
         get: (key: string) => Promise<unknown>;
-        set: (args: IpcSetStoreValue) => void;
+        set: (args: IpcSetStoreValue) => Promise<void>;
       };
       download: {
         hideDownloadsPreview: () => void;
-        addDownload: (args: IpcAddDownload) => void;
+        addDownload: (args: IpcAddDownload) => Promise<void>;
         getAllDownloads: () => Promise<Download[]>;
-        clearDownloads: () => void;
-        removeDownload: (id: number) => void;
+        clearDownloads: () => Promise<void>;
+        removeDownload: (id: number) => Promise<void>;
       };
       extension: {
         getAllExtensions: () => Promise<Extension[]>;
-        deleteExtension: (id: string) => void;
-        installExtension: (id: string) => void;
+        deleteExtension: (id: string) => Promise<void>;
+        installExtension: (id: string) => Promise<void>;
       };
       history: {
-        addHistory: (args: IpcAddHistory) => void;
+        addHistory: (args: IpcAddHistory) => Promise<History>;
         findInHistory: (str: string) => Promise<History[]>;
-        removeHistory: (id: number) => void;
-        clearHistory: () => void;
+        removeHistory: (id: number) => Promise<void>;
+        clearHistory: () => Promise<void>;
         getAllHistory: () => Promise<History[]>;
       };
       listener: {
@@ -109,7 +110,7 @@ declare global {
       tools: {
         inspectElement: (point: IpcInspectElement) => void;
         toggleDarkMode: () => void;
-        changeLanguage: (locale: Locale) => void;
+        changeLanguage: (locale: Locale) => Promise<TFunction>;
         showItemInFolder: (filepath: string) => void;
         showLeftbarContextMenu: (params: IpcShowLeftbarContextMenu) => void;
         showBoardContextMenu: (params: IpcShowBoardContextMenu) => void;

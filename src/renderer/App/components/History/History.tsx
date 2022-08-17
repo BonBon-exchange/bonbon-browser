@@ -36,16 +36,24 @@ export const History: React.FC<HistoryProps> = ({
   };
 
   const handleDeleteHistory = (id: number) => {
-    window.app.history.removeHistory(id);
-    const newItems = [...items];
-    const index = newItems.findIndex((i) => i.id === id);
-    if (index > -1) newItems.splice(index, 1);
-    setItems(newItems);
+    window.app.history
+      .removeHistory(id)
+      .then(() => {
+        const newItems = [...items];
+        const index = newItems.findIndex((i) => i.id === id);
+        if (index > -1) newItems.splice(index, 1);
+        setItems(newItems);
+      })
+      .catch(console.log);
   };
 
   const handleClearHistory = () => {
-    setItems([]);
-    window.app.history.clearHistory();
+    window.app.history
+      .clearHistory()
+      .then(() => {
+        setItems([]);
+      })
+      .catch(console.log);
   };
 
   const Item = ({

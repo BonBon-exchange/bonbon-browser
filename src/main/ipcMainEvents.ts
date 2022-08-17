@@ -13,6 +13,7 @@ import {
   shell,
   WebContents,
 } from 'electron';
+import { TFunction } from 'react-i18next';
 
 import { Bookmark, Provider as BookmarkProvider, Tag } from 'types/bookmarks';
 import { Download } from 'types/downloads';
@@ -208,35 +209,52 @@ export const makeIpcMainEvents = (): void => {
     return store.get(key);
   });
 
-  ipcMain.on('set-store-value', (_e, args: IpcSetStoreValue) => {
-    store.set(args.key, args.value);
+  ipcMain.on('set-store-value', (_e, args: IpcSetStoreValue): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      let rejected = false;
 
-    switch (args.key) {
-      default:
-        break;
+      store.set(args.key, args.value);
 
-      case 'application.launchAtStartup':
-        args.value === true
-          ? bonbonAutoLauncher.enable().catch(console.log)
-          : bonbonAutoLauncher.disable().catch(console.log);
-        break;
+      switch (args.key) {
+        default:
+          break;
+
+        case 'application.launchAtStartup':
+          args.value === true
+            ? bonbonAutoLauncher.enable().catch(() => {
+                reject(new Error(`Couldn't enable BonBon Browser at startup.`));
+                rejected = true;
+              })
+            : bonbonAutoLauncher.disable().catch(() => {
+                reject(
+                  new Error(`Couldn't disable BonBon Browser at startup.`)
+                );
+                rejected = true;
+              });
+          break;
+      }
+
+      if (!rejected) resolve();
+    });
+  });
+
+  ipcMain.handle(
+    'change-language',
+    (_e, locale: Locale): Promise<TFunction> => {
+      return i18n.changeLanguage(locale);
     }
+  );
+
+  ipcMain.handle('add-history', (_e, args: IpcAddHistory): Promise<History> => {
+    return addHistory(args);
   });
 
-  ipcMain.on('change-language', (_e, locale: Locale) => {
-    i18n.changeLanguage(locale);
+  ipcMain.handle('remove-history', (_e, id: number): Promise<void> => {
+    return removeHistory(id);
   });
 
-  ipcMain.on('add-history', (_e, args: IpcAddHistory) => {
-    addHistory(args);
-  });
-
-  ipcMain.on('remove-history', (_e, id: number) => {
-    removeHistory(id);
-  });
-
-  ipcMain.on('clear-history', () => {
-    clearHistory();
+  ipcMain.handle('clear-history', (): Promise<void> => {
+    return clearHistory();
   });
 
   ipcMain.handle('find-in-history', (_e, str: string): Promise<History[]> => {
@@ -251,12 +269,15 @@ export const makeIpcMainEvents = (): void => {
     return isBookmarked(str);
   });
 
-  ipcMain.on('add-bookmark', (_e, args: IpcAddBookmark) => {
-    addBookmark(args);
-  });
+  ipcMain.handle(
+    'add-bookmark',
+    (_e, args: IpcAddBookmark): Promise<Bookmark> => {
+      return addBookmark(args);
+    }
+  );
 
-  ipcMain.on('remove-bookmark', (_e, url: string) => {
-    removeBookmark(url);
+  ipcMain.handle('remove-bookmark', (_e, url: string): Promise<void> => {
+    return removeBookmark(url);
   });
 
   ipcMain.handle('get-all-bookmarks', () => {
@@ -279,20 +300,20 @@ export const makeIpcMainEvents = (): void => {
     shell.showItemInFolder(filepath);
   });
 
-  ipcMain.on('add-download', (_e, args: IpcAddDownload): void => {
-    addDownload(args);
+  ipcMain.handle('add-download', (_e, args: IpcAddDownload): Promise<void> => {
+    return addDownload(args);
   });
 
   ipcMain.handle('get-all-downloads', (): Promise<Download[]> => {
     return getAllDownloads();
   });
 
-  ipcMain.on('clear-downloads', () => {
-    clearDownloads();
+  ipcMain.handle('clear-downloads', (): Promise<void> => {
+    return clearDownloads();
   });
 
-  ipcMain.on('remove-download', (_e, id: number) => {
-    removeDownload(id);
+  ipcMain.handle('remove-download', (_e, id: number): Promise<void> => {
+    return removeDownload(id);
   });
 
   ipcMain.on(
@@ -323,12 +344,12 @@ export const makeIpcMainEvents = (): void => {
     });
   });
 
-  ipcMain.on('delete-extension', (_e, id: string) => {
-    deleteExtension(id);
+  ipcMain.handle('delete-extension', (_e, id: string): Promise<void> => {
+    return deleteExtension(id);
   });
 
-  ipcMain.on('install-extension', (_e, id: string) => {
-    installExtension(id);
+  ipcMain.handle('install-extension', (_e, id: string): Promise<void> => {
+    return installExtension(id);
   });
 
   ipcMain.on('hide-downloads-preview', () => {
@@ -353,16 +374,19 @@ export const makeIpcMainEvents = (): void => {
     }
   );
 
-  ipcMain.on('import-bookmarks', (_e, bookmarks: Partial<Bookmark>[]) => {
-    importBookmarks(bookmarks);
-  });
+  ipcMain.handle(
+    'import-bookmarks',
+    (_e, bookmarks: Partial<Bookmark>[]): Promise<void> => {
+      return importBookmarks(bookmarks);
+    }
+  );
 
   ipcMain.handle('get-bookmarks-tags', (): Promise<Tag[]> => {
     return getBookmarksTags();
   });
 
-  ipcMain.on('edit-bookmark', (_e, bookmark: Partial<Bookmark>) => {
-    editBookmark(bookmark);
+  ipcMain.handle('edit-bookmark', (_e, bookmark: Partial<Bookmark>) => {
+    return editBookmark(bookmark);
   });
 
   ipcMain.handle(

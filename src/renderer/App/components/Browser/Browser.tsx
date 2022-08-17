@@ -385,7 +385,10 @@ export const Browser: React.FC<BrowserProps> = ({
     window.app.analytics.event('browser_navigate');
     window.app.config.get('browsing.dontSaveHistory').then((val: unknown) => {
       const typedVal = val as boolean | undefined;
-      if (!typedVal) window.app.history.addHistory({ url, title: title || '' });
+      if (!typedVal)
+        window.app.history
+          .addHistory({ url, title: title || '' })
+          .catch(console.log);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);

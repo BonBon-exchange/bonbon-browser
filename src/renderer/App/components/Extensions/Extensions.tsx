@@ -21,11 +21,15 @@ export const Extensions: React.FC<ExtensionsProps> = ({
   const [filteredItems, setFilteredItems] = useState<Electron.Extension[]>([]);
 
   const handleDeleteExtension = (id: string) => {
-    window.app.extension.deleteExtension(id);
-    const newItems = [...items];
-    const index = newItems.findIndex((i) => i.id === id);
-    if (index > -1) newItems.splice(index, 1);
-    setItems(newItems);
+    window.app.extension
+      .deleteExtension(id)
+      .then(() => {
+        const newItems = [...items];
+        const index = newItems.findIndex((i) => i.id === id);
+        if (index > -1) newItems.splice(index, 1);
+        setItems(newItems);
+      })
+      .catch(console.log);
   };
 
   useEffect(() => {

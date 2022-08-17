@@ -13,15 +13,17 @@ export const ApplicationSettings: React.FC = () => {
 
   const updateAppSettingLaunch = (value: boolean) => {
     setAppSettingLaunch(value);
-    window.app.config.set({
-      key: 'application.launchAtStartup',
-      value,
-    });
+    window.app.config
+      .set({
+        key: 'application.launchAtStartup',
+        value,
+      })
+      .catch(console.log);
   };
 
   const updateLanguage = (value: Locale) => {
-    i18n.changeLanguage(value);
-    window.app.tools.changeLanguage(value);
+    i18n.changeLanguage(value).catch(console.log);
+    window.app.tools.changeLanguage(value).catch(console.log);
   };
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import { TFunction } from 'react-i18next';
 
 import { EventParams } from 'types/analytics';
 import { Bookmark, Provider, Tag } from 'types/bookmarks';
@@ -39,8 +40,8 @@ contextBridge.exposeInMainWorld('app', {
     findInBookmarks: (str: string): Promise<Bookmark[]> => {
       return ipcRenderer.invoke('find-in-bookmarks', str);
     },
-    editBookmark: (bookmark: Partial<Bookmark>) => {
-      ipcRenderer.send('edit-bookmark', bookmark);
+    editBookmark: (bookmark: Partial<Bookmark>): Promise<Bookmark> => {
+      return ipcRenderer.invoke('edit-bookmark', bookmark);
     },
     getBookmarksProviders: (): Promise<Provider[]> => {
       return ipcRenderer.invoke('get-bookmarks-providers');
@@ -48,8 +49,8 @@ contextBridge.exposeInMainWorld('app', {
     getBookmarksFromProvider: (provider: Provider): Promise<Bookmark[]> => {
       return ipcRenderer.invoke('get-bookmarks-from-provider', provider);
     },
-    importBookmarks: (bookmarks: Partial<Bookmark>[]) => {
-      ipcRenderer.send('import-bookmarks', bookmarks);
+    importBookmarks: (bookmarks: Partial<Bookmark>[]): Promise<void> => {
+      return ipcRenderer.invoke('import-bookmarks', bookmarks);
     },
     getBookmarksTags: (): Promise<Tag[]> => {
       return ipcRenderer.invoke('get-bookmarks-tags');
@@ -57,11 +58,11 @@ contextBridge.exposeInMainWorld('app', {
     isBookmarked: (url: string): Promise<boolean> => {
       return ipcRenderer.invoke('is-bookmarked', url);
     },
-    addBookmark: (args: IpcAddBookmark) => {
-      ipcRenderer.send('add-bookmark', args);
+    addBookmark: (args: IpcAddBookmark): Promise<Bookmark> => {
+      return ipcRenderer.invoke('add-bookmark', args);
     },
-    removeBookmark: (url: string) => {
-      ipcRenderer.send('remove-bookmark', url);
+    removeBookmark: (url: string): Promise<void> => {
+      return ipcRenderer.invoke('remove-bookmark', url);
     },
     getAllBookmarks: (): Promise<Bookmark[]> => {
       return ipcRenderer.invoke('get-all-bookmarks');
@@ -85,21 +86,23 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   config: {
-    get: (key: string) => ipcRenderer.invoke('get-store-value', key),
-    set: (args: IpcSetStoreValue) => ipcRenderer.send('set-store-value', args),
+    get: (key: string): Promise<unknown> =>
+      ipcRenderer.invoke('get-store-value', key),
+    set: (args: IpcSetStoreValue): Promise<void> =>
+      ipcRenderer.invoke('set-store-value', args),
   },
   download: {
-    removeDownload: (id: number) => {
-      ipcRenderer.send('remove-download', id);
+    removeDownload: (id: number): Promise<void> => {
+      return ipcRenderer.invoke('remove-download', id);
     },
-    addDownload: (args: IpcAddDownload) => {
-      ipcRenderer.send('add-download', args);
+    addDownload: (args: IpcAddDownload): Promise<void> => {
+      return ipcRenderer.invoke('add-download', args);
     },
     getAllDownloads: (): Promise<Download[]> => {
       return ipcRenderer.invoke('get-all-downloads');
     },
-    clearDownloads: () => {
-      ipcRenderer.send('clear-downloads');
+    clearDownloads: (): Promise<void> => {
+      return ipcRenderer.invoke('clear-downloads');
     },
     hideDownloadsPreview: () => {
       ipcRenderer.send('hide-downloads-preview');
@@ -109,25 +112,25 @@ contextBridge.exposeInMainWorld('app', {
     getAllExtensions: (): Promise<Extension[]> => {
       return ipcRenderer.invoke('get-all-extensions');
     },
-    deleteExtension: (id: string) => {
-      ipcRenderer.send('delete-extension', id);
+    deleteExtension: (id: string): Promise<void> => {
+      return ipcRenderer.invoke('delete-extension', id);
     },
-    installExtension: (id: string) => {
-      ipcRenderer.send('install-extension', id);
+    installExtension: (id: string): Promise<void> => {
+      return ipcRenderer.invoke('install-extension', id);
     },
   },
   history: {
-    addHistory: (args: IpcAddHistory) => {
-      ipcRenderer.send('add-history', args);
+    addHistory: (args: IpcAddHistory): Promise<History> => {
+      return ipcRenderer.invoke('add-history', args);
     },
     findInHistory: (str: string): Promise<History[]> => {
       return ipcRenderer.invoke('find-in-history', str);
     },
-    removeHistory: (id: number) => {
-      ipcRenderer.send('remove-history', id);
+    removeHistory: (id: number): Promise<void> => {
+      return ipcRenderer.invoke('remove-history', id);
     },
-    clearHistory: () => {
-      ipcRenderer.send('clear-history');
+    clearHistory: (): Promise<void> => {
+      return ipcRenderer.invoke('clear-history');
     },
     getAllHistory: (): Promise<History[]> => {
       return ipcRenderer.invoke('get-all-history');
@@ -246,8 +249,8 @@ contextBridge.exposeInMainWorld('app', {
     toggleDarkMode: () => {
       ipcRenderer.invoke('dark-mode:toggle');
     },
-    changeLanguage: (locale: Locale) => {
-      ipcRenderer.send('change-language', locale);
+    changeLanguage: (locale: Locale): Promise<TFunction> => {
+      return ipcRenderer.invoke('change-language', locale);
     },
     showItemInFolder: (filepath: string) => {
       ipcRenderer.send('show-item-in-folder', filepath);
