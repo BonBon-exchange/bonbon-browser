@@ -13,6 +13,7 @@ import {
   shell,
   WebContents,
 } from 'electron';
+import { TFunction } from 'react-i18next';
 
 import { Bookmark, Provider as BookmarkProvider, Tag } from 'types/bookmarks';
 import { Download } from 'types/downloads';
@@ -223,9 +224,12 @@ export const makeIpcMainEvents = (): void => {
     }
   });
 
-  ipcMain.on('change-language', (_e, locale: Locale) => {
-    i18n.changeLanguage(locale);
-  });
+  ipcMain.handle(
+    'change-language',
+    (_e, locale: Locale): Promise<TFunction> => {
+      return i18n.changeLanguage(locale);
+    }
+  );
 
   ipcMain.handle('add-history', (_e, args: IpcAddHistory): Promise<History> => {
     return addHistory(args);

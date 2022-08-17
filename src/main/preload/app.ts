@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import { TFunction } from 'react-i18next';
 
 import { EventParams } from 'types/analytics';
 import { Bookmark, Provider, Tag } from 'types/bookmarks';
@@ -246,8 +247,8 @@ contextBridge.exposeInMainWorld('app', {
     toggleDarkMode: () => {
       ipcRenderer.invoke('dark-mode:toggle');
     },
-    changeLanguage: (locale: Locale) => {
-      ipcRenderer.send('change-language', locale);
+    changeLanguage: (locale: Locale): Promise<TFunction> => {
+      return ipcRenderer.invoke('change-language', locale);
     },
     showItemInFolder: (filepath: string) => {
       ipcRenderer.send('show-item-in-folder', filepath);

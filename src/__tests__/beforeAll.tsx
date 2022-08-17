@@ -85,7 +85,7 @@ export const mockWindow = () => {
       tools: {
         inspectElement: jest.fn(),
         toggleDarkMode: jest.fn(),
-        changeLanguage: jest.fn(),
+        changeLanguage: jest.fn(() => Promise.resolve()),
         showItemInFolder: jest.fn(),
         showTabContextMenu: jest.fn(),
         showBoardContextMenu: jest.fn(),

@@ -1,3 +1,4 @@
+import { TFunction } from "react-i18next";
 import { EventParams } from "types/analytics";
 import { Bookmark, Provider, Tag } from "types/bookmarks";
 import { Download } from "types/downloads";
@@ -109,7 +110,7 @@ declare global {
       tools: {
         inspectElement: (point: IpcInspectElement) => void;
         toggleDarkMode: () => void;
-        changeLanguage: (locale: Locale) => void;
+        changeLanguage: (locale: Locale) => Promise<TFunction>;
         showItemInFolder: (filepath: string) => void;
         showLeftbarContextMenu: (params: IpcShowLeftbarContextMenu) => void;
         showBoardContextMenu: (params: IpcShowBoardContextMenu) => void;
