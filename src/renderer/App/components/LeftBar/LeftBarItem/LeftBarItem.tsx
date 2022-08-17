@@ -44,8 +44,8 @@ export const LeftBarItem: React.FC<BrowserProps> = (b) => {
     const container = document.querySelector(
       '#LeftBar__browserFavContainerItems'
     );
-    if (boardState.activeBrowser === id) {
-      container?.scrollBy(0, container.scrollHeight);
+    if (boardState.activeBrowser === id && container) {
+      container.scrollBy(0, container.scrollHeight);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
