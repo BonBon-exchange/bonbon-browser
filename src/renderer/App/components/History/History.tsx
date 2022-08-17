@@ -44,8 +44,12 @@ export const History: React.FC<HistoryProps> = ({
   };
 
   const handleClearHistory = () => {
-    setItems([]);
-    window.app.history.clearHistory();
+    window.app.history
+      .clearHistory()
+      .then(() => {
+        setItems([]);
+      })
+      .catch(console.log);
   };
 
   const Item = ({

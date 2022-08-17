@@ -235,8 +235,8 @@ export const makeIpcMainEvents = (): void => {
     removeHistory(id);
   });
 
-  ipcMain.on('clear-history', () => {
-    clearHistory();
+  ipcMain.handle('clear-history', (): Promise<void> => {
+    return clearHistory();
   });
 
   ipcMain.handle('find-in-history', (_e, str: string): Promise<History[]> => {

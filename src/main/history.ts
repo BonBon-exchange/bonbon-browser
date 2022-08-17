@@ -78,8 +78,13 @@ export const removeHistory = (id: number) => {
   db.run('DELETE FROM history WHERE id = ?', id);
 };
 
-export const clearHistory = () => {
-  db.run('DELETE FROM history');
+export const clearHistory = (): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    db.run('DELETE FROM history', (err?: Error) => {
+      if (err) reject(new Error(`Couldn't delete history: ${err.message}`));
+      else resolve();
+    });
+  });
 };
 
 export const findInHistory = (str: string): Promise<History[]> => {

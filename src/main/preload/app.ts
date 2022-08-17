@@ -126,8 +126,8 @@ contextBridge.exposeInMainWorld('app', {
     removeHistory: (id: number) => {
       ipcRenderer.send('remove-history', id);
     },
-    clearHistory: () => {
-      ipcRenderer.send('clear-history');
+    clearHistory: (): Promise<void> => {
+      return ipcRenderer.invoke('clear-history');
     },
     getAllHistory: (): Promise<History[]> => {
       return ipcRenderer.invoke('get-all-history');

@@ -50,7 +50,7 @@ export const mockWindow = () => {
         findInHistory: jest.fn(() => Promise.resolve()),
         removeHistory: jest.fn(),
         getAllHistory: jest.fn(() => Promise.resolve()),
-        clearHistory: jest.fn(),
+        clearHistory: jest.fn(() => Promise.resolve()),
       },
       listener: {
         newWindow: jest.fn(),
