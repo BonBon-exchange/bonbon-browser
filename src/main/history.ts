@@ -77,7 +77,8 @@ export const findHistoryByDomain = (
 export const removeHistory = (id: number): Promise<void> => {
   return new Promise((resolve, reject) => {
     db.run('DELETE FROM history WHERE id = ?', id, (err?: Error) => {
-      if (err) reject(new Error(`Couldn't delete from history: ${err.message}`));
+      if (err)
+        reject(new Error(`Couldn't delete from history: ${err.message}`));
       else resolve();
     });
   });
