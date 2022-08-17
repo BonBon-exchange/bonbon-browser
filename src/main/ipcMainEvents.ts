@@ -251,9 +251,12 @@ export const makeIpcMainEvents = (): void => {
     return isBookmarked(str);
   });
 
-  ipcMain.on('add-bookmark', (_e, args: IpcAddBookmark) => {
-    addBookmark(args);
-  });
+  ipcMain.handle(
+    'add-bookmark',
+    (_e, args: IpcAddBookmark): Promise<Bookmark> => {
+      return addBookmark(args);
+    }
+  );
 
   ipcMain.handle('remove-bookmark', (_e, url: string): Promise<void> => {
     return removeBookmark(url);

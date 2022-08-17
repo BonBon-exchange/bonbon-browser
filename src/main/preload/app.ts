@@ -57,8 +57,8 @@ contextBridge.exposeInMainWorld('app', {
     isBookmarked: (url: string): Promise<boolean> => {
       return ipcRenderer.invoke('is-bookmarked', url);
     },
-    addBookmark: (args: IpcAddBookmark) => {
-      ipcRenderer.send('add-bookmark', args);
+    addBookmark: (args: IpcAddBookmark): Promise<Bookmark> => {
+      return ipcRenderer.invoke('add-bookmark', args);
     },
     removeBookmark: (url: string): Promise<void> => {
       return ipcRenderer.invoke('remove-bookmark', url);
