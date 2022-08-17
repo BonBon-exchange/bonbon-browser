@@ -60,10 +60,13 @@ export const TopBar: React.FC = () => {
     id: string
   ) => {
     if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-      const target = e.target as HTMLInputElement;
       dispatch(setIsRenaming(null));
+      const target = e.target as HTMLInputElement;
       dispatch(renameTab({ id, label: target?.value }));
       window.titleBar.tabs.rename({ tabId: id, label: target?.value });
+    }
+    if (e.key === 'Escape') {
+      dispatch(setIsRenaming(null));
     }
   };
 
@@ -356,6 +359,7 @@ export const TopBar: React.FC = () => {
                 className={clsx({
                   TopBar__tab: true,
                   selected: activeTab === t.id,
+                  renaming: isRenaming === t.id,
                 })}
                 key={t.id}
                 onClick={() => dispatch(setActiveTab(t.id))}
@@ -366,7 +370,7 @@ export const TopBar: React.FC = () => {
                     label="Board name"
                     defaultValue={t.label}
                     variant="standard"
-                    onKeyPress={(e) => tabOnKeyPress(e, t.id)}
+                    onKeyDown={(e) => tabOnKeyPress(e, t.id)}
                     id="TopBar__tab-renaming"
                   />
                 ) : (
@@ -374,7 +378,7 @@ export const TopBar: React.FC = () => {
                 )}
               </div>
               <div className="TopBar__closeTab">
-                {isRenaming === null && (
+                {isRenaming !== t.id && (
                   <CloseIcon onClick={() => handleCloseTab(t.id)} />
                 )}
               </div>

@@ -67,6 +67,11 @@
       color: var(--color-text-secondary);
     }
 
+    &.renaming {
+      margin-right: 0;
+      padding-right: 10px;
+    }
+
     input {
       color: black;
       background-color: white;
