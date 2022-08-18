@@ -114,19 +114,10 @@ export const Browser: React.FC<BrowserProps> = ({
         ? container.current?.clientWidth
         : 0;
       const edgeRightValue = boardContainer?.clientWidth - edgeRightWidth - 2;
-      if (d.x === 0) {
-        zoomEdgeClass(edgeLeft);
-      } else {
-        resetEdgeClass(edgeLeft);
-      }
-      if (d.x === edgeRightValue) {
-        zoomEdgeClass(edgeRight);
-      } else {
-        resetEdgeClass(edgeRight);
-      }
-
       if (d.y - window.scrollY <= 20) {
         if (!blockScrollTimer.current) {
+          resetEdgeClass(edgeLeft);
+          resetEdgeClass(edgeRight);
           zoomEdgeClass(edgeMaximized, true);
           setScrollY(window.scrollY);
           blockScrollTimer.current = setTimeout(() => {
@@ -137,6 +128,17 @@ export const Browser: React.FC<BrowserProps> = ({
         }
       } else {
         resetEdgeClass(edgeMaximized);
+
+        if (d.x === 0) {
+          zoomEdgeClass(edgeLeft);
+        } else {
+          resetEdgeClass(edgeLeft);
+        }
+        if (d.x === edgeRightValue) {
+          zoomEdgeClass(edgeRight);
+        } else {
+          resetEdgeClass(edgeRight);
+        }
       }
     }
   };
