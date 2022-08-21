@@ -332,6 +332,7 @@ export const Browser: React.FC<BrowserProps> = ({
           title={title}
           favicon={favicon}
           isLoading={isLoading}
+          isMaximized={board.isFullSize}
         />
         <BrowserControlBar url={url} browserId={id} />
         <div className="Browser__webview-container">

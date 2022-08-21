@@ -11,6 +11,7 @@ declare global {
         showMenu: () => void;
         showDownloadsPreview: () => void;
         showTabContextMenu: (params: IpcShowTabContextMenu) => void;
+        isMaximized: () => Promise<boolean>;
       };
       analytics: {
         event: (eventName: string, params?: EventParams) => void;

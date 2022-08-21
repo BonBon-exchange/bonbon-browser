@@ -8,6 +8,8 @@ import CropSquareIcon from '@mui/icons-material/CropSquare';
 import MinimizeIcon from '@mui/icons-material/Minimize';
 import React from 'react';
 
+import { Unmaximize } from 'renderer/App/components/Unmaximize';
+
 import loadingImg from 'renderer/App/svg/loading.svg';
 
 import { BrowserTopBarProps } from './Types';
@@ -22,6 +24,7 @@ export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
   favicon,
   onClick,
   isLoading,
+  isMaximized,
 }) => {
   return (
     <div
@@ -51,7 +54,7 @@ export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
           onClick={toggleFullSizeBrowser}
           data-testid="toggle-enlarge-browser"
         >
-          <CropSquareIcon />
+          {isMaximized ? <Unmaximize /> : <CropSquareIcon />}
         </div>
         <div
           className="BrowserTopBar__control-button"

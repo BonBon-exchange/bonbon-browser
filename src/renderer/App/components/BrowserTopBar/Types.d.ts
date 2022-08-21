@@ -6,4 +6,5 @@ export interface BrowserTopBarProps {
   title?: string;
   favicon?: string;
   isLoading: boolean;
+  isMaximized: boolean;
 }
