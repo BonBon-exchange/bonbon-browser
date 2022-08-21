@@ -327,7 +327,7 @@ export const findBookmarksByDomain = (
 ): Promise<DomainSuggestion[]> => {
   return new Promise((resolve, reject) => {
     db.all(
-      'SELECT id, url, domain FROM bookmarks WHERE domain LIKE ? LIMIT 10',
+      'SELECT DISTINCT domain FROM bookmarks WHERE domain LIKE ? LIMIT 10',
       `${input}%`,
       (err, rows) => {
         if (err) reject(err);

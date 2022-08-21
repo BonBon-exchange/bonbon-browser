@@ -13,6 +13,7 @@ export type HistoryItem = {
 
 export type SuggestionItem = {
   id: string;
-  url: string;
+  url?: string;
   display?: string;
+  type: string;
 }
