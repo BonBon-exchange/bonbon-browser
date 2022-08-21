@@ -121,9 +121,11 @@ export const Browser: React.FC<BrowserProps> = ({
           zoomEdgeClass(edgeMaximized, true);
           setScrollY(window.scrollY);
           blockScrollTimer.current = setTimeout(() => {
-            setScrollY(null);
+            if (window.scrollY > 0) {
+              setScrollY(null);
+              resetEdgeClass(edgeMaximized);
+            }
             blockScrollTimer.current = null;
-            resetEdgeClass(edgeMaximized);
           }, 1000);
         }
       } else {
@@ -144,6 +146,7 @@ export const Browser: React.FC<BrowserProps> = ({
   };
 
   const onDragStart = () => {
+    blockScrollTimer.current = null;
     disablePointerEventsForAll();
   };
 
