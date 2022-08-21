@@ -18,6 +18,7 @@ const browserTopBarProps = {
   title: 'Github',
   onClick: jest.fn(),
   minimizeBrowser: jest.fn(),
+  isMaximized: true,
   isLoading: false,
 };
 

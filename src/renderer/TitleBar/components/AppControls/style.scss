@@ -10,9 +10,9 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    color: var(--color-icon-primary);
 
     svg {
-      color: var(--color-icon-primary);
       height: 18px;
     }
 

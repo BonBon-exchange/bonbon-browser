@@ -35,6 +35,9 @@ contextBridge.exposeInMainWorld('titleBar', {
     showTabContextMenu: (params: IpcShowTabContextMenu) => {
       ipcRenderer.send('show-tab-context-menu', params);
     },
+    isMaximized: () => {
+      return ipcRenderer.invoke('is-app-maximized');
+    },
   },
   analytics: {
     event: (eventName: string, params: EventParams) => {

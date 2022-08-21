@@ -438,4 +438,8 @@ export const makeIpcMainEvents = (): void => {
       });
     }
   );
+
+  ipcMain.handle('is-app-maximized', () => {
+    return getMainWindow()?.isMaximized() || false;
+  });
 };
