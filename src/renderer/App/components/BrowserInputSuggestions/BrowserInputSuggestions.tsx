@@ -67,8 +67,18 @@ export const BrowserInputSuggestions: React.FC<
   );
 
   useEffect(() => {
-    setSelectedSuggestion(selected?.url || null);
-  }, [selected?.url, setSelectedSuggestion]);
+    if (selected) {
+      switch (selected.type) {
+        case 'domain':
+          setSelectedSuggestion(selected?.display || null);
+          break;
+
+        default:
+          setSelectedSuggestion(selected?.url || null);
+          break;
+      }
+    }
+  }, [setSelectedSuggestion, selected]);
 
   useEffect(() => {
     if (inputValue.length === 0) {
@@ -86,17 +96,19 @@ export const BrowserInputSuggestions: React.FC<
     Promise.all(promises)
       .then((result: any[]) => {
         // 2 suggestions of bookmarks
-        const rows = result[0]
-          .slice(0, 2)
-          .map((r: SuggestionItem) => ({ ...r, id: `bookmark::${r.id}` }));
+        const rows = result[0].slice(0, 2).map((r: SuggestionItem) => ({
+          ...r,
+          type: 'bookmark',
+          id: `bookmark::${r.id}`,
+        }));
 
         // 4 suggestions of domains
         const domainsResults: SuggestionItem[] = result[2]
           .map((r: any, i: number) => {
             return {
               id: `domain::${r.id}::${i}`,
-              url: r.url,
               display: r.domain,
+              type: 'domain',
             };
           })
           .reduce((acc: SuggestionItem[], val: SuggestionItem) => {
@@ -110,9 +122,11 @@ export const BrowserInputSuggestions: React.FC<
 
         // 2 suggestions of history
         rows.push(
-          ...result[1]
-            .slice(0, 2)
-            .map((r: SuggestionItem) => ({ ...r, id: `history::${r.id}` }))
+          ...result[1].slice(0, 2).map((r: SuggestionItem) => ({
+            ...r,
+            type: 'history',
+            id: `history::${r.id}`,
+          }))
         );
 
         setSuggestions(rows || []);
@@ -136,7 +150,7 @@ export const BrowserInputSuggestions: React.FC<
                 ? 'BrowserInputSuggestions__selected-item'
                 : undefined
             }
-            onClick={() => handleSuggestionClick(s.url)}
+            onClick={() => handleSuggestionClick(s.url || s.display || '')}
           >
             {s.display || s.url}
           </li>

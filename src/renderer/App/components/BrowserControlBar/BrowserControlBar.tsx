@@ -127,7 +127,11 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
     if (e.code === 'Enter' || e.code === 'NumpadEnter') {
       hideSuggestions();
       domainSuggestionResults[0]
-        ? handleLoadUserUrl(domainSuggestionResults[0].url)
+        ? handleLoadUserUrl(
+            domainSuggestionResults[0].url ||
+              domainSuggestionResults[0].display ||
+              ''
+          )
         : handleLoadUserUrl(target?.value);
       return;
     }
