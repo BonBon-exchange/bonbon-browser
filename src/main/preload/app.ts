@@ -12,6 +12,7 @@ import {
   IpcAddHistory,
   IpcCertificateErrorAnswer,
   IpcInspectElement,
+  IpcPermissionResponse,
   IpcSetStoreValue,
   IpcSetWindowsCount,
   IpcShowBoardContextMenu,
@@ -83,6 +84,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     getUrlToOpen: (): Promise<string | undefined> => {
       return ipcRenderer.invoke('get-url-to-open');
+    },
+    permissionResponse: (args: IpcPermissionResponse) => {
+      ipcRenderer.send('permission-response', args);
     },
   },
   config: {

@@ -11,6 +11,7 @@ import {
   removeAllBrowsersExcept,
   renameBoard,
   updateBrowserCertificateErrorFingerprint,
+  updateBrowser,
 } from 'renderer/App/store/reducers/Board';
 import { setDownloadItem } from 'renderer/App/store/reducers/Downloads';
 import { useAppDispatch } from 'renderer/App/store/hooks';
@@ -239,12 +240,29 @@ export const useGlobalEvents = () => {
 
   const permissionRequestAction = useCallback(
     (
-      e: IpcRendererEvent,
-      params: { url: string; permission: string; webContentsId: number }
+      _e: IpcRendererEvent,
+      args: { url: string; permission: string; webContentsId: number }
     ) => {
-      console.log({ e, params });
+      const browserId = boardState.browsers.find(
+        (b) => b.webContentsId === args.webContentsId
+      )?.id;
+      if (browserId) {
+        dispatch(
+          updateBrowser({
+            browserId,
+            params: {
+              permissionRequest: { url: args.url, permission: args.permission },
+            },
+          })
+        );
+      }
+      // window.app.browser.permissionResponse({
+      //   url: params.url,
+      //   permission: params.permission,
+      //   response: true,
+      // });
     },
-    []
+    [boardState.browsers, dispatch]
   );
 
   useEffect(() => {

@@ -11,6 +11,7 @@ import {
   IpcAddHistory,
   IpcCertificateErrorAnswer,
   IpcInspectElement,
+  IpcPermissionResponse,
   IpcSetStoreValue,
   IpcSetWindowsCount,
   IpcShowBoardContextMenu,
@@ -47,6 +48,7 @@ declare global {
         certificateErrorAnswer: (args: IpcCertificateErrorAnswer) => void;
         requestCapture: (webContentsId: number) => Promise<string>;
         getUrlToOpen: () => Promise<string | undefined>;
+        permissionResponse: (args: IpcPermissionResponse) => void;
       };
       config: {
         get: (key: string) => Promise<unknown>;

@@ -18,6 +18,7 @@ import { Rnd } from 'react-rnd';
 import { BrowserControlBar } from 'renderer/App/components/BrowserControlBar';
 import { BrowserTopBar } from 'renderer/App/components/BrowserTopBar';
 import { CertificateErrorPage } from 'renderer/App/components/CertificateErrorPage';
+import { PermissionRequest } from 'renderer/App/components/PermissionRequest';
 import { SearchForm } from 'renderer/App/components/SearchForm';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserEvents } from 'renderer/App/hooks/useBrowserEvents';
@@ -50,6 +51,7 @@ export const Browser: React.FC<BrowserProps> = ({
   webContentsId,
   isSearching,
   capture,
+  permissionRequest,
 }) => {
   const dispatch = useAppDispatch();
   const {
@@ -336,6 +338,13 @@ export const Browser: React.FC<BrowserProps> = ({
         />
         <BrowserControlBar url={url} browserId={id} />
         <div className="Browser__webview-container">
+          {permissionRequest && (
+            <PermissionRequest
+              url={permissionRequest?.url}
+              permission={permissionRequest?.permission}
+              browserId={id}
+            />
+          )}
           {isSearching && <SearchForm browserId={id} />}
           {certificateErrorFingerprint && webContentsId && (
             <CertificateErrorPage
@@ -370,6 +379,7 @@ export const Browser: React.FC<BrowserProps> = ({
     toggleFullSizeBrowser,
     url,
     webContentsId,
+    permissionRequest,
   ]);
 
   useEffect(() => {

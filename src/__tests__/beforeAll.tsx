@@ -28,6 +28,7 @@ export const mockWindow = () => {
         certificateErrorAnswer: jest.fn(),
         requestCapture: jest.fn(() => Promise.resolve()),
         getUrlToOpen: jest.fn(() => Promise.resolve()),
+        permissionResponse: jest.fn(),
       },
       config: {
         get: jest.fn(() => Promise.resolve()),

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable import/no-cycle */
 /* eslint-disable promise/catch-or-return */
 /* eslint-disable import/prefer-default-export */
@@ -24,10 +25,10 @@ import {
 } from './extensions';
 import i18n from './i18n';
 import {
+  addPermissionCallback,
   getBrowsers,
   getCertificateErrorAuth,
   makeIpcMainEvents,
-  getGrantedPermission,
 } from './ipcMainEvents';
 import { isValidUrl } from './util';
 
@@ -223,16 +224,14 @@ app
             ) {
               return callback(true);
             }
-            const isGranted = getGrantedPermission(url, permission);
-            if (isGranted) callback(true);
-            else {
-              callback(false);
-              getSelectedView()?.webContents.send('permission-request', {
-                url,
-                permission,
-                webContentsId: webContents.id,
-              });
-            }
+
+            getSelectedView()?.webContents.send('permission-request', {
+              url,
+              permission,
+              webContentsId: webContents.id,
+            });
+
+            addPermissionCallback(url, permission, callback);
           });
 
         const mainWindow = getMainWindow();
