@@ -241,6 +241,21 @@ export const useGlobalEvents = () => {
     [boardState.browsers]
   );
 
+  const permissionRequestAction = useCallback(
+    (
+      e: IpcRendererEvent,
+      params: { url: string; permission: string; webContentsId: number }
+    ) => {
+      console.log({ e, params });
+    },
+    []
+  );
+
+  useEffect(() => {
+    window.app.listener.permissionRequest(permissionRequestAction);
+    return () => window.app.off.permissionRequest();
+  }, [permissionRequestAction]);
+
   useEffect(() => {
     window.app.listener.setDefaultWindowSize(setDefaultWindowSizeAction);
     return () => window.app.off.setDefaultWindowSize();
