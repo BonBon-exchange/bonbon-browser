@@ -28,6 +28,7 @@ import {
   IpcAnalyticsPage,
   IpcCertificateErrorAnswer,
   IpcInspectElement,
+  IpcPermissionResponse,
   IpcRenameTab,
   IpcSaveTab,
   IpcSetStoreValue,
@@ -90,12 +91,34 @@ let views: Record<string, BrowserView> = {};
 const browsers: Record<string, WebContents> = {};
 const certificateErrorAuth: { webContentsId: number; fingerprint: string }[] =
   [];
-const grantedPermissions: { url: string; permission: string }[] = [];
+
+const permissionsCallback: {
+  url: string;
+  permission: string;
+  callback: (response: boolean) => void;
+}[] = [];
 
 export const getBrowsers = () => browsers;
 export const getViews = () => views;
 export const setViews = (newViews: Record<string, BrowserView>) => {
   views = newViews;
+};
+export const addPermissionCallback = (
+  url: string,
+  permission: string,
+  callback: (response: boolean) => void
+) => {
+  const index = permissionsCallback.findIndex(
+    (p) => p?.url === url && p?.permission === permission
+  );
+  if (index > -1) delete permissionsCallback[index];
+  permissionsCallback.push({ url, permission, callback });
+};
+
+const getPermissionCallback = (url: string, permission: string) => {
+  return permissionsCallback.find(
+    (p) => p?.url === url && p?.permission === permission
+  )?.callback;
 };
 
 export const getCertificateErrorAuth = (
@@ -106,12 +129,6 @@ export const getCertificateErrorAuth = (
     (c) => c.webContentsId === webContentsId && c.fingerprint === fingerprint
   );
   return !!auth;
-};
-
-export const getGrantedPermission = (url: string, permission: string) => {
-  return !!grantedPermissions.find(
-    (p) => p.permission === permission && p.url === url
-  );
 };
 
 const bonbonAutoLauncher = new AutoLaunch({
@@ -460,12 +477,8 @@ export const makeIpcMainEvents = (): void => {
     return getMainWindow()?.isMaximized() || false;
   });
 
-  ipcMain.on(
-    'permission-response',
-    (_e, args: { url: string; permission: string; response: boolean }) => {
-      if (args.response) {
-        grantedPermissions.push({ url: args.url, permission: args.permission });
-      }
-    }
-  );
+  ipcMain.on('permission-response', (_e, args: IpcPermissionResponse) => {
+    const callback = getPermissionCallback(args.url, args.permission);
+    if (callback) callback(args.response);
+  });
 };
