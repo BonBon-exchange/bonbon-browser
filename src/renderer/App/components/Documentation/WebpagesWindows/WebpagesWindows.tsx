@@ -11,7 +11,7 @@ export const WebpagesWindows: React.FC = () => {
 
   return (
     <>
-      <h2>{t('Webpages windows')}</h2>
+      <h2 data-testid="documentation-webpages-page">{t('Webpages windows')}</h2>
       <div className="Documentation__item">
         <div className="Documentation__item-title">
           Distribute webpages windows evenly
