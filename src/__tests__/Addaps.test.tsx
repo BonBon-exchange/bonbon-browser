@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-conditional-expect */
 import '@testing-library/jest-dom';
 import { render, act, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -46,14 +47,16 @@ describe('Addaps', () => {
     expect(rendered).toBeTruthy();
   });
 
-  it('should show App Menu', () => {
+  it('should show and hide App Menu', () => {
+    let containerVal: HTMLElement;
     return new Promise((resolve) => {
       act(() => {
-        render(
+        const { container } = render(
           <Provider store={store}>
             <Addaps boardId="any" />
           </Provider>
         );
+        containerVal = container;
       });
 
       setTimeout(() => {
@@ -64,7 +67,20 @@ describe('Addaps', () => {
 
         setTimeout(() => {
           expect(screen.getByTestId('app-menu')).toBeTruthy();
-          return resolve(true);
+
+          act(() => {
+            const ev = new MouseEvent('click');
+            window.dispatchEvent(ev);
+          });
+
+          setTimeout(async () => {
+            if (containerVal) {
+              expect(
+                containerVal.getElementsByClassName('AppMenu__container').length
+              ).toBe(0);
+            }
+            return resolve(true);
+          }, 5000);
         }, 5000);
       }, 3000);
     });
