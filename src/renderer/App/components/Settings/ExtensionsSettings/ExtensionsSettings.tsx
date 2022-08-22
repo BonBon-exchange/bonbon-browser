@@ -28,7 +28,7 @@ export const ExtensionsSettings: React.FC = () => {
   return (
     <>
       <h2>{t('Extensions')}</h2>
-      <div className="Settings__item">
+      <div className="Settings__item" data-testid="settings-extensions-page">
         <input
           type="checkbox"
           id="extensions-force-install-u-block"

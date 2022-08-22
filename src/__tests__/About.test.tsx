@@ -8,6 +8,7 @@ import { Middleware } from '@reduxjs/toolkit';
 import { About } from '../renderer/App/components/About';
 import { mockWindow } from './beforeAll';
 import { initialState } from '../renderer/App/store/reducers/Board';
+import packagejson from '../../package.json';
 
 let store: any;
 const middlewares: Middleware[] = [];
@@ -26,6 +27,16 @@ describe('About', () => {
           <About />
         </Provider>
       )
+    ).toBeTruthy();
+  });
+
+  it('should show app version', () => {
+    expect(
+      render(
+        <Provider store={store}>
+          <About />
+        </Provider>
+      ).getByText(packagejson.version)
     ).toBeTruthy();
   });
 });

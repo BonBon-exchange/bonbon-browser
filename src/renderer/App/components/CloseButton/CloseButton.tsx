@@ -16,6 +16,7 @@ export const CloseButton: React.FC<CloseButtonProps> = ({
     <div
       className={clsx('CloseButton__container', customClass)}
       onClick={handleClose}
+      data-testid="close-button"
     >
       <CloseIcon />
     </div>

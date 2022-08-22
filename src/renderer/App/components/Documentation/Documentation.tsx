@@ -48,7 +48,10 @@ export const Documentation: React.FC<DocumentationProps> = ({
           <li onClick={() => setSelectedView(<KeyboardShortcuts />)}>
             {t('Keyboard shortcuts')}
           </li>
-          <li onClick={() => setSelectedView(<WebpagesWindows />)}>
+          <li
+            onClick={() => setSelectedView(<WebpagesWindows />)}
+            data-testid="documentation-webpages-link"
+          >
             {t('Webpages windows')}
           </li>
         </ul>

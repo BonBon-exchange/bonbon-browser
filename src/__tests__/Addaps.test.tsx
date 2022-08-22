@@ -1,5 +1,6 @@
+/* eslint-disable jest/no-conditional-expect */
 import '@testing-library/jest-dom';
-import { render, act } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
@@ -34,13 +35,54 @@ describe('Addaps', () => {
     expect(rendered).toBeTruthy();
   });
 
-  // it('should render with boardId', () => {
-  //   expect(
-  //     render(
-  //       <Provider store={store}>
-  //         <Addaps boardId="anotherboardid" />
-  //       </Provider>
-  //     )
-  //   ).toBeTruthy();
-  // });
+  it('should render with boardId', () => {
+    let rendered;
+    act(() => {
+      rendered = render(
+        <Provider store={store}>
+          <Addaps boardId="any" />
+        </Provider>
+      );
+    });
+    expect(rendered).toBeTruthy();
+  });
+
+  it('should show and hide App Menu', () => {
+    let containerVal: HTMLElement;
+    return new Promise((resolve) => {
+      act(() => {
+        const { container } = render(
+          <Provider store={store}>
+            <Addaps boardId="any" />
+          </Provider>
+        );
+        containerVal = container;
+      });
+
+      setTimeout(() => {
+        act(() => {
+          const ev = new Event('show-app-menu');
+          window.dispatchEvent(ev);
+        });
+
+        setTimeout(() => {
+          expect(screen.getByTestId('app-menu')).toBeTruthy();
+
+          act(() => {
+            const ev = new MouseEvent('click');
+            window.dispatchEvent(ev);
+          });
+
+          setTimeout(async () => {
+            if (containerVal) {
+              expect(
+                containerVal.getElementsByClassName('AppMenu__container').length
+              ).toBe(0);
+            }
+            return resolve(true);
+          }, 5000);
+        }, 5000);
+      }, 3000);
+    });
+  }, 20000);
 });

@@ -144,7 +144,7 @@ export const BrowsingSettings: React.FC = () => {
   return (
     <>
       <h2>{t('Browsing')}</h2>
-      <div className="Settings__item">
+      <div className="Settings__item" data-testid="settings-browsing-page">
         <label htmlFor="browsing-settings-default-webpage">
           {t('New windows default webpage')}:
         </label>

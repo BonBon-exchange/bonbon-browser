@@ -127,6 +127,7 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
             variant="contained"
             className="Bookmarks_import-button"
             onClick={handleImport}
+            data-testid="import-bookmarks-button"
           >
             {t('Import')}
           </Button>

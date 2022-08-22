@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, act, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
@@ -23,13 +23,51 @@ describe('Bookmarks', () => {
     store = mockStore({ board: initialState });
   });
 
-  it('should render', () => {
-    expect(
+  it('should render', async () => {
+    act(() => {
       render(
         <Provider store={store}>
           <Bookmarks {...props} />
         </Provider>
-      )
-    ).toBeTruthy();
+      );
+    });
+
+    expect(await screen.findByText('Bookmarks')).toBeTruthy();
+  });
+
+  it('should show Import bookmarks', async () => {
+    act(() => {
+      render(
+        <Provider store={store}>
+          <Bookmarks {...props} />
+        </Provider>
+      );
+    });
+
+    act(() => {
+      fireEvent.click(screen.getAllByTestId('import-bookmarks-button')[0]);
+    });
+
+    expect(await screen.findByText('Import all')).toBeTruthy();
+  });
+
+  it('should hide Import bookmarks', async () => {
+    act(() => {
+      render(
+        <Provider store={store}>
+          <Bookmarks {...props} />
+        </Provider>
+      );
+    });
+
+    act(() => {
+      fireEvent.click(screen.getAllByTestId('import-bookmarks-button')[0]);
+    });
+
+    act(() => {
+      fireEvent.click(screen.getAllByTestId('close-button')[0]);
+    });
+
+    expect(await screen.findByText('Bookmarks')).toBeTruthy();
   });
 });

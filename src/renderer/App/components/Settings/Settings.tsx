@@ -29,10 +29,16 @@ export const Settings: React.FC<SettingsProps> = ({
           <li onClick={() => setSelectedView(<ApplicationSettings />)}>
             {t('Application')}
           </li>
-          <li onClick={() => setSelectedView(<BrowsingSettings />)}>
+          <li
+            onClick={() => setSelectedView(<BrowsingSettings />)}
+            data-testid="settings-browsing-link"
+          >
             {t('Browsing')}
           </li>
-          <li onClick={() => setSelectedView(<ExtensionsSettings />)}>
+          <li
+            onClick={() => setSelectedView(<ExtensionsSettings />)}
+            data-testid="settings-extensions-link"
+          >
             {t('Extensions')}
           </li>
         </ul>
