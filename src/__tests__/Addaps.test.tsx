@@ -34,13 +34,15 @@ describe('Addaps', () => {
     expect(rendered).toBeTruthy();
   });
 
-  // it('should render with boardId', () => {
-  //   expect(
-  //     render(
-  //       <Provider store={store}>
-  //         <Addaps boardId="anotherboardid" />
-  //       </Provider>
-  //     )
-  //   ).toBeTruthy();
-  // });
+  it('should render with boardId', () => {
+    let rendered;
+    act(() => {
+      rendered = render(
+        <Provider store={store}>
+          <Addaps boardId="any" />
+        </Provider>
+      );
+    });
+    expect(rendered).toBeTruthy();
+  });
 });

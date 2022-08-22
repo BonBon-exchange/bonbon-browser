@@ -78,6 +78,8 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
           break;
       }
 
+      console.log({width, height})
+
       if (boardContainer)
         width = Math.min(boardContainer?.clientWidth - 20, width);
 

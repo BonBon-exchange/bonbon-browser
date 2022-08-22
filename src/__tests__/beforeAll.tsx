@@ -1,3 +1,4 @@
+/* eslint-disable promise/catch-or-return */
 /* eslint-disable import/prefer-default-export */
 export const mockWindow = () => {
   Object.defineProperty(window, 'app', {
@@ -31,7 +32,18 @@ export const mockWindow = () => {
         getUrlToOpen: jest.fn(() => Promise.resolve()),
       },
       config: {
-        get: jest.fn(() => Promise.resolve()),
+        get: (key: string) => {
+          switch (key) {
+            case 'browsing.width':
+              return Promise.resolve(600);
+
+            case 'browsing.height':
+              return Promise.resolve(800);
+
+            default:
+              return Promise.resolve();
+          }
+        },
         set: jest.fn(() => Promise.resolve()),
       },
       download: {
