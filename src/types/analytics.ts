@@ -3,3 +3,5 @@ export type EventParams =
   | undefined;
 
 export type Event = (eventName: string, params?: EventParams) => void;
+
+export type Page = (pageName: string, params?: EventParams) => void;

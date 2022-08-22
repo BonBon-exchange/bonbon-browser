@@ -63,6 +63,8 @@ export const Downloads: React.FC<DownloadsProps> = ({
         setFilteredItems(val);
       })
       .catch(console.log);
+
+    window.app.analytics.page('/downloads');
   }, []);
 
   return (

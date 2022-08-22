@@ -5,8 +5,13 @@ export type Position = {
 
 export type IpcInspectElement = Position;
 
-export type IpcAnalytics = {
+export type IpcAnalyticsEvent = {
   eventName: string;
+  params?: Record<string, string | number | boolean>;
+};
+
+export type IpcAnalyticsPage = {
+  pageName: string;
   params?: Record<string, string | number | boolean>;
 };
 

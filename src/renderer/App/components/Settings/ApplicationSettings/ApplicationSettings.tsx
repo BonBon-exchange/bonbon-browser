@@ -30,6 +30,8 @@ export const ApplicationSettings: React.FC = () => {
     window.app.config
       .get('application.launchAtStartup')
       .then((val: unknown) => setAppSettingLaunch(Boolean(val)));
+
+    window.app.analytics.page('/settings/application');
   }, []);
 
   return (

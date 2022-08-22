@@ -103,6 +103,8 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
         setBookmarksProviders(val);
       })
       .catch(console.log);
+
+    window.app.analytics.page('/bookmarks/import');
   }, []);
 
   useEffect(() => {

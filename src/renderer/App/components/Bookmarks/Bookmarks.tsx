@@ -113,6 +113,7 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
 
   useEffect(() => {
     refreshList();
+    window.app.analytics.page('/bookmarks');
   }, []);
 
   return (

@@ -10,7 +10,7 @@
  */
 import { app } from 'electron';
 import { machineIdSync } from 'node-machine-id';
-import Nucleus from 'nucleus-nodejs';
+import Nucleus from 'nucleus-analytics';
 
 import './appEvents';
 import './logger';

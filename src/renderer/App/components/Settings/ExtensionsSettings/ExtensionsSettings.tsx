@@ -21,6 +21,8 @@ export const ExtensionsSettings: React.FC = () => {
     window.app.config
       .get('extensions.forceInstallUBlockOrigin')
       .then((val: unknown) => setForceUBlock(Boolean(val)));
+
+    window.app.analytics.page('/settings/extensions');
   }, []);
 
   return (

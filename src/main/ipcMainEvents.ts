@@ -24,7 +24,8 @@ import {
   IpcAddBookmark,
   IpcAddDownload,
   IpcAddHistory,
-  IpcAnalytics,
+  IpcAnalyticsEvent,
+  IpcAnalyticsPage,
   IpcCertificateErrorAnswer,
   IpcInspectElement,
   IpcRenameTab,
@@ -129,8 +130,12 @@ export const makeIpcMainEvents = (): void => {
     e.sender.inspectElement(args.x, args.y);
   });
 
-  ipcMain.on('analytics', (_event, args: IpcAnalytics) => {
+  ipcMain.on('analytics-event', (_event, args: IpcAnalyticsEvent) => {
     event(args.eventName, args.params);
+  });
+
+  ipcMain.on('analytics-page', (_event, args: IpcAnalyticsPage) => {
+    event(args.pageName, args.params);
   });
 
   ipcMain.on('tab-select', (_event, args: IpcTabSelect) => {

@@ -110,6 +110,8 @@ export const History: React.FC<HistoryProps> = ({
         setIsLoading(false);
         console.log(e);
       });
+
+    window.app.analytics.page('/history');
   }, []);
 
   return (

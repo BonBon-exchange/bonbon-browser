@@ -48,6 +48,8 @@ export const Extensions: React.FC<ExtensionsProps> = ({
         setFilteredItems(val);
       })
       .catch(console.log);
+
+    window.app.analytics.page('/extensions');
   }, []);
 
   return (

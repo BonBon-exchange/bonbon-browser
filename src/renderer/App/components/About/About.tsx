@@ -1,4 +1,5 @@
 /* eslint-disable import/prefer-default-export */
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import './style.scss';
@@ -6,6 +7,11 @@ import './style.scss';
 export const About: React.FC = () => {
   const { t } = useTranslation();
   const appVersion = localStorage.getItem('appVersion');
+
+  useEffect(() => {
+    window.app.analytics.page('/about');
+  }, []);
+
   return (
     <>
       <div className="About__property-line">

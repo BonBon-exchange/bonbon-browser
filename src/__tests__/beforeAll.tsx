@@ -4,6 +4,7 @@ export const mockWindow = () => {
     value: {
       analytics: {
         event: jest.fn(),
+        page: jest.fn(),
       },
       board: {
         close: jest.fn(),
