@@ -15,11 +15,7 @@ export const AppControls: React.FC = () => {
   const [isMaximized, setIsMaxmized] = useState<boolean>(false);
 
   const handleClickMaximize = () => {
-    setIsMaxmized(!isMaximized);
     window.titleBar.app.maximize();
-  };
-
-  useEffect(() => {
     window.titleBar.app
       .isMaximized()
       .then((res) => {
@@ -27,6 +23,18 @@ export const AppControls: React.FC = () => {
         return null;
       })
       .catch(console.log);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.titleBar.app
+        .isMaximized()
+        .then((res) => {
+          setIsMaxmized(res);
+          return null;
+        })
+        .catch(console.log);
+    }, 1500);
   }, []);
 
   return (
