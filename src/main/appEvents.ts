@@ -6,7 +6,6 @@
 /* eslint-disable promise/always-return */
 import { app, session } from 'electron';
 import contextMenu from 'electron-context-menu';
-import Nucleus from 'nucleus-nodejs';
 import path from 'path';
 
 import { event } from './analytics';
@@ -196,7 +195,6 @@ const makeAppEvents = () => {
 app
   .whenReady()
   .then(() => {
-    Nucleus.appStarted();
     makeAssociation();
     makeChromeExtensionSupport();
     makeIpcMainEvents();

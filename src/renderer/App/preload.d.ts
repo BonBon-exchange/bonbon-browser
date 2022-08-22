@@ -23,6 +23,7 @@ declare global {
     app: {
       analytics: {
         event: (eventName: string, params?: EventParams) => void;
+        page: (pageName: string, params?: EventParams) => void;
       };
       board: {
         close: () => void;

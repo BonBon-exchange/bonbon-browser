@@ -137,6 +137,8 @@ export const BrowsingSettings: React.FC = () => {
       const typedVal = val as string | undefined;
       setBrowsingSettingTopEdge(typedVal);
     });
+
+    window.app.analytics.page('/settings/browsing');
   }, []);
 
   return (
