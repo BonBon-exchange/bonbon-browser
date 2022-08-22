@@ -113,13 +113,12 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
       window.app.bookmark
         .getBookmarksFromProvider(selectedBookmarksProviders)
         .then((val) => {
-          setItems(val);
+          if (val) setItems(val);
+          else setItems([]);
         })
         .catch(console.log);
-    } else {
-      setItems([]);
-    }
-  }, [selectedBookmarksProviders, t]);
+    } else if (items.length > 0) setItems([]);
+  }, [selectedBookmarksProviders, t, items]);
 
   return (
     <div id="Import__container">
@@ -131,7 +130,7 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
           <Select
             className="Import_providers-list"
             label="Browsers"
-            value={selectedBookmarksProviders}
+            value={selectedBookmarksProviders || ''}
             onChange={(e) =>
               setSelectedBookmarksProviders(e.target.value as Provider)
             }
