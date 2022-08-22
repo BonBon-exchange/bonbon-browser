@@ -225,7 +225,11 @@ app
             if (isGranted) callback(true);
             else {
               callback(false);
-              webContents.send('permission-request', { url, permission });
+              getSelectedView()?.webContents.send('permission-request', {
+                url,
+                permission,
+                webContentsId: webContents.id,
+              });
             }
           });
 

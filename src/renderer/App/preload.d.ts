@@ -89,6 +89,7 @@ declare global {
         showDownloadsPreview: (action: unknown) => void;
         distributeWindowsEvenly: (action: unknown) => void;
         setDefaultWindowSize: (action: unknown) => void;
+        permissionRequest: (action: unknown) => void;
       };
       off: {
         newWindow: () => void;
@@ -107,6 +108,7 @@ declare global {
         showDownloadsPreview: () => void;
         distributeWindowsEvenly: () => void;
         setDefaultWindowSize: () => void;
+        permissionRequest: () => void;
       };
       tools: {
         inspectElement: (point: IpcInspectElement) => void;
