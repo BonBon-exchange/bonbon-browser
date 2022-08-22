@@ -25,6 +25,9 @@ import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { useBoard } from './useBoard';
 import { useBrowserMethods } from './useBrowserMethods';
 
+const DEFAULT_HEIGHT = 800;
+const DEFAULT_WIDTH = 600;
+
 export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const dispatch = useAppDispatch();
   const board = useBoard();
@@ -78,10 +81,11 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
           break;
       }
 
-      console.log({width, height})
-
       if (boardContainer)
         width = Math.min(boardContainer?.clientWidth - 20, width);
+
+      height = height || DEFAULT_HEIGHT;
+      width = width || DEFAULT_WIDTH;
 
       const { x, y } = getCoordinateWithNoCollision(
         document,
