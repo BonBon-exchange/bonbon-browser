@@ -26,6 +26,7 @@ import {
   getBrowsers,
   getCertificateErrorAuth,
   makeIpcMainEvents,
+  getGrantedPermission,
 } from './ipcMainEvents';
 import { isValidUrl } from './util';
 
@@ -214,10 +215,18 @@ app
           .fromPartition('persist:user-partition')
           .setPermissionRequestHandler((webContents, permission, callback) => {
             const url = webContents.getURL();
-            return url === 'http://localhost:1212/index.html' ||
+            if (
+              url === 'http://localhost:1212/index.html' ||
               permission === 'fullscreen'
-              ? callback(true)
-              : callback(false);
+            ) {
+              return callback(true);
+            }
+            const isGranted = getGrantedPermission(url, permission);
+            if (isGranted) callback(true);
+            else {
+              callback(false);
+              webContents.send('permission-request', { url, permission });
+            }
           });
 
         const mainWindow = getMainWindow();
