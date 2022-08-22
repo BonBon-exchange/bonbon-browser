@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, act } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
@@ -45,4 +45,28 @@ describe('Addaps', () => {
     });
     expect(rendered).toBeTruthy();
   });
+
+  it('should show App Menu', () => {
+    return new Promise((resolve) => {
+      act(() => {
+        render(
+          <Provider store={store}>
+            <Addaps boardId="any" />
+          </Provider>
+        );
+      });
+
+      setTimeout(() => {
+        act(() => {
+          const ev = new Event('show-app-menu');
+          window.dispatchEvent(ev);
+        });
+
+        setTimeout(() => {
+          expect(screen.getByTestId('app-menu')).toBeTruthy();
+          return resolve(true);
+        }, 5000);
+      }, 3000);
+    });
+  }, 20000);
 });

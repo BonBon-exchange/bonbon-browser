@@ -73,7 +73,9 @@ export const mockWindow = () => {
         closeWebview: jest.fn(),
         closeAllWebview: jest.fn(),
         closeOthersWebview: jest.fn(),
-        showAppMenu: jest.fn(),
+        showAppMenu: (action: (event: Event, ...args: unknown[]) => void) => {
+          window.addEventListener('show-app-menu', action);
+        },
         certificateError: jest.fn(),
         downloading: jest.fn(),
         showDownloadsPreview: jest.fn(),

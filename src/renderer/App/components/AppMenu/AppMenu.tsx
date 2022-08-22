@@ -19,7 +19,7 @@ export const AppMenu: React.FC<AppMenuProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div id="AppMenu__container">
+    <div id="AppMenu__container" data-testid="app-menu">
       <ul>
         <li onClick={() => window.app.tools.toggleDarkMode()}>
           {t('Toggle dark mode')}
