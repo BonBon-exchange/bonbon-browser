@@ -89,6 +89,7 @@ let views: Record<string, BrowserView> = {};
 const browsers: Record<string, WebContents> = {};
 const certificateErrorAuth: { webContentsId: number; fingerprint: string }[] =
   [];
+const grantedPermissions: { url: string; permission: string }[] = [];
 
 export const getBrowsers = () => browsers;
 export const getViews = () => views;
@@ -104,6 +105,12 @@ export const getCertificateErrorAuth = (
     (c) => c.webContentsId === webContentsId && c.fingerprint === fingerprint
   );
   return !!auth;
+};
+
+export const getGrantedPermission = (url: string, permission: string) => {
+  return !!grantedPermissions.find(
+    (p) => p.permission === permission && p.url === url
+  );
 };
 
 const bonbonAutoLauncher = new AutoLaunch({
@@ -442,4 +449,13 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.handle('is-app-maximized', () => {
     return getMainWindow()?.isMaximized() || false;
   });
+
+  ipcMain.on(
+    'permission-response',
+    (_e, args: { url: string; permission: string; response: boolean }) => {
+      if (args.response) {
+        grantedPermissions.push({ url: args.url, permission: args.permission });
+      }
+    }
+  );
 };
