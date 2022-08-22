@@ -30,7 +30,7 @@ describe('Settings', () => {
           <Settings {...props} />
         </Provider>
       );
-    })
+    });
 
     expect(await screen.getByText('Launch at startup')).toBeTruthy();
   });
