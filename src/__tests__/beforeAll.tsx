@@ -66,6 +66,7 @@ export const mockWindow = () => {
         showDownloadsPreview: jest.fn(),
         distributeWindowsEvenly: jest.fn(),
         setDefaultWindowSize: jest.fn(),
+        permissionRequest: jest.fn(),
       },
       off: {
         newWindow: jest.fn(),
@@ -81,6 +82,7 @@ export const mockWindow = () => {
         showDownloadsPreview: jest.fn(),
         distributeWindowsEvenly: jest.fn(),
         setDefaultWindowSize: jest.fn(),
+        permissionRequest: jest.fn(),
       },
       tools: {
         inspectElement: jest.fn(),

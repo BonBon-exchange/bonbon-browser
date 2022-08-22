@@ -200,6 +200,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('set-default-window-size', action);
     },
+    permissionRequest: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('permission-request', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -240,6 +245,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     setDefaultWindowSize: () => {
       ipcRenderer.removeAllListeners('set-default-window-size');
+    },
+    permissionRequest: () => {
+      ipcRenderer.removeAllListeners('permission-request');
     },
   },
   tools: {
