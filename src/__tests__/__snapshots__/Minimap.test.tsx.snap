@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Minimap should render 1`] = `
+<div
+  id="Minimap__container"
+>
+  <div
+    id="Minimap__view"
+    style={
+      Object {
+        "height": 100,
+        "top": 0,
+      }
+    }
+  />
+</div>
+`;

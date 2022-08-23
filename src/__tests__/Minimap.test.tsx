@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
+import renderer, { act } from 'react-test-renderer';
 
 import { Minimap } from '../renderer/App/components/Minimap';
 import { mockWindow } from './beforeAll';
@@ -13,6 +14,7 @@ import {
   removeBrowser,
 } from '../renderer/App/store/reducers/Board';
 
+let tree: any;
 let store: any;
 const middlewares: Middleware[] = [];
 
@@ -41,13 +43,15 @@ describe('Minimap', () => {
   });
 
   it('should render', () => {
-    expect(
-      render(
+    act(() => {
+      tree = renderer.create(
         <Provider store={store}>
           <Minimap {...props} />
         </Provider>
-      )
-    ).toBeTruthy();
+      );
+    });
+
+    expect(tree).toMatchSnapshot();
   });
 
   it('should have 0 mini window because of initialState', () => {
