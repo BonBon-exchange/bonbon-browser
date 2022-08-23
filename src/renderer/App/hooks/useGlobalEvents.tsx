@@ -158,12 +158,14 @@ export const useGlobalEvents = () => {
     dispatch(removeAllBrowsers());
   }, [dispatch]);
 
-  const matchMediaListener = (e: { matches: boolean }) => {
+  const matchMediaListener = useCallback((e: { matches: boolean }) => {
     const colorScheme = e.matches ? 'dark-theme' : 'light-theme';
-    //@ts-ignore
-    window.document.querySelector('body').className = colorScheme;
-    window.app.analytics.event('toggle_darkmode', { theme: colorScheme });
-  };
+    if (window.document.querySelector('body')?.className !== colorScheme) {
+      //@ts-ignore
+      window.document.querySelector('body').className = colorScheme;
+      window.app.analytics.event('toggle_darkmode', { theme: colorScheme });
+    }
+  }, []);
 
   const renameBoardAction = useCallback(
     (_e: IpcRendererEvent, args: { label: string }) => {
@@ -317,5 +319,5 @@ export const useGlobalEvents = () => {
       window
         .matchMedia('(prefers-color-scheme: dark)')
         .removeEventListener('change', matchMediaListener);
-  }, []);
+  }, [matchMediaListener]);
 };
