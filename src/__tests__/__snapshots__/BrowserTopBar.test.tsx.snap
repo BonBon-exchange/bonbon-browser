@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BrowserTopBar should render 1`] = `
+<div
+  className="BrowserTopBar__container"
+  onClick={[MockFunction]}
+  onDoubleClick={[MockFunction]}
+>
+  <div
+    className="BrowserTopBar__title"
+  >
+    Github
+  </div>
+  <div
+    className="BrowserTopBar__controls"
+  >
+    <div
+      className="BrowserTopBar__control-button close-button"
+      data-testid="close-browser"
+      onClick={[MockFunction]}
+    >
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="CloseIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+        />
+      </svg>
+    </div>
+    <div
+      className="BrowserTopBar__control-button"
+      data-testid="toggle-enlarge-browser"
+      onClick={[MockFunction]}
+    >
+      <svg
+        fill="currentColor"
+        height="16"
+        viewBox="0 0 16 16"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3 5v9h9V5H3zm8 8H4V6h7v7z"
+        />
+        <path
+          clipRule="evenodd"
+          d="M5 5h1V4h7v7h-1v1h2V3H5v2z"
+          fillRule="evenodd"
+        />
+      </svg>
+    </div>
+    <div
+      className="BrowserTopBar__control-button"
+      data-testid="minimize-browser"
+      onClick={[MockFunction]}
+    >
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="MinimizeIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M6 19h12v2H6z"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
