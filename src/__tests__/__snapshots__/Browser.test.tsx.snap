@@ -1,0 +1,359 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Browser should render 1`] = `
+<div
+  className="Browser__draggable-container react-draggable"
+  data-id="123qsdf"
+  data-testid="browser-window"
+  id="Browser__123qsdf"
+  onMouseDown={[Function]}
+  onMouseUp={[Function]}
+  onTouchEnd={[Function]}
+  style={
+    Object {
+      "boxSizing": "border-box",
+      "cursor": "auto",
+      "display": "flex",
+      "flexShrink": 0,
+      "height": "600px",
+      "left": 0,
+      "maxHeight": 9007199254740991,
+      "maxWidth": 9007199254740991,
+      "minHeight": undefined,
+      "minWidth": undefined,
+      "position": "absolute",
+      "top": 0,
+      "transform": "translate(0px,0px)",
+      "userSelect": "auto",
+      "width": "800px",
+    }
+  }
+  transform={null}
+>
+  <div
+    className="Browser__container"
+    style={
+      Object {
+        "opacity": 0,
+      }
+    }
+  >
+    <div
+      className="BrowserTopBar__container"
+      onClick={[Function]}
+      onDoubleClick={[Function]}
+    >
+      <div
+        className="BrowserTopBar__title"
+      />
+      <div
+        className="BrowserTopBar__controls"
+      >
+        <div
+          className="BrowserTopBar__control-button close-button"
+          data-testid="close-browser"
+          onClick={[Function]}
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="CloseIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </div>
+        <div
+          className="BrowserTopBar__control-button"
+          data-testid="toggle-enlarge-browser"
+          onClick={[Function]}
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="CropSquareIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H6V6h12v12z"
+            />
+          </svg>
+        </div>
+        <div
+          className="BrowserTopBar__control-button"
+          data-testid="minimize-browser"
+          onClick={[Function]}
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="MinimizeIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M6 19h12v2H6z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div
+      className="BrowserControlBar__container"
+    >
+      <div
+        className="BrowserControlBar__controls"
+      >
+        <div
+          className="BrowserControlBar__control"
+          onClick={[Function]}
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="ArrowBackIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+            />
+          </svg>
+        </div>
+        <div
+          className="BrowserControlBar__control"
+          onClick={[Function]}
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="ArrowForwardIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+            />
+          </svg>
+        </div>
+        <div
+          className="BrowserControlBar__control"
+          onClick={[Function]}
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="CachedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="m19 8-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z"
+            />
+          </svg>
+        </div>
+        <div
+          className="BrowserControlBar__control"
+          onClick={[Function]}
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="HomeIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"
+            />
+          </svg>
+        </div>
+      </div>
+      <div
+        className="MuiFormControl-root MuiTextField-root BrowserControlBar_url-input css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+      >
+        <div
+          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            disabled={false}
+            id=":r0:"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="text"
+            value="https://www.github.com"
+          />
+        </div>
+      </div>
+      <div
+        className="BrowserControlBar__bookmark-control"
+        onClick={[Function]}
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="StarBorderIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="m22 9.24-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"
+          />
+        </svg>
+      </div>
+    </div>
+    <div
+      className="Browser__webview-container"
+    >
+      <webview
+        allowpopups="true"
+        partition="persist:user-partition"
+        src="https://www.github.com"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className=""
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "cursor": "row-resize",
+          "height": "10px",
+          "left": "0px",
+          "position": "absolute",
+          "top": "-5px",
+          "userSelect": "none",
+          "width": "100%",
+        }
+      }
+    />
+    <div
+      className=""
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "cursor": "col-resize",
+          "height": "100%",
+          "position": "absolute",
+          "right": "-5px",
+          "top": "0px",
+          "userSelect": "none",
+          "width": "10px",
+        }
+      }
+    />
+    <div
+      className=""
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "bottom": "-5px",
+          "cursor": "row-resize",
+          "height": "10px",
+          "left": "0px",
+          "position": "absolute",
+          "userSelect": "none",
+          "width": "100%",
+        }
+      }
+    />
+    <div
+      className=""
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "cursor": "col-resize",
+          "height": "100%",
+          "left": "-5px",
+          "position": "absolute",
+          "top": "0px",
+          "userSelect": "none",
+          "width": "10px",
+        }
+      }
+    />
+    <div
+      className=""
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "cursor": "ne-resize",
+          "height": "20px",
+          "position": "absolute",
+          "right": "-10px",
+          "top": "-10px",
+          "userSelect": "none",
+          "width": "20px",
+        }
+      }
+    />
+    <div
+      className=""
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "bottom": "-10px",
+          "cursor": "se-resize",
+          "height": "20px",
+          "position": "absolute",
+          "right": "-10px",
+          "userSelect": "none",
+          "width": "20px",
+        }
+      }
+    />
+    <div
+      className=""
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "bottom": "-10px",
+          "cursor": "sw-resize",
+          "height": "20px",
+          "left": "-10px",
+          "position": "absolute",
+          "userSelect": "none",
+          "width": "20px",
+        }
+      }
+    />
+    <div
+      className=""
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "cursor": "nw-resize",
+          "height": "20px",
+          "left": "-10px",
+          "position": "absolute",
+          "top": "-10px",
+          "userSelect": "none",
+          "width": "20px",
+        }
+      }
+    />
+  </div>
+</div>
+`;
