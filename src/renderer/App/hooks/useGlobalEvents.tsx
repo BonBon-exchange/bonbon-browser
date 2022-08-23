@@ -262,11 +262,6 @@ export const useGlobalEvents = () => {
           })
         );
       }
-      // window.app.browser.permissionResponse({
-      //   url: params.url,
-      //   permission: params.permission,
-      //   response: true,
-      // });
     },
     [boardState.browsers, dispatch]
   );
