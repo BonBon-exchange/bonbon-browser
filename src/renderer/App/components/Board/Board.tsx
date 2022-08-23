@@ -13,7 +13,10 @@ import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { useAppDispatch } from 'renderer/App/store/hooks';
-import { setActiveBrowser } from 'renderer/App/store/reducers/Board';
+import {
+  setActiveBrowser,
+  setBoardHeight,
+} from 'renderer/App/store/reducers/Board';
 
 import { BoardProps } from './Types';
 
@@ -24,7 +27,6 @@ export const Board: React.FC<BoardProps> = ({ isFullSize, boardId }) => {
   const dispatch = useAppDispatch();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>([]);
-  const [maxHeight, setMaxHeight] = useState<number>(3000);
   const helpers = useStoreHelpers();
 
   const makeBrowsers = useCallback((sorted: BrowserProps[]) => {
@@ -57,8 +59,14 @@ export const Board: React.FC<BoardProps> = ({ isFullSize, boardId }) => {
       (acc, val) => Math.max(acc, val.top + val.height + 100),
       0
     );
-    setMaxHeight(max);
-  }, [board.browsers]);
+
+    // @ts-ignore
+    document.querySelector('#Board__container').style.height = `${Number(
+      max
+    )}px`;
+
+    dispatch(setBoardHeight(max));
+  }, [board.browsers, dispatch]);
 
   useEffect(() => {
     window.app.board.setWindowsCount({
@@ -89,13 +97,6 @@ export const Board: React.FC<BoardProps> = ({ isFullSize, boardId }) => {
     }, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    // @ts-ignore
-    document.querySelector('#Board__container').style.height = `${
-      Number(maxHeight) + 100
-    }px`;
-  }, [maxHeight]);
 
   useEffect(() => {
     document

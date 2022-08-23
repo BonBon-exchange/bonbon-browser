@@ -449,6 +449,15 @@ export const Browser: React.FC<BrowserProps> = ({
     return () => window.removeEventListener('scroll', scrollListener);
   }, [scrollListener]);
 
+  useEffect(() => {
+    if (isFullSize) return;
+    setTimeout(() => {
+      rndRef.current?.updatePosition({ x: left, y: top });
+      rndRef.current?.forceUpdate();
+    }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFullSize]);
+
   return (
     <Rnd
       style={{ display: 'flex' }}

@@ -135,6 +135,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         closedUrls: [],
         isFullSize: false,
         browsersActivity: [],
+        height: 0,
       };
 
       dispatch(setBoard(newBoard));
