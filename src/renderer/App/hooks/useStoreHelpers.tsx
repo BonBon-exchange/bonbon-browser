@@ -352,11 +352,10 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         setTimeout(() => {
           focus(newBrowser.id);
           focusUrlBar(newBrowser.id);
-          if (newBrowser.browserIndex) distributeWindowsByOrder(board.browsers);
         }, 300);
       }
     },
-    [board, dispatch, makeBrowser, focus, focusUrlBar, distributeWindowsByOrder]
+    [board, dispatch, makeBrowser, focus, focusUrlBar]
   );
 
   const reopenLastClosed = useCallback(() => {
