@@ -225,6 +225,7 @@ export const Minimap: React.FC<MinimapProps> = ({
 
   useEffect(() => {
     return () => mouseUpHandler();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
