@@ -52,6 +52,7 @@ export const Browser: React.FC<BrowserProps> = ({
   isSearching,
   capture,
   permissionRequest,
+  browserIndex,
 }) => {
   const dispatch = useAppDispatch();
   const {
@@ -447,6 +448,11 @@ export const Browser: React.FC<BrowserProps> = ({
     window.addEventListener('scroll', scrollListener);
     return () => window.removeEventListener('scroll', scrollListener);
   }, [scrollListener]);
+
+  useEffect(() => {
+    if (browserIndex) helpers.board.distributeWindowsByOrder(board.browsers);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Rnd

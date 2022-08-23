@@ -18,4 +18,5 @@ export interface BrowserProps {
     url: string;
     permission: string;
   }
+  browserIndex?: number;
 }
