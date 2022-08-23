@@ -452,10 +452,11 @@ export const Browser: React.FC<BrowserProps> = ({
   useEffect(() => {
     if (isFullSize) return;
     setTimeout(() => {
+      rndRef.current?.updatePosition({ x: left, y: top });
       rndRef.current?.forceUpdate();
-      rndRef.current?.updatePosition({ x, y });
     }, 1000);
-  }, [isFullSize, x, y]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFullSize]);
 
   return (
     <Rnd
