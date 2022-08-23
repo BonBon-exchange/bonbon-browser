@@ -2,6 +2,7 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import renderer from 'react-test-renderer';
 
 import { Board } from '../renderer/App/components/Board';
 import { mockWindow } from './beforeAll';
@@ -10,6 +11,8 @@ import {
   addBrowser,
   removeBrowser,
 } from '../renderer/App/store/reducers/Board';
+
+let tree: any;
 
 const addBrowserAction = {
   id: 'randomid',
@@ -30,13 +33,15 @@ describe('Board', () => {
   });
 
   it('should render', () => {
-    expect(
-      render(
+    act(() => {
+      tree = renderer.create(
         <Provider store={store}>
           <Board />
         </Provider>
-      )
-    ).toBeTruthy();
+      );
+    });
+
+    expect(tree).toMatchSnapshot();
   });
 
   it('should have 0 browser in board because of initialState', () => {
@@ -45,6 +50,7 @@ describe('Board', () => {
         <Board />
       </Provider>
     );
+
     expect(
       container.getElementsByClassName('Browser__draggable-container').length
     ).toBe(0);
