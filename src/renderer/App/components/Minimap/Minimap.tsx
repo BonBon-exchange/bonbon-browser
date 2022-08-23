@@ -128,15 +128,12 @@ export const Minimap: React.FC<MinimapProps> = ({
     setShowView(false);
   }, []);
 
-  const mouseUpHandler = useCallback(
-    (_e: any) => {
-      minimapContainer?.removeEventListener(
-        'mousemove',
-        mouseMoveWithClickHandler
-      );
-    },
-    [mouseMoveWithClickHandler, minimapContainer]
-  );
+  const mouseUpHandler = useCallback(() => {
+    minimapContainer?.removeEventListener(
+      'mousemove',
+      mouseMoveWithClickHandler
+    );
+  }, [mouseMoveWithClickHandler, minimapContainer]);
 
   const clickHandler = useCallback(
     (e: any) => {
@@ -213,10 +210,9 @@ export const Minimap: React.FC<MinimapProps> = ({
   }, [mouseLeaveHandler, minimapContainer]);
 
   useEffect(() => {
-    minimapContainer?.addEventListener('mouseup', mouseUpHandler);
-    return () =>
-      minimapContainer?.removeEventListener('mouseup', mouseUpHandler);
-  }, [mouseUpHandler, minimapContainer]);
+    window.addEventListener('mouseup', mouseUpHandler);
+    return () => window.removeEventListener('mouseup', mouseUpHandler);
+  }, [mouseUpHandler]);
 
   useEffect(() => {
     window.addEventListener('scroll', scrollHandler);
