@@ -4,11 +4,13 @@ import { render, act, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
+import renderer from 'react-test-renderer';
 
 import { Bookmarks } from '../renderer/App/components/Bookmarks';
 import { mockWindow } from './beforeAll';
 import { initialState } from '../renderer/App/store/reducers/Board';
 
+let tree: any;
 let store: any;
 const middlewares: Middleware[] = [];
 
@@ -24,6 +26,18 @@ describe('Bookmarks', () => {
   });
 
   it('should render', async () => {
+    act(() => {
+      tree = renderer.create(
+        <Provider store={store}>
+          <Bookmarks {...props} />
+        </Provider>
+      );
+    });
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should first show bookmarks', async () => {
     act(() => {
       render(
         <Provider store={store}>
