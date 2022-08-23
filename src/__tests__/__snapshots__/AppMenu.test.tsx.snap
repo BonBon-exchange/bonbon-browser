@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppMenu should render 1`] = `
+<div
+  className="AppMenu__container"
+  data-testid="app-menu"
+  id="AppMenu__container"
+>
+  <ul>
+    <li
+      onClick={[Function]}
+    >
+      Toggle dark mode
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      Extensions
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      Downloads
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      Bookmarks
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      History
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      Settings
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      Documentation
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      About
+    </li>
+  </ul>
+</div>
+`;
