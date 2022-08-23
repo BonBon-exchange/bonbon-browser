@@ -2,6 +2,7 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import renderer, { act } from 'react-test-renderer';
 
 import { LeftBar } from '../renderer/App/components/LeftBar';
 import { mockWindow } from './beforeAll';
@@ -10,6 +11,8 @@ import {
   removeBrowser,
 } from '../renderer/App/store/reducers/Board';
 import { store } from '../renderer/App/store/store';
+
+let tree: any;
 
 const addBrowserAction = {
   id: 'randomid',
@@ -30,13 +33,15 @@ describe('LeftBar', () => {
   });
 
   it('should render', () => {
-    expect(
-      render(
+    act(() => {
+      tree = renderer.create(
         <Provider store={store}>
           <LeftBar />
         </Provider>
-      )
-    ).toBeTruthy();
+      );
+    });
+
+    expect(tree).toMatchSnapshot();
   });
 
   it('should have 0 browser because of initial state', () => {
