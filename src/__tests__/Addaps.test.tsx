@@ -4,6 +4,7 @@ import { render, act, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
+import renderer from 'react-test-renderer';
 
 import { mockWindow } from './beforeAll';
 import { Addaps } from '../renderer/App/components/Addaps';
@@ -11,6 +12,7 @@ import { initialState } from '../renderer/App/store/reducers/Board';
 import { initialState as downloadsInitialState } from '../renderer/App/store/reducers/Downloads';
 
 let store: any;
+let tree: any;
 const middlewares: Middleware[] = [];
 
 describe('Addaps', () => {
@@ -24,27 +26,27 @@ describe('Addaps', () => {
   });
 
   it('should render with no boardId', () => {
-    let rendered;
     act(() => {
-      rendered = render(
+      tree = renderer.create(
         <Provider store={store}>
           <Addaps />
         </Provider>
       );
     });
-    expect(rendered).toBeTruthy();
+
+    expect(tree).toMatchSnapshot();
   });
 
   it('should render with boardId', () => {
-    let rendered;
     act(() => {
-      rendered = render(
+      tree = renderer.create(
         <Provider store={store}>
           <Addaps boardId="any" />
         </Provider>
       );
     });
-    expect(rendered).toBeTruthy();
+
+    expect(tree).toMatchSnapshot();
   });
 
   it('should show and hide App Menu', () => {

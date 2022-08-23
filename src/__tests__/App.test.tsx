@@ -1,8 +1,11 @@
 import '@testing-library/jest-dom';
-import { render, act } from '@testing-library/react';
+import { act } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 
 import { mockWindow } from './beforeAll';
 import { App } from '../renderer/App/App';
+
+let tree: any;
 
 describe('App', () => {
   beforeAll(() => {
@@ -10,10 +13,9 @@ describe('App', () => {
   });
 
   it('should render', () => {
-    let rendered;
     act(() => {
-      rendered = render(<App />);
+      tree = renderer.create(<App />);
     });
-    expect(rendered).toBeTruthy();
+    expect(tree).toMatchSnapshot();
   });
 });

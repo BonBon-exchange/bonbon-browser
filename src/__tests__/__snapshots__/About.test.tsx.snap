@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`About should render 1`] = `
+Array [
+  <div
+    className="About__property-line"
+  >
+    <span
+      className="About__property"
+    >
+      App version
+      :
+    </span>
+     
+    0.30.6
+  </div>,
+  <div
+    className="About__property-line"
+  >
+    <span
+      className="About__property"
+    >
+      Author
+      :
+    </span>
+     Daniel Febrero
+  </div>,
+  <div
+    className="About__property-line"
+  >
+    <span
+      className="About__property"
+    >
+      Team
+      :
+    </span>
+     Daniel Febrero, Anthony Cettour, 0xCUBE, Nuklusone, Howard Huang, Faouzi Benali, Daniel Callus
+  </div>,
+  <div
+    className="About__property-line"
+  >
+    <span
+      className="About__property"
+    >
+      Past contributors
+      :
+    </span>
+     Aitor
+  </div>,
+]
+`;

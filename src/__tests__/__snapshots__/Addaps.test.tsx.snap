@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Addaps should render with boardId 1`] = `
+<div
+  className=""
+  id="Addaps__container"
+>
+  <div
+    id="Addaps__background"
+  />
+  <div
+    id="LeftBar__browserFavContainer"
+  >
+    <ul
+      style={Object {}}
+    >
+      <div
+        id="LeftBar__browserFavContainerItems"
+      />
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="AddIcon"
+        focusable="false"
+        id="ButtonAddBrowser"
+        onClick={[Function]}
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+        />
+      </svg>
+    </ul>
+  </div>
+  <div
+    className="Board__isnt-maximized"
+    id="Board__container"
+  >
+    <div
+      className="Board__edge-snap-left"
+    />
+    <div
+      className="Board__edge-snap-right"
+    />
+    <div
+      className="Board__edge-snap-maximized"
+    />
+  </div>
+  <div
+    id="Minimap__detection-zone"
+  />
+</div>
+`;
+
+exports[`Addaps should render with no boardId 1`] = `
+<div
+  className="Loader__loading"
+>
+  <img
+    src="test-file-stub"
+  />
+</div>
+`;
