@@ -116,6 +116,13 @@ export const Minimap: React.FC<MinimapProps> = ({
     [boardContainer, minimapContainer, view.height]
   );
 
+  const mouseUpHandler = useCallback(() => {
+    minimapContainer?.removeEventListener(
+      'mousemove',
+      mouseMoveWithClickHandler
+    );
+  }, [mouseMoveWithClickHandler, minimapContainer]);
+
   const mouseEnterHandler = useCallback(() => {
     if (minimapContainer && boardContainer) {
       prepareView();
@@ -127,13 +134,6 @@ export const Minimap: React.FC<MinimapProps> = ({
   const mouseLeaveHandler = useCallback(() => {
     setShowView(false);
   }, []);
-
-  const mouseUpHandler = useCallback(() => {
-    minimapContainer?.removeEventListener(
-      'mousemove',
-      mouseMoveWithClickHandler
-    );
-  }, [mouseMoveWithClickHandler, minimapContainer]);
 
   const clickHandler = useCallback(
     (e: any) => {
@@ -222,6 +222,11 @@ export const Minimap: React.FC<MinimapProps> = ({
   useEffect(() => {
     mouseEnterHandler();
   }, [mouseEnterHandler]);
+
+  useEffect(() => {
+    return () => mouseUpHandler();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div id="Minimap__container">
