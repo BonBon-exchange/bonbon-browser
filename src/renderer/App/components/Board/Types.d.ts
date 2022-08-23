@@ -10,6 +10,7 @@ export interface BoardType {
   lastClosedBrowserDimensions?: [number, number];
   lastResizedBrowserDimensions?: [number, number];
   browsersActivity: string[];
+  height: number;
 }
 
 export interface BoardProps {

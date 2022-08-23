@@ -49,6 +49,7 @@ const newBoard = {
   closedUrls: [],
   isFullSize: false,
   browsersActivity: [],
+  height: 0,
 };
 
 export const initialState: BoardState = {
@@ -305,6 +306,9 @@ export const boardSlice = createSlice({
     ) => {
       state.board.lastResizedBrowserDimensions = action.payload;
     },
+    setBoardHeight: (state, action: PayloadAction<number>) => {
+      state.board.height = action.payload;
+    },
   },
 });
 
@@ -329,6 +333,7 @@ export const {
   updateBrowserCertificateErrorFingerprint,
   toggleSearch,
   setLastResizedBrowserDimensions,
+  setBoardHeight,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

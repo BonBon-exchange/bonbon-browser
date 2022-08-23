@@ -40,7 +40,7 @@ import {
 } from 'types/ipc';
 import { DomainSuggestion } from 'types/suggestions';
 
-import { event } from './analytics';
+import { event, page } from './analytics';
 import { getUrlToOpen, setUrlToOpen } from './appEvents';
 import {
   editBookmark,
@@ -135,7 +135,7 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('analytics-page', (_event, args: IpcAnalyticsPage) => {
-    event(args.pageName, args.params);
+    page(args.pageName, args.params);
   });
 
   ipcMain.on('tab-select', (_event, args: IpcTabSelect) => {
@@ -214,34 +214,39 @@ export const makeIpcMainEvents = (): void => {
     return store.get(key);
   });
 
-  ipcMain.on('set-store-value', (_e, args: IpcSetStoreValue): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      let rejected = false;
+  ipcMain.handle(
+    'set-store-value',
+    (_e, args: IpcSetStoreValue): Promise<void> => {
+      return new Promise((resolve, reject) => {
+        let rejected = false;
 
-      store.set(args.key, args.value);
+        store.set(args.key, args.value);
 
-      switch (args.key) {
-        default:
-          break;
+        switch (args.key) {
+          default:
+            break;
 
-        case 'application.launchAtStartup':
-          args.value === true
-            ? bonbonAutoLauncher.enable().catch(() => {
-                reject(new Error(`Couldn't enable BonBon Browser at startup.`));
-                rejected = true;
-              })
-            : bonbonAutoLauncher.disable().catch(() => {
-                reject(
-                  new Error(`Couldn't disable BonBon Browser at startup.`)
-                );
-                rejected = true;
-              });
-          break;
-      }
+          case 'application.launchAtStartup':
+            args.value === true
+              ? bonbonAutoLauncher.enable().catch(() => {
+                  reject(
+                    new Error(`Couldn't enable BonBon Browser at startup.`)
+                  );
+                  rejected = true;
+                })
+              : bonbonAutoLauncher.disable().catch(() => {
+                  reject(
+                    new Error(`Couldn't disable BonBon Browser at startup.`)
+                  );
+                  rejected = true;
+                });
+            break;
+        }
 
-      if (!rejected) resolve();
-    });
-  });
+        if (!rejected) resolve();
+      });
+    }
+  );
 
   ipcMain.handle(
     'change-language',

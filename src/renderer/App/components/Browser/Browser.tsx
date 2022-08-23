@@ -84,6 +84,7 @@ export const Browser: React.FC<BrowserProps> = ({
   const edgeRight = document.querySelector('.Board__edge-snap-right');
   const edgeMaximized = document.querySelector('.Board__edge-snap-maximized');
   const boardContainer = document.querySelector('#Board__container');
+  const browserContainer = document.querySelector(`#Browser__${id}`);
 
   const toggleFullSizeBrowser = useCallback(() => {
     dispatch(toggleBoardFullSize());
@@ -448,6 +449,12 @@ export const Browser: React.FC<BrowserProps> = ({
     window.addEventListener('scroll', scrollListener);
     return () => window.removeEventListener('scroll', scrollListener);
   }, [scrollListener]);
+
+  useEffect(() => {
+    if (isFullSize) return;
+    rndRef.current?.forceUpdate();
+    rndRef.current?.render();
+  }, [isFullSize]);
 
   return (
     <Rnd

@@ -63,6 +63,17 @@ export const Minimap: React.FC<MinimapProps> = ({
     });
   }, []);
 
+  const prepareView = useCallback(() => {
+    if (minimapContainer && boardContainer) {
+      const top = window.scrollY;
+      const ratioY =
+        minimapContainer.clientHeight / boardContainer.clientHeight;
+
+      const height = minimapContainer.clientHeight * ratioY;
+      setView({ top: top * ratioY, height });
+    }
+  }, [boardContainer, minimapContainer]);
+
   const prepareMiniWindows = useCallback(() => {
     if (minimapContainer && boardContainer) {
       const ratioX = minimapContainer.clientWidth / boardContainer.clientWidth;
@@ -107,16 +118,11 @@ export const Minimap: React.FC<MinimapProps> = ({
 
   const mouseEnterHandler = useCallback(() => {
     if (minimapContainer && boardContainer) {
-      const top = window.scrollY;
-      const ratioY =
-        minimapContainer.clientHeight / boardContainer.clientHeight;
-
-      const height = minimapContainer.clientHeight * ratioY;
-      setView({ top: top * ratioY, height });
+      prepareView();
       prepareMiniWindows();
       setShowView(true);
     }
-  }, [boardContainer, minimapContainer, prepareMiniWindows]);
+  }, [boardContainer, minimapContainer, prepareMiniWindows, prepareView]);
 
   const mouseLeaveHandler = useCallback(() => {
     setShowView(false);
@@ -158,6 +164,10 @@ export const Minimap: React.FC<MinimapProps> = ({
     hideTimeout.current = setTimeout(() => handleHide(), 1000);
   }, [handleHide]);
 
+  const scrollHandler = useCallback(() => {
+    prepareView();
+  }, [prepareView]);
+
   useEffect(() => {
     prepareMiniWindows();
   }, [
@@ -166,6 +176,7 @@ export const Minimap: React.FC<MinimapProps> = ({
     minimapContainer,
     prepareMiniWindows,
     board.isFullSize,
+    board.height,
   ]);
 
   useEffect(() => {
@@ -206,6 +217,11 @@ export const Minimap: React.FC<MinimapProps> = ({
     return () =>
       minimapContainer?.removeEventListener('mouseup', mouseUpHandler);
   }, [mouseUpHandler, minimapContainer]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollHandler);
+    return () => window.removeEventListener('scroll', scrollHandler);
+  }, [scrollHandler]);
 
   useEffect(() => {
     mouseEnterHandler();

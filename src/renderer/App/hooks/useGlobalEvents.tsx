@@ -11,6 +11,7 @@ import {
   removeAllBrowsersExcept,
   renameBoard,
   updateBrowserCertificateErrorFingerprint,
+  setBoardHeight,
 } from 'renderer/App/store/reducers/Board';
 import { setDownloadItem } from 'renderer/App/store/reducers/Downloads';
 import { useAppDispatch } from 'renderer/App/store/hooks';
@@ -113,12 +114,15 @@ export const useGlobalEvents = () => {
       window.innerHeight -
       30;
     if (Number(containerHeight) - heightDistance < 100) {
+      const newHeight = Number(containerHeight) + 100;
       // @ts-ignore
-      document.querySelector('#Board__container').style.height = `${
-        Number(containerHeight) + 100
-      }px`;
+      document.querySelector(
+        '#Board__container'
+        // @ts-ignore
+      ).style.height = `${newHeight}px`;
+      dispatch(setBoardHeight(newHeight));
     }
-  }, []);
+  }, [dispatch]);
 
   const newWindowAction = useCallback(
     (_e: IpcRendererEvent, args: { url: string }) => browser.add(args),
