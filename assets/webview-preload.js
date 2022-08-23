@@ -155,6 +155,10 @@ document.addEventListener(
       ipcRenderer.sendToHost('clickOnPage');
     });
 
+    window.addEventListener('mouseup', () => {
+      ipcRenderer.sendToHost('mouseup');
+    });
+
     window.addEventListener('keydown', keyDownListener, false);
     window.addEventListener('keyup', keyUpListener, false);
   },

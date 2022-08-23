@@ -45,6 +45,12 @@ export const useBrowserEvents = (browserId: string) => {
         default:
           break;
 
+        case 'mouseup':
+          bringBrowserToTheFront(browserId);
+          const mouseupEvent = new MouseEvent('mouseup');
+          window.dispatchEvent(mouseupEvent);
+          break;
+
         case 'AltDown':
           const altDownEvent = new KeyboardEvent('keydown', { key: 'Alt' });
           window.dispatchEvent(altDownEvent);
