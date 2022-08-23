@@ -1,14 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import '@testing-library/jest-dom';
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
+import renderer, { act } from 'react-test-renderer';
 
 import { Settings } from '../renderer/App/components/Settings';
 import { mockWindow } from './beforeAll';
 import { initialState } from '../renderer/App/store/reducers/Board';
 
+let tree: any;
 let store: any;
 const middlewares: Middleware[] = [];
 
@@ -24,6 +26,18 @@ describe('Settings', () => {
   });
 
   it('should render', async () => {
+    act(() => {
+      tree = renderer.create(
+        <Provider store={store}>
+          <Settings {...props} />
+        </Provider>
+      );
+    });
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should show first screen', async () => {
     act(() => {
       render(
         <Provider store={store}>

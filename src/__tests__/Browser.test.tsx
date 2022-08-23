@@ -2,11 +2,14 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import renderer, { act } from 'react-test-renderer';
 
 import { Browser } from '../renderer/App/components/Browser';
 import { mockWindow } from './beforeAll';
 import { store } from '../renderer/App/store/store';
 import { toggleBoardFullSize } from '../renderer/App/store/reducers/Board';
+
+let tree: any;
 
 const browserProps = {
   id: '123qsdf',
@@ -26,13 +29,15 @@ describe('Browser', () => {
   });
 
   it('should render', () => {
-    expect(
-      render(
+    act(() => {
+      tree = renderer.create(
         <Provider store={store}>
           <Browser {...browserProps} />
         </Provider>
-      )
-    ).toBeTruthy();
+      );
+    });
+
+    expect(tree).toMatchSnapshot();
   });
 
   it('should be fullsize', () => {

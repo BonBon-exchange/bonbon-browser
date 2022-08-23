@@ -1,14 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
+import renderer, { act } from 'react-test-renderer';
 
 import { CloseButton } from '../renderer/App/components/CloseButton';
 import { mockWindow } from './beforeAll';
 import { initialState } from '../renderer/App/store/reducers/Board';
 
+let tree: any;
 let store: any;
 const middlewares: Middleware[] = [];
 
@@ -16,7 +17,7 @@ const props = {
   handleClose: jest.fn(),
 };
 
-describe('Bookmarks', () => {
+describe('CloseButton', () => {
   beforeAll(() => {
     mockWindow();
     const mockStore = configureStore(middlewares);
@@ -24,12 +25,14 @@ describe('Bookmarks', () => {
   });
 
   it('should render', () => {
-    expect(
-      render(
+    act(() => {
+      tree = renderer.create(
         <Provider store={store}>
           <CloseButton {...props} />
         </Provider>
-      )
-    ).toBeTruthy();
+      );
+    });
+
+    expect(tree).toMatchSnapshot();
   });
 });

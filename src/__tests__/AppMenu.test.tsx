@@ -1,15 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
+import renderer, { act } from 'react-test-renderer';
 
 import { AppMenu } from '../renderer/App/components/AppMenu';
 import { mockWindow } from './beforeAll';
 import { initialState } from '../renderer/App/store/reducers/Board';
 
 let store: any;
+let tree: any;
 const middlewares: Middleware[] = [];
 
 const props = {
@@ -30,12 +31,14 @@ describe('AppMenu', () => {
   });
 
   it('should render', () => {
-    expect(
-      render(
+    act(() => {
+      tree = renderer.create(
         <Provider store={store}>
           <AppMenu {...props} />
         </Provider>
-      )
-    ).toBeTruthy();
+      );
+    });
+
+    expect(tree).toMatchSnapshot();
   });
 });

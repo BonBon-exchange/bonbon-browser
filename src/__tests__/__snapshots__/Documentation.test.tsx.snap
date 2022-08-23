@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Documentation should render 1`] = `
+<div
+  id="Documentation__container"
+>
+  <div
+    className="CloseButton__container"
+    data-testid="close-button"
+    onClick={[MockFunction]}
+  >
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="CloseIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+      />
+    </svg>
+  </div>
+  <div
+    id="Documentation__left-panel"
+  >
+    <h2>
+      Documentation
+    </h2>
+    <ul>
+      <li
+        onClick={[Function]}
+      >
+        Keyboard shortcuts
+      </li>
+      <li
+        data-testid="documentation-webpages-link"
+        onClick={[Function]}
+      >
+        Webpages windows
+      </li>
+    </ul>
+  </div>
+  <div
+    id="Documentation__right-panel"
+  >
+    <h2>
+      Documentation
+    </h2>
+    <div
+      className="Documentation__item"
+    >
+      <div
+        className="Documentation__item-title"
+      >
+        CTRL + f - Search in a webpage
+      </div>
+      <div
+        className="Documentation__item-description"
+      >
+        Pressing CTRL and F at the same time will open a search area.
+      </div>
+    </div>
+    <div
+      className="Documentation__item"
+    >
+      <div
+        className="Documentation__item-title"
+      >
+        CTRL + t - Open a new webpage
+      </div>
+      <div
+        className="Documentation__item-description"
+      >
+        Pressing CTRL and T at the same time will open a new webpage (named Tab in other browsers).
+      </div>
+    </div>
+    <div
+      className="Documentation__item"
+    >
+      <div
+        className="Documentation__item-title"
+      >
+        CTRL + SHIFT + t - Reopen last closed webpage
+      </div>
+      <div
+        className="Documentation__item-description"
+      >
+        Pressing CTRL, SHIFT and T at the same time will reopen a last closed webpage (named Tab in other browsers).
+      </div>
+    </div>
+    <div
+      className="Documentation__item"
+    >
+      <div
+        className="Documentation__item-title"
+      >
+        CTRL + r - Reload webpage
+      </div>
+      <div
+        className="Documentation__item-description"
+      >
+        Pressing CTRL and R at the same time will reload the current focused webpage (named Tab in other browsers).
+      </div>
+    </div>
+    <div
+      className="Documentation__item"
+    >
+      <div
+        className="Documentation__item-title"
+      >
+        CTRL + w - Close webpage
+      </div>
+      <div
+        className="Documentation__item-description"
+      >
+        Pressing CTRL and W at the same time will close the current focused webpage (named Tab in other browsers). If no webpage are open in the collection (upper tabulation), then the collection will be closed.
+      </div>
+    </div>
+    <div
+      className="Documentation__item"
+    >
+      <div
+        className="Documentation__item-title"
+      >
+        CTRL + SHIFT + w - Close collection
+      </div>
+      <div
+        className="Documentation__item-description"
+      >
+        Pressing CTRL, SHIFT and W at the same time will close the current collection (upper tabulation).
+      </div>
+    </div>
+    <div
+      className="Documentation__item"
+    >
+      <div
+        className="Documentation__item-title"
+      >
+        CTRL + TAB - Focus the next webpage
+      </div>
+      <div
+        className="Documentation__item-description"
+      >
+        Pressing CTRL and TAB at the same time will focus the next webpage (named Tab in other browsers).
+      </div>
+    </div>
+    <div
+      className="Documentation__item"
+    >
+      <div
+        className="Documentation__item-title"
+      >
+        CTRL + SHIFT + TAB - Focus the next collection
+      </div>
+      <div
+        className="Documentation__item-description"
+      >
+        Pressing CTRL, SHIFT and TAB at the same time will focus the next collection (upper tabulation).
+      </div>
+    </div>
+    <div
+      className="Documentation__item"
+    >
+      <div
+        className="Documentation__item-title"
+      >
+        ALT + Scroll - Efficiently scroll in the document
+      </div>
+      <div
+        className="Documentation__item-description"
+      >
+        Pressing ALT and Scrolling at the same time will scroll into the document without stopping hover the webpages.
+      </div>
+    </div>
+  </div>
+</div>
+`;

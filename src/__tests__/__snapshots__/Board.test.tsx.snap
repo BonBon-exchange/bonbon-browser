@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Board should render 1`] = `
+<div
+  className="Board__isnt-maximized"
+  id="Board__container"
+>
+  <div
+    className="Board__edge-snap-left"
+  />
+  <div
+    className="Board__edge-snap-right"
+  />
+  <div
+    className="Board__edge-snap-maximized"
+  />
+</div>
+`;

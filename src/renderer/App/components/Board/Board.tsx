@@ -29,6 +29,8 @@ export const Board: React.FC<BoardProps> = ({ isFullSize, boardId }) => {
   const [items, setItems] = useState<BrowserProps[]>([]);
   const helpers = useStoreHelpers();
 
+  const boardContainer = document.querySelector('#Board__container');
+
   const makeBrowsers = useCallback((sorted: BrowserProps[]) => {
     return sorted.map((b) => <Browser {...b} key={b.id} firstRendering />);
   }, []);
@@ -55,18 +57,18 @@ export const Board: React.FC<BoardProps> = ({ isFullSize, boardId }) => {
     });
     setItems(sorted);
 
-    const max = board.browsers.reduce(
-      (acc, val) => Math.max(acc, val.top + val.height + 100),
-      0
-    );
+    if (boardContainer) {
+      const max = board.browsers.reduce(
+        (acc, val) => Math.max(acc, val.top + val.height + 100),
+        0
+      );
 
-    // @ts-ignore
-    document.querySelector('#Board__container').style.height = `${Number(
-      max
-    )}px`;
+      // @ts-ignore
+      boardContainer.style.height = `${Number(max)}px`;
 
-    dispatch(setBoardHeight(max));
-  }, [board.browsers, dispatch]);
+      dispatch(setBoardHeight(max));
+    }
+  }, [board.browsers, dispatch, boardContainer]);
 
   useEffect(() => {
     window.app.board.setWindowsCount({
