@@ -75,5 +75,7 @@
   "Use the size of the last resized window": "Use the size of the last resized window",
   "Past contributors": "Past contributors",
   "Approve": "Approve",
-  "Refuse": "Refuse"
+  "Refuse": "Refuse",
+  "Custom search engine": "Custom search engine",
+  "To use a custom search engine, select Custom in the list and enter an url of the type https://www.google.com/search?q=${search}.": "To use a custom search engine, select Custom in the list and enter an url of the type https://www.google.com/search?q=${search}."
 }
