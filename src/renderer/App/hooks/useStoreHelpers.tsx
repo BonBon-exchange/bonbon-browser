@@ -109,8 +109,6 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         }
       }
 
-      console.log({ params, browserIndex });
-
       const newBrowser = {
         id: browserId,
         url: params.url || defaultWebpage,
