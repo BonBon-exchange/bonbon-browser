@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 /* eslint-disable promise/always-return */
 /* eslint-disable promise/catch-or-return */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
