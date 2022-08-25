@@ -56,20 +56,25 @@ describe('Board', () => {
     ).toBe(0);
   });
 
-  it('should have 1 browsers in board after dispatch', () => {
-    store.dispatch(addBrowser(addBrowserAction));
+  it('should have 1 browsers in board after dispatch and match snapshot', () => {
+    return new Promise((resolve) => {
+      store.dispatch(addBrowser(addBrowserAction));
 
-    const { container } = render(
-      <Provider store={store}>
-        <Board />
-      </Provider>
-    );
+      const { container } = render(
+        <Provider store={store}>
+          <Board />
+        </Provider>
+      );
 
-    setTimeout(() => {
-      expect(
-        container.getElementsByClassName('Browser__draggable-container').length
-      ).toBe(1);
-    }, 0);
+      setTimeout(() => {
+        expect(
+          container.getElementsByClassName('Browser__draggable-container')
+            .length
+        ).toBe(1);
+        expect(container.innerHTML).toMatchSnapshot();
+        resolve(true);
+      }, 0);
+    });
   });
 
   it('should have 0 browser in board after remove', () => {
