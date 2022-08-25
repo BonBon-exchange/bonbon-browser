@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`App should load a board and match snapshot 1`] = `
-"<div id=\\"Addaps__container\\" data-boardid=\\"anyboard\\" class=\\"\\">
+"<div id=\\"Addaps__container\\" data-boardid=\\"jest-test-board-id\\" class=\\"\\">
   <div id=\\"Addaps__background\\"></div>
   <div id=\\"LeftBar__browserFavContainer\\">
     <ul>
@@ -11,7 +11,7 @@ exports[`App should load a board and match snapshot 1`] = `
     </ul>
   </div>
   <div id=\\"Board__container\\" class=\\"Board__isnt-maximized\\" style=\\"height: 910px;\\">
-    <div style=\\"position: absolute; user-select: auto; width: 600px; height: 800px; display: flex; top: 0px; left: 0px; cursor: auto; transform: translate(20px,20px); max-width: 9007199254740991px; max-height: 9007199254740991px; box-sizing: border-box; flex-shrink: 0; z-index: 2;\\" class=\\"Browser__draggable-container react-draggable\\" id=\\"Browser__fdf9849c-1de9-41bf-bbe0-7a9bfedd525d\\" data-testid=\\"browser-window\\" data-id=\\"fdf9849c-1de9-41bf-bbe0-7a9bfedd525d\\">
+    <div style=\\"position: absolute; user-select: auto; width: 600px; height: 800px; display: flex; top: 0px; left: 0px; cursor: auto; transform: translate(20px,20px); max-width: 9007199254740991px; max-height: 9007199254740991px; box-sizing: border-box; flex-shrink: 0; z-index: 2;\\" class=\\"Browser__draggable-container react-draggable\\" id=\\"Browser__jest-test-browser-id\\" data-testid=\\"browser-window\\" data-id=\\"jest-test-browser-id\\">
       <div class=\\"Browser__container\\" style=\\"opacity: 1;\\">
         <div class=\\"BrowserTopBar__container\\">
           <div class=\\"BrowserTopBar__title\\"></div>

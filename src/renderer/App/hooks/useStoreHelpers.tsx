@@ -37,8 +37,13 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const boardContainer = document.getElementById('#Board__container');
 
   const makeBrowser = useCallback(
-    async (params: { url?: string; top?: number; left?: number }) => {
-      const browserId = v4();
+    async (params: {
+      id?: string;
+      url?: string;
+      top?: number;
+      left?: number;
+    }) => {
+      const browserId = params.id || v4();
       const defaultWebpage = (await window.app.config.get(
         'browsing.defaultWebpage'
       )) as string;
@@ -126,7 +131,12 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
 
   const createBoard = useCallback(
     async (params: { id?: string }) => {
-      const newBrowser = await makeBrowser({});
+      const newBrowser = await makeBrowser({
+        id:
+          params.id === 'jest-test-board-id'
+            ? 'jest-test-browser-id'
+            : undefined,
+      });
       const id = params.id || v4();
       const newBoard = {
         id,
