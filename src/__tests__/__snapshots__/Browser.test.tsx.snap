@@ -1,5 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Browser should be fullsize 1`] = `
+"<div style=\\"position: absolute; user-select: auto; width: 800px; height: 600px; display: flex; top: 0px; left: 0px; cursor: auto; transform: translate(0px,0px); max-width: 9007199254740991px; max-height: 9007199254740991px; box-sizing: border-box; flex-shrink: 0; z-index: 2;\\" class=\\"Browser__is-full-size Browser__draggable-container react-draggable\\" id=\\"Browser__123qsdf\\" data-testid=\\"browser-window\\" data-id=\\"123qsdf\\">
+  <div class=\\"Browser__container\\" style=\\"opacity: 0;\\">
+    <div class=\\"BrowserTopBar__container\\">
+      <div class=\\"BrowserTopBar__title\\"></div>
+      <div class=\\"BrowserTopBar__controls\\">
+        <div class=\\"BrowserTopBar__control-button close-button\\" data-testid=\\"close-browser\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\">
+            <path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path>
+          </svg></div>
+        <div class=\\"BrowserTopBar__control-button\\" data-testid=\\"toggle-enlarge-browser\\"><svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"16\\" height=\\"16\\" viewBox=\\"0 0 16 16\\" fill=\\"currentColor\\">
+            <path d=\\"M3 5v9h9V5H3zm8 8H4V6h7v7z\\"></path>
+            <path fill-rule=\\"evenodd\\" clip-rule=\\"evenodd\\" d=\\"M5 5h1V4h7v7h-1v1h2V3H5v2z\\"></path>
+          </svg></div>
+        <div class=\\"BrowserTopBar__control-button\\" data-testid=\\"minimize-browser\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"MinimizeIcon\\">
+            <path d=\\"M6 19h12v2H6z\\"></path>
+          </svg></div>
+      </div>
+    </div>
+    <div class=\\"BrowserControlBar__container\\">
+      <div class=\\"BrowserControlBar__controls\\">
+        <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"ArrowBackIcon\\">
+            <path d=\\"M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z\\"></path>
+          </svg></div>
+        <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"ArrowForwardIcon\\">
+            <path d=\\"m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z\\"></path>
+          </svg></div>
+        <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CachedIcon\\">
+            <path d=\\"m19 8-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z\\"></path>
+          </svg></div>
+        <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"HomeIcon\\">
+            <path d=\\"M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z\\"></path>
+          </svg></div>
+      </div>
+      <div class=\\"MuiFormControl-root MuiTextField-root BrowserControlBar_url-input css-1u3bzj6-MuiFormControl-root-MuiTextField-root\\">
+        <div class=\\"MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1ptx2yq-MuiInputBase-root-MuiInput-root\\"><input aria-invalid=\\"false\\" id=\\":r0:\\" type=\\"text\\" class=\\"MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input\\" value=\\"https://www.github.com\\"></div>
+      </div>
+      <div class=\\"BrowserControlBar__bookmark-control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"StarBorderIcon\\">
+          <path d=\\"m22 9.24-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z\\"></path>
+        </svg></div>
+    </div>
+    <div class=\\"Browser__webview-container\\">
+      <webview allowpopups=\\"true\\" src=\\"https://www.github.com\\" partition=\\"persist:user-partition\\"></webview>
+    </div>
+  </div>
+  <div></div>
+</div>"
+`;
+
 exports[`Browser should render 1`] = `
 <div
   className="Browser__draggable-container react-draggable"
@@ -356,4 +404,60 @@ exports[`Browser should render 1`] = `
     />
   </div>
 </div>
+`;
+
+exports[`Browser should toggle fullsize 1`] = `
+"<div style=\\"position: absolute; user-select: auto; width: 800px; height: 600px; display: flex; top: 0px; left: 0px; cursor: auto; transform: translate(0px,0px); max-width: 9007199254740991px; max-height: 9007199254740991px; box-sizing: border-box; flex-shrink: 0; z-index: 2;\\" class=\\"Browser__draggable-container react-draggable\\" id=\\"Browser__123qsdf\\" data-testid=\\"browser-window\\" data-id=\\"123qsdf\\">
+  <div class=\\"Browser__container\\" style=\\"opacity: 0;\\">
+    <div class=\\"BrowserTopBar__container\\">
+      <div class=\\"BrowserTopBar__title\\"></div>
+      <div class=\\"BrowserTopBar__controls\\">
+        <div class=\\"BrowserTopBar__control-button close-button\\" data-testid=\\"close-browser\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\">
+            <path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path>
+          </svg></div>
+        <div class=\\"BrowserTopBar__control-button\\" data-testid=\\"toggle-enlarge-browser\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CropSquareIcon\\">
+            <path d=\\"M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H6V6h12v12z\\"></path>
+          </svg></div>
+        <div class=\\"BrowserTopBar__control-button\\" data-testid=\\"minimize-browser\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"MinimizeIcon\\">
+            <path d=\\"M6 19h12v2H6z\\"></path>
+          </svg></div>
+      </div>
+    </div>
+    <div class=\\"BrowserControlBar__container\\">
+      <div class=\\"BrowserControlBar__controls\\">
+        <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"ArrowBackIcon\\">
+            <path d=\\"M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z\\"></path>
+          </svg></div>
+        <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"ArrowForwardIcon\\">
+            <path d=\\"m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z\\"></path>
+          </svg></div>
+        <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CachedIcon\\">
+            <path d=\\"m19 8-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z\\"></path>
+          </svg></div>
+        <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"HomeIcon\\">
+            <path d=\\"M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z\\"></path>
+          </svg></div>
+      </div>
+      <div class=\\"MuiFormControl-root MuiTextField-root BrowserControlBar_url-input css-1u3bzj6-MuiFormControl-root-MuiTextField-root\\">
+        <div class=\\"MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1ptx2yq-MuiInputBase-root-MuiInput-root\\"><input aria-invalid=\\"false\\" id=\\":r1:\\" type=\\"text\\" class=\\"MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input\\" value=\\"https://www.github.com\\"></div>
+      </div>
+      <div class=\\"BrowserControlBar__bookmark-control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"StarBorderIcon\\">
+          <path d=\\"m22 9.24-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z\\"></path>
+        </svg></div>
+    </div>
+    <div class=\\"Browser__webview-container\\">
+      <webview allowpopups=\\"true\\" src=\\"https://www.github.com\\" partition=\\"persist:user-partition\\"></webview>
+    </div>
+  </div>
+  <div>
+    <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 100%; height: 10px; top: -5px; left: 0px; cursor: row-resize;\\"></div>
+    <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; right: -5px; cursor: col-resize;\\"></div>
+    <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 100%; height: 10px; bottom: -5px; left: 0px; cursor: row-resize;\\"></div>
+    <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; left: -5px; cursor: col-resize;\\"></div>
+    <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; right: -10px; top: -10px; cursor: ne-resize;\\"></div>
+    <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; right: -10px; bottom: -10px; cursor: se-resize;\\"></div>
+    <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; left: -10px; bottom: -10px; cursor: sw-resize;\\"></div>
+    <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; left: -10px; top: -10px; cursor: nw-resize;\\"></div>
+  </div>
+</div>"
 `;

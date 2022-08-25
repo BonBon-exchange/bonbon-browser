@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Bookmarks should hide Import bookmarks 1`] = `
+"<div id=\\"Bookmarks__container\\">
+  <div class=\\"CloseButton__container\\" data-testid=\\"close-button\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\">
+      <path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path>
+    </svg></div>
+  <div id=\\"Bookmarks__centered-container\\">
+    <h2>Bookmarks</h2><button class=\\"MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root Bookmarks_import-button css-sghohy-MuiButtonBase-root-MuiButton-root\\" tabindex=\\"0\\" type=\\"button\\" data-testid=\\"import-bookmarks-button\\">Import<span class=\\"MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root\\"></span></button><input type=\\"text\\" class=\\"Bookmarks__search\\" placeholder=\\"Search\\">
+    <div class=\\"Loader__loading\\"><img src=\\"test-file-stub\\"></div>
+  </div>
+</div>"
+`;
+
 exports[`Bookmarks should render 1`] = `
 <div
   id="Bookmarks__container"
@@ -67,4 +79,40 @@ exports[`Bookmarks should render 1`] = `
     </div>
   </div>
 </div>
+`;
+
+exports[`Bookmarks should show Import bookmarks 1`] = `
+"<div id=\\"Import__container\\">
+  <div class=\\"CloseButton__container\\" data-testid=\\"close-button\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\">
+      <path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path>
+    </svg></div>
+  <div id=\\"Import__centered-container\\">
+    <h2>Import</h2>
+    <div class=\\"Import__action-line\\">Select a browser to import from<div class=\\"MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Import_providers-list css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root\\">
+        <div tabindex=\\"0\\" role=\\"button\\" aria-expanded=\\"false\\" aria-haspopup=\\"listbox\\" class=\\"MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input\\"><span class=\\"notranslate\\">​</span></div><input aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput\\" value=\\"\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"ArrowDropDownIcon\\">
+          <path d=\\"M7 10l5 5 5-5z\\"></path>
+        </svg>
+        <fieldset aria-hidden=\\"true\\" class=\\"MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline\\">
+          <legend class=\\"css-1ftyaf0\\"><span>Browsers</span></legend>
+        </fieldset>
+      </div>
+    </div><button class=\\"MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root Import_import-all-button css-sghohy-MuiButtonBase-root-MuiButton-root\\" tabindex=\\"0\\" type=\\"button\\">Import all<span class=\\"MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root\\"></span></button><input type=\\"text\\" class=\\"Import__search\\" placeholder=\\"Search\\">
+    <div style=\\"overflow: visible; height: 0px; width: 0px;\\"></div>
+    <div class=\\"resize-triggers\\">
+      <div class=\\"expand-trigger\\">
+        <div style=\\"width: 1px; height: 1px;\\"></div>
+      </div>
+      <div class=\\"contract-trigger\\"></div>
+    </div>
+  </div>
+</div>
+<div id=\\"Bookmarks__container\\">
+  <div class=\\"CloseButton__container\\" data-testid=\\"close-button\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\">
+      <path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path>
+    </svg></div>
+  <div id=\\"Bookmarks__centered-container\\">
+    <h2>Bookmarks</h2><button class=\\"MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root Bookmarks_import-button css-sghohy-MuiButtonBase-root-MuiButton-root\\" tabindex=\\"0\\" type=\\"button\\" data-testid=\\"import-bookmarks-button\\">Import<span class=\\"MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root\\"></span></button><input type=\\"text\\" class=\\"Bookmarks__search\\" placeholder=\\"Search\\">
+    <div class=\\"Loader__loading\\"><img src=\\"test-file-stub\\"></div>
+  </div>
+</div>"
 `;

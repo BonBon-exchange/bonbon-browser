@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import renderer, { act } from 'react-test-renderer';
+import pretty from 'pretty';
 
 import { Browser } from '../renderer/App/components/Browser';
 import { mockWindow } from './beforeAll';
@@ -10,6 +11,7 @@ import { store } from '../renderer/App/store/store';
 import { toggleBoardFullSize } from '../renderer/App/store/reducers/Board';
 
 let tree: any;
+let container: any;
 
 const browserProps = {
   id: '123qsdf',
@@ -28,6 +30,10 @@ describe('Browser', () => {
     mockWindow();
   });
 
+  beforeEach(() => {
+    container = null;
+  });
+
   it('should render', () => {
     act(() => {
       tree = renderer.create(
@@ -41,25 +47,46 @@ describe('Browser', () => {
   });
 
   it('should be fullsize', () => {
-    store.dispatch(toggleBoardFullSize());
-    const { container } = render(
-      <Provider store={store}>
-        <Browser {...browserProps} />
-      </Provider>
-    );
+    act(() => {
+      const renderered = render(
+        <Provider store={store}>
+          <Browser {...browserProps} />
+        </Provider>
+      );
+      container = renderered.container;
+    });
 
-    const browser = container.getElementsByClassName('Browser__is-full-size');
-    expect(browser.length).toBe(1);
+    expect(
+      container.getElementsByClassName('Browser__is-full-size').length
+    ).toBe(0);
+
+    act(() => {
+      store.dispatch(toggleBoardFullSize());
+    });
+
+    expect(
+      container.getElementsByClassName('Browser__is-full-size').length
+    ).toBe(1);
+
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 
   it('should toggle fullsize', () => {
-    render(
-      <Provider store={store}>
-        <Browser {...browserProps} />
-      </Provider>
-    );
+    act(() => {
+      const renderered = render(
+        <Provider store={store}>
+          <Browser {...browserProps} />
+        </Provider>
+      );
 
-    fireEvent.click(screen.getByTestId('toggle-enlarge-browser'));
+      container = renderered.container;
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByTestId('toggle-enlarge-browser'));
+    });
+
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
 
     expect(
       screen

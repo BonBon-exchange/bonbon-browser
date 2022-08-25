@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import renderer from 'react-test-renderer';
+import pretty from 'pretty';
 
 import { Board } from '../renderer/App/components/Board';
 import { mockWindow } from './beforeAll';
@@ -13,6 +14,7 @@ import {
 } from '../renderer/App/store/reducers/Board';
 
 let tree: any;
+let container: any;
 
 const addBrowserAction = {
   id: 'randomid',
@@ -32,6 +34,10 @@ describe('Board', () => {
     mockWindow();
   });
 
+  beforeEach(() => {
+    container = null;
+  });
+
   it('should render', () => {
     act(() => {
       tree = renderer.create(
@@ -45,11 +51,14 @@ describe('Board', () => {
   });
 
   it('should have 0 browser in board because of initialState', () => {
-    const { container } = render(
-      <Provider store={store}>
-        <Board />
-      </Provider>
-    );
+    act(() => {
+      const renderered = render(
+        <Provider store={store}>
+          <Board />
+        </Provider>
+      );
+      container = renderered.container;
+    });
 
     expect(
       container.getElementsByClassName('Browser__draggable-container').length
@@ -58,52 +67,64 @@ describe('Board', () => {
 
   it('should have 1 browsers in board after dispatch and match snapshot', () => {
     return new Promise((resolve) => {
-      store.dispatch(addBrowser(addBrowserAction));
+      act(() => {
+        store.dispatch(addBrowser(addBrowserAction));
 
-      const { container } = render(
-        <Provider store={store}>
-          <Board />
-        </Provider>
-      );
+        const renderered = render(
+          <Provider store={store}>
+            <Board />
+          </Provider>
+        );
+        container = renderered.container;
+      });
 
       setTimeout(() => {
         expect(
           container.getElementsByClassName('Browser__draggable-container')
             .length
         ).toBe(1);
-        expect(container.innerHTML).toMatchSnapshot();
+        expect(pretty(container.innerHTML)).toMatchSnapshot();
         resolve(true);
       }, 0);
     });
   });
 
   it('should have 0 browser in board after remove', () => {
-    store.dispatch(removeBrowser(addBrowserAction.id));
-
-    const { container } = render(
-      <Provider store={store}>
-        <Board />
-      </Provider>
-    );
+    act(() => {
+      store.dispatch(removeBrowser(addBrowserAction.id));
+      const renderered = render(
+        <Provider store={store}>
+          <Board />
+        </Provider>
+      );
+      container = renderered.container;
+    });
     expect(
       container.getElementsByClassName('Browser__draggable-container').length
     ).toBe(0);
   });
 
   it('should have 0 browser in board after adding and clicking on close', () => {
-    store.dispatch(addBrowser(addBrowserAction));
+    act(() => {
+      store.dispatch(addBrowser(addBrowserAction));
 
-    render(
-      <Provider store={store}>
-        <Board />
-      </Provider>
-    );
+      const renderered = render(
+        <Provider store={store}>
+          <Board />
+        </Provider>
+      );
+
+      container = renderered.container;
+    });
 
     act(() => {
       fireEvent.click(screen.getAllByTestId('close-browser')[0]);
     });
+
     setTimeout(() => {
-      expect(screen.getAllByTestId('browser-window').length).toBe(0);
+      expect(
+        container.getElementsByClassName('Browser__draggable-container').length
+      ).toBe(0);
     }, 0);
   });
 });
