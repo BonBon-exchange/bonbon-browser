@@ -221,90 +221,101 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   }, [board.browsers]);
 
   const distributeWindowsEvenly = useCallback(
-    (sortedContainers: Element[]) => {
-      const maxWidth = document.querySelector('#Board__container')?.clientWidth;
-      let sumWidth = 0;
-      let index = -1;
-      const maxIndex = sortedContainers.length - 1;
-      let rowContainers;
-      let container;
-      const yMargin = 10;
-      let currentY = yMargin;
-      let xMargin: number;
-      let biggestHeight;
-      let currentX: number;
-      let id;
-      if (maxWidth) {
-        while (index < maxIndex) {
-          rowContainers = [];
-          sumWidth = 0;
-          biggestHeight = 0;
-          while (sumWidth <= maxWidth && index < maxIndex) {
-            index++;
-            container = sortedContainers[index];
-            sumWidth += container.clientWidth;
-            if (
-              sumWidth < maxWidth ||
-              (container.clientWidth >= maxWidth && rowContainers.length === 0)
-            ) {
-              if (container.clientHeight > biggestHeight)
-                biggestHeight = container.clientHeight;
-              rowContainers.push(container);
-            } else index--;
-          }
-
-          let rcSumWidth = 0;
-          rowContainers.forEach((c) => {
-            rcSumWidth += c.clientWidth;
-          });
-
-          xMargin = Math.max(
-            10,
-            Number(
-              ((maxWidth - rcSumWidth) / (rowContainers.length + 1)).toFixed(0)
-            )
-          );
-
-          // process here
-          currentX = xMargin;
-          rowContainers.forEach((c) => {
-            id = c.getAttribute('data-id');
-            if (id) {
-              dispatch(
-                updateBrowser({
-                  browserId: id,
-                  params: {
-                    left: currentX,
-                    top: currentY,
-                    width: Math.min(maxWidth - 20, c.clientWidth),
-                  },
-                })
-              );
+    (sortedContainers: Element[]): Promise<void> => {
+      return new Promise((resolve) => {
+        const maxWidth =
+          document.querySelector('#Board__container')?.clientWidth;
+        let sumWidth = 0;
+        let index = -1;
+        const maxIndex = sortedContainers.length - 1;
+        let rowContainers;
+        let container;
+        const yMargin = 10;
+        let currentY = yMargin;
+        let xMargin: number;
+        let biggestHeight;
+        let currentX: number;
+        let id;
+        if (maxWidth) {
+          while (index < maxIndex) {
+            rowContainers = [];
+            sumWidth = 0;
+            biggestHeight = 0;
+            while (sumWidth <= maxWidth && index < maxIndex) {
+              index++;
+              container = sortedContainers[index];
+              sumWidth += container.clientWidth;
+              if (
+                sumWidth < maxWidth ||
+                (container.clientWidth >= maxWidth &&
+                  rowContainers.length === 0)
+              ) {
+                if (container.clientHeight > biggestHeight)
+                  biggestHeight = container.clientHeight;
+                rowContainers.push(container);
+              } else index--;
             }
-            currentX += c.clientWidth + xMargin;
-          });
 
-          // end
-          currentY += yMargin + biggestHeight;
+            let rcSumWidth = 0;
+            rowContainers.forEach((c) => {
+              rcSumWidth += c.clientWidth;
+            });
+
+            xMargin = Math.max(
+              10,
+              Number(
+                ((maxWidth - rcSumWidth) / (rowContainers.length + 1)).toFixed(
+                  0
+                )
+              )
+            );
+
+            // process here
+            currentX = xMargin;
+            rowContainers.forEach((c, i) => {
+              id = c.getAttribute('data-id');
+              if (id) {
+                dispatch(
+                  updateBrowser({
+                    browserId: id,
+                    params: {
+                      left: currentX,
+                      top: currentY,
+                      width: Math.min(maxWidth - 20, c.clientWidth),
+                    },
+                  })
+                );
+              }
+              currentX += c.clientWidth + xMargin;
+              if (i === rowContainers.length - 1) resolve();
+            });
+
+            // end
+            currentY += yMargin + biggestHeight;
+          }
         }
-      }
+      });
     },
     [dispatch]
   );
 
   const distributeWindowsByOrder = useCallback(
     (newOrder: BrowserProps[]) => {
-      const sortedIds = newOrder.map((b) => b.id);
-      const containers = document.querySelectorAll(
-        '.Browser__draggable-container'
-      );
-      const sortedContainers = sortedIds
-        .map((id) =>
-          Array.from(containers).find((c) => c.getAttribute('data-id') === id)
-        )
-        .filter((e) => e !== undefined);
-      if (sortedContainers && !board.isFullSize)
-        distributeWindowsEvenly(sortedContainers as Element[]);
+      return new Promise((resolve, reject) => {
+        const sortedIds = newOrder.map((b) => b.id);
+        const containers = document.querySelectorAll(
+          '.Browser__draggable-container'
+        );
+        const sortedContainers = sortedIds
+          .map((id) =>
+            Array.from(containers).find((c) => c.getAttribute('data-id') === id)
+          )
+          .filter((e) => e !== undefined);
+        if (sortedContainers && !board.isFullSize)
+          distributeWindowsEvenly(sortedContainers as Element[])
+            .then(resolve)
+            .catch(reject);
+      });
     },
     [board.isFullSize, distributeWindowsEvenly]
   );
