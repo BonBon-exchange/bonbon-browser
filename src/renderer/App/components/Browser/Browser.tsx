@@ -332,7 +332,7 @@ export const Browser: React.FC<BrowserProps> = ({
           isLoading={isLoading}
           isMaximized={board.isFullSize}
         />
-        <BrowserControlBar url={url} browserId={id} />
+        <BrowserControlBar url={url || ''} browserId={id} />
         <div className="Browser__webview-container">
           {isSearching && <SearchForm browserId={id} />}
           {certificateErrorFingerprint && webContentsId && (

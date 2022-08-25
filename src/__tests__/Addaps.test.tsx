@@ -1,10 +1,10 @@
 /* eslint-disable jest/no-conditional-expect */
 import '@testing-library/jest-dom';
-import { render, act, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
-import renderer from 'react-test-renderer';
+import renderer, { act } from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { mockWindow } from './beforeAll';
 import { Addaps } from '../renderer/App/components/Addaps';
@@ -13,6 +13,7 @@ import { initialState as downloadsInitialState } from '../renderer/App/store/red
 
 let store: any;
 let tree: any;
+let container: any;
 const middlewares: Middleware[] = [];
 
 describe('Addaps', () => {
@@ -25,7 +26,13 @@ describe('Addaps', () => {
     });
   });
 
-  it('should render with no boardId', () => {
+  beforeEach(() => {
+    // setup a DOM element as a render target
+    container = document.createElement('div');
+    document.body.appendChild(container);
+  });
+
+  it('should match snapshot with no boardId', () => {
     act(() => {
       tree = renderer.create(
         <Provider store={store}>
@@ -37,7 +44,7 @@ describe('Addaps', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('should render with boardId', () => {
+  it('should match snapshot with boardId', () => {
     act(() => {
       tree = renderer.create(
         <Provider store={store}>
@@ -49,16 +56,16 @@ describe('Addaps', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('should show and hide App Menu', () => {
-    let containerVal: HTMLElement;
+  it('should show and hide App Menu, and match snapshot', () => {
     return new Promise((resolve) => {
       act(() => {
-        const { container } = render(
+        const appMenuRenderer = render(
           <Provider store={store}>
             <Addaps boardId="any" />
           </Provider>
         );
-        containerVal = container;
+
+        container = appMenuRenderer.container;
       });
 
       setTimeout(() => {
@@ -68,7 +75,10 @@ describe('Addaps', () => {
         });
 
         setTimeout(() => {
-          expect(screen.getByTestId('app-menu')).toBeTruthy();
+          expect(
+            container.getElementsByClassName('AppMenu__container').length
+          ).toBe(1);
+          expect(container.innerHTML).toMatchSnapshot();
 
           act(() => {
             const ev = new MouseEvent('click');
@@ -76,15 +86,13 @@ describe('Addaps', () => {
           });
 
           setTimeout(async () => {
-            if (containerVal) {
-              expect(
-                containerVal.getElementsByClassName('AppMenu__container').length
-              ).toBe(0);
-            }
+            expect(
+              container.getElementsByClassName('AppMenu__container').length
+            ).toBe(0);
             return resolve(true);
           }, 5000);
         }, 5000);
       }, 3000);
     });
-  }, 20000);
+  }, 30000);
 });

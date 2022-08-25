@@ -132,6 +132,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
     <Suspense fallback={<Loader />}>
       <div
         id="Addaps__container"
+        data-boardid={boardId}
         className={clsx({
           'justify-content-right':
             i18n.language === 'ar' || i18n.language === 'fa',

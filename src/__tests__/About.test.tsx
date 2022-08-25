@@ -22,13 +22,15 @@ describe('About', () => {
     mockWindow();
     const mockStore = configureStore(middlewares);
     store = mockStore({ board: initialState });
+  });
 
+  beforeEach(() => {
     // setup a DOM element as a render target
     container = document.createElement('div');
     document.body.appendChild(container);
   });
 
-  it('should render', () => {
+  it('should match snapshot', () => {
     act(() => {
       tree = renderer.create(
         <Provider store={store}>

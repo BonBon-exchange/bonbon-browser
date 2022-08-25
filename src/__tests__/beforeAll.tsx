@@ -67,7 +67,11 @@ export const mockWindow = () => {
       },
       listener: {
         newWindow: jest.fn(),
-        loadBoard: jest.fn(),
+        loadBoard: (action: (event: any, ...args: unknown[]) => void) => {
+          window.addEventListener('load-board', () =>
+            action(null, { boardId: 'anyboard' })
+          );
+        },
         purge: jest.fn(),
         renameBoard: jest.fn(),
         closeWebview: jest.fn(),
