@@ -4,14 +4,16 @@ about: You're having technical issues. 🐞
 labels: 'bug'
 ---
 
-<!-- Please use the following issue template or your issue will be closed -->
+Version:
+Operating system:
 
 ## Expected Behavior
 
 <!--- What should have happened? -->
 
 ## Current Behavior
-If you can, use https://gifcap.dev/ to record your screen. Download the video and drag it into this area.
+<!--- If you can, use https://gifcap.dev/ to record your screen. Download the video and drag it into this area. --->
+
 <!--- What went wrong? -->
 
 ## Steps to Reproduce
@@ -20,9 +22,3 @@ If you can, use https://gifcap.dev/ to record your screen. Download the video an
 <!-- Add stack traces -->
 
 1.
-
-2.
-
-3.
-
-4.
