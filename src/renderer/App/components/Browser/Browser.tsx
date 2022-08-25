@@ -65,7 +65,6 @@ export const Browser: React.FC<BrowserProps> = ({
   );
   const [renderedUrl, setRenderedUrl] = useState<string>('');
   const container = useRef<HTMLDivElement>(null);
-  const [isFullSize, setIsFullSize] = useState<boolean>(false);
   const [x, setX] = useState<number>(left);
   const [y, setY] = useState<number>(top);
   const [rndWidth, setRndWidth] = useState<number>(width);
@@ -87,8 +86,7 @@ export const Browser: React.FC<BrowserProps> = ({
 
   const toggleFullSizeBrowser = useCallback(() => {
     dispatch(toggleBoardFullSize());
-    setTimeout(() => focus(id), 0);
-  }, [dispatch, focus, id]);
+  }, [dispatch]);
 
   const zoomEdgeClass = (edgeClass: Element | null, max = false) => {
     // @ts-ignore
@@ -399,15 +397,6 @@ export const Browser: React.FC<BrowserProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
 
-  // Bug fix for Rnd renderer
-  useEffect(() => {
-    if (board?.isFullSize) {
-      setIsFullSize(true);
-    } else {
-      setIsFullSize(false);
-    }
-  }, [board?.isFullSize]);
-
   useEffect(() => {
     const maxWidth = boardContainer?.clientWidth;
     const margin = 5;
@@ -449,15 +438,6 @@ export const Browser: React.FC<BrowserProps> = ({
     return () => window.removeEventListener('scroll', scrollListener);
   }, [scrollListener]);
 
-  useEffect(() => {
-    if (isFullSize) return;
-    setTimeout(() => {
-      rndRef.current?.updatePosition({ x: left, y: top });
-      rndRef.current?.forceUpdate();
-    }, 1000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFullSize]);
-
   return (
     <Rnd
       style={{ display: 'flex' }}
@@ -484,13 +464,13 @@ export const Browser: React.FC<BrowserProps> = ({
       bounds="#Board__container"
       id={`Browser__${id}`}
       className={clsx({
-        'Browser__is-full-size': isFullSize,
+        'Browser__is-full-size': board.isFullSize && !firstRenderingState,
         'Browser__is-minimized': isMinimized,
-        'Browser__display-none': isFullSize && id !== board.activeBrowser,
+        'Browser__display-none': board.isFullSize && id !== board.activeBrowser,
         'Browser__draggable-container': true,
       })}
-      disableDragging={isFullSize}
-      enableResizing={isFullSize ? {} : undefined}
+      disableDragging={board.isFullSize}
+      enableResizing={board.isFullSize ? {} : undefined}
       data-testid="browser-window"
       data-id={id}
       ref={rndRef}

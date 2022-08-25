@@ -42,10 +42,17 @@ export const Board: React.FC<BoardProps> = ({ isFullSize, boardId }) => {
 
   useEffect(() => {
     if (!board.isFullSize) {
-      setTimeout(
-        () => helpers.board.distributeWindowsByOrder(board.browsers),
-        100
-      );
+      setTimeout(() => {
+        helpers.board
+          .distributeWindowsByOrder(board.browsers)
+          .then(() => {
+            setTimeout(
+              () => board.activeBrowser && focus(board.activeBrowser),
+              300
+            );
+          })
+          .catch(console.log);
+      }, 300);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [board.isFullSize]);
