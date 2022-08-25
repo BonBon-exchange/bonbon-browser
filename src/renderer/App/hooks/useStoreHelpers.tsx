@@ -223,7 +223,8 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const distributeWindowsEvenly = useCallback(
     (sortedContainers: Element[]): Promise<void> => {
       return new Promise((resolve) => {
-        const maxWidth = document.querySelector('#Board__container')?.clientWidth;
+        const maxWidth =
+          document.querySelector('#Board__container')?.clientWidth;
         let sumWidth = 0;
         let index = -1;
         const maxIndex = sortedContainers.length - 1;
@@ -246,7 +247,8 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
               sumWidth += container.clientWidth;
               if (
                 sumWidth < maxWidth ||
-                (container.clientWidth >= maxWidth && rowContainers.length === 0)
+                (container.clientWidth >= maxWidth &&
+                  rowContainers.length === 0)
               ) {
                 if (container.clientHeight > biggestHeight)
                   biggestHeight = container.clientHeight;
@@ -262,7 +264,9 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
             xMargin = Math.max(
               10,
               Number(
-                ((maxWidth - rcSumWidth) / (rowContainers.length + 1)).toFixed(0)
+                ((maxWidth - rcSumWidth) / (rowContainers.length + 1)).toFixed(
+                  0
+                )
               )
             );
 
