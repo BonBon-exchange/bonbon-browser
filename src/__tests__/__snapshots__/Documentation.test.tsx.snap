@@ -176,3 +176,25 @@ exports[`Documentation should render 1`] = `
   </div>
 </div>
 `;
+
+exports[`Documentation should show Webpages windows 1`] = `
+"<div id=\\"Documentation__container\\">
+  <div class=\\"CloseButton__container\\" data-testid=\\"close-button\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\">
+      <path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path>
+    </svg></div>
+  <div id=\\"Documentation__left-panel\\">
+    <h2>Documentation</h2>
+    <ul>
+      <li>Keyboard shortcuts</li>
+      <li data-testid=\\"documentation-webpages-link\\">Webpages windows</li>
+    </ul>
+  </div>
+  <div id=\\"Documentation__right-panel\\">
+    <h2 data-testid=\\"documentation-webpages-page\\">Webpages windows</h2>
+    <div class=\\"Documentation__item\\">
+      <div class=\\"Documentation__item-title\\">Distribute webpages windows evenly</div>
+      <div class=\\"Documentation__item-description\\">Right click on the background document (not on a webpage), and select \\"Distribute windows evenly\\".</div>
+    </div>
+  </div>
+</div>"
+`;
