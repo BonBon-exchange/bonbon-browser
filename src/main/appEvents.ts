@@ -27,6 +27,7 @@ import {
   addPermissionCallback,
   getBrowsers,
   getCertificateErrorAuth,
+  getPermissionCallback,
   makeIpcMainEvents,
 } from './ipcMainEvents';
 import { isValidUrl } from './util';
@@ -215,21 +216,32 @@ app
         session
           .fromPartition('persist:user-partition')
           .setPermissionRequestHandler((webContents, permission, callback) => {
-            const url = webContents.getURL();
+            const originalUrl = webContents.getURL();
             if (
-              url === 'http://localhost:1212/index.html' ||
+              originalUrl === 'http://localhost:1212/index.html' ||
               permission === 'fullscreen'
             ) {
               return callback(true);
             }
 
-            getSelectedView()?.webContents.send('permission-request', {
-              url,
-              permission,
-              webContentsId: webContents.id,
-            });
+            try {
+              const urlInfo = new URL(originalUrl);
+              const url = urlInfo.origin;
 
-            addPermissionCallback(url, permission, callback);
+              const permCallback = getPermissionCallback(url, permission);
+              if (permCallback) permCallback(true);
+              else {
+                getSelectedView()?.webContents.send('permission-request', {
+                  url,
+                  permission,
+                  webContentsId: webContents.id,
+                });
+
+                addPermissionCallback(url, permission, callback);
+              }
+            } catch (e) {
+              console.log(e);
+            }
           });
 
         const mainWindow = getMainWindow();
