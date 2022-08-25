@@ -115,7 +115,7 @@ export const addPermissionCallback = (
   permissionsCallback.push({ url, permission, callback });
 };
 
-const getPermissionCallback = (url: string, permission: string) => {
+export const getPermissionCallback = (url: string, permission: string) => {
   return permissionsCallback.find(
     (p) => p?.url === url && p?.permission === permission
   )?.callback;
