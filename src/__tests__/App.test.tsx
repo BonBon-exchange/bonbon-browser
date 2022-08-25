@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { act, render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
+import pretty from 'pretty';
 
 import { mockWindow } from './beforeAll';
 import { App } from '../renderer/App/App';
@@ -40,7 +41,7 @@ describe('App', () => {
           window.dispatchEvent(ev);
 
           setTimeout(() => {
-            expect(container.innerHTML).toMatchSnapshot();
+            expect(pretty(container.innerHTML)).toMatchSnapshot();
             resolve(true);
           }, 5000);
         });

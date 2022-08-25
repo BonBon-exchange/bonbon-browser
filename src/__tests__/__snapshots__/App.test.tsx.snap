@@ -1,6 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App should load a board and match snapshot 1`] = `"<div id=\\"Addaps__container\\" data-boardid=\\"anyboard\\" class=\\"\\"><div id=\\"Addaps__background\\"></div><div id=\\"LeftBar__browserFavContainer\\"><ul><div id=\\"LeftBar__browserFavContainerItems\\"></div><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"AddIcon\\" id=\\"ButtonAddBrowser\\"><path d=\\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\\"></path></svg></ul></div><div id=\\"Board__container\\" class=\\"Board__isnt-maximized\\" style=\\"height: 910px;\\"><div style=\\"position: absolute; user-select: auto; width: 600px; height: 800px; display: flex; top: 0px; left: 0px; cursor: auto; transform: translate(20px,20px); max-width: 9007199254740991px; max-height: 9007199254740991px; box-sizing: border-box; flex-shrink: 0; z-index: 2;\\" class=\\"Browser__draggable-container react-draggable\\" id=\\"Browser__9016f465-e9bf-4ea3-867f-19a6f2268bd3\\" data-testid=\\"browser-window\\" data-id=\\"9016f465-e9bf-4ea3-867f-19a6f2268bd3\\"><div class=\\"Browser__container\\" style=\\"opacity: 1;\\"><div class=\\"BrowserTopBar__container\\"><div class=\\"BrowserTopBar__title\\"></div><div class=\\"BrowserTopBar__controls\\"><div class=\\"BrowserTopBar__control-button close-button\\" data-testid=\\"close-browser\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\"><path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path></svg></div><div class=\\"BrowserTopBar__control-button\\" data-testid=\\"toggle-enlarge-browser\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CropSquareIcon\\"><path d=\\"M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H6V6h12v12z\\"></path></svg></div><div class=\\"BrowserTopBar__control-button\\" data-testid=\\"minimize-browser\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"MinimizeIcon\\"><path d=\\"M6 19h12v2H6z\\"></path></svg></div></div></div><div class=\\"BrowserControlBar__container\\"><div class=\\"BrowserControlBar__controls\\"><div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"ArrowBackIcon\\"><path d=\\"M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z\\"></path></svg></div><div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"ArrowForwardIcon\\"><path d=\\"m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z\\"></path></svg></div><div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\"><path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path></svg></div><div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"HomeIcon\\"><path d=\\"M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z\\"></path></svg></div></div><div class=\\"MuiFormControl-root MuiTextField-root BrowserControlBar_url-input css-1u3bzj6-MuiFormControl-root-MuiTextField-root\\"><div class=\\"MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1ptx2yq-MuiInputBase-root-MuiInput-root\\"><input aria-invalid=\\"false\\" id=\\":r0:\\" type=\\"text\\" class=\\"MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input\\" value=\\"\\"></div></div><div class=\\"BrowserControlBar__bookmark-control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"StarBorderIcon\\"><path d=\\"m22 9.24-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z\\"></path></svg></div></div><div class=\\"Browser__webview-container\\"><webview allowpopups=\\"true\\" partition=\\"persist:user-partition\\"></webview></div></div><div><div class=\\"\\" style=\\"position: absolute; user-select: none; width: 100%; height: 10px; top: -5px; left: 0px; cursor: row-resize;\\"></div><div class=\\"\\" style=\\"position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; right: -5px; cursor: col-resize;\\"></div><div class=\\"\\" style=\\"position: absolute; user-select: none; width: 100%; height: 10px; bottom: -5px; left: 0px; cursor: row-resize;\\"></div><div class=\\"\\" style=\\"position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; left: -5px; cursor: col-resize;\\"></div><div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; right: -10px; top: -10px; cursor: ne-resize;\\"></div><div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; right: -10px; bottom: -10px; cursor: se-resize;\\"></div><div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; left: -10px; bottom: -10px; cursor: sw-resize;\\"></div><div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; left: -10px; top: -10px; cursor: nw-resize;\\"></div></div></div><div class=\\"Board__edge-snap-left\\"></div><div class=\\"Board__edge-snap-right\\"></div><div class=\\"Board__edge-snap-maximized\\"></div></div><div id=\\"Minimap__detection-zone\\"></div></div>"`;
+exports[`App should load a board and match snapshot 1`] = `
+"<div id=\\"Addaps__container\\" data-boardid=\\"anyboard\\" class=\\"\\">
+  <div id=\\"Addaps__background\\"></div>
+  <div id=\\"LeftBar__browserFavContainer\\">
+    <ul>
+      <div id=\\"LeftBar__browserFavContainerItems\\"></div><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"AddIcon\\" id=\\"ButtonAddBrowser\\">
+        <path d=\\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\\"></path>
+      </svg>
+    </ul>
+  </div>
+  <div id=\\"Board__container\\" class=\\"Board__isnt-maximized\\" style=\\"height: 910px;\\">
+    <div style=\\"position: absolute; user-select: auto; width: 600px; height: 800px; display: flex; top: 0px; left: 0px; cursor: auto; transform: translate(20px,20px); max-width: 9007199254740991px; max-height: 9007199254740991px; box-sizing: border-box; flex-shrink: 0; z-index: 2;\\" class=\\"Browser__draggable-container react-draggable\\" id=\\"Browser__fdf9849c-1de9-41bf-bbe0-7a9bfedd525d\\" data-testid=\\"browser-window\\" data-id=\\"fdf9849c-1de9-41bf-bbe0-7a9bfedd525d\\">
+      <div class=\\"Browser__container\\" style=\\"opacity: 1;\\">
+        <div class=\\"BrowserTopBar__container\\">
+          <div class=\\"BrowserTopBar__title\\"></div>
+          <div class=\\"BrowserTopBar__controls\\">
+            <div class=\\"BrowserTopBar__control-button close-button\\" data-testid=\\"close-browser\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\">
+                <path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path>
+              </svg></div>
+            <div class=\\"BrowserTopBar__control-button\\" data-testid=\\"toggle-enlarge-browser\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CropSquareIcon\\">
+                <path d=\\"M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H6V6h12v12z\\"></path>
+              </svg></div>
+            <div class=\\"BrowserTopBar__control-button\\" data-testid=\\"minimize-browser\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"MinimizeIcon\\">
+                <path d=\\"M6 19h12v2H6z\\"></path>
+              </svg></div>
+          </div>
+        </div>
+        <div class=\\"BrowserControlBar__container\\">
+          <div class=\\"BrowserControlBar__controls\\">
+            <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"ArrowBackIcon\\">
+                <path d=\\"M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z\\"></path>
+              </svg></div>
+            <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"ArrowForwardIcon\\">
+                <path d=\\"m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z\\"></path>
+              </svg></div>
+            <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\">
+                <path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path>
+              </svg></div>
+            <div class=\\"BrowserControlBar__control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"HomeIcon\\">
+                <path d=\\"M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z\\"></path>
+              </svg></div>
+          </div>
+          <div class=\\"MuiFormControl-root MuiTextField-root BrowserControlBar_url-input css-1u3bzj6-MuiFormControl-root-MuiTextField-root\\">
+            <div class=\\"MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1ptx2yq-MuiInputBase-root-MuiInput-root\\"><input aria-invalid=\\"false\\" id=\\":r0:\\" type=\\"text\\" class=\\"MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input\\" value=\\"\\"></div>
+          </div>
+          <div class=\\"BrowserControlBar__bookmark-control\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"StarBorderIcon\\">
+              <path d=\\"m22 9.24-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z\\"></path>
+            </svg></div>
+        </div>
+        <div class=\\"Browser__webview-container\\">
+          <webview allowpopups=\\"true\\" partition=\\"persist:user-partition\\"></webview>
+        </div>
+      </div>
+      <div>
+        <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 100%; height: 10px; top: -5px; left: 0px; cursor: row-resize;\\"></div>
+        <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; right: -5px; cursor: col-resize;\\"></div>
+        <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 100%; height: 10px; bottom: -5px; left: 0px; cursor: row-resize;\\"></div>
+        <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; left: -5px; cursor: col-resize;\\"></div>
+        <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; right: -10px; top: -10px; cursor: ne-resize;\\"></div>
+        <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; right: -10px; bottom: -10px; cursor: se-resize;\\"></div>
+        <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; left: -10px; bottom: -10px; cursor: sw-resize;\\"></div>
+        <div class=\\"\\" style=\\"position: absolute; user-select: none; width: 20px; height: 20px; left: -10px; top: -10px; cursor: nw-resize;\\"></div>
+      </div>
+    </div>
+    <div class=\\"Board__edge-snap-left\\"></div>
+    <div class=\\"Board__edge-snap-right\\"></div>
+    <div class=\\"Board__edge-snap-maximized\\"></div>
+  </div>
+  <div id=\\"Minimap__detection-zone\\"></div>
+</div>"
+`;
 
 exports[`App should render and match snapshot 1`] = `
 <div

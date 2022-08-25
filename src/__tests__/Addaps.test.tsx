@@ -5,6 +5,7 @@ import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
 import renderer, { act } from 'react-test-renderer';
 import { render } from '@testing-library/react';
+import pretty from 'pretty';
 
 import { mockWindow } from './beforeAll';
 import { Addaps } from '../renderer/App/components/Addaps';
@@ -78,7 +79,7 @@ describe('Addaps', () => {
           expect(
             container.getElementsByClassName('AppMenu__container').length
           ).toBe(1);
-          expect(container.innerHTML).toMatchSnapshot();
+          expect(pretty(container.innerHTML)).toMatchSnapshot();
 
           act(() => {
             const ev = new MouseEvent('click');

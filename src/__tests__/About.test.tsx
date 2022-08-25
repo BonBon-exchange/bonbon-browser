@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
-import renderer from 'react-test-renderer';
+import pretty from 'pretty';
 
 import { About } from '../renderer/App/components/About';
 import { mockWindow } from './beforeAll';
@@ -14,7 +14,6 @@ import packagejson from '../../package.json';
 
 let store: any;
 let container: any;
-let tree: any;
 const middlewares: Middleware[] = [];
 
 describe('About', () => {
@@ -30,19 +29,7 @@ describe('About', () => {
     document.body.appendChild(container);
   });
 
-  it('should match snapshot', () => {
-    act(() => {
-      tree = renderer.create(
-        <Provider store={store}>
-          <About />
-        </Provider>
-      );
-    });
-
-    expect(tree).toMatchSnapshot();
-  });
-
-  it('should show app version', () => {
+  it('should show app version and match snapshot', () => {
     act(() => {
       render(
         <Provider store={store}>
@@ -52,6 +39,7 @@ describe('About', () => {
       );
     });
 
-    expect(container.innerHTML.indexOf(packagejson.version) > -1).toBeTruthy();
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
+    expect(container.innerHTML.indexOf(packagejson.version) > 1).toBeTruthy();
   });
 });
