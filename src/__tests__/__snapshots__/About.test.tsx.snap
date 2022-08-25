@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`About should render 1`] = `
+exports[`About should match snapshot 1`] = `
 Array [
   <div
     className="About__property-line"
