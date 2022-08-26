@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Middleware } from '@reduxjs/toolkit';
 import renderer from 'react-test-renderer';
+import pretty from 'pretty';
 
 import { Bookmarks } from '../renderer/App/components/Bookmarks';
 import { mockWindow } from './beforeAll';
@@ -12,6 +13,7 @@ import { initialState } from '../renderer/App/store/reducers/Board';
 
 let tree: any;
 let store: any;
+let container: any;
 const middlewares: Middleware[] = [];
 
 const props = {
@@ -23,6 +25,10 @@ describe('Bookmarks', () => {
     mockWindow();
     const mockStore = configureStore(middlewares);
     store = mockStore({ board: initialState });
+  });
+
+  beforeEach(() => {
+    container = null;
   });
 
   it('should render', async () => {
@@ -51,11 +57,12 @@ describe('Bookmarks', () => {
 
   it('should show Import bookmarks', async () => {
     act(() => {
-      render(
+      const renderered = render(
         <Provider store={store}>
           <Bookmarks {...props} />
         </Provider>
       );
+      container = renderered.container;
     });
 
     act(() => {
@@ -63,15 +70,17 @@ describe('Bookmarks', () => {
     });
 
     expect(await screen.findByText('Import all')).toBeTruthy();
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 
   it('should hide Import bookmarks', async () => {
     act(() => {
-      render(
+      const renderered = render(
         <Provider store={store}>
           <Bookmarks {...props} />
         </Provider>
       );
+      container = renderered.container;
     });
 
     act(() => {
@@ -83,5 +92,6 @@ describe('Bookmarks', () => {
     });
 
     expect(await screen.findByText('Bookmarks')).toBeTruthy();
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 });

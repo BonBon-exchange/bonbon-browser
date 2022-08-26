@@ -161,3 +161,109 @@ exports[`Settings should render 1`] = `
   </div>
 </div>
 `;
+
+exports[`Settings should show Browsing 1`] = `
+"<div id=\\"Settings__container\\">
+  <div class=\\"CloseButton__container\\" data-testid=\\"close-button\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\">
+      <path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path>
+    </svg></div>
+  <div id=\\"Settings__left-panel\\">
+    <h2>Settings</h2>
+    <ul>
+      <li>Application</li>
+      <li data-testid=\\"settings-browsing-link\\">Browsing</li>
+      <li data-testid=\\"settings-extensions-link\\">Extensions</li>
+    </ul>
+  </div>
+  <div id=\\"Settings__right-panel\\">
+    <h2>Browsing</h2>
+    <div class=\\"Settings__item\\" data-testid=\\"settings-browsing-page\\"><label for=\\"browsing-settings-default-webpage\\">New windows default webpage:</label><input type=\\"text\\" id=\\"browsing-settings-default-webpage\\" value=\\"\\">
+      <div class=\\"Settings__item-description\\">The url that will open first when opening a new window.</div>
+    </div>
+    <div class=\\"Settings__item\\"><label for=\\"browsing-settings-default-search-engine\\">Default search engine:</label><select id=\\"browsing-settings-default-search-engine\\">
+        <option value=\\"google\\">Google</option>
+        <option value=\\"presearch\\">Presearch</option>
+        <option value=\\"qwant\\">Qwant</option>
+        <option value=\\"duckduckgo\\">DuckDuckGo</option>
+        <option value=\\"yandex\\">Yandex</option>
+        <option value=\\"swisscows\\">Swisscows</option>
+        <option value=\\"ecosia\\">Ecosia</option>
+        <option value=\\"startpage\\">StartPage</option>
+      </select>
+      <div class=\\"Settings__item-description\\">The search engine that will be used when entering text in the url input and pressing enter.</div>
+    </div>
+    <div class=\\"Settings__item\\">
+      <div class=\\"Settings__item-title\\">New webpages default size</div><input type=\\"radio\\" name=\\"browsing-settings-default-size\\" id=\\"browsing-settings-default-size-defined\\" value=\\"defined\\"><label for=\\"browsing-settings-default-size-defined\\">As defined here:</label><input type=\\"number\\" id=\\"browsing-settings-default-width\\" value=\\"0\\">x<input type=\\"number\\" id=\\"browsing-settings-default-height\\" value=\\"0\\"><br><input type=\\"radio\\" name=\\"browsing-settings-default-size\\" id=\\"browsing-settings-default-size-last-closed\\" value=\\"lastClosed\\"><label for=\\"browsing-settings-default-size-last-closed\\">Use the size of the last closed webpage</label><br><input type=\\"radio\\" name=\\"browsing-settings-default-size\\" id=\\"browsing-settings-default-size-last-resized\\" value=\\"lastResized\\"><label for=\\"browsing-settings-default-size-last-resized\\">Use the size of the last resized window</label>
+      <div class=\\"Settings__item-description\\">The size of opening new windows when they are not maximized.</div>
+    </div>
+    <div class=\\"Settings__item\\"><input type=\\"checkbox\\" id=\\"browsing-settings-dont-save-history\\"><label for=\\"browsing-settings-dont-save-history\\">Do not save browsing history</label>
+      <div class=\\"Settings__item-description\\">If checked, BonBon will not save your browsing history. It will also disable URL suggestions.</div>
+    </div>
+    <div class=\\"Settings__item\\">
+      <div class=\\"Settings__item-title\\">When dragging a window to the top edge:</div><input type=\\"radio\\" name=\\"browsing-settings-top-edge\\" id=\\"browsing-settings-top-edge-maximize\\" value=\\"maximize\\"><label for=\\"browsing-settings-top-edge-maximize\\">Maximize</label><br><input type=\\"radio\\" name=\\"browsing-settings-top-edge\\" id=\\"browsing-settings-top-edge-fit\\" value=\\"fit\\"><label for=\\"browsing-settings-top-edge-fit\\">Fit the screen</label>
+      <div class=\\"Settings__item-description\\">Maximize the window or enlarge the window when dragging it to the top edge.</div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Settings should show Extensions 1`] = `
+"<div id=\\"Settings__container\\">
+  <div class=\\"CloseButton__container\\" data-testid=\\"close-button\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\">
+      <path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path>
+    </svg></div>
+  <div id=\\"Settings__left-panel\\">
+    <h2>Settings</h2>
+    <ul>
+      <li>Application</li>
+      <li data-testid=\\"settings-browsing-link\\">Browsing</li>
+      <li data-testid=\\"settings-extensions-link\\">Extensions</li>
+    </ul>
+  </div>
+  <div id=\\"Settings__right-panel\\">
+    <h2>Extensions</h2>
+    <div class=\\"Settings__item\\" data-testid=\\"settings-extensions-page\\"><input type=\\"checkbox\\" id=\\"extensions-force-install-u-block\\"><label for=\\"extensions-force-install-u-block\\">Force uBlockOrigin installation at startup</label>
+      <div class=\\"Settings__item-description\\">If checked, the app will automatically download uBlockOrigin and install it when starting.</div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`Settings should show first screen 1`] = `
+"<div id=\\"Settings__container\\">
+  <div class=\\"CloseButton__container\\" data-testid=\\"close-button\\"><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"CloseIcon\\">
+      <path d=\\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\"></path>
+    </svg></div>
+  <div id=\\"Settings__left-panel\\">
+    <h2>Settings</h2>
+    <ul>
+      <li>Application</li>
+      <li data-testid=\\"settings-browsing-link\\">Browsing</li>
+      <li data-testid=\\"settings-extensions-link\\">Extensions</li>
+    </ul>
+  </div>
+  <div id=\\"Settings__right-panel\\">
+    <h2>Application</h2>
+    <div class=\\"Settings__item\\"><input type=\\"checkbox\\" id=\\"application-settings-launch-at-startup\\"><label for=\\"application-settings-launch-at-startup\\">Launch at startup</label>
+      <div class=\\"Settings__item-description\\">If checked, the app will auto-launch at system startup.</div>
+    </div>
+    <div class=\\"Settings__item\\"><label for=\\"application-settings-language\\">Language:</label><select id=\\"application-settings-language\\">
+        <option value=\\"en\\">English</option>
+        <option value=\\"es\\">Spanish</option>
+        <option value=\\"fr\\">French</option>
+        <option value=\\"de\\">German</option>
+        <option value=\\"ru\\">Russian</option>
+        <option value=\\"fa\\">Persian</option>
+        <option value=\\"tr\\">Turkish</option>
+        <option value=\\"cn\\">Chinese</option>
+        <option value=\\"ar\\">Arabic</option>
+        <option value=\\"nl\\">Dutch</option>
+        <option value=\\"pl\\">Polish</option>
+        <option value=\\"pt\\">Portuguese</option>
+        <option value=\\"ja\\">Japanese</option>
+      </select>
+      <div class=\\"Settings__item-description\\">The language in which displays the application.</div>
+    </div>
+  </div>
+</div>"
+`;

@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Addaps should render with boardId 1`] = `
+exports[`Addaps should match snapshot with boardId 1`] = `
 <div
   className=""
+  data-boardid="any"
   id="Addaps__container"
 >
   <div
@@ -52,7 +53,7 @@ exports[`Addaps should render with boardId 1`] = `
 </div>
 `;
 
-exports[`Addaps should render with no boardId 1`] = `
+exports[`Addaps should match snapshot with no boardId 1`] = `
 <div
   className="Loader__loading"
 >
@@ -60,4 +61,35 @@ exports[`Addaps should render with no boardId 1`] = `
     src="test-file-stub"
   />
 </div>
+`;
+
+exports[`Addaps should show and hide App Menu, and match snapshot 1`] = `
+"<div id=\\"Addaps__container\\" data-boardid=\\"any\\" class=\\"\\" style=\\"\\">
+  <div id=\\"Addaps__background\\"></div>
+  <div id=\\"LeftBar__browserFavContainer\\">
+    <ul>
+      <div id=\\"LeftBar__browserFavContainerItems\\"></div><svg class=\\"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root\\" focusable=\\"false\\" aria-hidden=\\"true\\" viewBox=\\"0 0 24 24\\" data-testid=\\"AddIcon\\" id=\\"ButtonAddBrowser\\">
+        <path d=\\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\\"></path>
+      </svg>
+    </ul>
+  </div>
+  <div id=\\"Board__container\\" class=\\"Board__isnt-maximized\\" style=\\"height: 0px;\\">
+    <div class=\\"Board__edge-snap-left\\"></div>
+    <div class=\\"Board__edge-snap-right\\"></div>
+    <div class=\\"Board__edge-snap-maximized\\"></div>
+  </div>
+  <div id=\\"AppMenu__container\\" class=\\"AppMenu__container\\" data-testid=\\"app-menu\\">
+    <ul>
+      <li>Toggle dark mode</li>
+      <li>Extensions</li>
+      <li>Downloads</li>
+      <li>Bookmarks</li>
+      <li>History</li>
+      <li>Settings</li>
+      <li>Documentation</li>
+      <li>About</li>
+    </ul>
+  </div>
+  <div id=\\"Minimap__detection-zone\\"></div>
+</div>"
 `;

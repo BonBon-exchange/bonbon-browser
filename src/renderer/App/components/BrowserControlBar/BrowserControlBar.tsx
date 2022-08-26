@@ -99,7 +99,9 @@ export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
   const urlInputOnKeyUp: KeyboardEventHandler = (e) => {
     if (e.key !== 'ArrowUp') return;
     const target = e.target as HTMLInputElement;
-    target?.setSelectionRange(target?.value.length, target?.value.length);
+    if (target && target.value) {
+      target.setSelectionRange(target.value.length, target.value.length);
+    }
   };
 
   const urlInputOnKeyDown: KeyboardEventHandler = (e) => {
