@@ -212,10 +212,6 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 - Faouzi
 - Daniel Callus ([@dcallus](https://github.com/dcallus))
 
-### Past contributors
-
-- Aitor ([@dragonDScript](https://github.com/dragonDScript))
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 [contributors-shield]: https://img.shields.io/github/contributors/BonBon-exchange/bonbon-web-browser.svg?style=for-the-badge
