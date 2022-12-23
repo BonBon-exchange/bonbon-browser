@@ -150,16 +150,6 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Recommended VSCode extensions
-
-Recommended VSCode extensions should be shown when you open the workspace for the first time.
-Otherwise use ctrl+shift+p (cmd+shift+p on Mac) and choose 'Extensions: Show Recommended Extensions'.
-
-Prettier is configured to format on save.
-Typos/spelling errors have a blue underline.
-
-For words that are not typos but have a blue underline, you can right click and choose 'Spelling > Add words to CSpell configuration'. If it is a non-English word (such a those in language folders) choose 'Spelling > Ignore', this helps keeps things separate and tidy.
-
 ## 😎 About The Project
 
 **BonBon** is a project that allows web users to obtain full control of their browsing data. Rather than accepting the inevitable theft of their data from Big Tech, BonBon's vision is to allow people the deserved freedom of controlling what happens to their data and not have it sold to big tech without their consent.
@@ -177,10 +167,6 @@ To stay up to date with the project, submit bugs, and submit features, please jo
 - Discord server: [https://discord.gg/hrpp8G9Fqs](https://discord.gg/hrpp8G9Fqs)
 
 - Subreddit: [https://www.reddit.com/r/bonbonbrowser](https://www.reddit.com/r/bonbonbrowser)
-
-- Telegram channel: [https://t.me/bonbonbrowser](https://t.me/bonbonbrowser)
-
-- Telegram chat: [https://t.me/bonbonbrowserchat](https://t.me/bonbonbrowserchat)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
