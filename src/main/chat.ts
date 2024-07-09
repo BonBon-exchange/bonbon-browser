@@ -66,9 +66,9 @@ let reconnectInterval: any;
 let isConnected = false;
 
 // Function to add a new user
-const registerUser = async (usr: string, magic: string) => {
+const registerUser = async (usr: string) => {
     try {
-        await memory.run("INSERT INTO users (username, magic) VALUES (?, ?)", [usr, magic]);
+        await memory.run("INSERT INTO users (username) VALUES (?, ?)", [usr]);
         console.log(`User ${usr} registered`);
     } catch (err: unknown) {
         console.error("Error registering user:", err);
@@ -99,7 +99,7 @@ const shakeHandWith = async (usr: string) => {
     await memory.all("SELECT webrtcOffer FROM users WHERE username = ?", [usr], (rows: { webrtcOffer: string }[]) => {
         getSelectedView()?.webContents.send('create-webrtc-participant', { webrtcOffer: rows[0].webrtcOffer, usr })
         ipcMain.on('created-webrtc-participants', (_event, args: { webrtcParticipant: string }) => {
-            const connectionMessage = buildConnectionRequestMessage(usr, `${args.webrtcParticipant}`)
+            const connectionMessage = buildConnectionRequestMessage(usr, `${args.webrtcParticipant}`, userProxy.username, userProxy.magic)
             ws.send(connectionMessage);
         })
     });
@@ -123,11 +123,11 @@ const connect = () => {
 
         ipcMain.on('created-webrtc-offer', (_event, args: { webrtcOffer: string }) => {
             console.log('created webrtc offer', { args })
-            const registrationMessage = JSON.stringify({ event: 'register', usr: userProxy.username, magic: "420", webrtcOffer: args.webrtcOffer }); // Format your message
+            const registrationMessage = JSON.stringify({ event: 'register', usr: userProxy.username, webrtcOffer: args.webrtcOffer }); // Format your message
             ws.send(registrationMessage);
             clearInterval(reconnectInterval); // Clear reconnect interval if connected
             isConnected = true;
-            registerUser(userProxy.username, "420");
+            registerUser(userProxy.username);
         });
     });
 
