@@ -13,19 +13,32 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       - name: Install Node.js and NPM
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: npm
 
+      - name: install ts-node
+        run: |
+          npm install ts-node
+
+      - name: add ts-node-path
+        if: runner.os == 'Windows'
+        run: |
+          echo "::add-path::node_modules/.bin"
+
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm install ts-node \
+          npm ci --omit=dev
 
       - name: Compile
-        run: npm run build
+        run: |
+          npm install --save-dev concurrently \
+          npm run build
 
       - name: Package
         env:
@@ -34,7 +47,7 @@ jobs:
 
       - if: matrix.os == 'ubuntu-latest'
         name: Ubuntu release
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: BonBon-linux
           path: |
@@ -42,7 +55,7 @@ jobs:
             release/build/BonBon-*.*.*.AppImage
       - if: matrix.os == 'macos-latest'
         name: MacOS release
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: BonBon-macos
           path: |
@@ -51,7 +64,7 @@ jobs:
             release/build/BonBon-*.*.*.dmg
       - if: matrix.os == 'windows-latest'
         name: Windows release
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: BonBon-windows
           path: |
