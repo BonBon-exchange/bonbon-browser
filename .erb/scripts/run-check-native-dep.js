@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 
 try {
   execSync(
-    'npm install -g ts-node && node --loader ts-node/esm ./.erb/scripts/check-native-dep.mjs',
+    'npm install -g ts-node & node --loader ts-node/esm ./.erb/scripts/check-native-dep.mjs',
     {
       stdio: 'inherit',
     }
