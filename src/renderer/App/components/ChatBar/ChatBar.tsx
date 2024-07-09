@@ -11,16 +11,35 @@ import {
 
 export default () => {
   const chatBarRef = useRef<HTMLDivElement>(null);
+  const magicInputRef = useRef<HTMLInputElement>(null);
   const [isStateMessageReceived, setIsStateMessageReiceived] =
     useState<boolean>(false);
   const [shouldEnhighChatbar, setShouldEnhighChatbar] =
     useState<boolean>(false);
   const [username, setUsername] = useState<string>('');
+  const [usernameHasBeenSet, setUsernameHasBeenSet] = useState<boolean>(false);
+  const [magic, setMagic] = useState<string>('');
+  const [magicHasBeenSet, setMagicHasBeenSet] = useState<boolean>(false);
+  const [shouldShowMagicEffect, setShouldShowMagicEffect] =
+    useState<boolean>(false);
 
   const userNameOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Enter') {
       window.app.chat.setUsername(username);
       setUsername('');
+      setUsernameHasBeenSet(true);
+    }
+  };
+
+  const magicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Enter') {
+      window.app.chat.setMagic(magic);
+      setMagic('');
+      setMagicHasBeenSet(true);
+      setShouldShowMagicEffect(true);
+      setTimeout(() => {
+        setShouldShowMagicEffect(false);
+      }, 400);
     }
   };
 
@@ -51,6 +70,10 @@ export default () => {
     };
   });
 
+  useEffect(() => {
+    if (usernameHasBeenSet) magicInputRef.current?.focus();
+  }, [usernameHasBeenSet]);
+
   return (
     <div
       id="chat-bar"
@@ -58,17 +81,33 @@ export default () => {
       className={clsx({
         'message-received': isStateMessageReceived,
         'user-is-close': shouldEnhighChatbar,
+        // 'magic-effect': shouldShowMagicEffect,
       })}
     >
-      <input
-        type="text"
-        id="chat-bar-set-username"
-        className={clsx({ hidden: !shouldEnhighChatbar })}
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="username"
-        onKeyDown={userNameOnKeyDown}
-      />
+      {!usernameHasBeenSet && (
+        <input
+          type="text"
+          id="chat-bar-set-username"
+          className={clsx({ hidden: !shouldEnhighChatbar })}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="username"
+          onKeyDown={userNameOnKeyDown}
+        />
+      )}
+
+      {usernameHasBeenSet && !magicHasBeenSet && (
+        <input
+          type="text"
+          id="chat-bar-set-magic"
+          ref={magicInputRef}
+          className={clsx({ hidden: !shouldEnhighChatbar })}
+          value={magic}
+          onChange={(e) => setMagic(e.target.value)}
+          placeholder="magic"
+          onKeyDown={magicOnKeyDown}
+        />
+      )}
     </div>
   );
 };

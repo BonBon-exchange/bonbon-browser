@@ -53,6 +53,7 @@ declare global {
         createdWebrtcParticipant: (webrtcParticipant: string) => void
         createdWebrtcOffer: (webrtcOffer: string) => void
         setUsername: (username: string) => void
+        setMagic: (magic: string) => void
       };
       config: {
         get: (key: string) => Promise<unknown>;

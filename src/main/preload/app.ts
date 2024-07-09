@@ -97,6 +97,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     setUsername: (username: string) => {
       ipcRenderer.send('set-chat-username', username);
+    },
+    setMagic: (magic: string) => {
+      ipcRenderer.send('set-chat-magic', magic);
     }
   },
   config: {

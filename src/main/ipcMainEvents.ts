@@ -83,7 +83,7 @@ import i18n from './i18n';
 import { getStore } from './store';
 import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
 import { getState, setState } from './BonBon_Global_State';
-import { endChat, initChat, setUsername } from './chat';
+import { endChat, initChat, setUsername, setMagic } from './chat';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -474,5 +474,9 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('set-chat-username', (_e, usr: string) => {
     setUsername(usr)
+  })
+
+  ipcMain.on('set-chat-magic', (_e, magic: string) => {
+    setMagic(magic)
   })
 };
