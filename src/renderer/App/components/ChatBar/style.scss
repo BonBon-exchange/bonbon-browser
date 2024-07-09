@@ -5,8 +5,16 @@
     top: calc(100vh - 33px);
     position: fixed;
     z-index: 100;
+    transition: background 400ms ease-out, height 400ms ease-out, top 400ms ease-out;
+    transition: height 400ms ease-out, height 400ms ease-out, top 400ms ease-out;
 
     &.message-received {
+        background: linear-gradient(200.96deg, #ffeb75, #f192b2, #a35ac4);
+    }
+
+    &.user-is-close {
+        height: 66px;
+        top: calc(100vh - 66px);
         background: linear-gradient(200.96deg, #ffeb75, #f192b2, #a35ac4);
     }
 }
