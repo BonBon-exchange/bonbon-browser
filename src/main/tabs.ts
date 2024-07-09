@@ -24,7 +24,10 @@ export const selectTab = (args: IpcTabSelect) => {
     boardId: args.tabId,
   });
 
-  if (getState('isChatActive')) viewToShow.webContents.send('init-chat');
+  if (getState('isChatActive')) {
+    viewToShow.webContents.send('init-chat');
+    viewToShow.webContents.send('chat-state', { chatState: getState("chat") ?? {} });
+  }
 
   viewToShow.webContents.on('dom-ready', () => {
     const interval = setInterval(() => {

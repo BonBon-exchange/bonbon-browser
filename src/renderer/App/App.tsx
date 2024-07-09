@@ -18,6 +18,7 @@ export function App() {
   const [isLoadedBoard, setIsLoadedBoard] = useState<boolean | string>(false);
   const [boardId, setBoardId] = useState<string>('');
   const [isChatActive, setIsChatActive] = useState<boolean>(false);
+  const [chatState, setChatState] = useState<Object>({});
   const persisted = useRef<any>(null);
 
   const loadBoardAction = useCallback(
@@ -44,6 +45,13 @@ export function App() {
   const handleEndChat = useCallback(() => {
     setIsChatActive(false);
   }, [setIsChatActive]);
+
+  const handleChatState = useCallback(
+    (_e: IpcRendererEvent, args: { chatState: string }) => {
+      setChatState(args.chatState);
+    },
+    [setChatState]
+  );
 
   useEffect(() => {
     window.app.listener.loadBoard(loadBoardAction);
@@ -84,6 +92,11 @@ export function App() {
   }, [handleEndChat]);
 
   useEffect(() => {
+    window.app.listener.chatState(handleChatState);
+    return () => window.app.off.chatState();
+  }, [handleChatState]);
+
+  useEffect(() => {
     if (localStorage.getItem('isChatActive') === 'true') setIsChatActive(true);
   }, []);
 
@@ -91,7 +104,7 @@ export function App() {
     <Provider store={persisted.current?.store}>
       <PersistGate loading={null} persistor={persisted.current?.persistor}>
         <Addaps boardId={boardId} />
-        {isChatActive && <ChatBar />}
+        {isChatActive && <ChatBar state={chatState} />}
       </PersistGate>
     </Provider>
   ) : (

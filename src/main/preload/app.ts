@@ -238,6 +238,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     webrtcConnectionRequest: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
       ipcRenderer.on('wehrtc-connection-request', action);
+    },
+    chatState: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
+      ipcRenderer.on('chat-state', action);
     }
   },
   off: {
@@ -300,6 +303,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     webrtcConnectionRequest: () => {
       ipcRenderer.removeAllListeners('wehrtc-connection-request');
+    },
+    chatState: () => {
+      ipcRenderer.removeAllListeners('chat-state');
     }
   },
   tools: {

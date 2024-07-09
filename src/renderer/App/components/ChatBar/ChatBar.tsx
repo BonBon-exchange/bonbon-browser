@@ -9,17 +9,28 @@ import {
   KeyboardEventHandler,
 } from 'react';
 
-export default () => {
+export default ({
+  state,
+}: {
+  state: {
+    username?: string;
+    isMagic?: boolean;
+  };
+}) => {
   const chatBarRef = useRef<HTMLDivElement>(null);
   const magicInputRef = useRef<HTMLInputElement>(null);
   const [isStateMessageReceived, setIsStateMessageReiceived] =
     useState<boolean>(false);
   const [shouldEnhighChatbar, setShouldEnhighChatbar] =
     useState<boolean>(false);
-  const [username, setUsername] = useState<string>('');
-  const [usernameHasBeenSet, setUsernameHasBeenSet] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>(state.username ?? '');
+  const [usernameHasBeenSet, setUsernameHasBeenSet] = useState<boolean>(
+    Number(state?.username?.length) > 0
+  );
   const [magic, setMagic] = useState<string>('');
-  const [magicHasBeenSet, setMagicHasBeenSet] = useState<boolean>(false);
+  const [magicHasBeenSet, setMagicHasBeenSet] = useState<boolean>(
+    !!state.isMagic
+  );
   // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
   //  useState<boolean>(false);
 
