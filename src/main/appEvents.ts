@@ -108,7 +108,7 @@ const makeAppEvents = () => {
       if (view) setBrowserViewBonds(view, false);
     });
 
-    contents.on('new-window', (e, url) => {
+    contents.on('new-window' as 'zoom-changed', (e: any, url: any) => {
       e.preventDefault();
       const selectedView = getSelectedView();
       selectedView?.webContents.send('new-window', { url });
