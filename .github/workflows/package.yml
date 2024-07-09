@@ -21,9 +21,17 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: install ts-node
+        run: |
+          npm install ts-node
+
+      - name: add ts-node-path
+        if: runner.os == 'Windows'
+        run: |
+          echo "::add-path::node_modules/.bin"
+
       - name: Install dependencies
         run: |
-          npm install ts-node \
           npm ci --omit=dev
 
       - name: Compile
