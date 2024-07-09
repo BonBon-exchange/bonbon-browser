@@ -23,6 +23,8 @@ jobs:
 
       - name: add ts-node-path
         if: runner.os == 'Windows'
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: |
           echo "::add-path::node_modules/.bin"
 
