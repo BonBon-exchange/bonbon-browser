@@ -5,6 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { store, getPersistedStoreAndPersistor } from 'renderer/App/store/store';
 import { Addaps } from 'renderer/App/components/Addaps';
+import ChatBar from 'renderer/App/components/ChatBar/ChatBar';
 
 import './i18n';
 
@@ -16,6 +17,7 @@ import { IpcRendererEvent } from 'electron';
 export function App() {
   const [isLoadedBoard, setIsLoadedBoard] = useState<boolean | string>(false);
   const [boardId, setBoardId] = useState<string>('');
+  const [isChatActive, setIsChatActive] = useState<boolean>(false);
   const persisted = useRef<any>(null);
 
   const loadBoardAction = useCallback(
@@ -34,6 +36,10 @@ export function App() {
       localStorage.removeItem(`persist:${boardId}`);
     }
   }, [boardId]);
+
+  const handleInitChat = useCallback(() => {
+    setIsChatActive(true);
+  }, [setIsChatActive]);
 
   useEffect(() => {
     window.app.listener.loadBoard(loadBoardAction);
@@ -63,10 +69,20 @@ export function App() {
     });
   }, []);
 
+  useEffect(() => {
+    window.app.listener.initChat(handleInitChat);
+    return () => window.app.off.initChat();
+  }, [handleInitChat]);
+
+  useEffect(() => {
+    if (localStorage.getItem('isChatActive') === 'true') setIsChatActive(true);
+  }, []);
+
   return isLoadedBoard ? (
     <Provider store={persisted.current?.store}>
       <PersistGate loading={null} persistor={persisted.current?.persistor}>
         <Addaps boardId={boardId} />
+        {isChatActive && <ChatBar />}
       </PersistGate>
     </Provider>
   ) : (

@@ -123,7 +123,7 @@ declare global {
         findInKnownDomains: (input: string) => Promise<DomainSuggestion[]>;
       };
     };
-  }
-}
+  };
+};
 
 export { };

@@ -179,5 +179,5 @@ contextBridge.exposeInMainWorld('titleBar', {
     end: () => {
       ipcRenderer.send('end-chat');
     },
-  }
+  },
 });

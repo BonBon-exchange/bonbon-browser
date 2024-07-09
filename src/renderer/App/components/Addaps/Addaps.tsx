@@ -11,7 +11,6 @@ import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { useAppSelector } from 'renderer/App/store/hooks';
 import { Loader } from 'renderer/App/components/Loader';
 import { About } from 'renderer/App/components/About';
-import ChatBar from '../ChatBar/ChatBar';
 
 import { AddapsProps } from './Types';
 
@@ -51,7 +50,6 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   const [popupTitle, setPopupTitle] = useState<string>('');
   const [popupChildren, setPopupChildren] = useState<React.JSX.Element>();
   const [showMinimap, setShowMinimap] = useState<boolean>(false);
-  const [isChatActive, setIsChatActive] = useState<boolean>(false);
   const { i18n } = useTranslation();
 
   const showAppMenuAction = useCallback(() => {
@@ -100,10 +98,6 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   const handleShowDocumentation = () => setShowDocumentation(true);
   const handleShowExtensions = () => setShowExtensions(true);
 
-  const handleInitChat = useCallback(() => {
-    setIsChatActive(true);
-  }, [setIsChatActive]);
-
   useEffect(() => {
     if (boardId) board.load({ id: boardId });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,11 +127,6 @@ export const Addaps = ({ boardId }: AddapsProps) => {
         .querySelector('#Minimap__detection-zone')
         ?.removeEventListener('mouseenter', minimapMouseEnterListener);
   }, []);
-
-  useEffect(() => {
-    window.app.listener.initChat(handleInitChat);
-    return () => window.app.off.initChat();
-  }, [handleInitChat]);
 
   return (
     <Suspense fallback={<Loader />}>
@@ -189,7 +178,6 @@ export const Addaps = ({ boardId }: AddapsProps) => {
         )}
         <div id="Minimap__detection-zone" />
         {showMinimap && <Minimap handleHide={() => setShowMinimap(false)} />}
-        {isChatActive && <ChatBar />}
       </div>
     </Suspense>
   );

@@ -10,6 +10,7 @@ import {
 } from './browser';
 
 import { getViews, setViews } from './ipcMainEvents';
+import { getState } from './BonBon_Global_State';
 
 export const selectTab = (args: IpcTabSelect) => {
   const views = getViews();
@@ -22,6 +23,9 @@ export const selectTab = (args: IpcTabSelect) => {
   viewToShow.webContents.send('load-board', {
     boardId: args.tabId,
   });
+
+  if (getState('isChatActive')) viewToShow.webContents.send('init-chat');
+
   viewToShow.webContents.on('dom-ready', () => {
     const interval = setInterval(() => {
       try {

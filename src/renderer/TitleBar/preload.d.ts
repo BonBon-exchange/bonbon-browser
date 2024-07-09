@@ -65,9 +65,9 @@ declare global {
       chat: {
         init: () => void;
         end: () => void;
-      }
+      };
     };
-  }
-}
+  };
+};
 
 export { };

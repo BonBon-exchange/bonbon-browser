@@ -30,8 +30,8 @@ import {
 import { AppControls } from 'renderer/TitleBar/components/AppControls';
 
 import './style.scss';
+import Magic from 'renderer/TitleBar/components/Magic/Magic';
 import { DownloadState } from './Types';
-import Magic from '../Magic/Magic';
 
 export const TopBar = () => {
   const [downloadState, setDownloadState] = useState<DownloadState>(null);
@@ -344,6 +344,7 @@ export const TopBar = () => {
       })}
     >
       {window.titleBar.os.getPlatform() === 'darwin' ? <Magic /> : null}
+
       <Reorder.Group
         axis="x"
         values={tabs}
