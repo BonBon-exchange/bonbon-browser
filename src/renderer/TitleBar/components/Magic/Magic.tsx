@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './Magic.scss';
+
 const initChat = () => {
   window.titleBar.chat.init();
 };
@@ -13,7 +15,7 @@ export default () => {
 
   return (
     <div
-      className="magic-connector"
+      id="magic-connector"
       onClick={initChat}
       onKeyDown={handleKeyDown}
       role="button"

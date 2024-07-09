@@ -4,4 +4,13 @@
     width: 80px;
     margin-left: -76px;
     margin-top: 3px;
+    outline: none;
+
+    &:focus-visible {
+        outline: none;
+    }
+
+    &:focus {
+        outline: none;
+    }
 }
