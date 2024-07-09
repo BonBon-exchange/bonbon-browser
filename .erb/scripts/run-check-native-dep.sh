@@ -7,8 +7,6 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   npm install ts-node-esm --legacy-peer-deps -g
   # Run the check-native-dep.mjs script with the required loader
   ts-node-esm ./.erb/scripts/check-native-dep.mjs
-else
-  ts-node ./.erb/scripts/check-native-dep.js
 fi
 
 # Check the exit status of the previous command and exit if it failed
