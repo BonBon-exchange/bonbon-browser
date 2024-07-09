@@ -21,9 +21,11 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: install ts-node for everyone
+        run: npm install -g ts-node
+
       - name: Install dependencies
         run: |
-          npm install -g ts-node --ignore-scripts \
           npm ci --omit=dev
 
       - name: Compile
