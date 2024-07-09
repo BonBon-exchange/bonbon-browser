@@ -15,7 +15,7 @@ let memory: Database
 
     await memory.exec(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE NOT NULL,
+        username TEXT NOT NULL,
         magic TEXT,
         webrtcOffer TEXT,
         registered_at DATETIME DEFAULT CURRENT_TIMESTAMP
