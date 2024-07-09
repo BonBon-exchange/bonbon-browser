@@ -1,7 +1,10 @@
 import fs from 'fs';
 import { execSync } from 'child_process';
 import chalk from 'chalk'; // You can now use import directly
-import { dependencies } from '../../package.json';
+
+const { dependencies } = require('../../package.json', {
+  assert: { type: 'json' },
+});
 
 (async function checkNativeDeps() {
   if (dependencies) {

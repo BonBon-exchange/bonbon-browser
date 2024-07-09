@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2021",
-    "module": "commonjs",
+    "module": "esnext",
     "lib": ["dom", "es2021"],
     "declaration": true,
     "declarationMap": true,
@@ -20,10 +20,10 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "outDir": "release/app/dist",
-    "skipLibCheck": true,              // Skips type checking of declaration files for faster compilation
-    "forceConsistentCasingInFileNames": true, // Ensures consistent file naming
-    "incremental": true                // Enables incremental compilation
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true
   },
   "exclude": ["test", "release/build", "release/app/dist", ".erb/dll", "assets"],
-  "include": ["src", ".erb/scripts"]  // Ensure that scripts directory is included
+  "include": ["src", ".erb/scripts"]
 }
