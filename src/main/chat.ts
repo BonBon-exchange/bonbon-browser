@@ -24,13 +24,36 @@ let memory: Database
 
 const url = 'ws://echo.websocket.events/echo/BonBon/public_place';
 
-let username = ""
+let forProxyConnect: () => void;
+
+const usernameProxy = new Proxy({ username: "" }, {
+    set(target, property, value) {
+        if (property === 'username') {
+            if (target[property] === "" && target[property] !== value) {
+                console.log(`Username changed to: ${value}`);
+                forProxyConnect()
+            }
+            if (target[property] !== value) {
+                target[property] = value;
+                console.log(`Username changed to: ${value}`);
+            }
+        }
+        return true;
+    },
+    get(target, property) {
+        if (property === 'username') {
+            return target[property];
+        }
+        return undefined;
+    },
+});
+
 // const unregistrationMessage = JSON.stringify({ event: 'unregister', usr: username }); // Format your message``
 
 const buildConnectionRequestMessage = (target: string, webrtcParticipant: string) => JSON.stringify({ event: 'connection-request', target, webrtcParticipant })
 
 const setUsername = (usr: string) => {
-    username = usr
+    usernameProxy.username = usr
     console.log({ usr })
 }
 
@@ -96,11 +119,11 @@ const connect = () => {
 
         ipcMain.on('created-webrtc-offer', (_event, args: { webrtcOffer: string }) => {
             console.log('created webrtc offer', { args })
-            const registrationMessage = JSON.stringify({ event: 'register', usr: username, magic: "420", webrtcOffer: args.webrtcOffer }); // Format your message
+            const registrationMessage = JSON.stringify({ event: 'register', usr: usernameProxy.username, magic: "420", webrtcOffer: args.webrtcOffer }); // Format your message
             ws.send(registrationMessage);
             clearInterval(reconnectInterval); // Clear reconnect interval if connected
             isConnected = true;
-            registerUser(username, "420");
+            registerUser(usernameProxy.username, "420");
         });
     });
 
@@ -115,7 +138,7 @@ const connect = () => {
             } else if (parsedMessage.event === 'unregister') {
                 const { usr } = parsedMessage;
                 await unregisterUser(usr);
-            } else if (parsedMessage.event === 'connection-request' && parsedMessage.target === username) {
+            } else if (parsedMessage.event === 'connection-request' && parsedMessage.target === usernameProxy.username) {
                 getSelectedView()?.webContents.send('connection-request', { webrtcParticipant: parsedMessage.webrtcParticipant })
             }
         } catch (error) {
@@ -132,10 +155,12 @@ const connect = () => {
     ws.on('close', (code, reason) => {
         console.log('WebSocket closed:', code, reason);
         isConnected = false;
-        unregisterUser(username);
+        unregisterUser(usernameProxy.username);
         reconnect(); // Attempt to reconnect on close
     });
 }
+
+forProxyConnect = connect
 
 const initChat = () => {
     // connect();
