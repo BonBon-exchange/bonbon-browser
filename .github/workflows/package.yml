@@ -28,6 +28,7 @@ jobs:
 
       - name: Compile
         run: |
+          npm install --save-dev concurrently \
           npm run build
 
       - name: Package
