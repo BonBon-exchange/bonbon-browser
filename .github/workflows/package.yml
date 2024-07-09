@@ -23,6 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          npm install -g ts-node \
           npm ci --omit=dev
 
       - name: Compile
