@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Ensure ts-node is installed
-npm install ts-node
+npm install ts-node -g
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  npm install ts-node-esm --legacy-peer-deps
+  npm install ts-node-esm --legacy-peer-deps -g
   # Run the check-native-dep.mjs script with the required loader
   ts-node-esm ./.erb/scripts/check-native-dep.mjs
 else
