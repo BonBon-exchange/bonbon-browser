@@ -49,6 +49,10 @@ declare global {
         requestCapture: (webContentsId: number) => Promise<string>;
         getUrlToOpen: () => Promise<string | undefined>;
       };
+      chat: {
+        createdWebrtcParticipant: (webrtcParticipant: string) => void
+        createdWebrtcOffer: (webrtcOffer: string) => void
+      };
       config: {
         get: (key: string) => Promise<unknown>;
         set: (args: IpcSetStoreValue) => Promise<void>;

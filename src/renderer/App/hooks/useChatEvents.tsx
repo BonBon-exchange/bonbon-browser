@@ -1,4 +1,4 @@
-import { IpcRendererEvent, ipcRenderer } from 'electron';
+import { IpcRendererEvent } from 'electron';
 import { useCallback, useEffect } from 'react';
 
 // webrtc peerconnection
@@ -38,7 +38,10 @@ export default () => {
         .createAnswer(sdpConstraints)
         .then((webrtcParticipant) => {
           peerConnection.setLocalDescription(webrtcParticipant);
-          ipcRenderer.send('created-webrtc-participant', { webrtcParticipant });
+          console.log({ webrtcParticipant });
+          window.app.chat.createdWebrtcParticipant(
+            webrtcParticipant as unknown as string
+          );
           return true;
         })
         .catch((e: unknown) => {
@@ -50,12 +53,13 @@ export default () => {
 
   const createWebrtcOfferAction = useCallback(async () => {
     webrtcOffer = await peerConnection.createOffer();
-    ipcRenderer.send('created-webrtc-offer', webrtcOffer);
-    return webrtcOffer;
+    console.log({ webrtcOffer });
+    window.app.chat.createdWebrtcOffer(webrtcOffer as unknown as string);
   }, []);
 
   const webrtcConnectionRequestAction = useCallback(
     (_e: IpcRendererEvent, args: { webrtcParticipant: string }) => {
+      console.log({ webrtcParticipant: args.webrtcParticipant });
       const answerDesc = new RTCSessionDescription(
         JSON.parse(args.webrtcParticipant)
       );

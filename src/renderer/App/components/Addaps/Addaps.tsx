@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 import { useGlobalEvents } from 'renderer/App/hooks/useGlobalEvents';
+import useChatEvents from 'renderer/App/hooks/useChatEvents';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { useAppSelector } from 'renderer/App/store/hooks';
 import { Loader } from 'renderer/App/components/Loader';
@@ -35,6 +36,7 @@ const Minimap = lazy(() => import('renderer/App/components/Minimap'));
 
 export const Addaps = ({ boardId }: AddapsProps) => {
   useGlobalEvents();
+  useChatEvents();
   const { items } = useAppSelector((state) => state.downloads);
   const { board } = useStoreHelpers({ boardId });
   const [showPopup, setShowPopup] = useState<boolean>(false);

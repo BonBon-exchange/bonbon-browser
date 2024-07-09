@@ -2,6 +2,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { IpcRendererEvent } from 'electron';
 
 import { store, getPersistedStoreAndPersistor } from 'renderer/App/store/store';
 import { Addaps } from 'renderer/App/components/Addaps';
@@ -12,7 +13,6 @@ import './i18n';
 import 'renderer/App/style/dark.css';
 import 'renderer/App/style/light.css';
 import './App.css';
-import { IpcRendererEvent } from 'electron';
 
 export function App() {
   const [isLoadedBoard, setIsLoadedBoard] = useState<boolean | string>(false);

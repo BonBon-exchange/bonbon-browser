@@ -90,6 +90,7 @@ const connect = () => {
         getSelectedView()?.webContents.send('create-webrtc-offer')
 
         ipcMain.on('created-webrtc-offer', (_event, args: { webrtcOffer: string }) => {
+            console.log('created webrtc offer', { args })
             const registrationMessage = JSON.stringify({ event: 'register', username: myId, magic: "420", webrtcOffer: args.webrtcOffer }); // Format your message
             ws.send(registrationMessage);
             clearInterval(reconnectInterval); // Clear reconnect interval if connected
