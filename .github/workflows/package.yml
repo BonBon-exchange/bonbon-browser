@@ -22,7 +22,7 @@ jobs:
           cache: npm
 
       - name: install ts-node for everyone
-        run: npm install -g ts-node
+        run: npm install -g ts-node husky
 
       - name: Install dependencies
         run: |
