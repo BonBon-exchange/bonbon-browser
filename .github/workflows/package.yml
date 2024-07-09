@@ -30,6 +30,7 @@ jobs:
 
       - name: Compile
         run: |
+          npm install -g concurrently --legacy-peer-deps
           npm run build
 
       - name: Package
