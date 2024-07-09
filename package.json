@@ -48,7 +48,7 @@
   ],
   "main": "./src/main/main.ts",
   "scripts": {
-    "build": "npm run buildmain && npm run buildrenderer",
+    "build": "npm install cross-env webpack webpack-cli --legacy-peer-deps && npm run buildmain && npm run buildrenderer",
     "buildmain": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
     "buildrenderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
     "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts&",
@@ -236,9 +236,9 @@
     "ts-node": "^10.9.2",
     "typescript": "^4.6.4",
     "url-loader": "^4.1.1",
-    "webpack": "^5.73.0",
+    "webpack": "^5.92.1",
     "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-cli": "^4.9.2",
+    "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.3",
     "webpack-merge": "^5.8.0"
   },
