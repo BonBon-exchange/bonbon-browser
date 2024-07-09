@@ -1,8 +1,12 @@
 #chat-bar {
     width: 100%;
     height: 33px;
-    background-color: coral;
+    background: linear-gradient(200.96deg, #c4a320, #a0455e, #5c2370);
     top: calc(100vh - 33px);
-    position: absolute;
+    position: fixed;
     z-index: 100;
+
+    &.message-received {
+        background: linear-gradient(200.96deg, #ffeb75, #f192b2, #a35ac4);
+    }
 }

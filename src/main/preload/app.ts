@@ -213,6 +213,9 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('end-chat', action);
     },
+    chatMessageReceived: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
+      ipcRenderer.on('chat-message-received', action);
+    }
   },
   off: {
     newWindow: () => {
@@ -261,6 +264,10 @@ contextBridge.exposeInMainWorld('app', {
     endChat: (
     ) => {
       ipcRenderer.removeAllListeners('end-chat');
+    },
+    chatMessageReceived: (
+    ) => {
+      ipcRenderer.removeAllListeners('chat-message-received');
     },
   },
   tools: {

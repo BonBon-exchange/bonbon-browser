@@ -91,6 +91,7 @@ declare global {
         setDefaultWindowSize: (action: unknown) => void;
         initChat: (action: unknown) => void;
         endChat: (action: unknown) => void;
+        chatMessageReceived: (action: unknown) => void;
       };
       off: {
         newWindow: () => void;
@@ -111,6 +112,7 @@ declare global {
         setDefaultWindowSize: () => void;
         initChat: () => void;
         endChat: () => void;
+        chatMessageReceived: () => void;
       };
       tools: {
         inspectElement: (point: IpcInspectElement) => void;
