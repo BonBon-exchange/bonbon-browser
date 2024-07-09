@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2021",
-    "module": "esnext",
+    "module": "commonjs",
     "lib": ["dom", "es2021"],
     "declaration": true,
     "declarationMap": true,
@@ -24,6 +24,4 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": true
   },
-  "exclude": ["test", "release/build", "release/app/dist", ".erb/dll", "assets"],
-  "include": ["src", ".erb/scripts"]
-}
+  "exclude": ["test", "release/build", "release/app/dist", ".erb/dll", "assets"]}
