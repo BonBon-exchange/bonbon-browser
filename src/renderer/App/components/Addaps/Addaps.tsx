@@ -33,7 +33,7 @@ const Popup = lazy(() => import('renderer/App/components/Popup'));
 const AppMenu = lazy(() => import('renderer/App/components/AppMenu'));
 const Minimap = lazy(() => import('renderer/App/components/Minimap'));
 
-export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
+export const Addaps = ({ boardId }: AddapsProps) => {
   useGlobalEvents();
   const { items } = useAppSelector((state) => state.downloads);
   const { board } = useStoreHelpers({ boardId });
@@ -48,7 +48,7 @@ export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
   const [showDownloadsPreview, setShowDownloadsPreview] =
     useState<boolean>(false);
   const [popupTitle, setPopupTitle] = useState<string>('');
-  const [popupChildren, setPopupChildren] = useState<JSX.Element>();
+  const [popupChildren, setPopupChildren] = useState<React.JSX.Element>();
   const [showMinimap, setShowMinimap] = useState<boolean>(false);
   const { i18n } = useTranslation();
 

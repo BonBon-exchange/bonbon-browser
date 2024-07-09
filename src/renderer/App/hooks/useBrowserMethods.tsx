@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
 import { useCallback, useMemo } from 'react';
 

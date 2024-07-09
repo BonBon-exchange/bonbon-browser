@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/no-cycle */
 import electron, { BrowserView, BrowserWindow, app } from 'electron';
 import path from 'path';

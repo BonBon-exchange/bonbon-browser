@@ -1,18 +1,13 @@
 /* eslint-disable promise/always-return */
 /* eslint-disable promise/no-nesting */
 /* eslint-disable promise/catch-or-return */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
+/* eslint-disable react/no-unknown-property */
+import { Electron } from 'namespaces/_electronist';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-} from 'react';
+import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import { Rnd } from 'react-rnd';
 
 import { BrowserControlBar } from 'renderer/App/components/BrowserControlBar';
@@ -34,7 +29,7 @@ import { BrowserProps } from './Types';
 
 import './style.scss';
 
-export const Browser: React.FC<BrowserProps> = ({
+export const Browser = ({
   id,
   url,
   top,
@@ -50,7 +45,7 @@ export const Browser: React.FC<BrowserProps> = ({
   webContentsId,
   isSearching,
   capture,
-}) => {
+}: BrowserProps) => {
   const dispatch = useAppDispatch();
   const {
     enablePointerEventsForAll,
@@ -111,7 +106,8 @@ export const Browser: React.FC<BrowserProps> = ({
       const edgeRightWidth = container.current?.clientWidth
         ? container.current?.clientWidth
         : 0;
-      const edgeRightValue = boardContainer?.clientWidth - edgeRightWidth - 2;
+      const edgeRightValue =
+        Number(boardContainer?.clientWidth) - Number(edgeRightWidth) - 2;
       if (d.y - window.scrollY <= 20) {
         if (!blockScrollTimer.current) {
           resetEdgeClass(edgeLeft);
@@ -155,10 +151,11 @@ export const Browser: React.FC<BrowserProps> = ({
       resetEdgeClass(edgeLeft);
       resetEdgeClass(edgeMaximized);
 
-      const edgeRightWidth = container.current?.clientWidth
-        ? container.current?.clientWidth
+      const edgeRightWidth = Number(container.current?.clientWidth)
+        ? Number(container.current?.clientWidth)
         : 0;
-      const edgeRightValue = boardContainer?.clientWidth - edgeRightWidth - 2;
+      const edgeRightValue =
+        Number(boardContainer?.clientWidth) - Number(edgeRightWidth) - 2;
       const edgeTopValue = d.y - window.scrollY;
 
       let resizeWidth;
@@ -166,7 +163,7 @@ export const Browser: React.FC<BrowserProps> = ({
 
       switch (d.x) {
         case 0:
-          resizeWidth = boardContainer?.clientWidth / 2 - 15;
+          resizeWidth = Number(boardContainer?.clientWidth) / 2 - 15;
           resizeHeight = window.innerHeight - 20;
           setX(10);
           setY(10 + scrollTop);
@@ -189,9 +186,9 @@ export const Browser: React.FC<BrowserProps> = ({
           break;
 
         case edgeRightValue:
-          resizeWidth = boardContainer?.clientWidth / 2 - 15;
+          resizeWidth = Number(boardContainer?.clientWidth) / 2 - 15;
           resizeHeight = window.innerHeight - 20;
-          setX(boardContainer?.clientWidth / 2 + 5);
+          setX(Number(boardContainer?.clientWidth) / 2 + 5);
           setY(10 + scrollTop);
           setRndWidth(resizeWidth);
           setRndHeight(resizeHeight);
@@ -200,7 +197,7 @@ export const Browser: React.FC<BrowserProps> = ({
               browserId: id,
               params: {
                 top: 10 + scrollTop,
-                left: boardContainer?.clientWidth / 2 + 5,
+                left: Number(boardContainer?.clientWidth) / 2 + 5,
                 width: resizeWidth,
                 height: resizeHeight,
               },
@@ -219,7 +216,7 @@ export const Browser: React.FC<BrowserProps> = ({
                 focus(id, true);
               }
               if (res === 'fit') {
-                resizeWidth = boardContainer?.clientWidth - 20;
+                resizeWidth = Number(boardContainer?.clientWidth) - 20;
                 resizeHeight = window.innerHeight - 20;
                 setX(10);
                 setY(10 + scrollTop);

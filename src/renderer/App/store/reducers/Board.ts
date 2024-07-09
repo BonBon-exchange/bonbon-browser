@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 } from 'uuid';
 
@@ -238,10 +237,8 @@ export const boardSlice = createSlice({
 
           setStateActiveBrowser(
             state,
-            state.board.browsersActivity[
-              state.board.browsersActivity.length - 1
-            ]
-          );
+            state.board.browsersActivity[state.board.browsersActivity.length - 1
+            ]);
         } else {
           state.board.activeBrowser = null;
           window.app.browser.selectBrowserView();

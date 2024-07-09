@@ -3,11 +3,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, ComponentType } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
-import { FixedSizeList as List } from 'react-window';
+import { FixedSizeList as List, ListChildComponentProps } from 'react-window';
 import AutoSize from 'react-virtualized-auto-sizer';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
@@ -20,32 +20,82 @@ import { HistoryProps } from './Types';
 
 import './style.scss';
 
-export const History: React.FC<HistoryProps> = ({
+const handleHistoryClick = (
+  url: string,
+  browser: any,
+  handleClose: () => void
+) => {
+  browser.add({ url });
+  handleClose();
+};
+
+const handleDeleteHistory = (
+  id: number,
+  items: HistoryType[],
+  setItems: Dispatch<React.SetStateAction<HistoryType[]>>
+) => {
+  window.app.history
+    .removeHistory(id)
+    .then(() => {
+      const newItems = [...items];
+      const index = newItems.findIndex((i) => i.id === id);
+      if (index > -1) newItems.splice(index, 1);
+      setItems(newItems);
+    })
+    .catch(console.log);
+};
+
+const Item = ({
+  data,
+  index,
+  style,
+  items,
+  setItems,
+  browser,
   handleClose,
-}: HistoryProps) => {
+}: {
+  data: HistoryType[];
+  index: number;
+  style: any;
+  items: HistoryType[];
+  setItems: Dispatch<React.SetStateAction<HistoryType[]>>;
+  browser: any;
+  handleClose: () => void;
+}) => {
+  return (
+    <div style={style}>
+      <div className="History__item" key={data[index].id}>
+        <div
+          className="History__item-text"
+          onClick={() =>
+            handleHistoryClick(data[index].url, browser, handleClose)
+          }
+        >
+          <div className="History__item-title">{data[index].title}</div>
+          <div className="History__item-date">{data[index].date}</div>
+          <div className="History__item-url">{data[index].url}</div>
+        </div>
+        <div className="History__item-controls">
+          <div
+            className="History__item-control"
+            onClick={() => handleDeleteHistory(data[index].id, items, setItems)}
+          >
+            <DeleteForeverIcon />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* eslint-disable react/prop-types */
+export const History = ({ handleClose }: HistoryProps) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [search, setSearch] = useState<string>('');
   const [items, setItems] = useState<HistoryType[]>([]);
   const [filteredItems, setFilteredItems] = useState<HistoryType[]>([]);
   const { browser } = useStoreHelpers();
-
-  const handleHistoryClick = (url: string) => {
-    browser.add({ url });
-    handleClose();
-  };
-
-  const handleDeleteHistory = (id: number) => {
-    window.app.history
-      .removeHistory(id)
-      .then(() => {
-        const newItems = [...items];
-        const index = newItems.findIndex((i) => i.id === id);
-        if (index > -1) newItems.splice(index, 1);
-        setItems(newItems);
-      })
-      .catch(console.log);
-  };
 
   const handleClearHistory = () => {
     window.app.history
@@ -54,39 +104,6 @@ export const History: React.FC<HistoryProps> = ({
         setItems([]);
       })
       .catch(console.log);
-  };
-
-  const Item = ({
-    data,
-    index,
-    style,
-  }: {
-    data: HistoryType[];
-    index: number;
-    style: any;
-  }) => {
-    return (
-      <div style={style}>
-        <div className="History__item" key={data[index].id}>
-          <div
-            className="History__item-text"
-            onClick={() => handleHistoryClick(data[index].url)}
-          >
-            <div className="History__item-title">{data[index].title}</div>
-            <div className="History__item-date">{data[index].date}</div>
-            <div className="History__item-url">{data[index].url}</div>
-          </div>
-          <div className="History__item-controls">
-            <div
-              className="History__item-control"
-              onClick={() => handleDeleteHistory(data[index].id)}
-            >
-              <DeleteForeverIcon />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
   };
 
   useEffect(() => {
@@ -141,10 +158,22 @@ export const History: React.FC<HistoryProps> = ({
                 height={height - 230}
                 itemCount={filteredItems.length}
                 width={800}
-                itemData={filteredItems}
+                itemData={filteredItems as unknown as History[]}
                 itemSize={110}
               >
-                {Item}
+                {
+                  ((data: any, index: any, style: any) => (
+                    <Item
+                      data={data}
+                      index={index}
+                      style={style}
+                      items={items}
+                      setItems={setItems}
+                      browser={browser}
+                      handleClose={handleClose}
+                    />
+                  )) as ComponentType<ListChildComponentProps<History[]>>
+                }
               </List>
             )}
           </AutoSize>

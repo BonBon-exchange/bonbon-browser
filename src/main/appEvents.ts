@@ -8,6 +8,7 @@ import { app, session } from 'electron';
 import contextMenu from 'electron-context-menu';
 import path from 'path';
 
+import { Electron } from 'namespaces/_electronist';
 import { event } from './analytics';
 import { makeAssociation } from './association';
 import {
@@ -118,7 +119,6 @@ const makeAppEvents = () => {
       const pathToPreloadScipt = app.isPackaged
         ? path.join(__dirname, '../../../assets/webview-preload.js')
         : path.join(__dirname, '../../assets/webview-preload.js');
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       wawevent.sender.session.setPreloads([`${pathToPreloadScipt}`]);
     });

@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export const KeyboardShortcuts: React.FC = () => {
+export const KeyboardShortcuts = () => {
   const { t } = useTranslation();
 
   useEffect(() => {

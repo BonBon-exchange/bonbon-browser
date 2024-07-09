@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export const WebpagesWindows: React.FC = () => {
+export const WebpagesWindows = () => {
   const { t } = useTranslation();
 
   useEffect(() => {

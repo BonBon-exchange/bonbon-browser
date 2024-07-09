@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-loop-func */
-
 import { BoardType } from 'renderer/App/components/Board/Types';
 
 /* eslint-disable import/prefer-default-export */

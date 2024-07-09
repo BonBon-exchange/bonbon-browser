@@ -171,7 +171,10 @@ export const getAllBookmarks = (): Promise<Bookmark[]> => {
             try {
               return {
                 ...row,
-                tags: JSON.parse((row.tags ?? "[]") as string).filter((t: any) => t !== null),
+                tags: JSON.parse((row.tags ?? '[]') as string).filter(
+                  (t: any) => t !== null
+                )
+                ,
               };
             } catch {
               return row;

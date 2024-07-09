@@ -1,11 +1,10 @@
 /* eslint-disable promise/catch-or-return */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/prefer-default-export */
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export const ExtensionsSettings: React.FC = () => {
+export const ExtensionsSettings = () => {
   const { t } = useTranslation();
   const [extForceUBlock, setForceUBlock] = useState<boolean>(false);
 

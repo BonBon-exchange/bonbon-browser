@@ -1,5 +1,4 @@
 /* eslint-disable promise/catch-or-return */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/prefer-default-export */
 import { useEffect, useState } from 'react';
@@ -7,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Locale } from 'types/i18n';
 
-export const ApplicationSettings: React.FC = () => {
+export const ApplicationSettings = () => {
   const { t, i18n } = useTranslation();
   const [appSettingLaunch, setAppSettingLaunch] = useState<boolean>(false);
 

@@ -1,6 +1,4 @@
 /* eslint-disable no-multi-assign */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable max-classes-per-file */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';

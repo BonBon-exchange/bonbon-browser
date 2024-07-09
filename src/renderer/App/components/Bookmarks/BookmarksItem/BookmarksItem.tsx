@@ -15,7 +15,7 @@ import { Tag } from 'types/bookmarks';
 
 import { BookmarksItemProps } from './Types';
 
-export const BookmarksItem: React.FC<BookmarksItemProps> = ({
+export const BookmarksItem = ({
   bookmark,
   handleDelete,
   handleClick,

@@ -11,6 +11,7 @@ import { ElectronChromeExtensions } from 'electron-chrome-extensions-production'
 import rimraf from 'rimraf';
 import request from 'request';
 
+import { Electron } from 'namespaces/_electronist';
 import { getStore } from './store';
 // eslint-disable-next-line import/no-cycle
 import { getMainWindow, getSelectedView } from './browser';
@@ -41,9 +42,8 @@ export const makeChromeExtensionSupport = () => {
     session: session.fromPartition('persist:user-partition'),
     modulePath: app.isPackaged
       ? path.join(
-          __dirname,
-          '../../../node_modules/electron-chrome-extensions-production'
-        )
+        __dirname,
+        '../../../node_modules/electron-chrome-extensions-production')
       : undefined,
     createTab(details) {
       return new Promise((resolve, reject) => {
@@ -115,7 +115,6 @@ const downloadChromeExtension = (
             return reject(err);
           }
           setTimeout(() => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             downloadChromeExtension(chromeStoreID, forceDownload, attempts - 1)
               .then(resolve)
               .catch(reject);

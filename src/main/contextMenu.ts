@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
 import { IpcMainEvent, BrowserWindow, Menu } from 'electron';
 import {

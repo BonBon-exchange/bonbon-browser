@@ -12,9 +12,7 @@ import { ExtensionsSettings } from './ExtensionsSettings';
 import './style.scss';
 import { SettingsProps } from './Types';
 
-export const Settings: React.FC<SettingsProps> = ({
-  handleClose,
-}: SettingsProps) => {
+export const Settings = ({ handleClose }: SettingsProps) => {
   const { t } = useTranslation();
   const [selectedView, setSelectedView] = useState<ReactElement>(
     <ApplicationSettings />

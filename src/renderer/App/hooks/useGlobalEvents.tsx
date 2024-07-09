@@ -1,9 +1,9 @@
 /* eslint-disable spaced-comment */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
 import { useCallback, useEffect, useState } from 'react';
 import { IpcRendererEvent } from 'electron';
 
+import { Electron } from 'namespaces/_electronist';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import {
   removeBrowser,

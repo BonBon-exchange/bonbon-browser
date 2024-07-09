@@ -13,9 +13,7 @@ import { DownloadsProps, DownloadType } from './Types';
 
 import './style.scss';
 
-export const Downloads: React.FC<DownloadsProps> = ({
-  handleClose,
-}: DownloadsProps) => {
+export const Downloads = ({ handleClose }: DownloadsProps) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState<string>('');
   const [items, setItems] = useState<DownloadType[]>([]);

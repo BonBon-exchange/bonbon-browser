@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable promise/always-return */
 /* eslint-disable promise/no-nesting */
 /* eslint-disable promise/catch-or-return */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
-import React, {
+import {
   FocusEventHandler,
   KeyboardEventHandler,
   useEffect,
@@ -33,10 +32,10 @@ import { BrowserControlBarProps } from './Types';
 
 import './style.scss';
 
-export const BrowserControlBar: React.FC<BrowserControlBarProps> = ({
+export const BrowserControlBar = ({
   url,
   browserId,
-}) => {
+}: BrowserControlBarProps) => {
   const [urlInputForSuggestion, setUrlInputForSuggestion] =
     useState<string>(url);
   const [urlInputForAutocomplete, setUrlInputForAutocomplete] =

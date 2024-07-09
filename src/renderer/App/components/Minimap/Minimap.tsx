@@ -17,9 +17,7 @@ import { MiniWindow, MiniView, MinimapProps } from './Types';
 
 import './style.scss';
 
-export const Minimap: React.FC<MinimapProps> = ({
-  handleHide,
-}: MinimapProps) => {
+export const Minimap = ({ handleHide }: MinimapProps) => {
   const board = useBoard();
   const [windows, setWindows] = useState<MiniWindow[]>([]);
   const [view, setView] = useState<MiniView>({

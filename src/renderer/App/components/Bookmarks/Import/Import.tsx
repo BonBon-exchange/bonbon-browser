@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
+/* eslint-disable react/no-unstable-nested-components */
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -16,7 +17,8 @@ import { ImportProps } from './Types';
 
 import './style.scss';
 
-export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
+/* eslint-disable react/prop-types */
+export const Import = ({ handleClose }: ImportProps) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState<string>('');
   const [items, setItems] = useState<Bookmark[]>([]);

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Provider } from 'react-redux';

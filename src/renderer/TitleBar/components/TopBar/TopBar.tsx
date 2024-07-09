@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
@@ -33,7 +32,7 @@ import { AppControls } from 'renderer/TitleBar/components/AppControls';
 import './style.scss';
 import { DownloadState } from './Types';
 
-export const TopBar: React.FC = () => {
+export const TopBar = () => {
   const [downloadState, setDownloadState] = useState<DownloadState>(null);
   const { tabs, activeTab, isRenaming } = useAppSelector(
     (state) => state.tabs as TabsState
@@ -175,7 +174,10 @@ export const TopBar: React.FC = () => {
     const scrollContainer = document.querySelector('#TopBar__tabs-container');
     const event = evt as WheelEvent;
     evt.preventDefault();
-    scrollContainer?.scroll(event.deltaY + scrollContainer?.scrollLeft, 0);
+    scrollContainer?.scroll(
+      Number(event.deltaY) + Number(scrollContainer?.scrollLeft),
+      0
+    );
   };
 
   const closeOthersTabListener = useCallback(

@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
+import { Electron } from 'namespaces/_electronist';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -12,9 +13,7 @@ import { ExtensionsProps } from './Types';
 
 import './style.scss';
 
-export const Extensions: React.FC<ExtensionsProps> = ({
-  handleClose,
-}: ExtensionsProps) => {
+export const Extensions = ({ handleClose }: ExtensionsProps) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState<string>('');
   const [items, setItems] = useState<Electron.Extension[]>([]);

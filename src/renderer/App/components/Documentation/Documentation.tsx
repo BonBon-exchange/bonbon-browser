@@ -13,9 +13,7 @@ import './style.scss';
 
 import { DocumentationProps } from './Types';
 
-export const Documentation: React.FC<DocumentationProps> = ({
-  handleClose,
-}: DocumentationProps) => {
+export const Documentation = ({ handleClose }: DocumentationProps) => {
   const { t } = useTranslation();
   const [selectedView, setSelectedView] = useState<ReactElement>(
     <KeyboardShortcuts />

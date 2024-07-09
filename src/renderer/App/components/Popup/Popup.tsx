@@ -10,11 +10,7 @@ import { PopupProps } from './Types';
 
 import './style.scss';
 
-export const Popup: React.FC<PopupProps> = ({
-  children,
-  closePopup,
-  title,
-}: PopupProps) => {
+export const Popup = ({ children, closePopup, title }: PopupProps) => {
   return (
     <div id="Popup__container">
       <CloseButton handleClose={closePopup} />
