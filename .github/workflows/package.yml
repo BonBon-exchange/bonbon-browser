@@ -25,7 +25,9 @@ jobs:
         run: npm ci --omit=dev
 
       - name: Compile
-        run: npm run build
+        run: |
+          npm install ts-node \
+          npm run build
 
       - name: Package
         env:
