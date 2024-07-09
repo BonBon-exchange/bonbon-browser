@@ -16,7 +16,7 @@ import { BrowserTopBarProps } from './Types';
 
 import './style.scss';
 
-export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
+export const BrowserTopBar = ({
   closeBrowser,
   toggleFullSizeBrowser,
   minimizeBrowser,
@@ -25,7 +25,7 @@ export const BrowserTopBar: React.FC<BrowserTopBarProps> = ({
   onClick,
   isLoading,
   isMaximized,
-}) => {
+}: BrowserTopBarProps) => {
   return (
     <div
       className="BrowserTopBar__container"

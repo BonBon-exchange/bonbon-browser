@@ -27,7 +27,7 @@ import icon from './icon.png';
 
 import './style.scss';
 
-export const LeftBar: React.FC = () => {
+export const LeftBar = () => {
   const dispatch = useAppDispatch();
   const boardState = useBoard();
   const { focus } = useBrowserMethods();

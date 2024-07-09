@@ -10,7 +10,7 @@ import './TitleBar.scss';
 import 'renderer/TitleBar/style/dark.css';
 import 'renderer/TitleBar/style/light.css';
 
-export const TitleBar: React.FC = () => {
+export const TitleBar = () => {
   const contextMenuListener = useCallback((e: MouseEvent) => {
     e.preventDefault();
     const target = e.target as HTMLDivElement;

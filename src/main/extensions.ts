@@ -6,7 +6,7 @@
 /* eslint-disable import/prefer-default-export */
 import fs from 'fs';
 import path from 'path';
-import { app, session } from 'electron';
+import Electron, { app, session } from 'electron';
 import { ElectronChromeExtensions } from 'electron-chrome-extensions-production';
 import rimraf from 'rimraf';
 import request from 'request';
@@ -41,9 +41,8 @@ export const makeChromeExtensionSupport = () => {
     session: session.fromPartition('persist:user-partition'),
     modulePath: app.isPackaged
       ? path.join(
-          __dirname,
-          '../../../node_modules/electron-chrome-extensions-production'
-        )
+        __dirname,
+        '../../../node_modules/electron-chrome-extensions-production')
       : undefined,
     createTab(details) {
       return new Promise((resolve, reject) => {
@@ -115,7 +114,6 @@ const downloadChromeExtension = (
             return reject(err);
           }
           setTimeout(() => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             downloadChromeExtension(chromeStoreID, forceDownload, attempts - 1)
               .then(resolve)
               .catch(reject);

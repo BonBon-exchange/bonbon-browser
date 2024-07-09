@@ -15,9 +15,7 @@ import { SearchFormProps } from './Types';
 
 import './style.scss';
 
-export const SearchForm: React.FC<SearchFormProps> = ({
-  browserId,
-}: SearchFormProps) => {
+export const SearchForm = ({ browserId }: SearchFormProps) => {
   const textFieldRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState<string>('');
   const [ordinal, setOrdinal] = useState<number>(0);

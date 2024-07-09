@@ -11,7 +11,7 @@ import { Unmaximize } from './Unmaximize';
 
 import './style.scss';
 
-export const AppControls: React.FC = () => {
+export const AppControls = () => {
   const [isMaximized, setIsMaxmized] = useState<boolean>(false);
 
   const handleClickMaximize = () => {

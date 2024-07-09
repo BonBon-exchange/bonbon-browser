@@ -2,7 +2,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
-import { useState, useEffect } from 'react';
+/* eslint-disable react/no-unstable-nested-components */
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@mui/material';
 import { FixedSizeList as List } from 'react-window';
@@ -19,9 +20,8 @@ import { BookmarksProps } from './Types';
 
 import './style.scss';
 
-export const Bookmarks: React.FC<BookmarksProps> = ({
-  handleClose,
-}: BookmarksProps) => {
+/* eslint-disable react/prop-types */
+export const Bookmarks = ({ handleClose }: BookmarksProps) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState<string>('');
   const [showImport, setShowImport] = useState<boolean>(false);

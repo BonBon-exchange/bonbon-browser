@@ -8,10 +8,7 @@ import { CloseButtonProps } from './Types';
 
 import './style.scss';
 
-export const CloseButton: React.FC<CloseButtonProps> = ({
-  handleClose,
-  customClass,
-}: CloseButtonProps) => {
+export const CloseButton = ({ handleClose, customClass }: CloseButtonProps) => {
   return (
     <div
       className={clsx('CloseButton__container', customClass)}

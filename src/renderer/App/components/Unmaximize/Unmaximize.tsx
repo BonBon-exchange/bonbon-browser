@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-export const Unmaximize: React.FC = () => {
+export const Unmaximize = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

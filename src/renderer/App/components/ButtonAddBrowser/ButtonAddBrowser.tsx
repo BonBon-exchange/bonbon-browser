@@ -8,8 +8,6 @@ import { ButtonAddBrowserProps } from './Types';
 
 import './style.css';
 
-export const ButtonAddBrowser: React.FC<ButtonAddBrowserProps> = ({
-  onClick,
-}) => {
+export const ButtonAddBrowser = ({ onClick }: ButtonAddBrowserProps) => {
   return <AddIcon id="ButtonAddBrowser" onClick={() => onClick({})} />;
 };

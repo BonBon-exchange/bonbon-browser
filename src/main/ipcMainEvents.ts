@@ -1,7 +1,5 @@
 /* eslint-disable promise/always-return */
 /* eslint-disable import/no-cycle */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/prefer-default-export */
 import AutoLaunch from 'easy-auto-launch';
 import {
@@ -223,23 +221,23 @@ export const makeIpcMainEvents = (): void => {
         store.set(args.key, args.value);
 
         switch (args.key) {
-          default:
-            break;
-
           case 'application.launchAtStartup':
             args.value === true
               ? bonbonAutoLauncher.enable().catch(() => {
-                  reject(
-                    new Error(`Couldn't enable BonBon Browser at startup.`)
-                  );
-                  rejected = true;
-                })
+                reject(
+                  new Error(`Couldn't enable BonBon Browser at startup.`)
+                );
+                rejected = true;
+              })
               : bonbonAutoLauncher.disable().catch(() => {
-                  reject(
-                    new Error(`Couldn't disable BonBon Browser at startup.`)
-                  );
-                  rejected = true;
-                });
+                reject(
+                  new Error(`Couldn't disable BonBon Browser at startup.`)
+                );
+                rejected = true;
+              });
+            break;
+
+          default:
             break;
         }
 

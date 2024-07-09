@@ -4,7 +4,7 @@ import loadingImg from 'renderer/App/svg/loading.svg';
 
 import './style.scss';
 
-export const Loader: React.FC = () => {
+export const Loader = () => {
   return (
     <div className="Loader__loading">
       <img src={loadingImg} />

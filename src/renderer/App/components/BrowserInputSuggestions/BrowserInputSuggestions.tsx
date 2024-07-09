@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable promise/always-return */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -9,9 +8,7 @@ import { BrowserInputSuggestionsProps, SuggestionItem } from './Types';
 
 import './style.scss';
 
-export const BrowserInputSuggestions: React.FC<
-  BrowserInputSuggestionsProps
-> = ({
+export const BrowserInputSuggestions = ({
   inputValue,
   handleSuggestionClick,
   setSelectedSuggestion,

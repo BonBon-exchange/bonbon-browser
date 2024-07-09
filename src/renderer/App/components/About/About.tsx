@@ -6,7 +6,7 @@ import packagejson from '../../../../../package.json';
 
 import './style.scss';
 
-export const About: React.FC = () => {
+export const About = () => {
   const { t } = useTranslation();
 
   useEffect(() => {

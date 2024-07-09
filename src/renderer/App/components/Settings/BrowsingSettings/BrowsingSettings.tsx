@@ -1,6 +1,5 @@
 /* eslint-disable promise/always-return */
 /* eslint-disable promise/catch-or-return */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/prefer-default-export */
 import { useEffect, useState } from 'react';
@@ -8,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import './style.scss';
 
-export const BrowsingSettings: React.FC = () => {
+export const BrowsingSettings = () => {
   const { t } = useTranslation();
   const [browsingSettingDefaultWebpage, setBrowsingSettingDefaultWebpage] =
     useState<string | undefined>('');

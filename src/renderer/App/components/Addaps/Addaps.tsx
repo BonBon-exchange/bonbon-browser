@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
-import React, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
+import JSX, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -33,7 +33,7 @@ const Popup = lazy(() => import('renderer/App/components/Popup'));
 const AppMenu = lazy(() => import('renderer/App/components/AppMenu'));
 const Minimap = lazy(() => import('renderer/App/components/Minimap'));
 
-export const Addaps: React.FC<AddapsProps> = ({ boardId }) => {
+export const Addaps = ({ boardId }: AddapsProps) => {
   useGlobalEvents();
   const { items } = useAppSelector((state) => state.downloads);
   const { board } = useStoreHelpers({ boardId });

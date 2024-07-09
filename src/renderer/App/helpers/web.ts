@@ -18,10 +18,6 @@ export const makeSearchUrl = async (search: string): Promise<string> => {
 
   const typedVal = val as string | undefined;
   switch (typedVal) {
-    case 'google':
-    default:
-      return `https://www.google.com/search?q=${search}`;
-
     case 'presearch':
       return `https://presearch.com/search?q=${search}`;
 
@@ -42,6 +38,10 @@ export const makeSearchUrl = async (search: string): Promise<string> => {
 
     case 'startpage':
       return `https://www.startpage.com/do/search?query=${search}`;
+
+    case 'google':
+    default:
+      return `https://www.google.com/search?q=${search}`;
   }
 };
 

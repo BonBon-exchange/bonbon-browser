@@ -1,5 +1,4 @@
 /* eslint-disable promise/always-return */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
@@ -22,7 +21,7 @@ import { BoardProps } from './Types';
 
 import './style.scss';
 
-export const Board: React.FC<BoardProps> = ({ isFullSize, boardId }) => {
+export const Board = ({ isFullSize, boardId }: BoardProps) => {
   const board = useBoard();
   const dispatch = useAppDispatch();
   const { focus } = useBrowserMethods();

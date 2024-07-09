@@ -1,7 +1,5 @@
 /* eslint-disable promise/always-return */
 /* eslint-disable no-case-declarations */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/prefer-default-export */
 import {
   PageFaviconUpdatedEvent,
@@ -42,9 +40,6 @@ export const useBrowserEvents = (browserId: string) => {
     (e: Event & { args?: unknown[] }) => {
       const event = e as unknown as IpcMessageEvent;
       switch (event.channel) {
-        default:
-          break;
-
         case 'mouseup':
           bringBrowserToTheFront(browserId);
           const mouseupEvent = new MouseEvent('mouseup');
@@ -158,6 +153,9 @@ export const useBrowserEvents = (browserId: string) => {
         case 'install-extension':
           const argsInstallExtension = e.args as unknown as [string];
           window.app.extension.installExtension(argsInstallExtension[0]);
+          break;
+
+        default:
           break;
       }
     },

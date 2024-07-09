@@ -16,7 +16,7 @@ import {
 
 import './style.scss';
 
-export const DownloadsPreview: React.FC = () => {
+export const DownloadsPreview = () => {
   const { t } = useTranslation();
   const { items }: DownloadsState = useAppSelector((state) => state.downloads);
   const dispatch = useAppDispatch();

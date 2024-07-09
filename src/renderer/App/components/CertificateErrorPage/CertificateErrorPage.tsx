@@ -9,7 +9,7 @@ import './style.scss';
 
 import { CertificateErrorPageProps } from './Types';
 
-export const CertificateErrorPage: React.FC<CertificateErrorPageProps> = ({
+export const CertificateErrorPage = ({
   webContentsId,
   browserId,
   fingerprint,

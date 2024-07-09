@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/no-deprecated */
 import '@testing-library/jest-dom';
 import { act } from 'react';
 import { render } from 'react-dom';

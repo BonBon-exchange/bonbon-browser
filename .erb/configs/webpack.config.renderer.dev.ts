@@ -1,3 +1,4 @@
+/* eslint-disable  import/no-import-module-exports */
 import 'webpack-dev-server';
 import path from 'path';
 import fs from 'fs';
@@ -19,7 +20,6 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 1212;
 const manifest = path.resolve(webpackPaths.dllPath, 'renderer.json');
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const requiredByDLLConfig = module.parent!.filename.includes(
   'webpack.config.renderer.dev.dll'
 );
@@ -103,12 +103,12 @@ const configuration: webpack.Configuration = {
     ...(requiredByDLLConfig
       ? []
       : [
-          new webpack.DllReferencePlugin({
-            context: webpackPaths.dllPath,
-            manifest: require(manifest),
-            sourceType: 'var',
-          }),
-        ]),
+        new webpack.DllReferencePlugin({
+          context: webpackPaths.dllPath,
+          manifest: require(manifest),
+          sourceType: 'var',
+        }),
+      ]),
 
     new webpack.NoEmitOnErrorsPlugin(),
 

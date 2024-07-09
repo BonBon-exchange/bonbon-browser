@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-loop-func */
 /* eslint-disable no-plusplus */
 /* eslint-disable promise/no-nesting */
 /* eslint-disable promise/always-return */
@@ -61,12 +60,6 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       let height;
 
       switch (defaultSize) {
-        default:
-        case 'defined':
-          width = defaultWidth;
-          height = defaultHeight;
-          break;
-
         case 'lastClosed':
           width = board.lastClosedBrowserDimensions
             ? board.lastClosedBrowserDimensions[0]
@@ -84,10 +77,19 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
             ? board.lastResizedBrowserDimensions[1]
             : defaultHeight;
           break;
+
+        case 'defined':
+        default:
+          width = defaultWidth;
+          height = defaultHeight;
+          break;
       }
 
       if (boardContainer)
-        width = Math.min(boardContainer?.clientWidth - 20, width);
+        width = Math.min(
+          Number(boardContainer?.clientWidth) - 20,
+          Number(width)
+        );
 
       height = height || DEFAULT_HEIGHT;
       width = width || DEFAULT_WIDTH;

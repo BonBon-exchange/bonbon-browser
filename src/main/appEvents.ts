@@ -4,7 +4,7 @@
 /* eslint-disable promise/no-callback-in-promise */
 /* eslint-disable promise/no-nesting */
 /* eslint-disable promise/always-return */
-import { app, session } from 'electron';
+import Electron, { app, session } from 'electron';
 import contextMenu from 'electron-context-menu';
 import path from 'path';
 
@@ -118,7 +118,6 @@ const makeAppEvents = () => {
       const pathToPreloadScipt = app.isPackaged
         ? path.join(__dirname, '../../../assets/webview-preload.js')
         : path.join(__dirname, '../../assets/webview-preload.js');
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       wawevent.sender.session.setPreloads([`${pathToPreloadScipt}`]);
     });

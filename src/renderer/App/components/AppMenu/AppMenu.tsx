@@ -7,7 +7,7 @@ import { AppMenuProps } from './Types';
 
 import './style.scss';
 
-export const AppMenu: React.FC<AppMenuProps> = ({
+export const AppMenu = ({
   showAbout,
   showSettings,
   showBookmarks,

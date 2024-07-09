@@ -30,7 +30,7 @@ describe('Library', () => {
       tree = renderer.create(
         <Provider store={store}>
           <Popup {...popupProps}>
-            <>Hello</>
+            <a href="/">Hello</a>
           </Popup>
         </Provider>
       );
