@@ -24,7 +24,7 @@ db.run(
 // migrate history table => add title column
 db.get(
   'SELECT COUNT(*) AS CNTREC FROM pragma_table_info("history") WHERE name="title"',
-  (_err, row) => {
+  (_err, row: { CNTREC: number }) => {
     if (row.CNTREC === 0) {
       db.run('ALTER TABLE history ADD title TEXT');
     }
@@ -34,7 +34,7 @@ db.get(
 // migrate history table => add domain column
 db.get(
   'SELECT COUNT(*) AS CNTREC FROM pragma_table_info("history") WHERE name="domain"',
-  (_err, row) => {
+  (_err, row: { CNTREC: number }) => {
     if (row.CNTREC === 0) {
       db.run('ALTER TABLE history ADD domain TEXT');
     }
@@ -44,7 +44,7 @@ db.get(
 // migrate bookmarks table => add domain column
 db.get(
   'SELECT COUNT(*) AS CNTREC FROM pragma_table_info("bookmarks") WHERE name="domain"',
-  (_err, row) => {
+  (_err, row: { CNTREC: number }) => {
     if (row.CNTREC === 0) {
       db.run('ALTER TABLE bookmarks ADD domain TEXT');
     }
@@ -54,7 +54,7 @@ db.get(
 // migrate history table => add host column
 db.get(
   'SELECT COUNT(*) AS CNTREC FROM pragma_table_info("history") WHERE name="host"',
-  (_err, row) => {
+  (_err, row: { CNTREC: number }) => {
     if (row.CNTREC === 0) {
       db.run('ALTER TABLE history ADD host TEXT');
     }
@@ -64,7 +64,7 @@ db.get(
 // migrate bookmarks table => add host column
 db.get(
   'SELECT COUNT(*) AS CNTREC FROM pragma_table_info("bookmarks") WHERE name="host"',
-  (_err, row) => {
+  (_err, row: { CNTREC: number }) => {
     if (row.CNTREC === 0) {
       db.run('ALTER TABLE bookmarks ADD host TEXT');
     }
