@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm ci --omit=dev
+          npm ci --omit=dev --legacy-peer-deps
 
       - name: Compile
         run: |
