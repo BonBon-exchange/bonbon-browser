@@ -24,5 +24,5 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": true
   },
-  "include": [".eslintrc.js", "src/types", "src/renderer", "src/main", "src/__tests__", ".erb/scripts", ".erb/mocks", ".erb/configs"],
+  "include": [".eslintrc.js", "src/types", "src/renderer", "src/main", "src/__tests__", ".erb/scripts", ".erb/mocks", ".erb/configs", "src/namespaces/_electronist.ts"],
   "exclude": ["test", "release/build", "release/app/dist", ".erb/dll", "assets"]}

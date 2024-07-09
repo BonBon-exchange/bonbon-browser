@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
-import JSX, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
+import React, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -48,7 +48,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   const [showDownloadsPreview, setShowDownloadsPreview] =
     useState<boolean>(false);
   const [popupTitle, setPopupTitle] = useState<string>('');
-  const [popupChildren, setPopupChildren] = useState<JSX.Element>();
+  const [popupChildren, setPopupChildren] = useState<React.JSX.Element>();
   const [showMinimap, setShowMinimap] = useState<boolean>(false);
   const { i18n } = useTranslation();
 

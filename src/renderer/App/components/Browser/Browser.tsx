@@ -4,7 +4,7 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/no-unknown-property */
-import Electron from 'electron';
+import { Electron } from 'namespaces/_electronist';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState, useMemo } from 'react';

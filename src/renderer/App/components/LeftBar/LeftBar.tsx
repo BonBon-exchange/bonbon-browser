@@ -2,12 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
-import React, {
-  ReactEventHandler,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactEventHandler, useCallback, useEffect, useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { Reorder } from 'framer-motion';
 import CloseIcon from '@mui/icons-material/Close';

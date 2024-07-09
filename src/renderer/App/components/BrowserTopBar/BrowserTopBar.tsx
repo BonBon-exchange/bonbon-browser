@@ -6,7 +6,6 @@
 import CloseIcon from '@mui/icons-material/Close';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import MinimizeIcon from '@mui/icons-material/Minimize';
-import React from 'react';
 
 import { Unmaximize } from 'renderer/App/components/Unmaximize';
 

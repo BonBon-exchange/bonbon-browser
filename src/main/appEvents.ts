@@ -4,10 +4,11 @@
 /* eslint-disable promise/no-callback-in-promise */
 /* eslint-disable promise/no-nesting */
 /* eslint-disable promise/always-return */
-import Electron, { app, session } from 'electron';
+import { app, session } from 'electron';
 import contextMenu from 'electron-context-menu';
 import path from 'path';
 
+import { Electron } from 'namespaces/_electronist';
 import { event } from './analytics';
 import { makeAssociation } from './association';
 import {

@@ -1,8 +1,9 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable import/prefer-default-export */
 import { useCallback, useEffect, useState } from 'react';
-import Electron, { IpcRendererEvent } from 'electron';
+import { IpcRendererEvent } from 'electron';
 
+import { Electron } from 'namespaces/_electronist';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import {
   removeBrowser,

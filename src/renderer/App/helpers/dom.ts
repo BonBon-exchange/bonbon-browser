@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import Electron from 'electron';
+import { Electron } from 'namespaces/_electronist';
 
 export const getContainerFromBrowserId = (browserId: string) => {
   const container = document.querySelector(`#Browser__${browserId}`);

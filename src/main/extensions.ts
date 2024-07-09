@@ -6,11 +6,12 @@
 /* eslint-disable import/prefer-default-export */
 import fs from 'fs';
 import path from 'path';
-import Electron, { app, session } from 'electron';
+import { app, session } from 'electron';
 import { ElectronChromeExtensions } from 'electron-chrome-extensions-production';
 import rimraf from 'rimraf';
 import request from 'request';
 
+import { Electron } from 'namespaces/_electronist';
 import { getStore } from './store';
 // eslint-disable-next-line import/no-cycle
 import { getMainWindow, getSelectedView } from './browser';

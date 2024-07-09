@@ -4,7 +4,7 @@
 /* eslint-disable no-use-before-define */
 import clsx from 'clsx';
 import { AnimatePresence } from 'framer-motion';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { Browser } from 'renderer/App/components/Browser';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
