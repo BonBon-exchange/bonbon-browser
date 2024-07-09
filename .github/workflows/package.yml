@@ -22,11 +22,12 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci --omit=dev
+        run: |
+          npm install ts-node \
+          npm ci --omit=dev
 
       - name: Compile
         run: |
-          npm install ts-node \
           npm run build
 
       - name: Package
