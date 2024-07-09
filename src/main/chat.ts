@@ -133,7 +133,7 @@ const connect = () => {
 }
 
 const initChat = () => {
-    connect();
+    //connect();
 }
 
 const endChat = () => {

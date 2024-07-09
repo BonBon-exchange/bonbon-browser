@@ -9,6 +9,8 @@ export default () => {
     useState<boolean>(false);
   const [shouldEnhighChatbar, setShouldEnhighChatbar] =
     useState<boolean>(false);
+  const [username, setUsername] = useState<string>('');
+
   const messageReceivedAction = useCallback(() => {
     setIsStateMessageReiceived(true);
     setTimeout(() => setIsStateMessageReiceived(false), 300);
@@ -44,6 +46,15 @@ export default () => {
         'message-received': isStateMessageReceived,
         'user-is-close': shouldEnhighChatbar,
       })}
-    />
+    >
+      <input
+        type="text"
+        id="chat-bar-set-username"
+        className={clsx({ hidden: !shouldEnhighChatbar })}
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="username"
+      />
+    </div>
   );
 };
