@@ -1,7 +1,13 @@
 import clsx from 'clsx';
 
 import './style.scss';
-import { useCallback, useState, useEffect, useRef } from 'react';
+import {
+  useCallback,
+  useState,
+  useEffect,
+  useRef,
+  KeyboardEventHandler,
+} from 'react';
 
 export default () => {
   const chatBarRef = useRef<HTMLDivElement>(null);
@@ -10,6 +16,13 @@ export default () => {
   const [shouldEnhighChatbar, setShouldEnhighChatbar] =
     useState<boolean>(false);
   const [username, setUsername] = useState<string>('');
+
+  const userNameOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Enter') {
+      window.app.chat.setUsername(username);
+      setUsername('');
+    }
+  };
 
   const messageReceivedAction = useCallback(() => {
     setIsStateMessageReiceived(true);
@@ -54,6 +67,7 @@ export default () => {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="username"
+        onKeyDown={userNameOnKeyDown}
       />
     </div>
   );

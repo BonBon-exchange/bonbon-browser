@@ -88,6 +88,17 @@ contextBridge.exposeInMainWorld('app', {
       return ipcRenderer.invoke('get-url-to-open');
     },
   },
+  chat: {
+    createdWebrtcParticipant: (webrtcParticipant: string) => {
+      ipcRenderer.send('created-webrtc-participant', webrtcParticipant);
+    },
+    createdWebrtcOffer: (webrtcOffer: string) => {
+      ipcRenderer.send('created-webrtc-offer', webrtcOffer);
+    },
+    setUsername: (username: string) => {
+      ipcRenderer.send('set-chat-username', username);
+    }
+  },
   config: {
     get: (key: string): Promise<unknown> =>
       ipcRenderer.invoke('get-store-value', key),

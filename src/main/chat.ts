@@ -24,30 +24,35 @@ let memory: Database
 
 const url = 'ws://echo.websocket.events/echo/BonBon/public_place';
 
-const myId = "dannybengal"; // Replace with your actual ID
-// const unregistrationMessage = JSON.stringify({ event: 'unregister', username: myId }); // Format your message``
+let username = ""
+// const unregistrationMessage = JSON.stringify({ event: 'unregister', usr: username }); // Format your message``
 
 const buildConnectionRequestMessage = (target: string, webrtcParticipant: string) => JSON.stringify({ event: 'connection-request', target, webrtcParticipant })
+
+const setUsername = (usr: string) => {
+    username = usr
+    console.log({ usr })
+}
 
 let ws: WebSocket;
 let reconnectInterval: any;
 let isConnected = false;
 
 // Function to add a new user
-const registerUser = async (username: string, magic: string) => {
+const registerUser = async (usr: string, magic: string) => {
     try {
-        await memory.run("INSERT INTO users (username, magic) VALUES (?, ?)", [username, magic]);
-        console.log(`User ${username} registered`);
+        await memory.run("INSERT INTO users (username, magic) VALUES (?, ?)", [usr, magic]);
+        console.log(`User ${usr} registered`);
     } catch (err: unknown) {
         console.error("Error registering user:", err);
     }
 }
 
 // Function to remove a user
-const unregisterUser = async (username: string) => {
+const unregisterUser = async (usr: string) => {
     try {
-        await memory.run("DELETE FROM users WHERE username = ?", [username]);
-        console.log(`User ${username} unregistered`);
+        await memory.run("DELETE FROM users WHERE username = ?", [usr]);
+        console.log(`User ${usr} unregistered`);
     } catch (err: unknown) {
         console.error("Error unregistering user:", err);
     }
@@ -63,11 +68,11 @@ const listUsers = async (callback: (users: Database) => any) => {
     }
 }
 
-const shakeHandWith = async (username: string) => {
-    await memory.all("SELECT webrtcOffer FROM users WHERE username = ?", [username], (rows: { webrtcOffer: string }[]) => {
-        getSelectedView()?.webContents.send('create-webrtc-participant', { webrtcOffer: rows[0].webrtcOffer, username })
+const shakeHandWith = async (usr: string) => {
+    await memory.all("SELECT webrtcOffer FROM users WHERE username = ?", [usr], (rows: { webrtcOffer: string }[]) => {
+        getSelectedView()?.webContents.send('create-webrtc-participant', { webrtcOffer: rows[0].webrtcOffer, usr })
         ipcMain.on('created-webrtc-participants', (_event, args: { webrtcParticipant: string }) => {
-            const connectionMessage = buildConnectionRequestMessage(username, `${args.webrtcParticipant}`)
+            const connectionMessage = buildConnectionRequestMessage(usr, `${args.webrtcParticipant}`)
             ws.send(connectionMessage);
         })
     });
@@ -91,11 +96,11 @@ const connect = () => {
 
         ipcMain.on('created-webrtc-offer', (_event, args: { webrtcOffer: string }) => {
             console.log('created webrtc offer', { args })
-            const registrationMessage = JSON.stringify({ event: 'register', username: myId, magic: "420", webrtcOffer: args.webrtcOffer }); // Format your message
+            const registrationMessage = JSON.stringify({ event: 'register', usr: username, magic: "420", webrtcOffer: args.webrtcOffer }); // Format your message
             ws.send(registrationMessage);
             clearInterval(reconnectInterval); // Clear reconnect interval if connected
             isConnected = true;
-            registerUser(myId, "420");
+            registerUser(username, "420");
         });
     });
 
@@ -105,12 +110,12 @@ const connect = () => {
         try {
             const parsedMessage = JSON.parse(message.toString());
             if (parsedMessage.event === 'register') {
-                const { username, magic } = parsedMessage;
-                await registerUser(username, magic);
+                const { usr, magic } = parsedMessage;
+                await registerUser(usr, magic);
             } else if (parsedMessage.event === 'unregister') {
-                const { username } = parsedMessage;
-                await unregisterUser(username);
-            } else if (parsedMessage.event === 'connection-request' && parsedMessage.target === myId) {
+                const { usr } = parsedMessage;
+                await unregisterUser(usr);
+            } else if (parsedMessage.event === 'connection-request' && parsedMessage.target === username) {
                 getSelectedView()?.webContents.send('connection-request', { webrtcParticipant: parsedMessage.webrtcParticipant })
             }
         } catch (error) {
@@ -127,7 +132,7 @@ const connect = () => {
     ws.on('close', (code, reason) => {
         console.log('WebSocket closed:', code, reason);
         isConnected = false;
-        unregisterUser(myId);
+        unregisterUser(username);
         reconnect(); // Attempt to reconnect on close
     });
 }
@@ -142,4 +147,4 @@ const endChat = () => {
 }
 
 // Export the listUsers function for external usage
-export { listUsers, initChat, endChat, shakeHandWith };
+export { listUsers, initChat, endChat, shakeHandWith, setUsername };

@@ -9,16 +9,16 @@ let webrtcDataChannel: RTCDataChannel = peerConnection.createDataChannel(
 );
 let webrtcOffer;
 
-peerConnection.oniceconnectionstatechange = function (e: unknown) {
+peerConnection.oniceconnectionstatechange = (e: unknown) => {
   const state = peerConnection.iceConnectionState;
   console.log('oniceconnectionstatechange', { e, state });
 };
 
-peerConnection.onicecandidate = function (e) {
+peerConnection.onicecandidate = (e) => {
   console.log('onicecandidate', { e });
 };
 
-peerConnection.ondatachannel = function (e) {
+peerConnection.ondatachannel = (e) => {
   webrtcDataChannel = e.channel;
   webrtcDataChannel.onopen = () => {
     console.log('ondatachannel/onopen/connected');

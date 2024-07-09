@@ -52,6 +52,7 @@ declare global {
       chat: {
         createdWebrtcParticipant: (webrtcParticipant: string) => void
         createdWebrtcOffer: (webrtcOffer: string) => void
+        setUsername: (username: string) => void
       };
       config: {
         get: (key: string) => Promise<unknown>;
