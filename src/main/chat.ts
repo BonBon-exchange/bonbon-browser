@@ -26,7 +26,7 @@ const url = 'ws://echo.websocket.events/echo/BonBon/public_place';
 
 let forProxyConnect: () => void;
 
-const userProxy = new Proxy({ username: "", magic: "" }, {
+const userProxy = new Proxy({ username: "", magic: "", askForMagic: true }, {
     set(target, property, value) {
         if (property === 'username' && target[property] !== value) {
             const wasEmpty = target[property] === "";
@@ -49,7 +49,7 @@ const userProxy = new Proxy({ username: "", magic: "" }, {
 
 // const unregistrationMessage = JSON.stringify({ event: 'unregister', usr: username }); // Format your message``
 
-const buildConnectionRequestMessage = (target: string, webrtcParticipant: string) => JSON.stringify({ event: 'connection-request', target, webrtcParticipant })
+const buildConnectionRequestMessage = (target: string, webrtcParticipant: string, username: string, magic: string) => JSON.stringify({ event: 'connection-request', target, webrtcParticipant, username, magic })
 
 const setUsername = (usr: string) => {
     userProxy.username = usr
@@ -142,8 +142,12 @@ const connect = () => {
             } else if (parsedMessage.event === 'unregister') {
                 const { usr } = parsedMessage;
                 await unregisterUser(usr);
-            } else if (parsedMessage.event === 'connection-request' && parsedMessage.target === userProxy.username) {
-                getSelectedView()?.webContents.send('connection-request', { webrtcParticipant: parsedMessage.webrtcParticipant })
+            } else if (parsedMessage.event === 'connection-request' && parsedMessage.target === userProxy.username && parsedMessage.username && parsedMessage.magic) {
+                if (parsedMessage.magic === userProxy.magic && parsedMessage.username === userProxy.username) {
+                    getSelectedView()?.webContents.send('connection-request', { webrtcParticipant: parsedMessage.webrtcParticipant })
+                } else {
+                    getSelectedView()?.webContents.send('unauthorized-attempt-to-contact-you', { ...parsedMessage })
+                }
             }
         } catch (error) {
             console.error("Error processing message:", error);
