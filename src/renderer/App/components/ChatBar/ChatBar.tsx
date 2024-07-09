@@ -7,30 +7,40 @@ import {
   useEffect,
   useRef,
   KeyboardEventHandler,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 
-export default ({
-  state,
-}: {
-  state: {
-    username?: string;
-    isMagic?: boolean;
-  };
-}) => {
+type ChatStateProps = {
+  username?: string;
+  isMagic?: boolean;
+  setChatState: Dispatch<
+    SetStateAction<{ username: string; isMagic: boolean }>
+  >;
+};
+
+export default (props: ChatStateProps) => {
   const chatBarRef = useRef<HTMLDivElement>(null);
   const magicInputRef = useRef<HTMLInputElement>(null);
   const [isStateMessageReceived, setIsStateMessageReiceived] =
     useState<boolean>(false);
   const [shouldEnhighChatbar, setShouldEnhighChatbar] =
     useState<boolean>(false);
-  const [username, setUsername] = useState<string>(state.username ?? '');
+  const [username, setUsername] = useState<string>(props.username ?? '');
   const [usernameHasBeenSet, setUsernameHasBeenSet] = useState<boolean>(
-    Number(state?.username?.length) > 0
+    Number(props?.username?.length) > 0
   );
   const [magic, setMagic] = useState<string>('');
   const [magicHasBeenSet, setMagicHasBeenSet] = useState<boolean>(
-    !!state.isMagic
+    props.isMagic ?? false
   );
+  const [componentChatState, setComponentChatState] = useState<{
+    username: string;
+    isMagic: boolean;
+  }>({
+    username: '',
+    isMagic: false,
+  });
   // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
   //  useState<boolean>(false);
 
@@ -84,6 +94,22 @@ export default ({
   useEffect(() => {
     if (usernameHasBeenSet) magicInputRef.current?.focus();
   }, [usernameHasBeenSet]);
+
+  useEffect(() => {
+    const currentState = componentChatState;
+    currentState.username = username;
+    currentState.isMagic = magicHasBeenSet;
+    setComponentChatState(currentState);
+  }, [username, magic]);
+
+  useEffect(() => {
+    props.setChatState(componentChatState);
+  }, [componentChatState]);
+
+  useEffect(() => {
+    setUsernameHasBeenSet(Number(props?.username?.length) > 0);
+    setMagicHasBeenSet(props?.isMagic ?? false);
+  }, [props]);
 
   return (
     <div

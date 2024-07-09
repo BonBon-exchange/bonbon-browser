@@ -18,7 +18,13 @@ export function App() {
   const [isLoadedBoard, setIsLoadedBoard] = useState<boolean | string>(false);
   const [boardId, setBoardId] = useState<string>('');
   const [isChatActive, setIsChatActive] = useState<boolean>(false);
-  const [chatState, setChatState] = useState<Object>({});
+  const [chatState, setChatState] = useState<{
+    isMagic: boolean;
+    username: string;
+  }>({
+    isMagic: false,
+    username: '',
+  });
   const persisted = useRef<any>(null);
 
   const loadBoardAction = useCallback(
@@ -44,10 +50,23 @@ export function App() {
 
   const handleEndChat = useCallback(() => {
     setIsChatActive(false);
-  }, [setIsChatActive]);
+    setChatState({
+      username: '',
+      isMagic: false,
+    });
+  }, [setIsChatActive, setChatState]);
 
   const handleChatState = useCallback(
-    (_e: IpcRendererEvent, args: { chatState: string }) => {
+    (
+      _e: IpcRendererEvent,
+      args: {
+        chatState: {
+          isMagic: boolean;
+          username: string;
+        };
+      }
+    ) => {
+      console.log({ args });
       setChatState(args.chatState);
     },
     [setChatState]
@@ -97,14 +116,24 @@ export function App() {
   }, [handleChatState]);
 
   useEffect(() => {
-    if (localStorage.getItem('isChatActive') === 'true') setIsChatActive(true);
+    localStorage.getItem('isChatActive') === 'true'
+      ? setIsChatActive(true)
+      : setIsChatActive(false);
   }, []);
+
+  console.log({ isChatActive, chatState });
 
   return isLoadedBoard ? (
     <Provider store={persisted.current?.store}>
       <PersistGate loading={null} persistor={persisted.current?.persistor}>
         <Addaps boardId={boardId} />
-        {isChatActive && <ChatBar state={chatState} />}
+        {isChatActive && (
+          <ChatBar
+            isMagic={chatState.isMagic}
+            username={chatState.username}
+            setChatState={setChatState}
+          />
+        )}
       </PersistGate>
     </Provider>
   ) : (

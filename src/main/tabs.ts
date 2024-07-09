@@ -18,16 +18,17 @@ export const selectTab = (args: IpcTabSelect) => {
     ? views[args.tabId]
     : createBrowserView();
 
+
+  views[args.tabId] = viewToShow;
+  setViews(views);
+  getMainWindow()?.setTopBrowserView(viewToShow);
+
   if (getState('isChatActive')) {
     viewToShow.webContents.send('init-chat');
     viewToShow.webContents.send('chat-state', { chatState: getState("chat") ?? {} });
   } else {
     viewToShow.webContents.send('end-chat');
   }
-
-  views[args.tabId] = viewToShow;
-  setViews(views);
-  getMainWindow()?.setTopBrowserView(viewToShow);
 
   viewToShow.webContents.send('load-board', {
     boardId: args.tabId,

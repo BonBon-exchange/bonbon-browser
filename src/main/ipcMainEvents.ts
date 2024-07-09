@@ -457,17 +457,21 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.on('init-chat', () => {
     if (getState('isChatActive') === true) {
       setState('isChatActive', false)
+      setState('chat', { username: "", isMagic: false })
       endChat()
       getSelectedView()?.webContents.send('end-chat');
     } else {
       setState('isChatActive', true)
       initChat()
       getSelectedView()?.webContents.send('init-chat');
+      getSelectedView()?.webContents.send('chat-state', { chatState: getState("chat") ?? {} });
+
     }
   });
 
   ipcMain.on('end-chat', () => {
     setState('isChatActive', false)
+    setState('chat', {})
     endChat()
     getSelectedView()?.webContents.send('end-chat');
   });
