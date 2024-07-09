@@ -21,10 +21,6 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: install ts-node
-        run: |
-          npm install ts-node
-
       - name: add ts-node-path
         if: runner.os == 'Windows'
         run: |
