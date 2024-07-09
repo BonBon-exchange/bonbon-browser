@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install chalk & npm ci --omit=dev
+          npm ci --omit=dev
 
       - name: Compile
         run: |
