@@ -83,6 +83,7 @@ import i18n from './i18n';
 import { getStore } from './store';
 import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
 import { setState } from './BonBon_Global_State';
+import { endChat, initChat } from './chat';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -455,11 +456,13 @@ export const makeIpcMainEvents = (): void => {
   // handle chat
   ipcMain.on('init-chat', () => {
     setState('isChatActive', true)
+    initChat()
     getSelectedView()?.webContents.send('init-chat');
   });
 
   ipcMain.on('end-chat', () => {
     setState('isChatActive', false)
+    endChat()
     getSelectedView()?.webContents.send('end-chat');
   });
 };
