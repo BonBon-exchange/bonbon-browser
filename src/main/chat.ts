@@ -5,7 +5,33 @@ import { open } from 'sqlite'
 // Setup in-memory SQLite database
 let memory: Database
 
+// webrtc peerconnection
+const peerConnection = new RTCPeerConnection();
+let webrtcDataChannel: RTCDataChannel = peerConnection.createDataChannel("BonBon/public_place");
+let webrtcOffer
+
+peerConnection.oniceconnectionstatechange = function (e: unknown) {
+    const state = peerConnection.iceConnectionState;
+    console.log('oniceconnectionstatechange', { e, state })
+};
+
+peerConnection.onicecandidate = function (e) {
+    console.log('onicecandidate', { e })
+};
+
+peerConnection.ondatachannel = function (e) {
+    webrtcDataChannel = e.channel;
+    webrtcDataChannel.onopen = () => {
+        console.log('ondatachannel/onopen/connected')
+    }
+    webrtcDataChannel.onmessage = function (onMessageEvent) {
+        console.log('onmessage', { onMessageEvent })
+    }
+};
+
 (async () => {
+    webrtcOffer = await peerConnection.createOffer()
+
     memory = await open({
         filename: ':memory:',
         driver: sqlite3.Database
@@ -15,6 +41,7 @@ let memory: Database
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE NOT NULL,
         magic TEXT,
+        webrtcOffer TEXT,
         registered_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
 })();
@@ -22,8 +49,10 @@ let memory: Database
 const url = 'ws://echo.websocket.events/echo/BonBon/public_place';
 
 const myId = "dannybengal"; // Replace with your actual ID
-const registrationMessage = JSON.stringify({ event: 'register', username: myId, magic: "420" }); // Format your message
-const unregistrationMessage = JSON.stringify({ event: 'unregister', username: myId }); // Format your message
+const registrationMessage = JSON.stringify({ event: 'register', username: myId, magic: "420", webrtcOffer }); // Format your message
+const unregistrationMessage = JSON.stringify({ event: 'unregister', username: myId }); // Format your message``
+
+const buildConnectionRequestMessage = (target: string, webrtcParticipant: string) => JSON.stringify({ event: 'connection-request', target, webrtcParticipant })
 
 let ws: WebSocket;
 let reconnectInterval: any;
@@ -59,6 +88,21 @@ const listUsers = async (callback: (users: Database) => any) => {
     }
 }
 
+const shakeHandWith = async (username: string) => {
+    const sdpConstraints = { optional: [{ RtpDataChannels: true }] };
+    await memory.all("SELECT webrtcOffer FROM users WHERE username = ?", [username], (rows: { webrtcOffer: string }[]) => {
+        const offerDesc = new RTCSessionDescription(rows[0].webrtcOffer as unknown as RTCSessionDescriptionInit);
+        peerConnection.setRemoteDescription(offerDesc)
+        peerConnection.createAnswer(sdpConstraints).then((answerDesc) => {
+            peerConnection.setLocalDescription(answerDesc)
+            const connectionMessage = buildConnectionRequestMessage(username, `${answerDesc}`)
+            ws.send(connectionMessage);
+            return true
+        })
+            .catch((e: unknown) => console.log({ e }))
+    });
+
+}
 const connect = () => {
     if (isConnected) return;
 
@@ -90,6 +134,9 @@ const connect = () => {
             } else if (parsedMessage.event === 'unregister') {
                 const { username } = parsedMessage;
                 await unregisterUser(username);
+            } else if (parsedMessage.event === 'connection-request' && parsedMessage.target === myId) {
+                const answerDesc = new RTCSessionDescription(JSON.parse(parsedMessage.webrtcParticipant));
+                peerConnection.setRemoteDescription(answerDesc);
             }
         } catch (error) {
             console.error("Error processing message:", error);
@@ -120,4 +167,4 @@ const endChat = () => {
 }
 
 // Export the listUsers function for external usage
-export { listUsers, initChat, endChat };
+export { listUsers, initChat, endChat, shakeHandWith };
