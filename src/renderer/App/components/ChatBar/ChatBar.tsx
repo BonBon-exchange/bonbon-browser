@@ -20,8 +20,8 @@ export default () => {
   const [usernameHasBeenSet, setUsernameHasBeenSet] = useState<boolean>(false);
   const [magic, setMagic] = useState<string>('');
   const [magicHasBeenSet, setMagicHasBeenSet] = useState<boolean>(false);
-  const [shouldShowMagicEffect, setShouldShowMagicEffect] =
-    useState<boolean>(false);
+  // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
+  //  useState<boolean>(false);
 
   const userNameOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Enter') {
@@ -36,9 +36,9 @@ export default () => {
       window.app.chat.setMagic(magic);
       setMagic('');
       setMagicHasBeenSet(true);
-      setShouldShowMagicEffect(true);
+      // setShouldShowMagicEffect(true);
       setTimeout(() => {
-        setShouldShowMagicEffect(false);
+        // setShouldShowMagicEffect(false);
       }, 400);
     }
   };

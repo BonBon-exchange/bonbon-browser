@@ -2,6 +2,8 @@ import WebSocket from 'ws';
 import sqlite3, { Database } from 'sqlite3';
 import { open } from 'sqlite'
 import { ipcMain } from 'electron';
+import { v4 } from 'uuid';
+
 import { getSelectedView } from './browser';
 
 // Setup in-memory SQLite database
@@ -15,10 +17,11 @@ let memory: Database
 
     await memory.exec(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        uuid TEXT NOT NULL,
         username TEXT NOT NULL,
         magic TEXT,
         webrtcOffer TEXT,
-        registered_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        registered_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     )`);
 })();
 
@@ -26,7 +29,7 @@ const url = 'ws://echo.websocket.events/echo/BonBon/public_place';
 
 let forProxyConnect: () => void;
 
-const userProxy = new Proxy({ username: "", magic: "", askForMagic: true }, {
+const userProxy = new Proxy({ username: "", magic: "", askForMagic: true, uuid: v4() }, {
     set(target, property, value) {
         if (property === 'username' && target[property] !== value) {
             const wasEmpty = target[property] === "";
@@ -66,9 +69,9 @@ let reconnectInterval: any;
 let isConnected = false;
 
 // Function to add a new user
-const registerUser = async (usr: string) => {
+const registerUser = async (usr: string, uuid: string) => {
     try {
-        await memory.run("INSERT INTO users (username) VALUES (?, ?)", [usr]);
+        await memory.run("INSERT INTO users (username, uuid) VALUES (?, ?)", [usr, uuid]);
         console.log(`User ${usr} registered`);
     } catch (err: unknown) {
         console.error("Error registering user:", err);
@@ -76,9 +79,9 @@ const registerUser = async (usr: string) => {
 }
 
 // Function to remove a user
-const unregisterUser = async (usr: string) => {
+const unregisterUser = async (usr: string, uuid: string) => {
     try {
-        await memory.run("DELETE FROM users WHERE username = ?", [usr]);
+        await memory.run("DELETE FROM users WHERE username = ? AND uuid = ?", [usr, uuid]);
         console.log(`User ${usr} unregistered`);
     } catch (err: unknown) {
         console.error("Error unregistering user:", err);
@@ -123,11 +126,11 @@ const connect = () => {
 
         ipcMain.on('created-webrtc-offer', (_event, args: { webrtcOffer: string }) => {
             console.log('created webrtc offer', { args })
-            const registrationMessage = JSON.stringify({ event: 'register', usr: userProxy.username, webrtcOffer: args.webrtcOffer }); // Format your message
+            const registrationMessage = JSON.stringify({ event: 'register', usr: userProxy.username, webrtcOffer: args.webrtcOffer, uuid: userProxy.uuid }); // Format your message
             ws.send(registrationMessage);
             clearInterval(reconnectInterval); // Clear reconnect interval if connected
             isConnected = true;
-            registerUser(userProxy.username);
+            registerUser(userProxy.username, userProxy.uuid);
         });
     });
 
@@ -137,11 +140,11 @@ const connect = () => {
         try {
             const parsedMessage = JSON.parse(message.toString());
             if (parsedMessage.event === 'register') {
-                const { usr, magic } = parsedMessage;
-                await registerUser(usr, magic);
+                const { usr, uuid } = parsedMessage;
+                await registerUser(usr, uuid);
             } else if (parsedMessage.event === 'unregister') {
-                const { usr } = parsedMessage;
-                await unregisterUser(usr);
+                const { usr, uuid } = parsedMessage;
+                await unregisterUser(usr, uuid);
             } else if (parsedMessage.event === 'connection-request' && parsedMessage.target === userProxy.username && parsedMessage.username && parsedMessage.magic) {
                 if (parsedMessage.magic === userProxy.magic && parsedMessage.username === userProxy.username) {
                     getSelectedView()?.webContents.send('connection-request', { webrtcParticipant: parsedMessage.webrtcParticipant })
@@ -163,7 +166,7 @@ const connect = () => {
     ws.on('close', (code, reason) => {
         console.log('WebSocket closed:', code, reason);
         isConnected = false;
-        unregisterUser(userProxy.username);
+        unregisterUser(userProxy.username, userProxy.uuid);
         reconnect(); // Attempt to reconnect on close
     });
 }
