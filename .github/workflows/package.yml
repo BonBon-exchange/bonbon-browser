@@ -36,7 +36,9 @@ jobs:
       - name: Package
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm exec electron-builder build --publish=never
+        run: |
+          npm install -g ts-node \
+          npm exec electron-builder build --publish=never
 
       - if: matrix.os == 'ubuntu-latest'
         name: Ubuntu release
