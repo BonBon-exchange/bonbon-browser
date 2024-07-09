@@ -49,8 +49,8 @@
   "main": "./src/main/main.ts",
   "scripts": {
     "build": "npx concurrently \"npm run buildmain\" \"npm run buildrenderer\"",
-    "buildmain": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
-    "buildrenderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
+    "buildmain": "npx cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true npx webpack --config ./.erb/configs/webpack.config.main.prod.ts",
+    "buildrenderer": "npx cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true npx webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
     "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts&",
     "preinstall": "node ./.erb/scripts/install-chalk.js",
     "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",

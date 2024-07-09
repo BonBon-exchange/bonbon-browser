@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import '@testing-library/jest-dom';
-import { act } from '@testing-library/react';
+import { act } from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
