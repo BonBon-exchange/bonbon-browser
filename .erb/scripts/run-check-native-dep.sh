@@ -4,7 +4,7 @@
 npm install ts-node
 
 # Run the check-native-dep.mjs script with the required loader
-node --loader ts-node/esm ./.erb/scripts/check-native-dep.mjs
+npx ts-node-esm ./.erb/scripts/check-native-dep.mjs
 
 # Check the exit status of the previous command and exit if it failed
 if [ $? -ne 0 ]; then
