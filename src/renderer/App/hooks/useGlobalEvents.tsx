@@ -243,7 +243,7 @@ export const useGlobalEvents = () => {
     [boardState.browsers]
   );
 
-  const initChatAction = useCallback((_e: IpcRendererEvent, args: {}) => {
+  const initChatAction = useCallback((_e: IpcRendererEvent) => {
     console.log('initchataction from global app events');
   }, []);
 
