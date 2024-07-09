@@ -30,7 +30,7 @@ jobs:
 
       - name: Compile
         run: |
-          npm install -g concurrently cross-env --legacy-peer-deps
+          npm install -g concurrently cross-env webpack webpack-cli --legacy-peer-deps
           npm run build
 
       - name: Package
