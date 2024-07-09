@@ -1,17 +1,66 @@
-import WebSocket from 'ws'
+import WebSocket from 'ws';
+import sqlite3, { Database } from 'sqlite3';
+import { open } from 'sqlite'
+
+// Setup in-memory SQLite database
+let memory: Database
+
+(async () => {
+    memory = await open({
+        filename: ':memory:',
+        driver: sqlite3.Database
+    }) as unknown as Database
+
+    await memory.exec(`CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE NOT NULL,
+        magic TEXT,
+        registered_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
+})();
 
 const url = 'ws://echo.websocket.events/echo/BonBon/public_place';
 
-const myId = "unique_user_id_123"; // Replace with your actual ID
-const registrationMessage = JSON.stringify({ event: 'register', userId: myId }); // Format your message
-const unregistrationMessage = JSON.stringify({ event: 'unregister', userId: myId }); // Format your message
+const myId = "dannybengal"; // Replace with your actual ID
+const registrationMessage = JSON.stringify({ event: 'register', username: myId, magic: "420" }); // Format your message
+const unregistrationMessage = JSON.stringify({ event: 'unregister', username: myId }); // Format your message
 
 let ws: WebSocket;
 let reconnectInterval: any;
-let isConnected = false
+let isConnected = false;
+
+// Function to add a new user
+const registerUser = async (username: string, magic: string) => {
+    try {
+        await memory.run("INSERT INTO users (username, magic) VALUES (?, ?)", [username, magic]);
+        console.log(`User ${username} registered`);
+    } catch (err: unknown) {
+        console.error("Error registering user:", err);
+    }
+}
+
+// Function to remove a user
+const unregisterUser = async (username: string) => {
+    try {
+        await memory.run("DELETE FROM users WHERE username = ?", [username]);
+        console.log(`User ${username} unregistered`);
+    } catch (err: unknown) {
+        console.error("Error unregistering user:", err);
+    }
+}
+
+// Function to list all registered users
+const listUsers = async (callback: (users: Database) => any) => {
+    try {
+        const rows = await memory.all("SELECT * FROM users");
+        callback(rows);
+    } catch (err: unknown) {
+        console.error("Error listing users:", err);
+    }
+}
 
 const connect = () => {
-    if (isConnected) return
+    if (isConnected) return;
 
     const reconnect = () => {
         console.log('Attempting to reconnect in 5 seconds...');
@@ -26,30 +75,49 @@ const connect = () => {
         console.log('Connected to echo server');
         ws.send(registrationMessage);
         clearInterval(reconnectInterval); // Clear reconnect interval if connected
-        isConnected = true
+        isConnected = true;
+        registerUser(myId, "420");
     });
 
-    ws.on('message', (message) => {
+    ws.on('message', async (message) => {
         console.log('Received echo:', message.toString());
-        // Process received echoes (other users' IDs, etc.) here
+
+        try {
+            const parsedMessage = JSON.parse(message.toString());
+            if (parsedMessage.event === 'register') {
+                const { username, magic } = parsedMessage;
+                await registerUser(username, magic);
+            } else if (parsedMessage.event === 'unregister') {
+                const { username } = parsedMessage;
+                await unregisterUser(username);
+            }
+        } catch (error) {
+            console.error("Error processing message:", error);
+        }
     });
 
     ws.on('error', (error) => {
         console.error('WebSocket error:', error);
+        isConnected = false;
         reconnect(); // Attempt to reconnect on error
     });
 
     ws.on('close', (code, reason) => {
         console.log('WebSocket closed:', code, reason);
+        isConnected = false;
+        unregisterUser(myId);
         reconnect(); // Attempt to reconnect on close
     });
 }
 
-export const initChat = () => {
-    connect()
+const initChat = () => {
+    connect();
 }
 
-export const endChat = () => {
+const endChat = () => {
     ws.send(unregistrationMessage);
-    ws.close()
+    ws.close();
 }
+
+// Export the listUsers function for external usage
+export { listUsers, initChat, endChat };
