@@ -136,7 +136,7 @@ export const History: React.FC<HistoryProps> = ({
           <Loader />
         ) : (
           <AutoSize>
-            {({ height }) => (
+            {({ height }: { height: number }) => (
               <List
                 height={height - 230}
                 itemCount={filteredItems.length}

@@ -30,7 +30,7 @@ export const addHistory = (args: {
             db.all(
               'SELECT id, date FROM history WHERE url = ? ORDER BY id DESC LIMIT 1',
               args.url,
-              (err, rows) => {
+              (err, rows: { id: number, date: number }[]) => {
                 if (err) {
                   reject(
                     new Error(
@@ -68,7 +68,7 @@ export const findHistoryByDomain = (
       `${input}%`,
       (err, rows) => {
         if (err) reject(err);
-        else resolve(rows);
+        else resolve(rows as DomainSuggestion[]);
       }
     );
   });

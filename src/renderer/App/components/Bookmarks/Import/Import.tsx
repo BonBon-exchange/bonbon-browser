@@ -159,7 +159,7 @@ export const Import: React.FC<ImportProps> = ({ handleClose }: ImportProps) => {
           placeholder={t('Search')}
         />
         <AutoSize>
-          {({ height }) => (
+          {({ height }: { height: number }) => (
             <List
               height={height - 290}
               itemCount={filteredItems.length}

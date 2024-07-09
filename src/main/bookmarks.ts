@@ -127,7 +127,7 @@ const getBookmark = (url: string): Promise<Bookmark> => {
       url,
       (err, row) => {
         if (err) reject(new Error(`Couldn't get bookmark: ${err.message}`));
-        else resolve(row);
+        else resolve(row as Bookmark);
       }
     );
   });
@@ -164,14 +164,14 @@ export const getAllBookmarks = (): Promise<Bookmark[]> => {
   return new Promise((resolve) => {
     db.all(
       'SELECT b.*, json_group_array(bt.tag) as tags FROM bookmarks b LEFT JOIN bookmarks_tags bt ON bt.bookmark_id = b.id GROUP BY b.id',
-      (err, rows) => {
+      (err, rows: Bookmark[]) => {
         if (err) console.log(err);
         resolve(
           rows.map((row) => {
             try {
               return {
                 ...row,
-                tags: JSON.parse(row.tags).filter((t: any) => t !== null),
+                tags: JSON.parse((row.tags ?? "[]") as string).filter((t: any) => t !== null),
               };
             } catch {
               return row;
@@ -245,7 +245,7 @@ export const getBookmarksTags = (): Promise<Tag[]> => {
   return new Promise((resolve, reject) => {
     db.all('SELECT DISTINCT tag FROM bookmarks_tags', (err, rows) => {
       if (err) reject(err);
-      else resolve(rows);
+      else resolve(rows as Tag[]);
     });
   });
 };
@@ -298,7 +298,7 @@ export const addBookmark = (args: {
                   db.get(
                     'SELECT id FROM bookmarks WHERE url = ?',
                     args.url,
-                    (_err, row) =>
+                    (_err, row: { id: number }) =>
                       resolve({
                         ...args,
                         id: row.id,
@@ -331,7 +331,7 @@ export const findBookmarksByDomain = (
       `${input}%`,
       (err, rows) => {
         if (err) reject(err);
-        else resolve(rows);
+        else resolve(rows as DomainSuggestion[]);
       }
     );
   });
@@ -344,7 +344,7 @@ export const findInBookmarks = (str: string): Promise<Bookmark[]> => {
       `%${str}%`,
       (err, rows) => {
         if (err) reject(new Error(`Couldn't get bookmarks: ${err.message}`));
-        else resolve(rows);
+        else resolve(rows as Bookmark[]);
       }
     );
   });

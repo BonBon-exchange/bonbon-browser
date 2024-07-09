@@ -141,7 +141,7 @@ export const Bookmarks: React.FC<BookmarksProps> = ({
             <Loader />
           ) : (
             <AutoSize>
-              {({ height }) => (
+              {({ height }: { height: number }) => (
                 <List
                   height={height - 230}
                   itemCount={filteredItems.length}
