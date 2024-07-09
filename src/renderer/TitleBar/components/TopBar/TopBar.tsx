@@ -31,7 +31,7 @@ import { AppControls } from 'renderer/TitleBar/components/AppControls';
 
 import './style.scss';
 import { DownloadState } from './Types';
-import { Magic } from '../Magic/Magic';
+import Magic from '../Magic/Magic';
 
 export const TopBar = () => {
   const [downloadState, setDownloadState] = useState<DownloadState>(null);
