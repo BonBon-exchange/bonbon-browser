@@ -11,6 +11,7 @@ import './i18n';
 import 'renderer/App/style/dark.css';
 import 'renderer/App/style/light.css';
 import './App.css';
+import { IpcRendererEvent } from 'electron';
 
 export function App() {
   const [isLoadedBoard, setIsLoadedBoard] = useState<boolean | string>(false);
@@ -18,7 +19,7 @@ export function App() {
   const persisted = useRef<any>(null);
 
   const loadBoardAction = useCallback(
-    (_e: any, args: { boardId: string }) => {
+    (_e: IpcRendererEvent, args: { boardId: string }) => {
       if (args.boardId === boardId) return;
       persisted.current = getPersistedStoreAndPersistor(args.boardId);
       setBoardId(args.boardId);
