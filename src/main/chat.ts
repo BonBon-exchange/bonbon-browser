@@ -25,7 +25,7 @@ let memory: Database
 const url = 'ws://echo.websocket.events/echo/BonBon/public_place';
 
 const myId = "dannybengal"; // Replace with your actual ID
-const unregistrationMessage = JSON.stringify({ event: 'unregister', username: myId }); // Format your message``
+// const unregistrationMessage = JSON.stringify({ event: 'unregister', username: myId }); // Format your message``
 
 const buildConnectionRequestMessage = (target: string, webrtcParticipant: string) => JSON.stringify({ event: 'connection-request', target, webrtcParticipant })
 
@@ -133,12 +133,12 @@ const connect = () => {
 }
 
 const initChat = () => {
-    //connect();
+    // connect();
 }
 
 const endChat = () => {
-    ws.send(unregistrationMessage);
-    ws.close();
+    // ws.send(unregistrationMessage);
+    // ws.close();
 }
 
 // Export the listUsers function for external usage

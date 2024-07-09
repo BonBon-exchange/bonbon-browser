@@ -41,6 +41,10 @@ export function App() {
     setIsChatActive(true);
   }, [setIsChatActive]);
 
+  const handleEndChat = useCallback(() => {
+    setIsChatActive(false);
+  }, [setIsChatActive]);
+
   useEffect(() => {
     window.app.listener.loadBoard(loadBoardAction);
     return () => window.app.off.loadBoard();
@@ -73,6 +77,11 @@ export function App() {
     window.app.listener.initChat(handleInitChat);
     return () => window.app.off.initChat();
   }, [handleInitChat]);
+
+  useEffect(() => {
+    window.app.listener.endChat(handleEndChat);
+    return () => window.app.off.endChat();
+  }, [handleEndChat]);
 
   useEffect(() => {
     if (localStorage.getItem('isChatActive') === 'true') setIsChatActive(true);
