@@ -450,4 +450,13 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.handle('is-app-maximized', () => {
     return getMainWindow()?.isMaximized() || false;
   });
+
+  // handle chat
+  ipcMain.on('init-chat', () => {
+    getSelectedView()?.webContents.send('init-chat');
+  });
+
+  ipcMain.on('end-chat', () => {
+    getSelectedView()?.webContents.send('end-chat');
+  });
 };

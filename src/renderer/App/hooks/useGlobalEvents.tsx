@@ -243,6 +243,10 @@ export const useGlobalEvents = () => {
     [boardState.browsers]
   );
 
+  const initChatAction = useCallback((_e: IpcRendererEvent, args: {}) => {
+    console.log('initchataction from global app events');
+  }, []);
+
   useEffect(() => {
     window.app.listener.setDefaultWindowSize(setDefaultWindowSizeAction);
     return () => window.app.off.setDefaultWindowSize();
@@ -302,6 +306,11 @@ export const useGlobalEvents = () => {
     window.addEventListener('scroll', scrollListener);
     return () => window.removeEventListener('scroll', scrollListener);
   }, [scrollListener]);
+
+  useEffect(() => {
+    window.app.listener.initChat(initChatAction);
+    return () => window.app.off.initChat();
+  }, [initChatAction]);
 
   useEffect(() => {
     //@ts-ignore
