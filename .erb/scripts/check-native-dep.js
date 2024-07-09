@@ -1,9 +1,9 @@
 import fs from 'fs';
-import chalk from 'chalk';
 import { execSync } from 'child_process';
 import { dependencies } from '../../package.json';
 
 if (dependencies) {
+  const chalk = (await import('chalk')).default;
   const dependenciesKeys = Object.keys(dependencies);
   const nativeDeps = fs
     .readdirSync('node_modules')
