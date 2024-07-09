@@ -92,6 +92,9 @@ declare global {
         initChat: (action: unknown) => void;
         endChat: (action: unknown) => void;
         chatMessageReceived: (action: unknown) => void;
+        createWebrtcOffer: (action: unknown) => void;
+        createWebrtcParticipant: (action: unknown) => void;
+        webrtcConnectionRequest: (action: unknown) => void;
       };
       off: {
         newWindow: () => void;
@@ -113,6 +116,9 @@ declare global {
         initChat: () => void;
         endChat: () => void;
         chatMessageReceived: () => void;
+        createWebrtcOffer: () => void;
+        createWebrtcParticipant: () => void;
+        webrtcConnectionRequest: () => void;
       };
       tools: {
         inspectElement: (point: IpcInspectElement) => void;

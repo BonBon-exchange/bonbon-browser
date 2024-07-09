@@ -215,6 +215,15 @@ contextBridge.exposeInMainWorld('app', {
     },
     chatMessageReceived: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
       ipcRenderer.on('chat-message-received', action);
+    },
+    createWebrtcOffer: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
+      ipcRenderer.on('create-webrtc-offer', action);
+    },
+    createWebrtcParticipant: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
+      ipcRenderer.on('create-webrtc-participant', action);
+    },
+    webrtcConnectionRequest: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
+      ipcRenderer.on('wehrtc-connection-request', action);
     }
   },
   off: {
@@ -269,6 +278,15 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.removeAllListeners('chat-message-received');
     },
+    createWebrtcOffer: () => {
+      ipcRenderer.removeAllListeners('create-webrtc-offer');
+    },
+    createWebrtcParticipant: () => {
+      ipcRenderer.removeAllListeners('create-webrtc-participant');
+    },
+    webrtcConnectionRequest: () => {
+      ipcRenderer.removeAllListeners('wehrtc-connection-request');
+    }
   },
   tools: {
     inspectElement: (point: IpcInspectElement) => {
