@@ -47,6 +47,13 @@ export default (props: ChatStateProps) => {
 
   const contactMagicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Enter') {
+      window.app.chat.createRunner({
+        action: 'contact',
+        context: {
+          username: inputContactUsername,
+          magic: inputContactMagic,
+        },
+      });
       // window.app.chat.setUsername(inputUsername);
       // setInputContactMagic(inputContactMagic);
       // setInputUsername('');

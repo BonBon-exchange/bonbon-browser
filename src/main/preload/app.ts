@@ -3,6 +3,7 @@ import { TFunction } from 'react-i18next';
 
 import { EventParams } from 'types/analytics';
 import { Bookmark, Provider, Tag } from 'types/bookmarks';
+import { ChatRunner } from 'types/chat';
 import { Download } from 'types/downloads';
 import { Extension } from 'types/extensions';
 import { Locale } from 'types/i18n';
@@ -100,6 +101,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     setMagic: (magic: string) => {
       ipcRenderer.send('set-chat-magic', magic);
+    },
+    createRunner: (runner: ChatRunner) => {
+      ipcRenderer.send('create-chat-runner', runner)
     }
   },
   config: {
