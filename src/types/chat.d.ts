@@ -10,3 +10,5 @@ export type ChatState = {
     isMagic: boolean,
     runners?: Record<ChatRunnerId, ChatRunner>
 }
+
+export type ChatView = "" | "home" | "meet" | "contact" | ReturnType<(runnerId: string, hostView: string) => `${hostView}:runner-${runnerId}`>

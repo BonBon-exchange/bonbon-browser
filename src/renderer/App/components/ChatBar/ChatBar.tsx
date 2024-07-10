@@ -47,17 +47,15 @@ export default (props: ChatStateProps) => {
 
   const contactMagicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Enter') {
-      window.app.chat.createRunner({
+      const runnerId = window.app.chat.createRunner({
         action: 'contact',
         context: {
           username: inputContactUsername,
           magic: inputContactMagic,
         },
       });
-      // window.app.chat.setUsername(inputUsername);
-      // setInputContactMagic(inputContactMagic);
-      // setInputUsername('');
-      // setUsernameHasBeenSet(true);
+
+      setChatView(`runner:${runnerId}`);
     }
   };
 
@@ -66,10 +64,6 @@ export default (props: ChatStateProps) => {
   ) => {
     if (e.key === 'Enter') {
       inputContactMagicRef.current?.focus();
-      // window.app.chat.setUsername(inputUsername);
-      // setUsername(inputUsername);
-      // setInputUsername('');
-      // setUsernameHasBeenSet(true);
     }
   };
 

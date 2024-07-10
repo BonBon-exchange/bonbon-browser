@@ -491,8 +491,9 @@ export const makeIpcMainEvents = (): void => {
     setState("chat", chat)
   })
 
-  ipcMain.on('create-chat-runner', (_e, runner: ChatRunner) => {
+  ipcMain.handle('create-chat-runner', (_e, runner: ChatRunner) => {
     const [chatRunnerId, chatRunner] = createRunner(runner)
     setStateAt(`chat.runners.${chatRunnerId}`, chatRunner)
+    return chatRunnerId
   })
 };

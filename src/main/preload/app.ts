@@ -103,7 +103,7 @@ contextBridge.exposeInMainWorld('app', {
       ipcRenderer.send('set-chat-magic', magic);
     },
     createRunner: (runner: ChatRunner) => {
-      ipcRenderer.send('create-chat-runner', runner)
+      ipcRenderer.invoke('create-chat-runner', runner)
     }
   },
   config: {
