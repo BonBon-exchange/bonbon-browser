@@ -1,13 +1,50 @@
 {
   "name": "BonBon",
   "version": "0.30.6",
-  "description": "BonBon Web Browser",
+  "description": "BonBon Browser",
   "license": "GPL-3.0",
   "author": {
     "name": "Daniel Febrero",
-    "email": "febrero@me.com",
-    "url": "https://github.com/BonBon-exchange/bonbon-web-browser"
+    "email": "febrero.daniel@gmail.com",
+    "socials": {
+      "bsky": "danielfebrero.bsky.social"
+    },
+    "url": "https://github.com/BonBon-exchange/bonbon-browser"
   },
+  "contributors": [
+    {
+      "name": "Daniel Febrero",
+      "email": "febrero.daniel@gmail.com"
+    },
+    {
+      "name": "Anthony Cettour",
+      "email": ""
+    },
+    {
+      "name": "0xCUBE",
+      "email": ""
+    },
+    {
+      "name": "Nuklusone",
+      "email": ""
+    },
+    {
+      "name": "Aitor",
+      "email": ""
+    },
+    {
+      "name": "Howard Huang",
+      "email": ""
+    },
+    {
+      "name": "Faouzi Benali",
+      "email": ""
+    },
+    {
+      "name": "Daniel Callus",
+      "email": ""
+    }
+  ],
   "main": "./dist/main/main.js",
   "scripts": {
     "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
