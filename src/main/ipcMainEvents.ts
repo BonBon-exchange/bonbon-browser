@@ -84,6 +84,7 @@ import { getStore } from './store';
 import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
 import { getState, setState } from './BonBon_Global_State';
 import { endChat, initChat, setUsername, setMagic } from './chat';
+import { ChatRunner } from 'types/chat';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -488,5 +489,9 @@ export const makeIpcMainEvents = (): void => {
     const chat = getState("chat") ?? {}
     chat.isMagic = true
     setState("chat", chat)
+  })
+
+  ipcMain.on('create-chat-runner', (_e, runner: ChatRunner) => {
+
   })
 };
