@@ -176,7 +176,7 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 
 ## 🤟 Team
 
-- Dani ([@danielfebrero](https://github.com/danielfebrero))
+- danny bengal ([@danielfebrero](https://github.com/danielfebrero))
 - Antho
 - 0xCUBE ([@0xCUB3](https://github.com/0xCUB3))
 - Nuklusone
