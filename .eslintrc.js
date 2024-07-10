@@ -17,7 +17,8 @@ module.exports = {
     'react/no-unused-prop-types': 'off',
     'prettier/prettier': 'off',
     'react/destructuring-assignment': 'off',
-    'jsx-a11y/no-static-element-interactions': 'off'
+    'jsx-a11y/no-static-element-interactions': 'off',
+    'no-restricted-syntax': 'off'
   },
   parserOptions: {
     ecmaVersion: 2020,

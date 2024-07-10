@@ -85,7 +85,6 @@ import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
 import { getState, setState, setStateAt } from './BonBon_Global_State';
 import { endChat, initChat, setUsername, setMagic, createRunner } from './chat';
 import { ChatRunner } from 'types/chat';
-import { v4 } from 'uuid';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};

@@ -10,7 +10,7 @@ export const getState = (key: string) => state[key]
 export const getStateAt = (path: string) => {
     const keys = path.split('.')
     const stateAt = keys.reduce((acc, val) => {
-        return acc[val]
+        return acc?.[val] ?? undefined
     }, state)
     return stateAt
 }
