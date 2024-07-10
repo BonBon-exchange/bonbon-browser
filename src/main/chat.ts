@@ -28,8 +28,8 @@ let memory: Database
 const url = 'ws://echo.websocket.events/echo/BonBon/public_place';
 
 let forProxyConnect: () => void;
-
-const userProxy = new Proxy({ username: "", magic: "", askForMagic: true, uuid: v4() }, {
+const uuidv4 = v4()
+const userProxy = new Proxy({ username: "", magic: "", askForMagic: true, uuid: uuidv4 }, {
     set(target, property, value) {
         if (property === 'username' && target[property] !== value) {
             const wasEmpty = target[property] === "";
@@ -46,7 +46,7 @@ const userProxy = new Proxy({ username: "", magic: "", askForMagic: true, uuid: 
         return true;
     },
     get(target, property) {
-        return ["username", "magic"].includes(property.toString()) ? target[property.toString() as "username" | "magic"] : null;
+        return ["username", "magic", "uuid"].includes(property.toString()) ? target[property.toString() as "username" | "magic" | "uuid"] : null;
     }
 });
 
