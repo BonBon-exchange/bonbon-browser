@@ -134,6 +134,7 @@ export const createWindow = async (): Promise<BrowserWindowType> => {
   mainWindow.webContents.executeJavaScript(
     `localStorage.setItem("machineId", "${machineId}"); \
     localStorage.setItem("appIsPackaged", "${app.isPackaged}"); \
+    localStorage.setItem("chatState", "${JSON.stringify(getState('chat'))}"); \
     localStorage.setItem("isChatActive", "${getState('isChatActive')}");`,
     true
   );

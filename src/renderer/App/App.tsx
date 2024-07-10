@@ -119,6 +119,13 @@ export function App() {
     localStorage.getItem('isChatActive') === 'true'
       ? setIsChatActive(true)
       : setIsChatActive(false);
+
+    try {
+      const state = JSON.parse(localStorage.getItem('chat') ?? '{}');
+      setChatState(state);
+    } catch (e) {
+      console.log({ e });
+    }
   }, []);
 
   console.log({ isChatActive, chatState });

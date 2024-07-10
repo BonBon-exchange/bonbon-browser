@@ -15,7 +15,8 @@ module.exports = {
     'no-loop-func': 'off',
     'react/function-component-definition': 'off',
     'react/no-unused-prop-types': 'off',
-    'prettier/prettier': 'off'
+    'prettier/prettier': 'off',
+    'react/destructuring-assignment': 'off'
   },
   parserOptions: {
     ecmaVersion: 2020,

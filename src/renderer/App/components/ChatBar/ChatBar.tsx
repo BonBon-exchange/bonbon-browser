@@ -12,8 +12,8 @@ import {
 } from 'react';
 
 type ChatStateProps = {
-  username?: string;
-  isMagic?: boolean;
+  username: string;
+  isMagic: boolean;
   setChatState: Dispatch<
     SetStateAction<{ username: string; isMagic: boolean }>
   >;
@@ -89,27 +89,33 @@ export default (props: ChatStateProps) => {
     return () => {
       window.removeEventListener('mousemove', mouseMoveAction);
     };
-  });
+  }, [mouseMoveAction]);
 
   useEffect(() => {
     if (usernameHasBeenSet) magicInputRef.current?.focus();
-  }, [usernameHasBeenSet]);
+  }, [usernameHasBeenSet, magicInputRef]);
 
   useEffect(() => {
     const currentState = componentChatState;
     currentState.username = username;
     currentState.isMagic = magicHasBeenSet;
     setComponentChatState(currentState);
-  }, [username, magic]);
+  }, [
+    username,
+    magic,
+    componentChatState,
+    magicHasBeenSet,
+    setComponentChatState,
+  ]);
 
   useEffect(() => {
     props.setChatState(componentChatState);
-  }, [componentChatState]);
+  }, [componentChatState, props]);
 
   useEffect(() => {
     setUsernameHasBeenSet(Number(props?.username?.length) > 0);
     setMagicHasBeenSet(props?.isMagic ?? false);
-  }, [props]);
+  }, [props, setUsernameHasBeenSet, setMagicHasBeenSet]);
 
   return (
     <div
