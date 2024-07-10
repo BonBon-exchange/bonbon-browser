@@ -121,8 +121,12 @@ export function App() {
       : setIsChatActive(false);
 
     try {
-      const state = JSON.parse(localStorage.getItem('chat') ?? '{}');
-      setChatState(state);
+      const lsstate = localStorage.getItem('chat');
+      if (lsstate && lsstate.length > 0) {
+        const state = JSON.parse(lsstate);
+        setChatState(state);
+        localStorage.setItem('chatState', '');
+      }
     } catch (e) {
       console.log({ e });
     }

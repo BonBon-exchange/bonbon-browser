@@ -27,6 +27,7 @@ export default (props: ChatStateProps) => {
   const [shouldEnhighChatbar, setShouldEnhighChatbar] =
     useState<boolean>(false);
   const [username, setUsername] = useState<string>(props.username ?? '');
+  const [inputUsername, setInputUsername] = useState<string>('');
   const [usernameHasBeenSet, setUsernameHasBeenSet] = useState<boolean>(
     Number(props?.username?.length) > 0
   );
@@ -38,16 +39,17 @@ export default (props: ChatStateProps) => {
     username: string;
     isMagic: boolean;
   }>({
-    username: '',
-    isMagic: false,
+    username: props.username,
+    isMagic: props.isMagic,
   });
   // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
   //  useState<boolean>(false);
 
   const userNameOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Enter') {
-      window.app.chat.setUsername(username);
-      setUsername('');
+      window.app.chat.setUsername(inputUsername);
+      setUsername(inputUsername);
+      setInputUsername('');
       setUsernameHasBeenSet(true);
     }
   };
@@ -109,6 +111,9 @@ export default (props: ChatStateProps) => {
   ]);
 
   useEffect(() => {
+    const currentState = componentChatState;
+    currentState.username = props.username;
+    currentState.isMagic = props.isMagic;
     props.setChatState(componentChatState);
   }, [componentChatState, props]);
 
@@ -127,30 +132,32 @@ export default (props: ChatStateProps) => {
         // 'magic-effect': shouldShowMagicEffect,
       })}
     >
-      {!usernameHasBeenSet && (
+      {!usernameHasBeenSet && !(componentChatState.username?.length > 0) && (
         <input
           type="text"
           id="chat-bar-set-username"
           className={clsx({ hidden: !shouldEnhighChatbar })}
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={inputUsername}
+          onChange={(e) => setInputUsername(e.target.value)}
           placeholder="username"
           onKeyDown={userNameOnKeyDown}
         />
       )}
 
-      {usernameHasBeenSet && !magicHasBeenSet && (
-        <input
-          type="text"
-          id="chat-bar-set-magic"
-          ref={magicInputRef}
-          className={clsx({ hidden: !shouldEnhighChatbar })}
-          value={magic}
-          onChange={(e) => setMagic(e.target.value)}
-          placeholder="magic"
-          onKeyDown={magicOnKeyDown}
-        />
-      )}
+      {!magicHasBeenSet &&
+        usernameHasBeenSet &&
+        !componentChatState.isMagic && (
+          <input
+            type="text"
+            id="chat-bar-set-magic"
+            ref={magicInputRef}
+            className={clsx({ hidden: !shouldEnhighChatbar })}
+            value={magic}
+            onChange={(e) => setMagic(e.target.value)}
+            placeholder="magic"
+            onKeyDown={magicOnKeyDown}
+          />
+        )}
     </div>
   );
 };
