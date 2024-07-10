@@ -4,7 +4,8 @@ import { open } from 'sqlite'
 import { ipcMain } from 'electron';
 import { v4 } from 'uuid';
 
-import { getSelectedView } from './browser';
+import { getSelectedView } from '../browser';
+import { createRunner } from './runner';
 
 // Setup in-memory SQLite database
 let memory: Database
@@ -183,4 +184,4 @@ const endChat = () => {
 }
 
 // Export the listUsers function for external usage
-export { listUsers, initChat, endChat, shakeHandWith, setUsername, setMagic };
+export { listUsers, initChat, endChat, shakeHandWith, setUsername, setMagic, createRunner };

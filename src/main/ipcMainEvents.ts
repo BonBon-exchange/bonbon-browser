@@ -82,9 +82,10 @@ import {
 import i18n from './i18n';
 import { getStore } from './store';
 import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
-import { getState, setState } from './BonBon_Global_State';
-import { endChat, initChat, setUsername, setMagic } from './chat';
+import { getState, setState, setStateAt } from './BonBon_Global_State';
+import { endChat, initChat, setUsername, setMagic, createRunner } from './chat';
 import { ChatRunner } from 'types/chat';
+import { v4 } from 'uuid';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -492,6 +493,7 @@ export const makeIpcMainEvents = (): void => {
   })
 
   ipcMain.on('create-chat-runner', (_e, runner: ChatRunner) => {
-
+    const [chatRunnerId, chatRunner] = createRunner(runner)
+    setStateAt(`chat.runners.${chatRunnerId}`, chatRunner)
   })
 };
