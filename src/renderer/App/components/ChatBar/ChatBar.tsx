@@ -22,6 +22,8 @@ type ChatStateProps = {
 export default (props: ChatStateProps) => {
   const chatBarRef = useRef<HTMLDivElement>(null);
   const magicInputRef = useRef<HTMLInputElement>(null);
+  const inputContactMagicRef = useRef<HTMLInputElement>(null);
+  const inputContactUsernameRef = useRef<HTMLInputElement>(null);
   const [isStateMessageReceived, setIsStateMessageReiceived] =
     useState<boolean>(false);
   const [shouldEnhighChatbar, setShouldEnhighChatbar] =
@@ -42,8 +44,32 @@ export default (props: ChatStateProps) => {
     username: props.username,
     isMagic: props.isMagic,
   });
+  const [chatView, setChatView] = useState<string>('');
+  const [inputContactUsername, setInputContactUsername] = useState<string>('');
+  const [inputContactMagic, setInputContactMagic] = useState<string>('');
   // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
   //  useState<boolean>(false);
+
+  const contactMagicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Enter') {
+      // window.app.chat.setUsername(inputUsername);
+      // setInputContactMagic(inputContactMagic);
+      // setInputUsername('');
+      // setUsernameHasBeenSet(true);
+    }
+  };
+
+  const contactUsernameOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (
+    e
+  ) => {
+    if (e.key === 'Enter') {
+      inputContactMagicRef.current?.focus();
+      // window.app.chat.setUsername(inputUsername);
+      // setUsername(inputUsername);
+      // setInputUsername('');
+      // setUsernameHasBeenSet(true);
+    }
+  };
 
   const userNameOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Enter') {
@@ -122,6 +148,19 @@ export default (props: ChatStateProps) => {
     setMagicHasBeenSet(props?.isMagic ?? false);
   }, [props, setUsernameHasBeenSet, setMagicHasBeenSet]);
 
+  useEffect(() => {
+    if (chatView === '' && usernameHasBeenSet && magicHasBeenSet) {
+      setChatView('home');
+      inputContactUsernameRef.current?.focus();
+    }
+  }, [
+    usernameHasBeenSet,
+    magicHasBeenSet,
+    chatView,
+    setChatView,
+    inputContactUsernameRef,
+  ]);
+
   return (
     <div
       id="chat-bar"
@@ -158,6 +197,48 @@ export default (props: ChatStateProps) => {
             onKeyDown={magicOnKeyDown}
           />
         )}
+
+      {chatView === 'home' && (
+        <div id="chat-bar-home">
+          <div
+            className="chat-bar-home-item"
+            onClick={() => setChatView('meet')}
+          >
+            Meet
+          </div>
+          <div
+            className="chat-bar-home-item"
+            onClick={() => setChatView('contact')}
+          >
+            Contact
+          </div>
+        </div>
+      )}
+
+      {chatView === 'contact' && (
+        <div id="chat-bar-contact">
+          <input
+            type="text"
+            id="chat-bar-contact-username"
+            className="chat-bar-contact-input"
+            ref={inputContactUsernameRef}
+            value={inputContactUsername}
+            onChange={(e) => setInputContactUsername(e.target.value)}
+            placeholder="username"
+            onKeyDown={contactUsernameOnKeyDown}
+          />
+          <input
+            type="text"
+            id="chat-bar-contact-magic"
+            className="chat-bar-contact-input"
+            ref={inputContactMagicRef}
+            value={inputContactMagic}
+            onChange={(e) => setInputContactMagic(e.target.value)}
+            placeholder="magic"
+            onKeyDown={contactMagicOnKeyDown}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -16,6 +16,17 @@
     height: 66px;
     top: calc(100vh - 66px);
     background: linear-gradient(200.96deg, #ffeb75, #f192b2, #a35ac4);
+
+    .chat-bar-home-item {
+        display: flex;
+        align-self: center;
+        color: #3c1303;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
 }
 
 #chat-bar.magic-effect {
@@ -56,4 +67,40 @@
 #chat-bar-set-username.hidden::placeholder,
 #chat-bar-set-magic.hidden::placeholder {
     color: transparent;
+}
+
+#chat-bar-home {
+    display: flex;
+    justify-content: space-evenly;
+    height: 100%;
+}
+
+.chat-bar-home-item {
+    display: flex;
+    align-self: center;
+    color: transparent;
+    opacity: 1;
+    transition: color 400ms ease-out, opacity 400ms ease-out;
+}
+
+.chat-bar-contact-input {
+    background: transparent;
+    height: 44px;
+    margin-top: 8px;
+    border: none;
+    width: 30%;
+    border-bottom: 2px solid #a35ac4;
+    font-size: xxx-large;
+    color: #ffa0e7;
+    transition: color 400ms ease-out;
+    text-align: center;
+
+    &:focus-visible {
+        outline: unset;   
+    }
+}
+
+#chat-bar-contact {
+    display: flex;
+    justify-content: space-evenly;
 }
