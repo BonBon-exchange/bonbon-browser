@@ -16,7 +16,8 @@ module.exports = {
     'react/function-component-definition': 'off',
     'react/no-unused-prop-types': 'off',
     'prettier/prettier': 'off',
-    'react/destructuring-assignment': 'off'
+    'react/destructuring-assignment': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off'
   },
   parserOptions: {
     ecmaVersion: 2020,

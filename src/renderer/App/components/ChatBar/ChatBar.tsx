@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 import './style.scss';
-import {
+import React, {
   useCallback,
   useState,
   useEffect,
@@ -11,12 +11,10 @@ import {
   SetStateAction,
 } from 'react';
 
-type ChatStateProps = {
-  username: string;
-  isMagic: boolean;
-  setChatState: Dispatch<
-    SetStateAction<{ username: string; isMagic: boolean }>
-  >;
+import { ChatState } from '../../../../types/chat';
+
+type ChatStateProps = ChatState & {
+  setChatState: Dispatch<SetStateAction<ChatState>>;
 };
 
 export default (props: ChatStateProps) => {
@@ -37,10 +35,7 @@ export default (props: ChatStateProps) => {
   const [magicHasBeenSet, setMagicHasBeenSet] = useState<boolean>(
     props.isMagic ?? false
   );
-  const [componentChatState, setComponentChatState] = useState<{
-    username: string;
-    isMagic: boolean;
-  }>({
+  const [componentChatState, setComponentChatState] = useState<ChatState>({
     username: props.username,
     isMagic: props.isMagic,
   });
@@ -104,6 +99,15 @@ export default (props: ChatStateProps) => {
       ? setShouldEnhighChatbar(true)
       : setShouldEnhighChatbar(false);
   }, []);
+
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+    callback: () => any
+  ) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      callback();
+    }
+  };
 
   useEffect(() => {
     window.app.listener.chatMessageReceived(messageReceivedAction);
@@ -203,12 +207,14 @@ export default (props: ChatStateProps) => {
           <div
             className="chat-bar-home-item"
             onClick={() => setChatView('meet')}
+            onKeyDown={(e) => handleKeyDown(e, () => setChatView('meet'))}
           >
             Meet
           </div>
           <div
             className="chat-bar-home-item"
             onClick={() => setChatView('contact')}
+            onKeyDown={(e) => handleKeyDown(e, () => setChatView('contact'))}
           >
             Contact
           </div>
