@@ -18,32 +18,43 @@
   "license": "GPL-3.0",
   "author": {
     "name": "Daniel Febrero",
-    "email": "febrero@me.com"
+    "email": "febrero.daniel@gmail.com",
+    "socials": {
+      "bsky": "danielfebrero.bsky.social"
+    }
   },
   "contributors": [
     {
-      "name": "Daniel Febrero"
+      "name": "Daniel Febrero",
+      "email": "febrero.daniel@gmail.com"
     },
     {
-      "name": "Anthony Cettour"
+      "name": "Anthony Cettour",
+      "email": ""
     },
     {
-      "name": "0xCUBE"
+      "name": "0xCUBE",
+      "email": ""
     },
     {
-      "name": "Nuklusone"
+      "name": "Nuklusone",
+      "email": ""
     },
     {
-      "name": "Aitor"
+      "name": "Aitor",
+      "email": ""
     },
     {
-      "name": "Howard Huang"
+      "name": "Howard Huang",
+      "email": ""
     },
     {
-      "name": "Faouzi Benali"
+      "name": "Faouzi Benali",
+      "email": ""
     },
     {
-      "name": "Daniel Callus"
+      "name": "Daniel Callus",
+      "email": ""
     }
   ],
   "main": "./src/main/main.ts",
