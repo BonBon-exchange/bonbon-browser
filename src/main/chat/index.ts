@@ -6,6 +6,8 @@ import { v4 } from 'uuid';
 
 import { getSelectedView } from '../browser';
 import { createRunner } from './runner';
+import { ChatState } from 'types/chat';
+import { setState } from 'main/BonBon_Global_State';
 
 // Setup in-memory SQLite database
 let memory: Database
@@ -183,5 +185,9 @@ const endChat = () => {
     // ws.close();
 }
 
+const setChatState = (state: ChatState) => {
+    setState('chat', state)
+}
+
 // Export the listUsers function for external usage
-export { listUsers, initChat, endChat, shakeHandWith, setUsername, setMagic, createRunner };
+export { listUsers, initChat, endChat, shakeHandWith, setUsername, setMagic, createRunner, setChatState };

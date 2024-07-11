@@ -37,6 +37,7 @@ import {
   IpcTabSelect,
 } from 'types/ipc';
 import { DomainSuggestion } from 'types/suggestions';
+import { ChatRunner } from 'types/chat';
 
 import { event, page } from './analytics';
 import { getUrlToOpen, setUrlToOpen } from './appEvents';
@@ -84,7 +85,6 @@ import { getStore } from './store';
 import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
 import { getState, setState, setStateAt } from './BonBon_Global_State';
 import { endChat, initChat, setUsername, setMagic, createRunner } from './chat';
-import { ChatRunner } from 'types/chat';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -492,8 +492,23 @@ export const makeIpcMainEvents = (): void => {
   })
 
   ipcMain.handle('create-chat-runner', (_e, runner: ChatRunner) => {
-    const [chatRunnerId, chatRunner] = createRunner(runner)
-    setStateAt(`chat.runners.${chatRunnerId}`, chatRunner)
+    const [chatRunnerId, _chatRunner] = createRunner(runner)
+    sendChatStateUpdate()
     return chatRunnerId
   })
+
+  ipcMain.on('set-active-chat-view-name', (_e, viewName: string) => {
+    setStateAt('chat.active_view', viewName)
+  })
+
+  ipcMain.handle('get-chat-state', (_e) => {
+    return getState('chat')
+  })
 };
+
+const sendChatStateUpdate = () => {
+  Object.keys(getViews()).forEach((browserId) => {
+    getViews()[browserId].webContents.send('chat-state', { chatState: getState("chat") ?? {} });
+
+  })
+}

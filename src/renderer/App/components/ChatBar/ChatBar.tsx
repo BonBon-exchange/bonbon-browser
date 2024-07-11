@@ -45,9 +45,11 @@ export default (props: ChatStateProps) => {
   // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
   //  useState<boolean>(false);
 
-  const contactMagicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+  const contactMagicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = async (
+    e
+  ) => {
     if (e.key === 'Enter') {
-      const runnerId = window.app.chat.createRunner({
+      const runnerId = await window.app.chat.createRunner({
         action: 'contact',
         context: {
           username: inputContactUsername,
@@ -55,7 +57,7 @@ export default (props: ChatStateProps) => {
         },
       });
 
-      setChatView(`runner:${runnerId}`);
+      setChatView(`420:runner-${runnerId}`);
     }
   };
 

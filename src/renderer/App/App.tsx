@@ -7,12 +7,15 @@ import { IpcRendererEvent } from 'electron';
 import { store, getPersistedStoreAndPersistor } from 'renderer/App/store/store';
 import { Addaps } from 'renderer/App/components/Addaps';
 import ChatBar from 'renderer/App/components/ChatBar/ChatBar';
+import { ensureExpectedType } from '-lola/sepyt/utils';
 
 import './i18n';
 
 import 'renderer/App/style/dark.css';
 import 'renderer/App/style/light.css';
 import './App.css';
+import { ChatState } from 'types/chat';
+import { ChatViews } from './components/ChatViews/ChatViews';
 
 export function App() {
   const [isLoadedBoard, setIsLoadedBoard] = useState<boolean | string>(false);
@@ -60,10 +63,7 @@ export function App() {
     (
       _e: IpcRendererEvent,
       args: {
-        chatState: {
-          isMagic: boolean;
-          username: string;
-        };
+        chatState: ChatState;
       }
     ) => {
       console.log({ args });
@@ -123,7 +123,8 @@ export function App() {
     try {
       const lsstate = localStorage.getItem('chat');
       if (lsstate && lsstate.length > 0) {
-        const state = JSON.parse(lsstate);
+        const state = JSON.parse(lsstate) as ChatState;
+        ensureExpectedType(state);
         setChatState(state);
         localStorage.setItem('chatState', '');
       }
@@ -139,11 +140,14 @@ export function App() {
       <PersistGate loading={null} persistor={persisted.current?.persistor}>
         <Addaps boardId={boardId} />
         {isChatActive && (
-          <ChatBar
-            isMagic={chatState.isMagic}
-            username={chatState.username}
-            setChatState={setChatState}
-          />
+          <>
+            <ChatViews chatState={chatState} />
+            <ChatBar
+              isMagic={chatState.isMagic}
+              username={chatState.username}
+              setChatState={setChatState}
+            />
+          </>
         )}
       </PersistGate>
     </Provider>
