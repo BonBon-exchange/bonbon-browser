@@ -17,17 +17,13 @@ import './App.css';
 import { ChatState } from 'types/chat';
 import { ChatViews } from './components/ChatViews/ChatViews';
 
-export function App() {
+export const App = (props: { chatState: ChatState }) => {
   const [isLoadedBoard, setIsLoadedBoard] = useState<boolean | string>(false);
   const [boardId, setBoardId] = useState<string>('');
   const [isChatActive, setIsChatActive] = useState<boolean>(false);
-  const [chatState, setChatState] = useState<{
-    isMagic: boolean;
-    username: string;
-  }>({
-    isMagic: false,
-    username: '',
-  });
+  const [tempChatState, setTempChatState] = useState<ChatState>(
+    props.chatState
+  );
   const persisted = useRef<any>(null);
 
   const loadBoardAction = useCallback(
@@ -37,7 +33,13 @@ export function App() {
       setBoardId(args.boardId);
       setIsLoadedBoard(true);
     },
-    [boardId]
+    [
+      boardId,
+      persisted,
+      getPersistedStoreAndPersistor,
+      setBoardId,
+      setIsChatActive,
+    ]
   );
 
   const purgeAction = useCallback(() => {
@@ -45,7 +47,7 @@ export function App() {
       persisted.current?.persistor.purge();
       localStorage.removeItem(`persist:${boardId}`);
     }
-  }, [boardId]);
+  }, [boardId, persisted, localStorage]);
 
   const handleInitChat = useCallback(() => {
     setIsChatActive(true);
@@ -53,24 +55,11 @@ export function App() {
 
   const handleEndChat = useCallback(() => {
     setIsChatActive(false);
-    setChatState({
+    setTempChatState({
       username: '',
       isMagic: false,
     });
-  }, [setIsChatActive, setChatState]);
-
-  const handleChatState = useCallback(
-    (
-      _e: IpcRendererEvent,
-      args: {
-        chatState: ChatState;
-      }
-    ) => {
-      console.log({ args });
-      setChatState(args.chatState);
-    },
-    [setChatState]
-  );
+  }, [setIsChatActive, setTempChatState]);
 
   useEffect(() => {
     window.app.listener.loadBoard(loadBoardAction);
@@ -111,29 +100,24 @@ export function App() {
   }, [handleEndChat]);
 
   useEffect(() => {
-    window.app.listener.chatState(handleChatState);
-    return () => window.app.off.chatState();
-  }, [handleChatState]);
-
-  useEffect(() => {
     localStorage.getItem('isChatActive') === 'true'
       ? setIsChatActive(true)
       : setIsChatActive(false);
 
     try {
       const lsstate = localStorage.getItem('chat');
-      if (lsstate && lsstate.length > 0) {
+      if (lsstate && lsstate.length > 2) {
         const state = JSON.parse(lsstate) as ChatState;
-        ensureExpectedType(state);
-        setChatState(state);
-        localStorage.setItem('chatState', '');
+        console.log('localstorage', { state });
+        //ensureExpectedType(state);
+        setTempChatState(state);
+        localStorage.setItem('chat', '');
+      } else {
       }
     } catch (e) {
       console.log({ e });
     }
   }, []);
-
-  console.log({ isChatActive, chatState });
 
   return isLoadedBoard ? (
     <Provider store={persisted.current?.store}>
@@ -141,11 +125,11 @@ export function App() {
         <Addaps boardId={boardId} />
         {isChatActive && (
           <>
-            <ChatViews chatState={chatState} />
+            <ChatViews chatState={props.chatState} />
             <ChatBar
-              isMagic={chatState.isMagic}
-              username={chatState.username}
-              setChatState={setChatState}
+              isMagic={tempChatState.isMagic}
+              username={tempChatState.username}
+              setTempChatState={setTempChatState}
             />
           </>
         )}
@@ -156,4 +140,4 @@ export function App() {
       <Addaps />
     </Provider>
   );
-}
+};

@@ -7,7 +7,7 @@ export const ChatViews = ({ chatState }: { chatState: ChatState }) => {
     <>
       {Object.keys(chatState.runners ?? {}).map((runnerId: ChatRunnerId) => (
         <>
-          <div id="chat-view-420" key={runnerId}>
+          <div id="chat-view-420" key={`${runnerId}`}>
             {JSON.stringify(runners[runnerId ?? {}])}
           </div>
         </>

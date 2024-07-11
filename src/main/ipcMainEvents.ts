@@ -491,8 +491,8 @@ export const makeIpcMainEvents = (): void => {
     setState("chat", chat)
   })
 
-  ipcMain.handle('create-chat-runner', (_e, runner: ChatRunner) => {
-    const [chatRunnerId, _chatRunner] = createRunner(runner)
+  ipcMain.handle('create-chat-runner', async (_e, runner: ChatRunner) => {
+    const [chatRunnerId, _chatRunner] = await createRunner(runner)
     sendChatStateUpdate()
     return chatRunnerId
   })
@@ -507,8 +507,9 @@ export const makeIpcMainEvents = (): void => {
 };
 
 const sendChatStateUpdate = () => {
+  const chatState = getState("chat") ?? {}
+  console.log('sendChatSTtateUpdate', { chatState })
   Object.keys(getViews()).forEach((browserId) => {
-    getViews()[browserId].webContents.send('chat-state', { chatState: getState("chat") ?? {} });
-
+    getViews()[browserId].webContents.send('chat-state', { chatState });
   })
 }

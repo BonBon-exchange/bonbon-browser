@@ -14,7 +14,7 @@ import React, {
 import { ChatState } from '../../../../types/chat';
 
 type ChatStateProps = ChatState & {
-  setChatState: Dispatch<SetStateAction<ChatState>>;
+  setTempChatState: Dispatch<SetStateAction<ChatState>>;
 };
 
 export default (props: ChatStateProps) => {
@@ -161,7 +161,7 @@ export default (props: ChatStateProps) => {
     const currentState = componentChatState;
     currentState.username = props.username;
     currentState.isMagic = props.isMagic;
-    props.setChatState(componentChatState);
+    props.setTempChatState(componentChatState);
   }, [componentChatState, props]);
 
   useEffect(() => {
