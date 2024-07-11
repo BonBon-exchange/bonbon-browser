@@ -5,15 +5,21 @@ let state: Record<string, any> = {
 export const setState = (key: string, value: any) => {
     state = { ...state, [key]: value }
 }
-export const getState = (key: string) => state[key]
+export const getState = (key?: string) => key ? state[key] : state
 
 export const getStateAt = (path: string) => {
-    const keys = path.split('.')
+    const keys = path.split('.');
+    let stateOperator = state; // Use the original state reference
+
     const stateAt = keys.reduce((acc, val) => {
-        return acc?.[val] ?? undefined
-    }, state)
-    return stateAt
-}
+        if (acc && typeof acc === 'object') {
+            return acc[val] ?? undefined;
+        }
+        return undefined;
+    }, stateOperator);
+
+    return stateAt;
+};
 
 export const setStateAt = (path: string, value: any) => {
     const keys = path.split('.');
@@ -21,12 +27,11 @@ export const setStateAt = (path: string, value: any) => {
     if (!lastKey) return;
 
     let nested = state;
-    for (const key of keys) {
-        if (!nested[key]) {
-            nested[key] = {};
-        }
-        nested = nested[key];
-    }
 
-    nested[lastKey] = value;
+    keys.reduce((acc, val) => {
+        if (!acc[val] || typeof acc[val] !== 'object') {
+            acc[val] = {}; // Ensure to initialize the path if it doesn't exist
+        }
+        return acc[val];
+    }, nested)[lastKey] = value; // Set the value at the last key
 };

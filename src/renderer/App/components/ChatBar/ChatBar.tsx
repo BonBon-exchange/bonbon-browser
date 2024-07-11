@@ -58,9 +58,13 @@ export default (props: ChatStateProps) => {
   };
 
   const contactMagicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === 'Enter' && inputContactUsername.length > 0) {
+    if (
+      e.key === 'Enter' &&
+      inputContactMagic.length > 0 &&
+      inputContactUsername.length > 0
+    ) {
       contactRun();
-    } else if (e.key === 'Enter') {
+    } else if (e.key === 'Enter' && inputContactMagic.length > 0) {
       inputContactUsernameRef.current?.focus();
     }
   };
@@ -68,15 +72,19 @@ export default (props: ChatStateProps) => {
   const contactUsernameOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (
     e
   ) => {
-    if (e.key === 'Enter' && inputContactUsername.length === 0) {
+    if (
+      e.key === 'Enter' &&
+      inputContactUsername.length > 0 &&
+      inputContactUsername.length === 0
+    ) {
       inputContactMagicRef.current?.focus();
-    } else if (e.key === 'Enter') {
+    } else if (e.key === 'Enter' && inputContactUsername.length > 0) {
       contactRun();
     }
   };
 
   const userNameOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && inputUsername.length > 0) {
       window.app.chat.setUsername(inputUsername);
       setUsername(inputUsername);
       setInputUsername('');
@@ -85,7 +93,7 @@ export default (props: ChatStateProps) => {
   };
 
   const magicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && magic.length > 0) {
       window.app.chat.setMagic(magic);
       setMagic('');
       setMagicHasBeenSet(true);

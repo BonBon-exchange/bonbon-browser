@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
 import { ChatRunner, ChatRunnerId } from "types/chat";
-import { getStateAt, setStateAt } from "../BonBon_Global_State";
+import { getState, getStateAt, setStateAt } from "../BonBon_Global_State";
 
 export const createRunner = (runnerInfo: ChatRunner): [ChatRunnerId, ChatRunner] => {
     const runnerId = v4()
