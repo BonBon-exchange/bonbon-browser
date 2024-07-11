@@ -7,7 +7,7 @@ import { v4 } from 'uuid';
 import { getSelectedView } from '../browser';
 import { createRunner } from './runner';
 import { ChatState } from 'types/chat';
-import { setState } from 'main/BonBon_Global_State';
+import { setState } from '../../main/BonBon_Global_State';
 
 // Setup in-memory SQLite database
 let memory: Database
@@ -127,9 +127,8 @@ const connect = () => {
         console.log('Connected to echo server');
         getSelectedView()?.webContents.send('create-webrtc-offer')
 
-        ipcMain.on('created-webrtc-offer', (_event, args: { webrtcOffer: string }) => {
-            console.log('created webrtc offer', { args })
-            const registrationMessage = JSON.stringify({ event: 'register', usr: userProxy.username, webrtcOffer: args.webrtcOffer, uuid: userProxy.uuid }); // Format your message
+        ipcMain.on('created-webrtc-offer', (_event, webrtcOffer: string) => {
+            const registrationMessage = JSON.stringify({ event: 'register', usr: userProxy.username, webrtcOffer: webrtcOffer, uuid: userProxy.uuid }); // Format your message
             ws.send(registrationMessage);
             clearInterval(reconnectInterval); // Clear reconnect interval if connected
             isConnected = true;

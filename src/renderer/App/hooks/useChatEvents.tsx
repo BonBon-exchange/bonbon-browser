@@ -53,8 +53,9 @@ export default () => {
 
   const createWebrtcOfferAction = useCallback(async () => {
     webrtcOffer = await peerConnection.createOffer();
-    console.log({ webrtcOffer });
-    window.app.chat.createdWebrtcOffer(webrtcOffer as unknown as string);
+    window.app.chat.createdWebrtcOffer(
+      JSON.stringify(webrtcOffer as unknown as string)
+    );
   }, []);
 
   const webrtcConnectionRequestAction = useCallback(

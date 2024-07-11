@@ -45,27 +45,33 @@ export default (props: ChatStateProps) => {
   // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
   //  useState<boolean>(false);
 
-  const contactMagicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = async (
-    e
-  ) => {
-    if (e.key === 'Enter') {
-      const runnerId = await window.app.chat.createRunner({
-        action: 'contact',
-        context: {
-          username: inputContactUsername,
-          magic: inputContactMagic,
-        },
-      });
+  const contactRun = async () => {
+    const runnerId = await window.app.chat.createRunner({
+      action: 'contact',
+      context: {
+        username: inputContactUsername,
+        magic: inputContactMagic,
+      },
+    });
 
-      setChatView(`420:runner-${runnerId}`);
+    setChatView(`420:runner-${runnerId}`);
+  };
+
+  const contactMagicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Enter' && inputContactUsername.length > 0) {
+      contactRun();
+    } else if (e.key === 'Enter') {
+      inputContactUsernameRef.current?.focus();
     }
   };
 
   const contactUsernameOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (
     e
   ) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && inputContactUsername.length === 0) {
       inputContactMagicRef.current?.focus();
+    } else if (e.key === 'Enter') {
+      contactRun();
     }
   };
 
