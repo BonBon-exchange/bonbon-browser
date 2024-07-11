@@ -12,7 +12,7 @@ import { setState } from '../../main/BonBon_Global_State';
 // Setup in-memory SQLite database
 let memory: Database
 
-(async () => {
+const makeMemoryDb = async () => {
     memory = await open({
         filename: ':memory:',
         driver: sqlite3.Database
@@ -26,7 +26,9 @@ let memory: Database
         webrtcOffer TEXT,
         registered_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     )`);
-})();
+}
+
+makeMemoryDb()
 
 const url = 'ws://echo.websocket.events/echo/BonBon/public_place';
 
@@ -73,6 +75,7 @@ let isConnected = false;
 
 // Function to add a new user
 const registerUser = async (usr: string, uuid: string) => {
+    await makeMemoryDb()
     try {
         await memory.run("INSERT INTO users (username, uuid) VALUES (?, ?)", [usr, uuid]);
         console.log(`User ${usr} registered`);
@@ -83,6 +86,7 @@ const registerUser = async (usr: string, uuid: string) => {
 
 // Function to remove a user
 const unregisterUser = async (usr: string, uuid: string) => {
+    await makeMemoryDb()
     try {
         await memory.run("DELETE FROM users WHERE username = ? AND uuid = ?", [usr, uuid]);
         console.log(`User ${usr} unregistered`);
@@ -93,6 +97,7 @@ const unregisterUser = async (usr: string, uuid: string) => {
 
 // Function to list all registered users
 const listUsers = async (callback: (users: Database) => any) => {
+    await makeMemoryDb()
     try {
         const rows = await memory.all("SELECT * FROM users");
         callback(rows);
@@ -102,6 +107,7 @@ const listUsers = async (callback: (users: Database) => any) => {
 }
 
 const shakeHandWith = async (usr: string) => {
+    await makeMemoryDb()
     await memory.all("SELECT webrtcOffer FROM users WHERE username = ?", [usr], (rows: { webrtcOffer: string }[]) => {
         getSelectedView()?.webContents.send('create-webrtc-participant', { webrtcOffer: rows[0].webrtcOffer, usr })
         ipcMain.on('created-webrtc-participants', (_event, args: { webrtcParticipant: string }) => {
@@ -111,8 +117,9 @@ const shakeHandWith = async (usr: string) => {
     });
 
 }
-const connect = () => {
+const connect = async () => {
     if (isConnected) return;
+    await makeMemoryDb()
 
     const reconnect = () => {
         console.log('Attempting to reconnect in 5 seconds...');
