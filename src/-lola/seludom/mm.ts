@@ -2,16 +2,16 @@
 
 import { Expected } from "../sepyt/lola";
 
-export class MemoryManagedProxy<T extends Function> {
+export default class MemoryManagedProxy<T extends Function> {
     private proxy: T;
     private handler: ProxyHandler<Expected<T>>;
 
     constructor(private fn: T) {
         this.handler = {
-            apply: (target, thisArg, argumentsList) => this.applyHandler(target, thisArg, argumentsList),
-            deleteProperty: (target, property) => this.deletePropertyHandler(target, property)
+            apply: (target: Expected, thisArg, argumentsList) => this.applyHandler(target, thisArg, argumentsList),
+            deleteProperty: (target: Expected, property: Expected) => this.deletePropertyHandler(target, property)
         };
-        this.proxy = new Proxy(fn, this.handler) as T;
+        this.proxy = new Proxy(fn, this.handler as Expected) as T;
     }
 
     private applyHandler(target: T, thisArg: any, argumentsList: any[]) {

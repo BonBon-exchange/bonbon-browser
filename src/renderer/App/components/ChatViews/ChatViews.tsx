@@ -1,6 +1,8 @@
 import EscapeTag from '../EscapeTag/EscapeTag';
 import { ChatRunnerId, ChatState } from 'types/chat';
 
+import './ChatViews.scss';
+
 export const ChatViews = ({ chatState }: { chatState: ChatState }) => {
   const runners = chatState.runners ?? {};
 
@@ -8,7 +10,7 @@ export const ChatViews = ({ chatState }: { chatState: ChatState }) => {
     <>
       {Object.keys(chatState.runners ?? {}).map((runnerId: ChatRunnerId) => (
         <EscapeTag key={`${runnerId}`}>
-          <div id="chat-view-420">
+          <div id="chat-view" className="CDXX">
             {JSON.stringify(runners[runnerId ?? {}])}
           </div>
         </EscapeTag>
