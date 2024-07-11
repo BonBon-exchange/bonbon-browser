@@ -1,4 +1,4 @@
-import EmptyTag from '../EmptyTag/EmptyTag';
+import EscapeTag from '../EscapeTag/EscapeTag';
 import { ChatRunnerId, ChatState } from 'types/chat';
 
 export const ChatViews = ({ chatState }: { chatState: ChatState }) => {
@@ -7,11 +7,11 @@ export const ChatViews = ({ chatState }: { chatState: ChatState }) => {
   return (
     <>
       {Object.keys(chatState.runners ?? {}).map((runnerId: ChatRunnerId) => (
-        <EmptyTag key={`${runnerId}`}>
+        <EscapeTag key={`${runnerId}`}>
           <div id="chat-view-420">
             {JSON.stringify(runners[runnerId ?? {}])}
           </div>
-        </EmptyTag>
+        </EscapeTag>
       ))}
     </>
   );
