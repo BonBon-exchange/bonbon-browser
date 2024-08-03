@@ -15,7 +15,7 @@ import 'renderer/App/style/dark.css';
 import 'renderer/App/style/light.css';
 import './App.css';
 import { ChatState } from 'types/chat';
-import { ChatViews } from './components/ChatViews/ChatViews';
+import ChatViews from './components/ChatViews/ChatViews';
 
 export const App = (props: { chatState: ChatState }) => {
   const [isLoadedBoard, setIsLoadedBoard] = useState<boolean | string>(false);
@@ -33,13 +33,7 @@ export const App = (props: { chatState: ChatState }) => {
       setBoardId(args.boardId);
       setIsLoadedBoard(true);
     },
-    [
-      boardId,
-      persisted,
-      getPersistedStoreAndPersistor,
-      setBoardId,
-      setIsChatActive,
-    ]
+    [boardId, persisted, setBoardId]
   );
 
   const purgeAction = useCallback(() => {
@@ -47,7 +41,7 @@ export const App = (props: { chatState: ChatState }) => {
       persisted.current?.persistor.purge();
       localStorage.removeItem(`persist:${boardId}`);
     }
-  }, [boardId, persisted, localStorage]);
+  }, [boardId, persisted]);
 
   const handleInitChat = useCallback(() => {
     setIsChatActive(true);
@@ -109,11 +103,9 @@ export const App = (props: { chatState: ChatState }) => {
       if (lsstate && lsstate.length > 2) {
         const state = JSON.parse(lsstate) as ChatState;
         console.log('localstorage', { state });
-        //ensureExpectedType(state);
         setTempChatState(state);
         localStorage.setItem('chat', '');
-      } else {
-      }
+      } else { /* empty */ }
     } catch (e) {
       console.log({ e });
     }

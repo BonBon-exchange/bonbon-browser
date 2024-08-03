@@ -45,6 +45,11 @@ export default (props: ChatStateProps) => {
   // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
   //  useState<boolean>(false);
 
+  const setContactView = () => {
+    setChatView('contact')
+    inputContactUsernameRef.current?.focus()
+  }
+
   const contactRun = async () => {
     const runnerId = await window.app.chat.createRunner({
       action: 'contact',
@@ -75,7 +80,7 @@ export default (props: ChatStateProps) => {
     if (
       e.key === 'Enter' &&
       inputContactUsername.length > 0 &&
-      inputContactUsername.length === 0
+      inputContactMagic.length === 0
     ) {
       inputContactMagicRef.current?.focus();
     } else if (e.key === 'Enter' && inputContactUsername.length > 0) {
@@ -230,8 +235,8 @@ export default (props: ChatStateProps) => {
           </div>
           <div
             className="chat-bar-home-item"
-            onClick={() => setChatView('contact')}
-            onKeyDown={(e) => handleKeyDown(e, () => setChatView('contact'))}
+            onClick={setContactView}
+            onKeyDown={(e) => handleKeyDown(e, () => setContactView())}
           >
             Contact
           </div>
@@ -243,7 +248,7 @@ export default (props: ChatStateProps) => {
           <input
             type="text"
             id="chat-bar-contact-username"
-            className="chat-bar-contact-input"
+            className="chat-bar-contact-input chat-bar-home-item"
             ref={inputContactUsernameRef}
             value={inputContactUsername}
             onChange={(e) => setInputContactUsername(e.target.value)}
@@ -253,7 +258,7 @@ export default (props: ChatStateProps) => {
           <input
             type="text"
             id="chat-bar-contact-magic"
-            className="chat-bar-contact-input"
+            className="chat-bar-contact-input chat-bar-home-item"
             ref={inputContactMagicRef}
             value={inputContactMagic}
             onChange={(e) => setInputContactMagic(e.target.value)}

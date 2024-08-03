@@ -1,9 +1,9 @@
-import EscapeTag from '../EscapeTag/EscapeTag';
 import { ChatRunnerId, ChatState } from 'types/chat';
+import EscapeTag from '../EscapeTag/EscapeTag';
 
 import './ChatViews.scss';
 
-export const ChatViews = ({ chatState }: { chatState: ChatState }) => {
+export default ({ chatState }: { chatState: ChatState }) => {
   const runners = chatState.runners ?? {};
 
   return (
