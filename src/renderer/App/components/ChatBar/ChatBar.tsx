@@ -201,7 +201,7 @@ export default (props: ChatStateProps) => {
         <input
           type="text"
           id="chat-bar-set-username"
-          className={clsx({ hidden: !shouldEnhighChatbar })}
+          className={clsx({ hidden: !shouldEnhighChatbar }, 'chat-bar-register-input')}
           value={inputUsername}
           onChange={(e) => setInputUsername(e.target.value)}
           placeholder="username"
@@ -216,7 +216,7 @@ export default (props: ChatStateProps) => {
             type="text"
             id="chat-bar-set-magic"
             ref={magicInputRef}
-            className={clsx({ hidden: !shouldEnhighChatbar })}
+            className={clsx({ hidden: !shouldEnhighChatbar }, 'chat-bar-register-input')}
             value={magic}
             onChange={(e) => setMagic(e.target.value)}
             placeholder="magic"
@@ -248,7 +248,7 @@ export default (props: ChatStateProps) => {
           <input
             type="text"
             id="chat-bar-contact-username"
-            className="chat-bar-contact-input chat-bar-home-item"
+            className="chat-bar-contact-input"
             ref={inputContactUsernameRef}
             value={inputContactUsername}
             onChange={(e) => setInputContactUsername(e.target.value)}
@@ -258,7 +258,7 @@ export default (props: ChatStateProps) => {
           <input
             type="text"
             id="chat-bar-contact-magic"
-            className="chat-bar-contact-input chat-bar-home-item"
+            className="chat-bar-contact-input"
             ref={inputContactMagicRef}
             value={inputContactMagic}
             onChange={(e) => setInputContactMagic(e.target.value)}

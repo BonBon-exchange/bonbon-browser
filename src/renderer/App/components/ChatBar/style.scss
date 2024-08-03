@@ -45,19 +45,22 @@
     background: linear-gradient(200.96deg, #ff7575, #1eb234, #ffd427);
 }
 
-#chat-bar-set-username,
-#chat-bar-set-magic {
+.chat-bar-register-input,
+.chat-bar-contact-input {
     background: transparent;
     height: 44px;
     margin-top: 8px;
     border: none;
-    width: 70%;
-    margin-left: 15%;
     border-bottom: 2px solid #a35ac4;
     font-size: xxx-large;
     color: #ffa0e7;
     transition: color 400ms ease-out;
     text-align: center;
+}
+
+.chat-bar-register-input {
+    width: 70%;
+    margin-left: 15%;
 }
 
 #chat-bar-set-username.hidden,
@@ -70,8 +73,8 @@
     outline: unset;
 }
 
-#chat-bar-set-username::placeholder,
-#chat-bar-set-magic::placeholder {
+.chat-bar-register-input::placeholder,
+.chat-bar-contact-input::placeholder {
     color: #ffa0e7;
     transition: color 400ms ease-out;
 }
