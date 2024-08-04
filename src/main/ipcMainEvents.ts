@@ -505,8 +505,9 @@ export const makeIpcMainEvents = (): void => {
     return chatRunnerId
   })
 
-  ipcMain.on('set-active-chat-view-name', (_e, viewName: string) => {
-    setStateAt('chat.active_view', viewName)
+  ipcMain.on('set-visible-runner', (_e, runnerId: string) => {
+    setStateAt('chat.visibleRunner', runnerId)
+    sendChatStateUpdate()
   })
 
   ipcMain.handle('get-chat-state', (_e) => {

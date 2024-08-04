@@ -9,7 +9,8 @@ export const initialState: ChatSliceState = {
   chat: {
     username: '',
     isMagic: false,
-    runners: {}
+    runners: {},
+    visibleRunner: null
   }
 };
 

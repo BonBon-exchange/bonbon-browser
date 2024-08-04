@@ -111,8 +111,8 @@ contextBridge.exposeInMainWorld('app', {
     getState: () => {
       ipcRenderer.invoke('get-chat-state')
     },
-    setActiveView: (viewName: ChatView) => {
-      ipcRenderer.send('set-active-chat-view-name', viewName)
+    setVisibleRunner: (viewName: ChatView) => {
+      ipcRenderer.send('set-visible-runner', viewName)
     },
     init: () => {
       ipcRenderer.send('init-chat')

@@ -58,7 +58,7 @@ declare global {
         createRunner: (runner: ChatRunner) => Promise<ChatRunnerId>
         setState: (state: ChatState) => void
         getState: () => Primise<ChatState>
-        setActiveView: ((viewName: ChatView) => void)
+        setVisibleRunner: ((runner: string) => void)
         init: () => void
       };
       config: {

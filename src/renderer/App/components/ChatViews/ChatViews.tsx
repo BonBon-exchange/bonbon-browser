@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { ChatRunnerId } from 'types/chat';
 // import EscapeTag from '../EscapeTag/EscapeTag';
 
@@ -11,7 +12,7 @@ export default () => {
   return (
     <>
       {Object.keys(runners).map((runnerId: ChatRunnerId) => (
-          <div id="chat-view" className="CDXX" key={`${runnerId}`}>
+          <div className={clsx('chat-view', {'selected': chat.visibleRunner === runnerId})} key={`${runnerId}`}>
             {JSON.stringify(runners[runnerId ?? {}])}
           </div>
       ))}

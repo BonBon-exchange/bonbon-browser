@@ -3,10 +3,11 @@ import { ChatRunner, ChatRunnerId } from "types/chat";
 import { getStateAt, setStateAt } from "../BonBon_Global_State";
 
 export const createRunner = (runnerInfo: ChatRunner): Promise<[ChatRunnerId, ChatRunner]> => {
-    return new Promise((res, _rej) => {
+    return new Promise((resolve, _reject) => {
         const runnerId = v4()
         setStateAt(`chat.runners.${runnerId}`, runnerInfo)
-        res([runnerId, runnerInfo])
+        setStateAt('chat.visibleRunner', runnerId)
+        resolve([runnerId, runnerInfo])
     })
 }
 
