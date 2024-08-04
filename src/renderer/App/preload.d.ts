@@ -59,6 +59,7 @@ declare global {
         setState: (state: ChatState) => void
         getState: () => Primise<ChatState>
         setActiveView: ((viewName: ChatView) => void)
+        init: () => void
       };
       config: {
         get: (key: string) => Promise<unknown>;

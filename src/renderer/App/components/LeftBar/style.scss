@@ -1,6 +1,6 @@
 #LeftBar__chatItems {
   position: fixed;
-  bottom: 66px;
+  bottom: 33px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -14,6 +14,9 @@
     list-style: none;
     padding: 0;
   }
+}
+
+#LeftBar__magicChat {
 
 }
 
@@ -26,6 +29,7 @@
   width: 30px;
   background: linear-gradient(200.96deg, #c4a320, #a0455e, #5c2370);
   color: white;
+  cursor: pointer;
 }
 
 #LeftBar__browserFavContainer {

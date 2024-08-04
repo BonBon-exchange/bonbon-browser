@@ -103,7 +103,7 @@ export const LeftBar = ({ chatState }: { chatState: ChatState}) => {
     const runner = chatState.runners?.[runnerId]
     return (
       <Reorder.Item key={`reorderChatItem-${runnerId}`} value={runnerId}>
-        <Tooltip title={runnerId} placement="right" key={runnerId}>
+        <Tooltip title={runner?.context.username} placement="right" key={runnerId}>
           <div className="LeftBar__chatItemContainer">
             {
               runner?.action === 'contact' && (runner.context.username.substring(0, 1).toUpperCase())
@@ -112,7 +112,7 @@ export const LeftBar = ({ chatState }: { chatState: ChatState}) => {
         </Tooltip>
       </Reorder.Item>
     )
-  }, [])
+  }, [chatState.runners])
 
   const makeFavicons = useCallback(() => {
     return items.map((b: BrowserProps) => makeItem(b));
@@ -121,6 +121,10 @@ export const LeftBar = ({ chatState }: { chatState: ChatState}) => {
   const makeChatItems = useCallback(() => {
     return Object.keys(chatState.runners ?? {}).map((runnerId) => makeChatItem(runnerId));
   }, [chatState.runners, makeChatItem]);
+
+  const initChat = () => {
+    window.app.chat.init()
+  }
 
   useEffect(() => {
     if (boardState.isFullSize) {
@@ -141,10 +145,15 @@ export const LeftBar = ({ chatState }: { chatState: ChatState}) => {
       <div id="LeftBar__browserFavContainer">
         <Reorder.Group values={items} onReorder={handleReorder} axis="y">
           <div id="LeftBar__browserFavContainerItems">{makeFavicons()}</div>
+          <Tooltip title="Add a webview" placement="right">
           <ButtonAddBrowser onClick={browser.add} />
+          </Tooltip>
         </Reorder.Group>
       </div>
       <div id='LeftBar__chatItems'>
+        <Tooltip title="Magic Chat" placement='right'>
+          <div id="LeftBar__magicChat" className='LeftBar__chatItemContainer' onClick={initChat}>@</div>
+        </Tooltip>
         <Reorder.Group values={chatItems} onReorder={handleReorderChatItems} axis="y">
           {makeChatItems()}
         </Reorder.Group>

@@ -343,7 +343,7 @@ export const TopBar = () => {
         macTitleBar: window.titleBar.os.getPlatform() === 'darwin',
       })}
     >
-      {window.titleBar.os.getPlatform() === 'darwin' ? <Magic /> : null}
+      {/* {window.titleBar.os.getPlatform() === 'darwin' ? <Magic /> : null} */}
 
       <Reorder.Group
         axis="x"

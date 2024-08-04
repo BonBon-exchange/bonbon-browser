@@ -114,6 +114,9 @@ contextBridge.exposeInMainWorld('app', {
     setActiveView: (viewName: ChatView) => {
       ipcRenderer.send('set-active-chat-view-name', viewName)
     },
+    init: () => {
+      ipcRenderer.send('init-chat')
+    }
   },
   config: {
     get: (key: string): Promise<unknown> =>

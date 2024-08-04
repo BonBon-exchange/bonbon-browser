@@ -112,6 +112,14 @@ const bonbonAutoLauncher = new AutoLaunch({
   name: 'BonBon',
 });
 
+const sendChatStateUpdate = () => {
+  const chatState = getState("chat") ?? {}
+  console.log('sendChatSTtateUpdate', { chatState })
+  Object.keys(getViews()).forEach((browserId) => {
+    getViews()[browserId].webContents.send('chat-state', { chatState });
+  })
+}
+
 export const makeIpcMainEvents = (): void => {
   const extensions = getExtensionsObject();
   ipcMain.handle('dark-mode:toggle', () => {
@@ -466,7 +474,6 @@ export const makeIpcMainEvents = (): void => {
       initChat()
       getSelectedView()?.webContents.send('init-chat');
       getSelectedView()?.webContents.send('chat-state', { chatState: getState("chat") ?? {} });
-
     }
   });
 
@@ -506,10 +513,4 @@ export const makeIpcMainEvents = (): void => {
   })
 };
 
-const sendChatStateUpdate = () => {
-  const chatState = getState("chat") ?? {}
-  console.log('sendChatSTtateUpdate', { chatState })
-  Object.keys(getViews()).forEach((browserId) => {
-    getViews()[browserId].webContents.send('chat-state', { chatState });
-  })
-}
+
