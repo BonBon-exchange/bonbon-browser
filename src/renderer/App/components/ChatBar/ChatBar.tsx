@@ -59,7 +59,10 @@ export default (props: ChatStateProps) => {
       },
     });
 
-    setChatView(`420:runner-${runnerId}`);
+    setInputContactUsername('')
+    setInputContactMagic('')
+
+    setChatView(`home`);
   };
 
   const contactMagicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
