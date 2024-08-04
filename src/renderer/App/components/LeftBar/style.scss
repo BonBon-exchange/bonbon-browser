@@ -16,11 +16,7 @@
   }
 }
 
-#LeftBar__magicChat {
-
-}
-
-.LeftBar__chatItemContainer{
+.LeftBar__chatItem{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,7 +25,19 @@
   width: 30px;
   background: linear-gradient(200.96deg, #c4a320, #a0455e, #5c2370);
   color: white;
+}
+
+.LeftBar__chatItemContainer {
+  display: flex;
+  justify-content: center;
+  width: 30px;
+  padding: 4px;
+  border-radius: 4px;
   cursor: pointer;
+  
+  &:hover {
+    background-color: var(--color-background-5);
+  }
 }
 
 #LeftBar__browserFavContainer {

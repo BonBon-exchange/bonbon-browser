@@ -107,9 +107,11 @@ export const LeftBar = () => {
       <Reorder.Item key={`reorderChatItem-${runnerId}`} value={runnerId}>
         <Tooltip title={runner?.context.username} placement="right" key={runnerId}>
           <div className="LeftBar__chatItemContainer">
-            {
-              runner?.action === 'contact' && (runner.context.username.substring(0, 1).toUpperCase())
-            }
+            <div className="LeftBar__chatItem">
+              {
+                runner?.action === 'contact' && (runner.context.username.substring(0, 1).toUpperCase())
+              }
+            </div>
           </div>
         </Tooltip>
       </Reorder.Item>
@@ -151,12 +153,14 @@ export const LeftBar = () => {
         </Reorder.Group>
       </div>
       <div id='LeftBar__chatItems'>
-        <Tooltip title="Magic Chat" placement='right'>
-          <div id="LeftBar__magicChat" className='LeftBar__chatItemContainer' onClick={initChat}>@</div>
-        </Tooltip>
         <Reorder.Group values={chatItems} onReorder={handleReorderChatItems} axis="y">
           {makeChatItems()}
         </Reorder.Group>
+        <Tooltip title="Magic Chat" placement='right'>
+          <div id="LeftBar__magicChat" className='LeftBar__chatItemContainer' onClick={initChat}>
+            <div id="LeftBar__magicChat" className='LeftBar__chatItem'>@</div>
+          </div>
+        </Tooltip>
       </div>
     </>
   );
