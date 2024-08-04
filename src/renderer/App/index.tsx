@@ -1,10 +1,11 @@
+/* eslint-disable camelcase */
 import { createRoot } from 'react-dom/client';
 
-import { App } from './App';
 import { ChatState } from 'types/chat';
 import { IpcRendererEvent } from 'electron';
 import { Expected } from '-lola/sepyt/lola';
 import ManagedMemoryProxy from '-lola/seludom/mm';
+import { App } from './App';
 
 (window as Expected)['----/__/0/CDXX/-'] = {
   ':.BonBon': {
@@ -27,22 +28,22 @@ const bonboot = ({
   };
 }) => {
   try {
-    bonbon_state['chat'] = context.states.chat;
+    bonbon_state.chat = context.states.chat;
+    
+    const container = document.getElementById('root')!;
+    const root = createRoot(container);
     const handleChatState = (
       _e: IpcRendererEvent,
       args: {
         chatState: ChatState;
       }
     ) => {
-      bonbon_state['chat'] = args.chatState;
-      root.render(<App chatState={bonbon_state['chat']} />);
+      bonbon_state.chat = args.chatState;
+      root.render(<App chatState={bonbon_state.chat} />);
     };
 
     window.app.listener.chatState(handleChatState);
-
-    const container = document.getElementById('root')!;
-    const root = createRoot(container);
-    root.render(<App chatState={bonbon_state['chat']} />);
+    root.render(<App chatState={bonbon_state.chat} />);
   } catch (e) {
     window.app.off.chatState();
   }
@@ -56,7 +57,7 @@ console.log({ bonboot });
 
 const bbproxy = BonBonMMP.getProxy();
 
-(global as Expected)['bonboot'] = bonboot;
+(global as Expected).bonboot = bonboot;
 
 console.log({ bbproxy });
 

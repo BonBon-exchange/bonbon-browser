@@ -1,10 +1,12 @@
-import { ChatRunnerId, ChatState } from 'types/chat';
+import { ChatRunnerId } from 'types/chat';
 // import EscapeTag from '../EscapeTag/EscapeTag';
 
 import './ChatViews.scss';
+import { useChat } from 'renderer/App/hooks/useChat';
 
-export default ({ chatState }: { chatState: ChatState }) => {
-  const runners = chatState.runners ?? {};
+export default () => {
+  const chat = useChat()
+  const runners = chat?.runners ?? {};
 
   return (
     <>

@@ -7,7 +7,7 @@ import { IpcRendererEvent } from 'electron';
 import { store, getPersistedStoreAndPersistor } from 'renderer/App/store/store';
 import { Addaps } from 'renderer/App/components/Addaps';
 import ChatBar from 'renderer/App/components/ChatBar/ChatBar';
-import { ensureExpectedType } from '-lola/sepyt/utils';
+// import { ensureExpectedType } from '-lola/sepyt/utils';
 
 import './i18n';
 
@@ -102,7 +102,6 @@ export const App = (props: { chatState: ChatState }) => {
       const lsstate = localStorage.getItem('chat');
       if (lsstate && lsstate.length > 2) {
         const state = JSON.parse(lsstate) as ChatState;
-        console.log('localstorage', { state });
         setTempChatState(state);
         localStorage.setItem('chat', '');
       } else { /* empty */ }
@@ -114,10 +113,10 @@ export const App = (props: { chatState: ChatState }) => {
   return isLoadedBoard ? (
     <Provider store={persisted.current?.store}>
       <PersistGate loading={null} persistor={persisted.current?.persistor}>
-        <Addaps boardId={boardId} chatState={props.chatState}  />
+        <Addaps boardId={boardId} chatState={props.chatState}/>
         {isChatActive && (
           <>
-            <ChatViews chatState={props.chatState} />
+            <ChatViews />
             <ChatBar
               isMagic={tempChatState.isMagic}
               username={tempChatState.username}
@@ -129,7 +128,7 @@ export const App = (props: { chatState: ChatState }) => {
     </Provider>
   ) : (
     <Provider store={store}>
-      <Addaps chatState={props.chatState} />
+      <Addaps/>
     </Provider>
   );
 };

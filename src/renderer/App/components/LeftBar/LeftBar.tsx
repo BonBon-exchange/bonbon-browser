@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import clsx from 'clsx';
 
-import { ChatRunner, ChatState } from 'types/chat';
+import { ChatRunner } from 'types/chat';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
@@ -17,18 +17,20 @@ import { useAppDispatch } from 'renderer/App/store/hooks';
 import { setBrowsers } from 'renderer/App/store/reducers/Board';
 import { ButtonAddBrowser } from 'renderer/App/components/ButtonAddBrowser';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
+import { useChat } from 'renderer/App/hooks/useChat';
 
 import loadingImg from 'renderer/App/svg/loading.svg';
 import icon from './icon.png';
 
 import './style.scss';
 
-export const LeftBar = ({ chatState }: { chatState: ChatState}) => {
+export const LeftBar = () => {
+  const chat = useChat()
   const dispatch = useAppDispatch();
   const boardState = useBoard();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>(boardState.browsers);
-  const [chatItems, setChatItems] = useState<ChatRunner[]>(Object.keys(chatState.runners ?? {}).map(runnerId => chatState.runners?.[runnerId] as ChatRunner) ?? []);
+  const [chatItems, setChatItems] = useState<ChatRunner[]>(Object.keys(chat?.runners ?? {}).map(runnerId => chat?.runners?.[runnerId] as ChatRunner) ?? []);
   const { browser, board } = useStoreHelpers();
 
   const handleReorder = (newOrder: BrowserProps[]) => {
@@ -100,7 +102,7 @@ export const LeftBar = ({ chatState }: { chatState: ChatState}) => {
   );
 
   const makeChatItem = useCallback((runnerId: string) => {
-    const runner = chatState.runners?.[runnerId]
+    const runner = chat?.runners?.[runnerId]
     return (
       <Reorder.Item key={`reorderChatItem-${runnerId}`} value={runnerId}>
         <Tooltip title={runner?.context.username} placement="right" key={runnerId}>
@@ -112,15 +114,15 @@ export const LeftBar = ({ chatState }: { chatState: ChatState}) => {
         </Tooltip>
       </Reorder.Item>
     )
-  }, [chatState.runners])
+  }, [chat?.runners])
 
   const makeFavicons = useCallback(() => {
     return items.map((b: BrowserProps) => makeItem(b));
   }, [items, makeItem]);
 
   const makeChatItems = useCallback(() => {
-    return Object.keys(chatState.runners ?? {}).map((runnerId) => makeChatItem(runnerId));
-  }, [chatState.runners, makeChatItem]);
+    return Object.keys(chat?.runners ?? {}).map((runnerId) => makeChatItem(runnerId));
+  }, [chat?.runners, makeChatItem]);
 
   const initChat = () => {
     window.app.chat.init()
@@ -137,8 +139,6 @@ export const LeftBar = ({ chatState }: { chatState: ChatState}) => {
       setItems(board.getSortedBrowsers);
     }
   }, [board.getSortedBrowsers, boardState.isFullSize]);
-
-  console.log({chatState})
 
   return (
     <>
