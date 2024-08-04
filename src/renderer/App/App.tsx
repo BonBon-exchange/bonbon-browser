@@ -114,7 +114,7 @@ export const App = (props: { chatState: ChatState }) => {
   return isLoadedBoard ? (
     <Provider store={persisted.current?.store}>
       <PersistGate loading={null} persistor={persisted.current?.persistor}>
-        <Addaps boardId={boardId} />
+        <Addaps boardId={boardId} chatState={props.chatState}  />
         {isChatActive && (
           <>
             <ChatViews chatState={props.chatState} />
@@ -129,7 +129,7 @@ export const App = (props: { chatState: ChatState }) => {
     </Provider>
   ) : (
     <Provider store={store}>
-      <Addaps />
+      <Addaps chatState={props.chatState} />
     </Provider>
   );
 };

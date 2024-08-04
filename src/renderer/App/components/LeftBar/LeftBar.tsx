@@ -9,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import clsx from 'clsx';
 
+import { ChatRunner, ChatState } from 'types/chat';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
@@ -22,17 +23,22 @@ import icon from './icon.png';
 
 import './style.scss';
 
-export const LeftBar = () => {
+export const LeftBar = ({ chatState }: { chatState: ChatState}) => {
   const dispatch = useAppDispatch();
   const boardState = useBoard();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>(boardState.browsers);
+  const [chatItems, setChatItems] = useState<ChatRunner[]>(Object.keys(chatState.runners ?? {}).map(runnerId => chatState.runners?.[runnerId] as ChatRunner) ?? []);
   const { browser, board } = useStoreHelpers();
 
   const handleReorder = (newOrder: BrowserProps[]) => {
     setItems(newOrder);
     dispatch(setBrowsers(newOrder));
     board.distributeWindowsByOrder(newOrder);
+  };
+
+  const handleReorderChatItems = (newOrder: ChatRunner[]) => {
+    setChatItems(newOrder);
   };
 
   const handleImageError: ReactEventHandler<HTMLImageElement> = (e) => {
@@ -93,9 +99,28 @@ export const LeftBar = () => {
     [boardState.activeBrowser, browser, handleClickFavicon]
   );
 
+  const makeChatItem = useCallback((runnerId: string) => {
+    const runner = chatState.runners?.[runnerId]
+    return (
+      <Reorder.Item key={`reorderChatItem-${runnerId}`} value={runnerId}>
+        <Tooltip title={runnerId} placement="right" key={runnerId}>
+          <div className="LeftBar__chatItemContainer">
+            {
+              runner?.action === 'contact' && (runner.context.username.substring(0, 1).toUpperCase())
+            }
+          </div>
+        </Tooltip>
+      </Reorder.Item>
+    )
+  }, [])
+
   const makeFavicons = useCallback(() => {
     return items.map((b: BrowserProps) => makeItem(b));
   }, [items, makeItem]);
+
+  const makeChatItems = useCallback(() => {
+    return Object.keys(chatState.runners ?? {}).map((runnerId) => makeChatItem(runnerId));
+  }, [chatState.runners, makeChatItem]);
 
   useEffect(() => {
     if (boardState.isFullSize) {
@@ -109,12 +134,21 @@ export const LeftBar = () => {
     }
   }, [board.getSortedBrowsers, boardState.isFullSize]);
 
+  console.log({chatState})
+
   return (
-    <div id="LeftBar__browserFavContainer">
-      <Reorder.Group values={items} onReorder={handleReorder} axis="y">
-        <div id="LeftBar__browserFavContainerItems">{makeFavicons()}</div>
-        <ButtonAddBrowser onClick={browser.add} />
-      </Reorder.Group>
-    </div>
+    <>
+      <div id="LeftBar__browserFavContainer">
+        <Reorder.Group values={items} onReorder={handleReorder} axis="y">
+          <div id="LeftBar__browserFavContainerItems">{makeFavicons()}</div>
+          <ButtonAddBrowser onClick={browser.add} />
+        </Reorder.Group>
+      </div>
+      <div id='LeftBar__chatItems'>
+        <Reorder.Group values={chatItems} onReorder={handleReorderChatItems} axis="y">
+          {makeChatItems()}
+        </Reorder.Group>
+      </div>
+    </>
   );
 };

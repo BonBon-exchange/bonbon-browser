@@ -34,7 +34,7 @@ const Popup = lazy(() => import('renderer/App/components/Popup'));
 const AppMenu = lazy(() => import('renderer/App/components/AppMenu'));
 const Minimap = lazy(() => import('renderer/App/components/Minimap'));
 
-export const Addaps = ({ boardId }: AddapsProps) => {
+export const Addaps = ({ boardId, chatState }: AddapsProps) => {
   useGlobalEvents();
   useChatEvents();
   const { items } = useAppSelector((state) => state.downloads);
@@ -141,7 +141,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
         })}
       >
         <div id="Addaps__background" />
-        <LeftBar />
+        <LeftBar chatState={chatState}/>
         <Board
           boardId={boardId}
           isFullSize={

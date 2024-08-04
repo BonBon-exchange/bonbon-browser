@@ -1,3 +1,33 @@
+#LeftBar__chatItems {
+  position: fixed;
+  bottom: 66px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+  align-items: center;
+  z-index: 10;
+  background-color: var(--color-background-tertiary);
+  padding-bottom: 33px;
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+}
+
+.LeftBar__chatItemContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  background: linear-gradient(200.96deg, #c4a320, #a0455e, #5c2370);
+  color: white;
+}
+
 #LeftBar__browserFavContainer {
   position: fixed;
   height: 100%;
