@@ -469,11 +469,12 @@ export const makeIpcMainEvents = (): void => {
       setState('chat', { username: "", isMagic: false })
       endChat()
       getSelectedView()?.webContents.send('end-chat');
+      getSelectedView()?.webContents.send('chat-state', { chatState: {username: '', isMagic: false} });
     } else {
       setState('isChatActive', true)
       initChat()
       getSelectedView()?.webContents.send('init-chat');
-      getSelectedView()?.webContents.send('chat-state', { chatState: getState("chat") ?? {} });
+      getSelectedView()?.webContents.send('chat-state', { chatState: getState("chat") ?? {username: '', isMagic: false} });
     }
   });
 
