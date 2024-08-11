@@ -466,7 +466,6 @@ export const makeIpcMainEvents = (): void => {
   // handle chat
   ipcMain.on('init-chat', () => {
     const chat = getState('chat');
-    console.log({chat})
     if (chat?.isChatActive === true) {
       endChat()
       setState('chat', INITIAL_INACTIVE_CHAT)
@@ -483,7 +482,6 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.on('end-chat', () => {
     setState('chat', {username: '', isMagic: false, visibleRunners: null, isChatActive: false, userIsCloseToChatBar: false })
     endChat()
-    console.log({username: '', isMagic: false, visibleRunners: null, isChatActive: false, userIsCloseToChatBar: false })
     getSelectedView()?.webContents.send('end-chat');
   });
 
