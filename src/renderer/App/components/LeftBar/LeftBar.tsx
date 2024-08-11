@@ -152,7 +152,7 @@ export const LeftBar = () => {
           </Tooltip>
         </Reorder.Group>
       </div>
-      <div id='LeftBar__chatItems'>
+      <div id='LeftBar__chatItems' className={clsx({'is-chat-active': chat.isChatActive, 'user-is-close': chat.userIsCloseToChatBar})}>
         <Reorder.Group values={chatItems} onReorder={handleReorderChatItems} axis="y">
           {makeChatItems()}
         </Reorder.Group>

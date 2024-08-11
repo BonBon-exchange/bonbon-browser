@@ -1,6 +1,6 @@
 #LeftBar__chatItems {
   position: fixed;
-  bottom: 33px;
+  bottom: 0px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -8,7 +8,16 @@
   align-items: center;
   z-index: 10;
   background-color: var(--color-background-tertiary);
-  padding-bottom: 33px;
+  padding-bottom: 12px;
+  transition: bottom 400ms ease-in-out;
+
+  &.is-chat-active {
+    bottom: 33px;
+
+    &.user-is-close {
+      bottom: 66px !important;
+    }
+  }
 
   ul {
     list-style: none;

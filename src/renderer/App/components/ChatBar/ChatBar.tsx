@@ -7,18 +7,16 @@ import React, {
   useEffect,
   useRef,
   KeyboardEventHandler,
-  Dispatch,
-  SetStateAction,
 } from 'react';
 
+import { useAppDispatch } from 'renderer/App/store/hooks';
+import { setChatState } from 'renderer/App/store/reducers/Chat';
+import { useChat } from 'renderer/App/hooks/useChat';
 import { ChatState } from '../../../../types/chat';
 
-type ChatStateProps = ChatState & {
-  setTempChatState: Dispatch<SetStateAction<ChatState>>;
-  isChatActive: boolean;
-};
-
-export default  (props: ChatStateProps) => {
+export default  () => {
+  const dispatch = useAppDispatch()
+  const chat = useChat();
   const chatBarRef = useRef<HTMLDivElement>(null);
   const magicInputRef = useRef<HTMLInputElement>(null);
   const inputContactMagicRef = useRef<HTMLInputElement>(null);
@@ -27,20 +25,16 @@ export default  (props: ChatStateProps) => {
     useState<boolean>(false);
   const [shouldEnhighChatbar, setShouldEnhighChatbar] =
     useState<boolean>(false);
-  const [username, setUsername] = useState<string>(props.username ?? '');
+  const [username, setUsername] = useState<string>(chat.username ?? '');
   const [inputUsername, setInputUsername] = useState<string>('');
   const [usernameHasBeenSet, setUsernameHasBeenSet] = useState<boolean>(
-    Number(props?.username?.length) > 0
+    Number(chat?.username?.length) > 0
   );
   const [magic, setMagic] = useState<string>('');
   const [magicHasBeenSet, setMagicHasBeenSet] = useState<boolean>(
-    props.isMagic ?? false
+    chat.isMagic ?? false
   );
-  const [componentChatState, setComponentChatState] = useState<ChatState>({
-    username: props.username,
-    isMagic: props.isMagic,
-    visibleRunner: null,
-  });
+  const [componentChatState, setComponentChatState] = useState<ChatState>(chat);
   const [chatView, setChatView] = useState<string>('');
   const [inputContactUsername, setInputContactUsername] = useState<string>('');
   const [inputContactMagic, setInputContactMagic] = useState<string>('');
@@ -53,7 +47,7 @@ export default  (props: ChatStateProps) => {
   }
 
   const contactRun = async () => {
-    const runnerId = await window.app.chat.createRunner({
+    await window.app.chat.createRunner({
       action: 'contact',
       context: {
         username: inputContactUsername,
@@ -169,15 +163,15 @@ export default  (props: ChatStateProps) => {
 
   useEffect(() => {
     const currentState = componentChatState;
-    currentState.username = props.username;
-    currentState.isMagic = props.isMagic;
-    props.setTempChatState(componentChatState);
-  }, [componentChatState, props]);
+    currentState.username = chat.username;
+    currentState.isMagic = chat.isMagic;
+    // props.setTempChatState(componentChatState);
+  }, [chat.isMagic, chat.username, componentChatState]);
 
   useEffect(() => {
-    setUsernameHasBeenSet(Number(props?.username?.length) > 0);
-    setMagicHasBeenSet(props?.isMagic ?? false);
-  }, [props, setUsernameHasBeenSet, setMagicHasBeenSet]);
+    setUsernameHasBeenSet(Number(chat?.username?.length) > 0);
+    setMagicHasBeenSet(chat?.isMagic ?? false);
+  }, [setUsernameHasBeenSet, setMagicHasBeenSet, chat?.username?.length, chat?.isMagic]);
 
   useEffect(() => {
     if (chatView === '' && usernameHasBeenSet && magicHasBeenSet) {
@@ -192,6 +186,12 @@ export default  (props: ChatStateProps) => {
     inputContactUsernameRef,
   ]);
 
+  useEffect(() => {
+    if (shouldEnhighChatbar !== chat.userIsCloseToChatBar) {
+      dispatch(setChatState({...chat, userIsCloseToChatBar: shouldEnhighChatbar}))
+    }
+  }, [shouldEnhighChatbar, chat, dispatch])
+
   return (
     <div
       id="chat-bar"
@@ -199,7 +199,7 @@ export default  (props: ChatStateProps) => {
       className={clsx({
         'message-received': isStateMessageReceived,
         'user-is-close': shouldEnhighChatbar,
-        'is-chat-active': props.isChatActive
+        'is-chat-active': chat.isChatActive
         // 'magic-effect': shouldShowMagicEffect,
       })}
     >

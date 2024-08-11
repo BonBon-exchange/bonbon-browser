@@ -10,6 +10,8 @@ export type ChatState = {
     isMagic: boolean,
     runners?: Record<ChatRunnerId, ChatRunner>
     visibleRunner: null | string
+    isChatActive: boolean
+    userIsCloseToChatBar: boolean
 }
 
 export type ChatView = "" | "home" | "meet" | "contact" | ReturnType<(runnerId: string, hostView: string) => `${hostView}:runner-${runnerId}`>
