@@ -230,7 +230,7 @@ export default  () => {
           />
         )}
 
-      {chatView === 'home' && (
+      {chatView === 'home' && !chat.visibleRunner && (
         <div id="chat-bar-home">
           <div
             className="chat-bar-home-item"
@@ -246,6 +246,21 @@ export default  () => {
           >
             Contact
           </div>
+        </div>
+      )}
+
+      {chatView === 'home' && chat.visibleRunner !== null && (
+        <div id="chat-bar-contact">
+          <input
+            type="text"
+            id="chat-bar-contact-sendmessage-input"
+            className="chat-bar-contact-input"
+            ref={inputContactUsernameRef}
+            value={inputContactUsername}
+            onChange={(e) => setInputContactUsername(e.target.value)}
+            placeholder="send a message"
+            onKeyDown={contactUsernameOnKeyDown}
+          />
         </div>
       )}
 

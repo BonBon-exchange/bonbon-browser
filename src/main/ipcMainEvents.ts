@@ -114,8 +114,7 @@ const bonbonAutoLauncher = new AutoLaunch({
 });
 
 const sendChatStateUpdate = () => {
-  const chatState = getState("chat") ?? {}
-  console.log('sendChatSTtateUpdate', { chatState })
+  const chatState = getState("chat") ?? INITIAL_INACTIVE_CHAT
   Object.keys(getViews()).forEach((browserId) => {
     getViews()[browserId].webContents.send('chat-state', { chatState });
   })
@@ -150,6 +149,7 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('tab-select', (_event, args: IpcTabSelect) => {
     selectTab(args);
+    getSelectedView()?.webContents.send('chat-state', { chatState: getState("chat") });
   });
 
   ipcMain.on('close-active-board', () => {
@@ -470,7 +470,7 @@ export const makeIpcMainEvents = (): void => {
       endChat()
       setState('chat', INITIAL_INACTIVE_CHAT)
       getSelectedView()?.webContents.send('end-chat');
-      getSelectedView()?.webContents.send('chat-state', { chatState: INITIAL_INACTIVE_CHAT });
+      getSelectedView()?.webContents.send('chat-state', { chatState: getState("chat") });
     } else {
       initChat()
       setState('chat', { ...getState("chat"), isChatActive: true } ?? {username: '', isMagic: false, visibleRunners: null, isChatActive: true, userIsCloseToChatBar: false} )
@@ -506,7 +506,12 @@ export const makeIpcMainEvents = (): void => {
   })
 
   ipcMain.on('set-visible-runner', (_e, runnerId: string) => {
-    setStateAt('chat.visibleRunner', runnerId)
+
+    const chat = getState('chat')
+
+    console.log({visibleRunner: chat.visibleRunner})
+
+    setStateAt('chat.visibleRunner', chat.visibleRunner === runnerId ? null : runnerId)
     sendChatStateUpdate()
   })
 
