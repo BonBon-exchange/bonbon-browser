@@ -97,15 +97,12 @@ export const App = (props: { chatState: ChatState }) => {
   }, [handleEndChat]);
 
   useEffect(() => {
-    localStorage.getItem('isChatActive') === 'true'
-      ? setIsChatActive(true)
-      : setIsChatActive(false);
-
     try {
       const lsstate = localStorage.getItem('chat');
       if (lsstate && lsstate.length > 2) {
         const state = JSON.parse(lsstate) as ChatState;
         setTempChatState(state);
+        setIsChatActive(state.isChatActive)
         localStorage.setItem('chat', '');
       } else { /* empty */ }
     } catch (e) {
@@ -118,13 +115,7 @@ export const App = (props: { chatState: ChatState }) => {
       <PersistGate loading={null} persistor={persisted.current?.persistor}>
         <Addaps boardId={boardId} chatState={props.chatState}/>
           <ChatViews />
-          <ChatBar
-            isChatActive={isChatActive}
-            isMagic={tempChatState.isMagic}
-            username={tempChatState.username}
-            setTempChatState={setTempChatState}
-            visibleRunner={null}
-          />
+          <ChatBar />
       </PersistGate>
     </Provider>
   ) : (

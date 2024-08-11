@@ -85,6 +85,7 @@ import { getStore } from './store';
 import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
 import { getState, setState, setStateAt } from './BonBon_Global_State';
 import { endChat, initChat, setUsername, setMagic, createRunner } from './chat';
+import { INITIAL_INACTIVE_CHAT } from './constants';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -464,24 +465,25 @@ export const makeIpcMainEvents = (): void => {
 
   // handle chat
   ipcMain.on('init-chat', () => {
-    if (getState('isChatActive') === true) {
-      setState('isChatActive', false)
-      setState('chat', { username: "", isMagic: false })
+    const chat = getState('chat');
+    console.log({chat})
+    if (chat?.isChatActive === true) {
       endChat()
+      setState('chat', INITIAL_INACTIVE_CHAT)
       getSelectedView()?.webContents.send('end-chat');
-      getSelectedView()?.webContents.send('chat-state', { chatState: {username: '', isMagic: false, visibleRunners: null, isChatActive: false, userIsCloseToChatBar: false } });
+      getSelectedView()?.webContents.send('chat-state', { chatState: INITIAL_INACTIVE_CHAT });
     } else {
-      setState('isChatActive', true)
       initChat()
+      setState('chat', { ...getState("chat"), isChatActive: true } ?? {username: '', isMagic: false, visibleRunners: null, isChatActive: true, userIsCloseToChatBar: false} )
       getSelectedView()?.webContents.send('init-chat');
       getSelectedView()?.webContents.send('chat-state', { chatState: { ...getState("chat"), isChatActive: true } ?? {username: '', isMagic: false, visibleRunners: null, isChatActive: true, userIsCloseToChatBar: false} });
     }
   });
 
   ipcMain.on('end-chat', () => {
-    setState('isChatActive', false)
-    setState('chat', {})
+    setState('chat', {username: '', isMagic: false, visibleRunners: null, isChatActive: false, userIsCloseToChatBar: false })
     endChat()
+    console.log({username: '', isMagic: false, visibleRunners: null, isChatActive: false, userIsCloseToChatBar: false })
     getSelectedView()?.webContents.send('end-chat');
   });
 
