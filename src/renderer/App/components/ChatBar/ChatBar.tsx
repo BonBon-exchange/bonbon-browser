@@ -15,9 +15,10 @@ import { ChatState } from '../../../../types/chat';
 
 type ChatStateProps = ChatState & {
   setTempChatState: Dispatch<SetStateAction<ChatState>>;
+  isChatActive: boolean;
 };
 
-export default (props: ChatStateProps) => {
+export default  (props: ChatStateProps) => {
   const chatBarRef = useRef<HTMLDivElement>(null);
   const magicInputRef = useRef<HTMLInputElement>(null);
   const inputContactMagicRef = useRef<HTMLInputElement>(null);
@@ -38,6 +39,7 @@ export default (props: ChatStateProps) => {
   const [componentChatState, setComponentChatState] = useState<ChatState>({
     username: props.username,
     isMagic: props.isMagic,
+    visibleRunner: null,
   });
   const [chatView, setChatView] = useState<string>('');
   const [inputContactUsername, setInputContactUsername] = useState<string>('');
@@ -197,6 +199,7 @@ export default (props: ChatStateProps) => {
       className={clsx({
         'message-received': isStateMessageReceived,
         'user-is-close': shouldEnhighChatbar,
+        'is-chat-active': props.isChatActive
         // 'magic-effect': shouldShowMagicEffect,
       })}
     >

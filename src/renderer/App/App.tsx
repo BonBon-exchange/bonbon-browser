@@ -52,6 +52,7 @@ export const App = (props: { chatState: ChatState }) => {
     setTempChatState({
       username: '',
       isMagic: false,
+      visibleRunner: null
     });
   }, [setIsChatActive, setTempChatState]);
 
@@ -114,16 +115,14 @@ export const App = (props: { chatState: ChatState }) => {
     <Provider store={persisted.current?.store}>
       <PersistGate loading={null} persistor={persisted.current?.persistor}>
         <Addaps boardId={boardId} chatState={props.chatState}/>
-        {isChatActive && (
-          <>
-            <ChatViews />
-            <ChatBar
-              isMagic={tempChatState.isMagic}
-              username={tempChatState.username}
-              setTempChatState={setTempChatState}
-            />
-          </>
-        )}
+          <ChatViews />
+          <ChatBar
+            isChatActive={isChatActive}
+            isMagic={tempChatState.isMagic}
+            username={tempChatState.username}
+            setTempChatState={setTempChatState}
+            visibleRunner={null}
+          />
       </PersistGate>
     </Provider>
   ) : (

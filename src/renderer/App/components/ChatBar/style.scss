@@ -1,8 +1,8 @@
 #chat-bar {
     width: 100%;
-    height: 33px;
+    height: 0px;
+    top: 100vh;
     background: linear-gradient(200.96deg, #c4a320, #a0455e, #5c2370);
-    top: calc(100vh - 33px);
     position: fixed;
     z-index: 100;
     transition: background 400ms ease-out, height 400ms ease-out, top 400ms ease-out;
@@ -12,7 +12,7 @@
     background: linear-gradient(200.96deg, #ffeb75, #f192b2, #a35ac4);
 }
 
-#chat-bar.user-is-close {
+#chat-bar.user-is-close.is-chat-active {
     height: 66px;
     top: calc(100vh - 66px);
     background: linear-gradient(200.96deg, #ffeb75, #f192b2, #a35ac4);
@@ -31,6 +31,11 @@
         color: #ffa0e7;
         opacity: 1;
     }
+}
+
+#chat-bar.is-chat-active {
+    height: 33px;
+    top: calc(100vh - 33px);
 }
 
 .chat-bar-home-item {
