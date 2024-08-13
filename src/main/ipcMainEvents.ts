@@ -158,7 +158,8 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('tab-select', (_event, args: IpcTabSelect) => {
     selectTab(args);
-    getSelectedView()?.webContents.send('chat-state', { chatState: getState("chat") });
+    setStateAt('chat.visibleRunner', null)
+    sendChatStateUpdate()
   });
 
   ipcMain.on('close-active-board', () => {
