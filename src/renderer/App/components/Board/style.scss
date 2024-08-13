@@ -6,6 +6,10 @@
   position: absolute;
   overflow: hidden;
 
+  &.is-chat-active {
+    display: none;
+  }
+
   .Board__edge-snap-left,  
   .Board__edge-snap-right, 
   .Board__edge-snap-maximized {

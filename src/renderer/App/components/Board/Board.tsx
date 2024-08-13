@@ -16,6 +16,7 @@ import {
   setActiveBrowser,
   setBoardHeight,
 } from 'renderer/App/store/reducers/Board';
+import { useChat } from 'renderer/App/hooks/useChat';
 
 import { BoardProps } from './Types';
 
@@ -23,6 +24,7 @@ import './style.scss';
 
 export const Board = ({ isFullSize, boardId }: BoardProps) => {
   const board = useBoard();
+  const chat = useChat();
   const dispatch = useAppDispatch();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>([]);
@@ -123,6 +125,7 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
       className={clsx({
         'Board__is-maximized': board.isFullSize || isFullSize,
         'Board__isnt-maximized': !board.isFullSize && !isFullSize,
+        'is-chat-active': chat.visibleRunner
       })}
     >
       <AnimatePresence>{makeBrowsers(items)}</AnimatePresence>
