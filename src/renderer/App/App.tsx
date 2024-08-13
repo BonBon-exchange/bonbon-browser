@@ -51,7 +51,7 @@ export const App = (props: { chatState: ChatState }) => {
     setIsChatActive(false);
     setTempChatState({
       username: '',
-      isMagic: false,
+      magic: '',
       visibleRunner: null,
       isChatActive: false,
       userIsCloseToChatBar: false

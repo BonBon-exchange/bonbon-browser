@@ -114,6 +114,9 @@ contextBridge.exposeInMainWorld('app', {
     setVisibleRunner: (viewName: ChatView) => {
       ipcRenderer.send('set-visible-runner', viewName)
     },
+    sendMessage: (messageContent: string) => {
+      ipcRenderer.send('send-chat-message', messageContent)
+    },
     init: () => {
       ipcRenderer.send('init-chat')
     }

@@ -21,6 +21,7 @@ export default  () => {
   const magicInputRef = useRef<HTMLInputElement>(null);
   const inputContactMagicRef = useRef<HTMLInputElement>(null);
   const inputContactUsernameRef = useRef<HTMLInputElement>(null);
+  const inputContactSendMessageRef = useRef<HTMLInputElement>(null);
   const [isStateMessageReceived, setIsStateMessageReiceived] =
     useState<boolean>(false);
   const [shouldEnhighChatbar, setShouldEnhighChatbar] =
@@ -31,13 +32,12 @@ export default  () => {
     Number(chat?.username?.length) > 0
   );
   const [magic, setMagic] = useState<string>('');
-  const [magicHasBeenSet, setMagicHasBeenSet] = useState<boolean>(
-    chat.isMagic ?? false
-  );
+  const [magicHasBeenSet, setMagicHasBeenSet] = useState<boolean>(Number(chat?.magic?.length) > 0);
   const [componentChatState, setComponentChatState] = useState<ChatState>(chat);
   const [chatView, setChatView] = useState<string>('');
   const [inputContactUsername, setInputContactUsername] = useState<string>('');
   const [inputContactMagic, setInputContactMagic] = useState<string>('');
+  const [contactSendMessageInputValue, setContactSendMessageInputValue] = useState<string>('');
   // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
   //  useState<boolean>(false);
 
@@ -57,9 +57,19 @@ export default  () => {
 
     setInputContactUsername('')
     setInputContactMagic('')
-
     setChatView(`home`);
+    inputContactSendMessageRef.current?.focus()
   };
+
+  const sendContactMessageOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (
+      e.key === 'Enter' &&
+      contactSendMessageInputValue.length > 0
+    ) {
+      window.app.chat.sendMessage(contactSendMessageInputValue);
+      setContactSendMessageInputValue('')
+    }
+  }
 
   const contactMagicOnKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (
@@ -151,7 +161,7 @@ export default  () => {
   useEffect(() => {
     const currentState = componentChatState;
     currentState.username = username;
-    currentState.isMagic = magicHasBeenSet;
+    currentState.magic = magic;
     setComponentChatState(currentState);
   }, [
     username,
@@ -164,14 +174,14 @@ export default  () => {
   useEffect(() => {
     const currentState = componentChatState;
     currentState.username = chat.username;
-    currentState.isMagic = chat.isMagic;
+    currentState.magic = chat.magic;
     // props.setTempChatState(componentChatState);
-  }, [chat.isMagic, chat.username, componentChatState]);
+  }, [chat.magic, chat.username, componentChatState]);
 
   useEffect(() => {
     setUsernameHasBeenSet(Number(chat?.username?.length) > 0);
-    setMagicHasBeenSet(chat?.isMagic ?? false);
-  }, [setUsernameHasBeenSet, setMagicHasBeenSet, chat?.username?.length, chat?.isMagic]);
+    setMagicHasBeenSet(Number(chat?.magic?.length) > 0);
+  }, [setUsernameHasBeenSet, setMagicHasBeenSet, chat?.username?.length, chat?.magic?.length]);
 
   useEffect(() => {
     if (chatView === '' && usernameHasBeenSet && magicHasBeenSet) {
@@ -203,7 +213,7 @@ export default  () => {
         // 'magic-effect': shouldShowMagicEffect,
       })}
     >
-      {!usernameHasBeenSet && !(componentChatState.username?.length > 0) && (
+      {!usernameHasBeenSet && (
         <input
           type="text"
           id="chat-bar-set-username"
@@ -216,8 +226,7 @@ export default  () => {
       )}
 
       {!magicHasBeenSet &&
-        usernameHasBeenSet &&
-        !componentChatState.isMagic && (
+        usernameHasBeenSet && (
           <input
             type="text"
             id="chat-bar-set-magic"
@@ -255,11 +264,11 @@ export default  () => {
             type="text"
             id="chat-bar-contact-sendmessage-input"
             className="chat-bar-contact-input"
-            ref={inputContactUsernameRef}
-            value={inputContactUsername}
-            onChange={(e) => setInputContactUsername(e.target.value)}
+            ref={inputContactSendMessageRef}
+            value={contactSendMessageInputValue}
+            onChange={(e) => setContactSendMessageInputValue(e.target.value)}
             placeholder="send a message"
-            onKeyDown={contactUsernameOnKeyDown}
+            onKeyDown={sendContactMessageOnKeyDown}
           />
         </div>
       )}

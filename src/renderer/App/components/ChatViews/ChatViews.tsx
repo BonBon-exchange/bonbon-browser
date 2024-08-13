@@ -13,7 +13,14 @@ export default () => {
     <>
       {Object.keys(runners).map((runnerId: ChatRunnerId) => (
           <div className={clsx('chat-view', {'selected': chat.visibleRunner === runnerId})} key={`${runnerId}`}>
-            {JSON.stringify(runners[runnerId ?? {}])}
+            {
+              // runners[runnerId].action === 'contact' && 
+              // runners[runnerId].context.messages?.map(() => ({
+
+              // })) 
+            }
+
+            {JSON.stringify(runners[runnerId].context.messages)}
           </div>
       ))}
     </>

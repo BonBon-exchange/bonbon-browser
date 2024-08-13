@@ -1,11 +1,12 @@
 .chat-view {
     
     display: none;
-    width: 100%;
+    width: calc(100% - 50px);
     height: 100%;
     position: fixed;
-    padding-left: 50px;
+    margin-left: 50px;
     background: linear-gradient(200.96deg, #c4a320, #a0455e, #5c2370);
+    z-index: 10;
 
     &.selected {
         display: flex;

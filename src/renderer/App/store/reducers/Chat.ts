@@ -8,11 +8,14 @@ export type ChatSliceState = {
 export const initialState: ChatSliceState = {
   chat: {
     username: '',
-    isMagic: false,
+    magic: '',
     runners: {},
-    visibleRunner: null
+    visibleRunner: null,
+    isChatActive: false,
+    userIsCloseToChatBar: false
   }
 };
+
 
 export const chatSlice = createSlice({
   name: 'chat',

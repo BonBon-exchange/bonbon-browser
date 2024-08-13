@@ -7,7 +7,7 @@ export type ChatRunner = {
 
 export type ChatState = {
     username: string,
-    isMagic: boolean,
+    magic: string,
     runners?: Record<ChatRunnerId, ChatRunner>
     visibleRunner: null | string
     isChatActive: boolean

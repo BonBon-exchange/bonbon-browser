@@ -9,7 +9,7 @@ import { App } from './App';
 
 (window as Expected)['----/__/0/CDXX/-'] = {
   ':.BonBon': {
-    chat: { username: '', isMagic: false },
+    chat: { username: '', magic: '' },
   },
 } as Expected;
 

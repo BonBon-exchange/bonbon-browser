@@ -59,6 +59,7 @@ declare global {
         setState: (state: ChatState) => void
         getState: () => Primise<ChatState>
         setVisibleRunner: ((runner: string) => void)
+        sendMessage: ((messageContent: string) => void)
         init: () => void
       };
       config: {

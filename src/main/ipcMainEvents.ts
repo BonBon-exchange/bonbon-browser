@@ -37,7 +37,7 @@ import {
   IpcTabSelect,
 } from 'types/ipc';
 import { DomainSuggestion } from 'types/suggestions';
-import { ChatRunner } from 'types/chat';
+import { ChatRunner, ChatState } from 'types/chat';
 
 import { event, page } from './analytics';
 import { getUrlToOpen, setUrlToOpen } from './appEvents';
@@ -85,7 +85,7 @@ import { getStore } from './store';
 import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
 import { getState, setState, setStateAt } from './BonBon_Global_State';
 import { endChat, initChat, setUsername, setMagic, createRunner } from './chat';
-import { INITIAL_INACTIVE_CHAT } from './constants';
+import { INITIAL_ACTIVE_CHAT, INITIAL_INACTIVE_CHAT } from './constants';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -118,6 +118,15 @@ const sendChatStateUpdate = () => {
   Object.keys(getViews()).forEach((browserId) => {
     getViews()[browserId].webContents.send('chat-state', { chatState });
   })
+}
+
+const makeMessageFromSelf = (state: ChatState, messageContent: string) => {
+  return {
+    senderUsername: state.username,
+    senderMagic: state.magic,
+    content: messageContent,
+    timestamp: Date.now()
+  }
 }
 
 export const makeIpcMainEvents = (): void => {
@@ -473,14 +482,14 @@ export const makeIpcMainEvents = (): void => {
       getSelectedView()?.webContents.send('chat-state', { chatState: getState("chat") });
     } else {
       initChat()
-      setState('chat', { ...getState("chat"), isChatActive: true } ?? {username: '', isMagic: false, visibleRunners: null, isChatActive: true, userIsCloseToChatBar: false} )
+      setState('chat', { ...getState("chat"), isChatActive: true } ?? INITIAL_ACTIVE_CHAT )
       getSelectedView()?.webContents.send('init-chat');
-      getSelectedView()?.webContents.send('chat-state', { chatState: { ...getState("chat"), isChatActive: true } ?? {username: '', isMagic: false, visibleRunners: null, isChatActive: true, userIsCloseToChatBar: false} });
+      getSelectedView()?.webContents.send('chat-state', { chatState: { ...getState("chat") ?? INITIAL_ACTIVE_CHAT, isChatActive: true } });
     }
   });
 
   ipcMain.on('end-chat', () => {
-    setState('chat', {username: '', isMagic: false, visibleRunners: null, isChatActive: false, userIsCloseToChatBar: false })
+    setState('chat', INITIAL_INACTIVE_CHAT)
     endChat()
     getSelectedView()?.webContents.send('end-chat');
   });
@@ -495,7 +504,7 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.on('set-chat-magic', (_e, magic: string) => {
     setMagic(magic)
     const chat = getState("chat") ?? {}
-    chat.isMagic = true
+    chat.magic = magic
     setState("chat", chat)
   })
 
@@ -509,10 +518,22 @@ export const makeIpcMainEvents = (): void => {
 
     const chat = getState('chat')
 
-    console.log({visibleRunner: chat.visibleRunner})
-
     setStateAt('chat.visibleRunner', chat.visibleRunner === runnerId ? null : runnerId)
     sendChatStateUpdate()
+  })
+
+  ipcMain.on('send-chat-message', (_e, messageContent: string) => {
+    const chat = getState('chat')
+    const currentRunnerId = chat.visibleRunner;
+      if (currentRunnerId) {
+        const currentRunner = chat.runners?.[currentRunnerId]
+        const currentRunnerMessages = currentRunner?.context.messages ?? []
+        currentRunnerMessages.push(makeMessageFromSelf(chat, messageContent))
+        if (currentRunner) currentRunner.context.messages = currentRunnerMessages
+        if (chat.runners && currentRunner) chat.runners[currentRunnerId] = currentRunner
+        setStateAt('chat', chat)
+        sendChatStateUpdate()
+      }
   })
 
   ipcMain.handle('get-chat-state', (_e) => {
