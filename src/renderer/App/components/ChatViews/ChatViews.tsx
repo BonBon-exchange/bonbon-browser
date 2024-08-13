@@ -16,7 +16,7 @@ export default () => {
             {
               runners[runnerId].action === 'contact' && 
               runners[runnerId].context.messages?.map((message: ChatMessage) => (
-                <div className={clsx('chat-view-message', {'message-by-self': message.senderMagic === chat.magic && message.senderUsername === chat.username})}>
+                <div key={message.timestamp} className={clsx('chat-view-message', {'message-by-self': message.senderMagic === chat.magic && message.senderUsername === chat.username})}>
                   {message.content}
                 </div>
                 

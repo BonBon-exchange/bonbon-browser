@@ -4,10 +4,10 @@ import { open } from 'sqlite'
 import { ipcMain } from 'electron';
 import { v4 } from 'uuid';
 
+import { ChatState } from 'types/chat';
 import { getSelectedView } from '../browser';
 import { createRunner } from './runner';
-import { ChatState } from 'types/chat';
-import { setState } from '../../main/BonBon_Global_State';
+import { setState } from '../BonBon_Global_State';
 
 // Setup in-memory SQLite database
 let memory: Database
@@ -55,7 +55,7 @@ const userProxy = new Proxy({ username: "", magic: "", askForMagic: true, uuid: 
     }
 });
 
-// const unregistrationMessage = JSON.stringify({ event: 'unregister', usr: username }); // Format your message``
+const unregistrationMessage = JSON.stringify({ event: 'unregister', usr: userProxy.username }); // Format your message``
 
 const buildConnectionRequestMessage = (target: string, webrtcParticipant: string, username: string, magic: string) => JSON.stringify({ event: 'connection-request', target, webrtcParticipant, username, magic })
 
@@ -183,12 +183,12 @@ const connect = async () => {
 forProxyConnect = connect
 
 const initChat = () => {
-    // connect();
+    connect();
 }
 
 const endChat = () => {
-    // ws.send(unregistrationMessage);
-    // ws.close();
+    ws.send(unregistrationMessage);
+    ws.close();
 }
 
 const setChatState = (state: ChatState) => {
