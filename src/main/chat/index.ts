@@ -160,6 +160,8 @@ const connect = async () => {
                 } else {
                     getSelectedView()?.webContents.send('unauthorized-attempt-to-contact-you', { ...parsedMessage })
                 }
+            } else if (parsedMessage.event === 'send-message') {
+                // send message here
             }
         } catch (error) {
             console.error("Error processing message:", error);
