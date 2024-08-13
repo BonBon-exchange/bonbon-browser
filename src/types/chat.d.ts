@@ -15,3 +15,10 @@ export type ChatState = {
 }
 
 export type ChatView = "" | "home" | "meet" | "contact" | ReturnType<(runnerId: string, hostView: string) => `${hostView}:runner-${runnerId}`>
+
+export type ChatMessage = {
+    senderUsername: string,
+    senderMagic: string,
+    content: string,
+    timestamp: number
+}

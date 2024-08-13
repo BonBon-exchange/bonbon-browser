@@ -7,8 +7,25 @@
     margin-left: 50px;
     background: linear-gradient(200.96deg, #c4a320, #a0455e, #5c2370);
     z-index: 10;
+    flex-direction: column;
 
     &.selected {
         display: flex;
+    }
+
+    .chat-view-message {
+        display: flex;
+        padding: 13px;
+        margin: 10px;
+        width: fit-content;
+        color: white;
+
+        &.message-by-self {
+            background-color: rgba(244,244,244, 0.6);
+            border-radius: 20px;
+            text-align: right;
+            align-self: end;
+            color: black
+        }
     }
 }
