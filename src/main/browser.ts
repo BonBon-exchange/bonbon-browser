@@ -6,7 +6,6 @@ import { machineIdSync } from 'node-machine-id';
 import { BrowserWindowType } from 'types/bonbonized';
 import { getExtensionsObject, installDevtoolsExtensions } from './extensions';
 import { resolveHtmlPath } from './util';
-import { event } from './analytics';
 import { DARWIN } from './constants';
 import { getState } from './BonBon_Global_State';
 
@@ -137,8 +136,6 @@ export const createWindow = async (): Promise<BrowserWindowType> => {
     localStorage.setItem("chatState", "${JSON.stringify(getState('chat'))}");`,
     true
   );
-
-  event('open_app');
 
   return mainWindow;
 };

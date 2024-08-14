@@ -39,7 +39,6 @@ import {
 import { DomainSuggestion } from 'types/suggestions';
 import { ChatRunner, ChatState } from 'types/chat';
 
-import { event, page } from './analytics';
 import { getUrlToOpen, setUrlToOpen } from './appEvents';
 import {
   editBookmark,
@@ -149,11 +148,11 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('analytics-event', (_event, args: IpcAnalyticsEvent) => {
-    event(args.eventName, args.params);
+    // event(args.eventName, args.params);
   });
 
   ipcMain.on('analytics-page', (_event, args: IpcAnalyticsPage) => {
-    page(args.pageName, args.params);
+    // page(args.pageName, args.params);
   });
 
   ipcMain.on('tab-select', (_event, args: IpcTabSelect) => {
@@ -205,6 +204,8 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('close-app', () => {
     event('close_app');
+    setState('chat', INITIAL_INACTIVE_CHAT)
+    endChat()
     app.quit();
   });
 

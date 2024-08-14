@@ -125,7 +125,7 @@ const connect = async () => {
         console.log('Attempting to reconnect in 5 seconds...');
         reconnectInterval = setInterval(connect, 5000);
     }
-
+    
     ws = new WebSocket(url, {
         rejectUnauthorized: false // Allow self-signed certificates if needed
     });

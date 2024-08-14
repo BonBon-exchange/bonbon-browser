@@ -9,7 +9,6 @@ import contextMenu from 'electron-context-menu';
 import path from 'path';
 
 import { Electron } from 'namespaces/_electronist';
-import { event } from './analytics';
 import { makeAssociation } from './association';
 import {
   createWindow,
@@ -92,7 +91,6 @@ const makeAppEvents = () => {
   });
 
   app.on('window-all-closed', () => {
-    event('close_app');
     app.quit();
   });
 
