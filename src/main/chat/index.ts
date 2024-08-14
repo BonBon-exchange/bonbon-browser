@@ -9,9 +9,12 @@ import { getSelectedView } from '../browser';
 import { createRunner } from './runner';
 import { setState } from '../BonBon_Global_State';
 
-// Setup in-memory SQLite database
 let memory: Database
+let ws: WebSocket;
+let reconnectInterval: any;
+let isConnected = false;
 
+// Setup in-memory SQLite database
 const makeMemoryDb = async () => {
     memory = await open({
         filename: ':memory:',
@@ -68,10 +71,6 @@ const setMagic = (mgc: string) => {
     userProxy.magic = mgc
     console.log({ mgc })
 }
-
-let ws: WebSocket;
-let reconnectInterval: any;
-let isConnected = false;
 
 // Function to add a new user
 const registerUser = async (usr: string, uuid: string) => {
@@ -189,8 +188,10 @@ const initChat = () => {
 }
 
 const endChat = () => {
-    ws.send(unregistrationMessage);
-    ws.close();
+    if (ws) {
+        ws.send(unregistrationMessage);
+        ws.close();
+    }
 }
 
 const setChatState = (state: ChatState) => {
