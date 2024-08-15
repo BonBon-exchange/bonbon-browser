@@ -83,7 +83,7 @@ import i18n from './i18n';
 import { getStore } from './store';
 import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
 import { getState, setState, setStateAt } from './BonBon_Global_State';
-import { endChat, initChat, setUsername, setMagic, createRunner } from './chat';
+import { endChat, initChat, setUsername, setMagic, createRunner, getForProxyConnect } from './chat';
 import { INITIAL_ACTIVE_CHAT, INITIAL_INACTIVE_CHAT } from './constants';
 
 const store = getStore();
@@ -540,6 +540,10 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.handle('get-chat-state', (_e) => {
     return getState('chat')
+  })
+
+  ipcMain.on('chat-init-websocket', (_e) => {
+    getForProxyConnect()()
   })
 };
 

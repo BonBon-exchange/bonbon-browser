@@ -181,6 +181,7 @@ export default  () => {
   useEffect(() => {
     setUsernameHasBeenSet(Number(chat?.username?.length) > 0);
     setMagicHasBeenSet(Number(chat?.magic?.length) > 0);
+    if (Number(chat?.username?.length) > 0 && Number(chat?.magic?.length) > 0) window.app.chat.initWebsocket()
   }, [setUsernameHasBeenSet, setMagicHasBeenSet, chat?.username?.length, chat?.magic?.length]);
 
   useEffect(() => {

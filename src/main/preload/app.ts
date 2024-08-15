@@ -119,6 +119,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     init: () => {
       ipcRenderer.send('init-chat')
+    },
+    initWebsocket: () => {
+      ipcRenderer.send('chat-init-websocket');
     }
   },
   config: {

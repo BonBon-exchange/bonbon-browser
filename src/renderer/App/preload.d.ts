@@ -60,7 +60,8 @@ declare global {
         getState: () => Primise<ChatState>
         setVisibleRunner: ((runner: string) => void)
         sendMessage: ((messageContent: string) => void)
-        init: () => void
+        init: () => void,
+        initWebsocket: () => void
       };
       config: {
         get: (key: string) => Promise<unknown>;

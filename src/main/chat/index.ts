@@ -36,6 +36,8 @@ makeMemoryDb()
 const url = 'ws://echo.websocket.events/echo/BonBon/public_place';
 
 let forProxyConnect: () => void;
+export const getForProxyConnect = () => forProxyConnect;
+
 const uuidv4 = v4()
 const userProxy = new Proxy({ username: "", magic: "", askForMagic: true, uuid: uuidv4 }, {
     set(target, property, value) {
@@ -185,7 +187,7 @@ const connect = async () => {
 forProxyConnect = connect
 
 const initChat = () => {
-    connect();
+    // connect();
 }
 
 const endChat = () => {
