@@ -263,6 +263,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     chatState: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
       ipcRenderer.on('chat-state', action);
+    },
+    chatComboTaken: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
+      ipcRenderer.on('chat-combo-taken', action);
     }
   },
   off: {
@@ -328,6 +331,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     chatState: () => {
       ipcRenderer.removeAllListeners('chat-state');
+    },
+    chatComboTaken: () => {
+      ipcRenderer.removeAllListeners('chat-combo-taken');
     }
   },
   tools: {

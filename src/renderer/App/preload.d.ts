@@ -110,6 +110,7 @@ declare global {
         createWebrtcParticipant: (action: unknown) => void;
         webrtcConnectionRequest: (action: unknown) => void;
         chatState: (action: unknown) => void;
+        chatComboTaken: (action: unknown) =>void;
       };
       off: {
         newWindow: () => void;
@@ -135,6 +136,7 @@ declare global {
         createWebrtcParticipant: () => void;
         webrtcConnectionRequest: () => void;
         chatState: () => void;
+        chatComboTaken: () => void;
       };
       tools: {
         inspectElement: (point: IpcInspectElement) => void;

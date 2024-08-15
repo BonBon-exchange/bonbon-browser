@@ -168,6 +168,9 @@ const connect = async () => {
             } else if (parsedMessage.event === 'refuse-new-user') {
                 const { username, magic, uuid } = parsedMessage;
                 await unregisterUser({username, magic, uuid});
+                if (username === userProxy.username && magic === userProxy.magic && uuid === userProxy.uuid) {
+                    getSelectedView()?.webContents.send('chat-combo-taken');
+                }
             }
         } catch (error) {
             console.error("Error processing message:", error);

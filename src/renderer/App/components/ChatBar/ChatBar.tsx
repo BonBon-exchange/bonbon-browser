@@ -140,6 +140,19 @@ export default  () => {
     }
   };
 
+  const resetComponentState = () => {
+    setUsernameHasBeenSet(false)
+    setMagicHasBeenSet(false)
+    setUsername('')
+    setMagic('')
+  }
+
+  const chatComboTakenAction = useCallback(() => {
+    window.app.chat.setUsername('');
+    window.app.chat.setMagic('');
+    resetComponentState()
+  }, [])
+
   useEffect(() => {
     window.app.listener.chatMessageReceived(messageReceivedAction);
     return () => {
@@ -202,6 +215,11 @@ export default  () => {
       dispatch(setChatState({...chat, userIsCloseToChatBar: shouldEnhighChatbar}))
     }
   }, [shouldEnhighChatbar, chat, dispatch])
+
+  useEffect(() => {
+    window.app.listener.chatComboTaken(chatComboTakenAction);
+    return () => window.app.off.chatComboTaken();
+  }, [chatComboTakenAction]);
 
   return (
     <div
