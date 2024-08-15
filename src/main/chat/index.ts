@@ -183,7 +183,7 @@ const connect = async () => {
     ws.on('close', (code, reason) => {
         console.log('WebSocket closed:', code, reason);
         isConnected = false;
-        unregisterUser(userProxy.username, userProxy.uuid);
+        unregisterUser({username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid});
         reconnect(); // Attempt to reconnect on close
     });
 }
