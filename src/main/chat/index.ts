@@ -27,7 +27,7 @@ const makeMemoryDb = async () => {
         username TEXT NOT NULL,
         magic TEXT,
         webrtcOffer TEXT,
-        registered_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        registered_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
 }
 
@@ -74,6 +74,7 @@ const setMagic = (mgc: string) => {
 
 // Function to add a new user
 const registerUser = async (usr: string, uuid: string) => {
+    console.log('registerUser', {usr, uuid})
     await makeMemoryDb()
     try {
         await memory.run("INSERT INTO users (username, uuid) VALUES (?, ?)", [usr, uuid]);
@@ -134,7 +135,7 @@ const connect = async () => {
         getSelectedView()?.webContents.send('create-webrtc-offer')
 
         ipcMain.on('created-webrtc-offer', (_event, webrtcOffer: string) => {
-            const registrationMessage = JSON.stringify({ event: 'register', usr: userProxy.username, webrtcOffer: webrtcOffer, uuid: userProxy.uuid }); // Format your message
+            const registrationMessage = JSON.stringify({ event: 'register', usr: userProxy.username, webrtcOffer, uuid: userProxy.uuid }); // Format your message
             ws.send(registrationMessage);
             clearInterval(reconnectInterval); // Clear reconnect interval if connected
             isConnected = true;
