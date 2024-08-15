@@ -75,23 +75,23 @@ const setMagic = (mgc: string) => {
 }
 
 // Function to add a new user
-const registerUser = async (usr: string, uuid: string) => {
-    console.log('registerUser', {usr, uuid})
+const registerUser = async ({username, magic, uuid}: {username: string, magic: string, uuid: string}) => {
+    console.log('registerUser', {username, uuid})
     await makeMemoryDb()
     try {
-        await memory.run("INSERT INTO users (username, uuid) VALUES (?, ?)", [usr, uuid]);
-        console.log(`User ${usr} registered`);
+        await memory.run("INSERT INTO users (username, magic, uuid) VALUES (?, ?, ?)", [username, magic, uuid]);
+        console.log(`User ${username} registered`);
     } catch (err: unknown) {
         console.error("Error registering user:", err);
     }
 }
 
 // Function to remove a user
-const unregisterUser = async (usr: string, uuid: string) => {
+const unregisterUser = async ({username, magic, uuid}: { username: string, magic: string, uuid: string }) => {
     await makeMemoryDb()
     try {
-        await memory.run("DELETE FROM users WHERE username = ? AND uuid = ?", [usr, uuid]);
-        console.log(`User ${usr} unregistered`);
+        await memory.run("DELETE FROM users WHERE username = ? AND magic = ? AND uuid = ?", [username, magic, uuid]);
+        console.log(`User ${username} unregistered`);
     } catch (err: unknown) {
         console.error("Error unregistering user:", err);
     }
@@ -137,11 +137,11 @@ const connect = async () => {
         getSelectedView()?.webContents.send('create-webrtc-offer')
 
         ipcMain.on('created-webrtc-offer', (_event, webrtcOffer: string) => {
-            const registrationMessage = JSON.stringify({ event: 'register', usr: userProxy.username, webrtcOffer, uuid: userProxy.uuid }); // Format your message
+            const registrationMessage = JSON.stringify({ event: 'register', username: userProxy.username, magic: userProxy.magic, webrtcOffer, uuid: userProxy.uuid }); // Format your message
             ws.send(registrationMessage);
             clearInterval(reconnectInterval); // Clear reconnect interval if connected
             isConnected = true;
-            registerUser(userProxy.username, userProxy.uuid);
+            registerUser({username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid});
         });
     });
 
@@ -151,11 +151,12 @@ const connect = async () => {
         try {
             const parsedMessage = JSON.parse(message.toString());
             if (parsedMessage.event === 'register') {
-                const { usr, uuid } = parsedMessage;
-                await registerUser(usr, uuid);
+                const { username, magic, uuid } = parsedMessage;
+                if (userProxy.username === username && userProxy.magic === magic) ws.send(JSON.stringify({event: 'refuse-new-user', ...parsedMessage}))
+                else await registerUser({username, magic, uuid});
             } else if (parsedMessage.event === 'unregister') {
-                const { usr, uuid } = parsedMessage;
-                await unregisterUser(usr, uuid);
+                const { username, magic, uuid } = parsedMessage;
+                await unregisterUser({username, magic, uuid});
             } else if (parsedMessage.event === 'connection-request' && parsedMessage.target === userProxy.username && parsedMessage.username && parsedMessage.magic) {
                 if (parsedMessage.magic === userProxy.magic && parsedMessage.username === userProxy.username) {
                     getSelectedView()?.webContents.send('connection-request', { webrtcParticipant: parsedMessage.webrtcParticipant })
@@ -164,6 +165,9 @@ const connect = async () => {
                 }
             } else if (parsedMessage.event === 'send-message') {
                 // send message here
+            } else if (parsedMessage.event === 'refuse-new-user') {
+                const { username, magic, uuid } = parsedMessage;
+                await unregisterUser({username, magic, uuid});
             }
         } catch (error) {
             console.error("Error processing message:", error);
