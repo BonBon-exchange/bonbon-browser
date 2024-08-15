@@ -39,20 +39,21 @@ let forProxyConnect: () => void;
 export const getForProxyConnect = () => forProxyConnect;
 
 const uuidv4 = v4()
-const userProxy = new Proxy({ username: "", magic: "", askForMagic: true, uuid: uuidv4 }, {
+const userProxy = new Proxy({ username: "", magic: "", uuid: uuidv4, isReigstered: false }, {
     set(target, property, value) {
         if (property === 'username' && target[property] !== value) {
-            const wasEmpty = target[property] === "";
             target[property] = value;
             console.log(`Username changed to: ${value}`);
-            if (wasEmpty) {
-                forProxyConnect();
-            }
         }
         if (property === "magic") {
             target[property] = value;
             console.log(`Magic changed to: ${value}`);
         }
+        if (property === "isReigstered") {
+            target[property] = value;
+            console.log(`isReigstered changed to: ${value}`);
+        }
+
         return true;
     },
     get(target, property) {
@@ -75,16 +76,24 @@ const setMagic = (mgc: string) => {
 }
 
 // Function to add a new user
-const registerUser = async ({username, magic, uuid}: {username: string, magic: string, uuid: string}) => {
-    console.log('registerUser', {username, uuid})
-    await makeMemoryDb()
+const registerUser = async ({ username, magic, uuid }: { username: string, magic: string, uuid: string }) => {
+    console.log('registerUser', { username, uuid });
+    await makeMemoryDb();
     try {
-        await memory.run("INSERT INTO users (username, magic, uuid) VALUES (?, ?, ?)", [username, magic, uuid]);
-        console.log(`User ${username} registered`);
+        // Vérifier si l'utilisateur existe déjà
+        const existingUser = await memory.get("SELECT * FROM users WHERE username = ? AND magic = ? AND uuid = ?", [username, magic, uuid]);
+
+        if (existingUser) {
+            console.log(`User ${username} already exists`);
+        } else {
+            // Insérer l'utilisateur seulement s'il n'existe pas encore
+            await memory.run("INSERT INTO users (username, magic, uuid) VALUES (?, ?, ?)", [username, magic, uuid]);
+            console.log(`User ${username} registered`);
+        }
     } catch (err: unknown) {
         console.error("Error registering user:", err);
     }
-}
+};
 
 // Function to remove a user
 const unregisterUser = async ({username, magic, uuid}: { username: string, magic: string, uuid: string }) => {
@@ -120,6 +129,7 @@ const shakeHandWith = async (usr: string) => {
 
 }
 const connect = async () => {
+    console.log('======= websocket connect ========')
     if (isConnected) return;
     await makeMemoryDb()
 
@@ -137,20 +147,25 @@ const connect = async () => {
         getSelectedView()?.webContents.send('create-webrtc-offer')
 
         ipcMain.on('created-webrtc-offer', (_event, webrtcOffer: string) => {
-            const registrationMessage = JSON.stringify({ event: 'register', username: userProxy.username, magic: userProxy.magic, webrtcOffer, uuid: userProxy.uuid }); // Format your message
-            ws.send(registrationMessage);
-            clearInterval(reconnectInterval); // Clear reconnect interval if connected
-            isConnected = true;
-            registerUser({username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid});
+            if (userProxy.username && userProxy.magic && userProxy.uuid && userProxy.isReigstered === false) {
+                userProxy.isReigstered = true
+                console.log('======== ipcEvent: created-webrtc-offer =========')
+                const registrationMessage = JSON.stringify({ event: 'register', username: userProxy.username, magic: userProxy.magic, webrtcOffer, uuid: userProxy.uuid }); // Format your message
+                ws.send(registrationMessage);
+                clearInterval(reconnectInterval); // Clear reconnect interval if connected
+                isConnected = true;
+                registerUser({username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid});
+            }
         });
     });
 
     ws.on('message', async (message) => {
-        console.log('Received echo:', message.toString());
+        console.log('Received websocket message:', message.toString());
 
         try {
             const parsedMessage = JSON.parse(message.toString());
             if (parsedMessage.event === 'register') {
+                console.log('====== message: register =========')
                 const { username, magic, uuid } = parsedMessage;
                 if (userProxy.username === username && userProxy.magic === magic) ws.send(JSON.stringify({event: 'refuse-new-user', ...parsedMessage}))
                 else await registerUser({username, magic, uuid});
@@ -166,6 +181,7 @@ const connect = async () => {
             } else if (parsedMessage.event === 'send-message') {
                 // send message here
             } else if (parsedMessage.event === 'refuse-new-user') {
+                console.log('====== message: refuse new user =========')
                 const { username, magic, uuid } = parsedMessage;
                 await unregisterUser({username, magic, uuid});
                 if (username === userProxy.username && magic === userProxy.magic && uuid === userProxy.uuid) {

@@ -543,6 +543,7 @@ export const makeIpcMainEvents = (): void => {
   })
 
   ipcMain.on('chat-init-websocket', (_e) => {
+    console.log('===== chat-init-websocket ======')
     getForProxyConnect()()
   })
 };
