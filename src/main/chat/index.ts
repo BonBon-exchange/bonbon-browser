@@ -178,8 +178,6 @@ const connect = async () => {
                 } else {
                     getSelectedView()?.webContents.send('unauthorized-attempt-to-contact-you', { ...parsedMessage })
                 }
-            } else if (parsedMessage.event === 'send-message') {
-                // send message here
             } else if (parsedMessage.event === 'refuse-new-user') {
                 console.log('====== message: refuse new user =========')
                 const { username, magic, uuid } = parsedMessage;
