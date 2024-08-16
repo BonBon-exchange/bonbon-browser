@@ -79,9 +79,20 @@ const setMagic = (mgc: string) => {
     console.log({ mgc })
 }
 
+const setIsRegistered = (isRegistered: boolean) => {
+    userProxy.isRegistered = isRegistered
+    console.log({ isRegistered })
+}
+
+const setWebrtcOffer = (webrtcOffer: string) => {
+    userProxy.webrtcOffer = webrtcOffer
+    console.log({ webrtcOffer })
+}
+
+
 // Function to add a new user
 const registerUser = async ({ username, magic, uuid }: { username: string, magic: string, uuid: string }) => {
-    console.log('registerUser', { username, uuid });
+    console.log('registerUser', { username, magic, uuid });
     await makeMemoryDb();
     try {
         // Vérifier si l'utilisateur existe déjà
@@ -151,17 +162,16 @@ const connect = async () => {
         getSelectedView()?.webContents.send('create-webrtc-offer')
 
         ipcMain.on('created-webrtc-offer', (_event, webrtcOffer: string) => {
-            userProxy.webrtcOffer = webrtcOffer
+            setWebrtcOffer(webrtcOffer)
             console.log('======== ipcEvent: created-webrtc-offer =========')
-            console.log(JSON.stringify(userProxy))
-            if (userProxy.username && userProxy.magic && userProxy.uuid && userProxy.isRegistered !== true) {
+            if (userProxy.username?.length > 0 && userProxy.magic?.length > 0 && userProxy.uuid && userProxy.isRegistered !== true && userProxy.webrtcOffer?.length > 0) {
             console.log('======== ipcEvent: creating registration message =========')
                 const registrationMessage = JSON.stringify({ event: 'register', username: userProxy.username, magic: userProxy.magic, webrtcOffer, uuid: userProxy.uuid }); // Format your message
                 ws.send(registrationMessage);
                 clearInterval(reconnectInterval); // Clear reconnect interval if connected
                 isConnected = true;
                 registerUser({username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid});
-                userProxy.isRegistered = true
+                setIsRegistered(true)
             }
         });
     });
