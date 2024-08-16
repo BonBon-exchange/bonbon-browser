@@ -30,7 +30,7 @@ peerConnection.ondatachannel = (e) => {
 
 export default () => {
   const createWebrtcParticipantAction = useCallback(
-    (_e: IpcRendererEvent, args: { webrtcOffer: string; username: string }) => {
+    (_e: IpcRendererEvent, args: { webrtcOffer: string }) => {
       peerConnection.setRemoteDescription(
         args.webrtcOffer as unknown as RTCSessionDescriptionInit
       );

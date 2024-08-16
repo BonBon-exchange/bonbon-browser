@@ -122,6 +122,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     initWebsocket: () => {
       ipcRenderer.send('chat-init-websocket');
+    },
+    contactPeer: (username: string, magic: string) => {
+      ipcRenderer.send('magic-contact-peer', username, magic)
     }
   },
   config: {
@@ -266,7 +269,7 @@ contextBridge.exposeInMainWorld('app', {
     },
     chatComboTaken: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
       ipcRenderer.on('chat-combo-taken', action);
-    }
+    },
   },
   off: {
     newWindow: () => {

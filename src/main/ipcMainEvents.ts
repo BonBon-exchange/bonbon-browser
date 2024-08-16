@@ -528,10 +528,10 @@ export const makeIpcMainEvents = (): void => {
     return getState('chat')
   })
 
-  ipcMain.on('chat-init-websocket', (_e) => {
-    console.log('===== chat-init-websocket ======')
-    getForProxyConnect()()
-  })
+  // ipcMain.on('chat-init-websocket', (_e) => {
+  //   console.log('===== chat-init-websocket ======')
+  //   getForProxyConnect()()
+  // })
 };
 
 

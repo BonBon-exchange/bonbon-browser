@@ -62,6 +62,7 @@ declare global {
         sendMessage: ((messageContent: string) => void)
         init: () => void,
         initWebsocket: () => void
+        contactPeer: (username: string, magic: string) => void
       };
       config: {
         get: (key: string) => Promise<unknown>;

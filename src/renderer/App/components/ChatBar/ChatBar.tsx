@@ -38,9 +38,6 @@ export default  () => {
   const [inputContactUsername, setInputContactUsername] = useState<string>('');
   const [inputContactMagic, setInputContactMagic] = useState<string>('');
   const [contactSendMessageInputValue, setContactSendMessageInputValue] = useState<string>('');
-  const [isWebsocketInit, setIsWebsocketInit] = useState<boolean>(chat.isWebsocketInit)
-  // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
-  //  useState<boolean>(false);
 
   const setContactView = () => {
     setChatView('contact')
@@ -55,6 +52,8 @@ export default  () => {
         magic: inputContactMagic,
       },
     });
+
+    window.app.chat.contactPeer(inputContactUsername,inputContactMagic)
 
     setInputContactUsername('')
     setInputContactMagic('')
@@ -189,22 +188,12 @@ export default  () => {
     const currentState = componentChatState;
     currentState.username = chat.username;
     currentState.magic = chat.magic;
-    // props.setTempChatState(componentChatState);
   }, [chat.magic, chat.username, componentChatState]);
 
   useEffect(() => {
     setUsernameHasBeenSet(Number(chat?.username?.length) > 0);
     setMagicHasBeenSet(Number(chat?.magic?.length) > 0);
   }, [setUsernameHasBeenSet, setMagicHasBeenSet, chat?.username?.length, chat?.magic?.length]);
-  
-  useEffect(() => {
-    if (usernameHasBeenSet && magicHasBeenSet && !isWebsocketInit) {
-      window.app.chat.initWebsocket()
-      setIsWebsocketInit(true)
-      chat.isWebsocketInit = true
-      dispatch(setChatState(chat))
-    }
-  }, [usernameHasBeenSet, magicHasBeenSet, isWebsocketInit, chat, dispatch])
 
   useEffect(() => {
     if (chatView === '' && usernameHasBeenSet && magicHasBeenSet) {

@@ -6,9 +6,8 @@ import { machineIdSync } from 'node-machine-id';
 import { BrowserWindowType } from 'types/bonbonized';
 import { getExtensionsObject, installDevtoolsExtensions } from './extensions';
 import { resolveHtmlPath } from './util';
-import { DARWIN } from './constants';
-import { getState } from './BonBon_Global_State';
-import { endChat } from './chat';
+import { DARWIN, INITIAL_INACTIVE_CHAT } from './constants';
+import { setState } from './BonBon_Global_State';
 
 const machineId = machineIdSync();
 
@@ -131,14 +130,13 @@ export const createWindow = async (): Promise<BrowserWindowType> => {
     if (selectedView) selectedView.webContents.focus();
   });
 
-  endChat()
-
   mainWindow.webContents.executeJavaScript(
     `localStorage.setItem("machineId", "${machineId}"); \
     localStorage.setItem("appIsPackaged", "${app.isPackaged}");`,
     true
   );
   
-  // localStorage.setItem("chatState", "${JSON.stringify(getState('chat'))}");`,
+  setState('chat', INITIAL_INACTIVE_CHAT)
+  
   return mainWindow;
 };

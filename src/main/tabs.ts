@@ -9,7 +9,7 @@ import {
   setSelectedView,
 } from './browser';
 
-import { getViews, setViews } from './ipcMainEvents';
+import { getViews, sendChatStateUpdate, setViews } from './ipcMainEvents';
 import { getState } from './BonBon_Global_State';
 
 export const selectTab = (args: IpcTabSelect) => {
@@ -41,6 +41,7 @@ export const selectTab = (args: IpcTabSelect) => {
         viewToShow.webContents.send('load-board', {
           boardId: args.tabId,
         });
+        sendChatStateUpdate()
       } catch (e) {
         console.log(e);
         clearInterval(interval);
