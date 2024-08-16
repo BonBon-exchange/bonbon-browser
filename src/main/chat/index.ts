@@ -45,8 +45,8 @@ const userProxy = new Proxy({ username: "", magic: "", uuid: uuidv4, isRegistere
     set(target, property, value) {
         if (property === 'username' && target[property] !== value) {
             target[property] = value;
-        if(target.magic.length > 0 && target.username.length > 0) forProxyConnect()
-                console.log(`Username changed to: ${value}`);
+            if(target.magic.length > 0 && target.username.length > 0) forProxyConnect()
+            console.log(`Username changed to: ${value}`);
         }
         if (property === "magic") {
             target[property] = value;
@@ -61,7 +61,6 @@ const userProxy = new Proxy({ username: "", magic: "", uuid: uuidv4, isRegistere
             target[property] = value;
             console.log(`webrtcOffer changed to: ${value}`);
         }
-
         return true;
     },
     get(target, property) {
