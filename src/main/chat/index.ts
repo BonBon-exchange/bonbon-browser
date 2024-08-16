@@ -162,17 +162,17 @@ const connect = async () => {
 
     ws.on('open', () => {
         console.log('::::: Connected to echo server');
+        clearInterval(reconnectInterval); // Clear reconnect interval if connected
+        isConnected = true;
         getSelectedView()?.webContents.send('create-webrtc-offer')
 
         ipcMain.on('created-webrtc-offer', (_event, webrtcOffer: string) => {
-            setWebrtcOffer(webrtcOffer)
             console.log('======== ipcEvent: created-webrtc-offer =========')
-            if (userProxy.username?.length > 0 && userProxy.magic?.length > 0 && userProxy.uuid && userProxy.isRegistered !== true && userProxy.webrtcOffer?.length > 0) {
+            if (userProxy.username?.length > 0 && userProxy.magic?.length > 0 && userProxy.uuid && userProxy.isRegistered !== true && webrtcOffer?.length > 0 && userProxy.webrtcOffer !== webrtcOffer) {
+            setWebrtcOffer(webrtcOffer)
             console.log('======== ipcEvent: creating registration message =========')
                 const registrationMessage = JSON.stringify({ event: 'register', username: userProxy.username, magic: userProxy.magic, webrtcOffer, uuid: userProxy.uuid }); // Format your message
                 ws.send(registrationMessage);
-                clearInterval(reconnectInterval); // Clear reconnect interval if connected
-                isConnected = true;
                 registerUser({username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid});
                 setIsRegistered(true)
             }
