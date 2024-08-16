@@ -49,7 +49,7 @@ const userProxy = new Proxy({ username: "", magic: "", uuid: uuidv4, isRegistere
             target[property] = value;
             console.log(`Magic changed to: ${value}`);
         }
-        if (property === "isReigstered") {
+        if (property === "isRegistered") {
             target[property] = value;
             console.log(`isReigstered changed to: ${value}`);
         }
