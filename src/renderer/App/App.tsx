@@ -55,7 +55,6 @@ export const App = (props: { chatState: ChatState }) => {
       visibleRunner: null,
       isChatActive: false,
       userIsCloseToChatBar: false,
-      isWebsocketInit: false
     });
   }, [setIsChatActive, setTempChatState]);
 
