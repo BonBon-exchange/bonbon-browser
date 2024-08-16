@@ -38,7 +38,7 @@ export default  () => {
   const [inputContactUsername, setInputContactUsername] = useState<string>('');
   const [inputContactMagic, setInputContactMagic] = useState<string>('');
   const [contactSendMessageInputValue, setContactSendMessageInputValue] = useState<string>('');
-  const [isWebsocketInit, setIsWebsocketInit] = useState<boolean>(false)
+  const [isWebsocketInit, setIsWebsocketInit] = useState<boolean>(chat.isWebsocketInit)
   // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
   //  useState<boolean>(false);
 
