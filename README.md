@@ -148,9 +148,7 @@ Don't forget to give the project a star! Thanks again!
 
 **BonBon** is a project that allows web users to obtain full control of their browsing data. Rather than accepting the inevitable theft of their data from Big Tech, BonBon's vision is to allow people the deserved freedom of controlling what happens to their data and not have it sold to big tech without their consent.
 
-Note that we use [Nucleus.sh](https://www.nucleus.sh/) to provide us analytics about app usage and app errors.
-
-[![Product Name Screen Shot][product-screenshot]](https://github.com/BonBon-exchange/bonbon-web-browser)
+[![Product Name Screen Shot][product-screenshot]](https://github.com/BonBon-exchange/bonbon-browser)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
