@@ -190,7 +190,7 @@ const connect = async () => {
                 await unregisterUser({username, magic, uuid});
             } else if (parsedMessage.event === 'connection-request' && parsedMessage.targetUsername === userProxy.username && parsedMessage.targetMagic === userProxy.magic) {
                 console.log('====== message: connection-request =========')
-                getSelectedView()?.webContents.send('connection-request', { webrtcParticipant: parsedMessage.webrtcParticipant })
+                getSelectedView()?.webContents.send('chat-connection-request', { webrtcParticipant: parsedMessage.webrtcParticipant, username: parsedMessage.username, magic: parsedMessage.magic })
             } else if (parsedMessage.event === 'refuse-new-user') {
                 console.log('====== message: refuse new user =========')
                 const { username, magic, uuid } = parsedMessage;

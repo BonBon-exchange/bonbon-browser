@@ -270,6 +270,9 @@ contextBridge.exposeInMainWorld('app', {
     chatComboTaken: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
       ipcRenderer.on('chat-combo-taken', action);
     },
+    chatConnectionRequest: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
+      ipcRenderer.on('chat-connection-request', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -337,7 +340,10 @@ contextBridge.exposeInMainWorld('app', {
     },
     chatComboTaken: () => {
       ipcRenderer.removeAllListeners('chat-combo-taken');
-    }
+    },
+    chatConnectionRequest: () => {
+      ipcRenderer.removeAllListeners('chat-connection-request');
+    },
   },
   tools: {
     inspectElement: (point: IpcInspectElement) => {

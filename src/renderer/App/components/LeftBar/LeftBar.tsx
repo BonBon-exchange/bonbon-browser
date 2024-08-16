@@ -8,6 +8,7 @@ import { Reorder } from 'framer-motion';
 import CloseIcon from '@mui/icons-material/Close';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import clsx from 'clsx';
+import { IpcRendererEvent } from 'electron';
 
 import { ChatRunner } from 'types/chat';
 import { useBoard } from 'renderer/App/hooks/useBoard';
@@ -130,6 +131,10 @@ export const LeftBar = () => {
     window.app.chat.init()
   }
 
+  const chatConnectionRequestAction = useCallback((_e: IpcRendererEvent, args: {webrtcParticipant: string, username: string, magic: string}) => {
+    console.log('===== chatConnectionRequestAction =====', {args})
+  }, [])
+
   useEffect(() => {
     if (boardState.isFullSize) {
       setItems(boardState.browsers);
@@ -141,6 +146,11 @@ export const LeftBar = () => {
       setItems(board.getSortedBrowsers);
     }
   }, [board.getSortedBrowsers, boardState.isFullSize]);
+
+  useEffect(() => {
+    window.app.listener.chatConnectionRequest(chatConnectionRequestAction);
+    return () => window.app.off.chatConnectionRequest()
+  }, [chatConnectionRequestAction])
 
   return (
     <>
