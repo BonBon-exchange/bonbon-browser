@@ -125,8 +125,10 @@ const unregisterUser = async ({username, magic, uuid}: { username: string, magic
 }
 
 const shakeHandWith = async (username: string, magic: string, webrtcOffer: string) => {
-    getSelectedView()?.webContents.send('create-webrtc-participant', { webrtcOffer })
+      console.log('===== createWebrtcParticipant =====')
+      getSelectedView()?.webContents.send('create-webrtc-participant', { webrtcOffer })
     ipcMain.on('created-webrtc-participants', (_event, args: { webrtcParticipant: string }) => {
+      console.log('===== created WebrtcParticipant =====')
         const connectionMessage = buildConnectionRequestMessage(username, magic, `${args.webrtcParticipant}`, userProxy.username, userProxy.magic)
         ws.send(connectionMessage);
     })
