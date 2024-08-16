@@ -38,6 +38,7 @@ export default  () => {
   const [inputContactUsername, setInputContactUsername] = useState<string>('');
   const [inputContactMagic, setInputContactMagic] = useState<string>('');
   const [contactSendMessageInputValue, setContactSendMessageInputValue] = useState<string>('');
+  const [isWebsocketInit, setIsWebsocketInit] = useState<boolean>(false)
   // const [shouldShowMagicEffect, setShouldShowMagicEffect] =
   //  useState<boolean>(false);
 
@@ -197,8 +198,13 @@ export default  () => {
   }, [setUsernameHasBeenSet, setMagicHasBeenSet, chat?.username?.length, chat?.magic?.length]);
   
   useEffect(() => {
-    if (usernameHasBeenSet && magicHasBeenSet) window.app.chat.initWebsocket()
-  }, [usernameHasBeenSet, magicHasBeenSet])
+    if (usernameHasBeenSet && magicHasBeenSet && !isWebsocketInit) {
+      window.app.chat.initWebsocket()
+      setIsWebsocketInit(true)
+      chat.isWebsocketInit = true
+      dispatch(setChatState(chat))
+    }
+  }, [usernameHasBeenSet, magicHasBeenSet, isWebsocketInit, chat, dispatch])
 
   useEffect(() => {
     if (chatView === '' && usernameHasBeenSet && magicHasBeenSet) {

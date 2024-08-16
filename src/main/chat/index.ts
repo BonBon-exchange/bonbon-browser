@@ -147,8 +147,8 @@ const shakeHandWith = async (usr: string) => {
 
 }
 const connect = async () => {
-    console.log('======= websocket connect ========')
     if (isConnected) return;
+    console.log('======= websocket connect ========')
     await makeMemoryDb()
 
     const reconnect = () => {
@@ -226,7 +226,7 @@ const connect = async () => {
         console.log('WebSocket closed:', code, reason);
         isConnected = false;
         unregisterUser({username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid});
-        reconnect(); // Attempt to reconnect on close
+        // reconnect(); // Attempt to reconnect on close
     });
 }
 

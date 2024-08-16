@@ -14,6 +14,7 @@ const machineId = machineIdSync();
 let selectedView: BrowserView | null = null;
 let freeView: BrowserView | null = null;
 let mainWindow: BrowserWindowType | null = null;
+let magicChatWindow: BrowserWindowType | null = null;
 
 export const getSelectedView = (): BrowserView | null => selectedView;
 export const getFreeView = (): BrowserView | null => freeView;

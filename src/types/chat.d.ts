@@ -12,6 +12,7 @@ export type ChatState = {
     visibleRunner: null | string
     isChatActive: boolean
     userIsCloseToChatBar: boolean
+    isWebsocketInit: boolean
 }
 
 export type ChatView = "" | "home" | "meet" | "contact" | ReturnType<(runnerId: string, hostView: string) => `${hostView}:runner-${runnerId}`>
