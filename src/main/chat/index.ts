@@ -29,7 +29,6 @@ const makeMemoryDb = async () => {
         uuid TEXT NOT NULL,
         username TEXT NOT NULL,
         magic TEXT,
-        webrtcOffer TEXT,
         registered_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
 }
@@ -66,7 +65,7 @@ const userProxy = new Proxy({ username: "", magic: "", uuid: uuidv4, isRegistere
         return true;
     },
     get(target, property) {
-        return ["username", "magic", "uuid"].includes(property.toString()) ? target[property.toString() as "username" | "magic" | "uuid"] : null;
+        return ["username", "magic", "uuid", "webrtcOffer", "isRegistered"].includes(property.toString()) ? target[property.toString() as "username" | "magic" | "uuid" | "webrtcOffer" | "isRegistered"] : null;
     }
 });
 
@@ -126,17 +125,6 @@ const unregisterUser = async ({username, magic, uuid}: { username: string, magic
     }
 }
 
-// Function to list all registered users
-const listUsers = async (callback: (users: Database) => any) => {
-    await makeMemoryDb()
-    try {
-        const rows = await memory.all("SELECT * FROM users");
-        callback(rows);
-    } catch (err: unknown) {
-        console.error("Error listing users:", err);
-    }
-}
-
 const shakeHandWith = async (username: string, magic: string, webrtcOffer: string) => {
     getSelectedView()?.webContents.send('create-webrtc-participant', { webrtcOffer })
     ipcMain.on('created-webrtc-participants', (_event, args: { webrtcParticipant: string }) => {
@@ -167,12 +155,13 @@ const connect = async () => {
         ipcMain.on('created-webrtc-offer', (_event, webrtcOffer: string) => {
             console.log('======== ipcEvent: created-webrtc-offer =========')
             if (userProxy.username?.length > 0 && userProxy.magic?.length > 0 && userProxy.uuid) {
-                setWebrtcOffer(webrtcOffer)
-                console.log('======== ipcEvent: creating registration message =========', JSON.stringify(userProxy))
-                const registrationMessage = JSON.stringify({ event: 'register', username: userProxy.username, magic: userProxy.magic, webrtcOffer, uuid: userProxy.uuid });
-                ws.send(registrationMessage);
                 registerUser({username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid});
                 setIsRegistered(true)
+                setWebrtcOffer(webrtcOffer)
+                console.log('======== ipcEvent: creating registration message =========')
+                const registrationMessage = JSON.stringify({ event: 'register', username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid });
+                ws.send(registrationMessage);
+                console.log({upwo: userProxy.webrtcOffer})
             }
         });
 

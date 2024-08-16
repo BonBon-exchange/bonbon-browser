@@ -484,14 +484,14 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('set-chat-username', (_e, usr: string) => {
     setUsername(usr)
-    const chat = getState("chat") ?? {}
+    const chat = getState("chat") ?? INITIAL_INACTIVE_CHAT
     chat.username = usr
     setState("chat", chat)
   })
 
   ipcMain.on('set-chat-magic', (_e, magic: string) => {
     setMagic(magic)
-    const chat = getState("chat") ?? {}
+    const chat = getState("chat") ?? INITIAL_INACTIVE_CHAT
     chat.magic = magic
     setState("chat", chat)
   })
