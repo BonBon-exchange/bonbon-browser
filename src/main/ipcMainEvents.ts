@@ -112,7 +112,7 @@ const bonbonAutoLauncher = new AutoLaunch({
   name: 'BonBon',
 });
 
-const sendChatStateUpdate = () => {
+export const sendChatStateUpdate = () => {
   const chatState = getState("chat") ?? INITIAL_INACTIVE_CHAT
   Object.keys(getViews()).forEach((browserId) => {
     getViews()[browserId].webContents.send('chat-state', { chatState });
@@ -203,7 +203,6 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('close-app', () => {
-    setState('chat', INITIAL_INACTIVE_CHAT)
     endChat()
     app.quit();
   });
@@ -476,23 +475,11 @@ export const makeIpcMainEvents = (): void => {
   // handle chat
   ipcMain.on('init-chat', () => {
     const chat = getState('chat');
-    if (chat?.isChatActive === true) {
-      endChat()
-      setState('chat', INITIAL_INACTIVE_CHAT)
-      getSelectedView()?.webContents.send('end-chat');
-      getSelectedView()?.webContents.send('chat-state', { chatState: getState("chat") });
-    } else {
-      initChat()
-      setState('chat', { ...getState("chat"), isChatActive: true } ?? INITIAL_ACTIVE_CHAT )
-      getSelectedView()?.webContents.send('init-chat');
-      getSelectedView()?.webContents.send('chat-state', { chatState: { ...getState("chat") ?? INITIAL_ACTIVE_CHAT, isChatActive: true } });
-    }
+    chat?.isChatActive === true ? endChat() : initChat()
   });
 
   ipcMain.on('end-chat', () => {
-    setState('chat', INITIAL_INACTIVE_CHAT)
     endChat()
-    getSelectedView()?.webContents.send('end-chat');
   });
 
   ipcMain.on('set-chat-username', (_e, usr: string) => {

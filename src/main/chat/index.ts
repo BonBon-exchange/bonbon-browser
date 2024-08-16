@@ -7,7 +7,10 @@ import { v4 } from 'uuid';
 import { ChatState } from 'types/chat';
 import { getSelectedView } from '../browser';
 import { createRunner } from './runner';
-import { setState } from '../BonBon_Global_State';
+// eslint-disable-next-line import/no-cycle
+import { sendChatStateUpdate } from '../ipcMainEvents';
+import { getState, setState } from '../BonBon_Global_State';
+import { INITIAL_ACTIVE_CHAT, INITIAL_INACTIVE_CHAT } from '../constants';
 
 let memory: Database
 let ws: WebSocket;
@@ -231,13 +234,19 @@ forProxyConnect = connect
 
 const initChat = () => {
     // connect();
+    setState('chat', { ...getState("chat"), isChatActive: true } ?? INITIAL_ACTIVE_CHAT )
+    getSelectedView()?.webContents.send('init-chat');
+    sendChatStateUpdate()
 }
 
 const endChat = () => {
+    setState('chat', null)
+    getSelectedView()?.webContents.send('end-chat');
     if (ws) {
         ws.send(unregistrationMessage);
         ws.close();
     }
+    sendChatStateUpdate()
 }
 
 const setChatState = (state: ChatState) => {
