@@ -203,7 +203,6 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('close-app', () => {
-    event('close_app');
     setState('chat', INITIAL_INACTIVE_CHAT)
     endChat()
     app.quit();
