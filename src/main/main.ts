@@ -12,11 +12,8 @@ import { app } from 'electron';
 
 import './appEvents';
 import './logger';
-import { endChat } from './chat';
 
 if (app.isPackaged) {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
 }
-
-endChat()

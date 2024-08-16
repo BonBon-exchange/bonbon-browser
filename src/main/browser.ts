@@ -8,13 +8,13 @@ import { getExtensionsObject, installDevtoolsExtensions } from './extensions';
 import { resolveHtmlPath } from './util';
 import { DARWIN } from './constants';
 import { getState } from './BonBon_Global_State';
+import { endChat } from './chat';
 
 const machineId = machineIdSync();
 
 let selectedView: BrowserView | null = null;
 let freeView: BrowserView | null = null;
 let mainWindow: BrowserWindowType | null = null;
-let magicChatWindow: BrowserWindowType | null = null;
 
 export const getSelectedView = (): BrowserView | null => selectedView;
 export const getFreeView = (): BrowserView | null => freeView;
@@ -131,12 +131,14 @@ export const createWindow = async (): Promise<BrowserWindowType> => {
     if (selectedView) selectedView.webContents.focus();
   });
 
+  endChat()
+
   mainWindow.webContents.executeJavaScript(
     `localStorage.setItem("machineId", "${machineId}"); \
-    localStorage.setItem("appIsPackaged", "${app.isPackaged}"); \
-    localStorage.setItem("chatState", "${JSON.stringify(getState('chat'))}");`,
+    localStorage.setItem("appIsPackaged", "${app.isPackaged}");`,
     true
   );
-
+  
+  // localStorage.setItem("chatState", "${JSON.stringify(getState('chat'))}");`,
   return mainWindow;
 };

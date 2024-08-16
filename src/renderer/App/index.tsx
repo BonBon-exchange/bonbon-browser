@@ -9,14 +9,13 @@ import { App } from './App';
 
 (window as Expected)['----/__/0/CDXX/-'] = {
   ':.BonBon': {
-    chat: { username: '', magic: '' },
+    chat: {username: '', magic: '', visibleRunner: null, isChatActive: false, userIsCloseToChatBar: false, isWebsocketInit: false },
   },
 } as Expected;
 
 const bonbon_state: { chat: ChatState } = (window as Expected)[
   '----/__/0/CDXX/-'
 ][':.BonBon'];
-['states'];
 
 const bonboot = ({
   context,

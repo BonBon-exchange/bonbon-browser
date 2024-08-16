@@ -240,8 +240,8 @@ const initChat = () => {
 }
 
 const endChat = () => {
-    setState('chat', null)
-    getSelectedView()?.webContents.send('end-chat');
+    setState('chat', INITIAL_INACTIVE_CHAT)
+    // getSelectedView()?.webContents.send('end-chat');
     if (ws) {
         ws.send(unregistrationMessage);
         ws.close();
