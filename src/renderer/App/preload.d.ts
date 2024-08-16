@@ -51,7 +51,7 @@ declare global {
         getUrlToOpen: () => Promise<string | undefined>;
       };
       chat: {
-        createdWebrtcParticipant: (webrtcParticipant: string) => void
+        createdWebrtcParticipant: (args: {webrtcParticipant: string, username: string, magic: string}) => void
         createdWebrtcOffer: (webrtcOffer: string) => void
         setUsername: (username: string) => void
         setMagic: (magic: string) => void

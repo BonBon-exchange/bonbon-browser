@@ -90,8 +90,8 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   chat: {
-    createdWebrtcParticipant: (webrtcParticipant: string) => {
-      ipcRenderer.send('created-webrtc-participant', webrtcParticipant);
+    createdWebrtcParticipant: (args: {webrtcParticipant: string, username: string, magic: string}) => {
+      ipcRenderer.send('created-webrtc-participant', args);
     },
     createdWebrtcOffer: (webrtcOffer: string) => {
       ipcRenderer.send('created-webrtc-offer', webrtcOffer);

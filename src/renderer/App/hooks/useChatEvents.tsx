@@ -30,7 +30,7 @@ peerConnection.ondatachannel = (e) => {
 
 export default () => {
   const createWebrtcParticipantAction = useCallback(
-    (_e: IpcRendererEvent, args: { webrtcOffer: string }) => {
+    (_e: IpcRendererEvent, args: { webrtcOffer: string, username: string, magic: string }) => {
       console.log('===== createWebrtcParticipantAction =====', args.webrtcOffer)
       peerConnection.setRemoteDescription(
         JSON.parse(args.webrtcOffer) as unknown as RTCSessionDescriptionInit
@@ -38,11 +38,15 @@ export default () => {
       peerConnection
         .createAnswer(sdpConstraints)
         .then((webrtcParticipant) => {
+          console.log('===== creating webrtc answer =====', args.webrtcOffer)
           peerConnection.setLocalDescription(webrtcParticipant);
           console.log({ webrtcParticipant });
-          window.app.chat.createdWebrtcParticipant(
-            webrtcParticipant as unknown as string
-          );
+          console.log('===== created webrtc participant =====', args.webrtcOffer)
+          window.app.chat.createdWebrtcParticipant({
+            webrtcParticipant: JSON.stringify(webrtcParticipant) as unknown as string,
+            username: args.username,
+            magic: args.magic
+        });
           return true;
         })
         .catch((e: unknown) => {

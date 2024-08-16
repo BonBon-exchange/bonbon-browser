@@ -125,13 +125,8 @@ const unregisterUser = async ({username, magic, uuid}: { username: string, magic
 }
 
 const shakeHandWith = async (username: string, magic: string, webrtcOffer: string) => {
-      console.log('===== createWebrtcParticipant =====')
-      getSelectedView()?.webContents.send('create-webrtc-participant', { webrtcOffer })
-    ipcMain.on('created-webrtc-participants', (_event, args: { webrtcParticipant: string }) => {
-      console.log('===== created WebrtcParticipant =====')
-        const connectionMessage = buildConnectionRequestMessage(username, magic, `${args.webrtcParticipant}`, userProxy.username, userProxy.magic)
-        ws.send(connectionMessage);
-    })
+    console.log('===== createWebrtcParticipant =====')
+    getSelectedView()?.webContents.send('create-webrtc-participant', { webrtcOffer, username, magic })
 }
 const connect = async () => {
     if (isConnected || userProxy.username?.length === 0 || userProxy.magic?.length === 0) return;
@@ -171,6 +166,12 @@ const connect = async () => {
             const magicContactPeerMessage = JSON.stringify({ event: 'contact-peer', peerUsername, peerMagic, fromUsername: userProxy.username, fromMagic: userProxy.magic });
             ws.send(magicContactPeerMessage);
         });
+
+        ipcMain.on('created-webrtc-participant', (_event, args: { webrtcParticipant: string, username: string, magic: string }) => {
+            console.log('===== ipcEvent: created WebrtcParticipant =====')
+            const connectionMessage = buildConnectionRequestMessage(args.username, args.magic, `${args.webrtcParticipant}`, userProxy.username, userProxy.magic)
+            ws.send(connectionMessage);
+        })
     });
 
     ws.on('message', async (message) => {
@@ -178,10 +179,7 @@ const connect = async () => {
 
         try {
             const parsedMessage = JSON.parse(message.toString());
-            if (parsedMessage.username === userProxy.username && parsedMessage.magic === userProxy.magic) {
-                return
-            }
-            if (parsedMessage.event === 'register') {
+            if (parsedMessage.event === 'register' && parsedMessage.username !== userProxy.username && parsedMessage.magic !== userProxy.magic) {
                 console.log('====== message: register =========')
                 const { username, magic, uuid } = parsedMessage;
                 if (userProxy.username === username && userProxy.magic === magic) ws.send(JSON.stringify({event: 'refuse-new-user', ...parsedMessage}))
@@ -190,13 +188,9 @@ const connect = async () => {
                 console.log('====== message: unregister =========')
                 const { username, magic, uuid } = parsedMessage;
                 await unregisterUser({username, magic, uuid});
-            } else if (parsedMessage.event === 'connection-request' && parsedMessage.target === userProxy.username && parsedMessage.username && parsedMessage.magic) {
+            } else if (parsedMessage.event === 'connection-request' && parsedMessage.targetUsername === userProxy.username && parsedMessage.targetMagic === userProxy.magic) {
                 console.log('====== message: connection-request =========')
-                if (parsedMessage.magic === userProxy.magic && parsedMessage.username === userProxy.username) {
-                    getSelectedView()?.webContents.send('connection-request', { webrtcParticipant: parsedMessage.webrtcParticipant })
-                } else {
-                    getSelectedView()?.webContents.send('unauthorized-attempt-to-contact-you', { ...parsedMessage })
-                }
+                getSelectedView()?.webContents.send('connection-request', { webrtcParticipant: parsedMessage.webrtcParticipant })
             } else if (parsedMessage.event === 'refuse-new-user') {
                 console.log('====== message: refuse new user =========')
                 const { username, magic, uuid } = parsedMessage;
