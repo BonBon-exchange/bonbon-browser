@@ -131,6 +131,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     acceptConnectionRequest: () => {
       ipcRenderer.send('accept-chat-connection-request')
+    },
+    sendIceCandidate: (candidate: string) => {
+      ipcRenderer.send('send-ice-candidate', candidate)
     }
   },
   config: {

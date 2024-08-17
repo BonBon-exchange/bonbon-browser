@@ -128,16 +128,17 @@ const shakeHandWith = async (username: string, magic: string, webrtcOffer: strin
     console.log('===== createWebrtcParticipant =====')
     getSelectedView()?.webContents.send('create-webrtc-participant', { webrtcOffer, username, magic })
 }
+
 const connect = async () => {
     if (isConnected || userProxy.username?.length === 0 || userProxy.magic?.length === 0) return;
-    console.log('======= websocket connect ========')
-    await makeMemoryDb()
+    console.log('======= websocket connect ========');
+    await makeMemoryDb();
 
     const reconnect = () => {
-        console.log('======= Attempting to reconnect in 5 seconds...=======');
+        console.log('======= Attempting to reconnect in 5 seconds... ========');
         reconnectInterval = setInterval(connect, 5000);
-    }
-    
+    };
+
     ws = new WebSocket(url, {
         rejectUnauthorized: false // Allow self-signed certificates if needed
     });
@@ -146,32 +147,51 @@ const connect = async () => {
         console.log('::::: Connected to echo server');
         clearInterval(reconnectInterval); // Clear reconnect interval if connected
         isConnected = true;
-        getSelectedView()?.webContents.send('create-webrtc-offer')
 
-        ipcMain.on('created-webrtc-offer', (_event, webrtcOffer: string) => {
-            console.log('======== ipcEvent: created-webrtc-offer =========')
+        // Demande de création d'une offre WebRTC
+        getSelectedView()?.webContents.send('create-webrtc-offer');
+
+        ipcMain.on('created-webrtc-offer', (_event, webrtcOffer) => {
+            console.log('======== ipcEvent: created-webrtc-offer =========');
             if (userProxy.username?.length > 0 && userProxy.magic?.length > 0 && userProxy.uuid) {
-                registerUser({username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid});
-                setIsRegistered(true)
-                setWebrtcOffer(webrtcOffer)
-                console.log('======== ipcEvent: creating registration message =========')
-                const registrationMessage = JSON.stringify({ event: 'register', username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid });
+                registerUser({ username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid });
+                setIsRegistered(true);
+                setWebrtcOffer(webrtcOffer);
+                console.log('======== ipcEvent: creating registration message =========');
+                const registrationMessage = JSON.stringify({
+                    event: 'register',
+                    username: userProxy.username,
+                    magic: userProxy.magic,
+                    uuid: userProxy.uuid
+                });
                 ws?.send(registrationMessage);
-                console.log({upwo: userProxy.webrtcOffer})
+                console.log({ upwo: userProxy.webrtcOffer });
             }
         });
 
-        ipcMain.on('magic-contact-peer', (_event, peerUsername: string, peerMagic: string) => {
-            console.log('======== ipcEvent: contact peer =========')
-            const magicContactPeerMessage = JSON.stringify({ event: 'contact-peer', peerUsername, peerMagic, fromUsername: userProxy.username, fromMagic: userProxy.magic });
+        ipcMain.on('magic-contact-peer', (_event, peerUsername, peerMagic) => {
+            console.log('======== ipcEvent: contact peer =========');
+            const magicContactPeerMessage = JSON.stringify({
+                event: 'contact-peer',
+                peerUsername,
+                peerMagic,
+                fromUsername: userProxy.username,
+                fromMagic: userProxy.magic
+            });
             ws?.send(magicContactPeerMessage);
         });
 
-        ipcMain.on('created-webrtc-participant', (_event, args: { webrtcParticipant: string, username: string, magic: string }) => {
-            console.log('===== ipcEvent: created WebrtcParticipant =====')
-            const connectionMessage = buildConnectionRequestMessage(args.username, args.magic, `${args.webrtcParticipant}`, userProxy.username, userProxy.magic)
+        ipcMain.on('created-webrtc-participant', (_event, args) => {
+            console.log('===== ipcEvent: created WebrtcParticipant =====');
+            const connectionMessage = buildConnectionRequestMessage(
+                args.username, 
+                args.magic, 
+                args.webrtcParticipant, 
+                userProxy.username, 
+                userProxy.magic
+            );
             ws?.send(connectionMessage);
-        })
+        });
     });
 
     ws.on('message', async (message) => {
@@ -179,34 +199,61 @@ const connect = async () => {
 
         try {
             const parsedMessage = JSON.parse(message.toString());
-            if (parsedMessage.event === 'register' && parsedMessage.username !== userProxy.username && parsedMessage.magic !== userProxy.magic) {
-                console.log('====== message: register =========')
-                const { username, magic, uuid } = parsedMessage;
-                if (userProxy.username === username && userProxy.magic === magic) ws.send(JSON.stringify({event: 'refuse-new-user', ...parsedMessage}))
-                else await registerUser({username, magic, uuid});
-            } else if (parsedMessage.event === 'unregister') {
-                console.log('====== message: unregister =========')
-                const { username, magic, uuid } = parsedMessage;
-                await unregisterUser({username, magic, uuid});
-            } else if (parsedMessage.event === 'connection-request' && parsedMessage.targetUsername === userProxy.username && parsedMessage.targetMagic === userProxy.magic) {
-                console.log('====== message: connection-request =========')
-                getSelectedView()?.webContents.send('chat-connection-request', { webrtcParticipant: parsedMessage.webrtcParticipant, username: parsedMessage.username, magic: parsedMessage.magic })
-            } else if (parsedMessage.event === 'refuse-new-user') {
-                console.log('====== message: refuse new user =========')
-                const { username, magic, uuid } = parsedMessage;
-                await unregisterUser({username, magic, uuid});
-                if (username === userProxy.username && magic === userProxy.magic && uuid === userProxy.uuid) {
-                    getSelectedView()?.webContents.send('chat-combo-taken');
-                }
-            } else if (parsedMessage.event === 'contact-peer') {
-                if (parsedMessage.peerUsername === userProxy.username && parsedMessage.peerMagic === userProxy.magic) {
-                    const magicContactPeerMessageResponse = JSON.stringify({ event: 'contact-peer-response', peerUsername: parsedMessage.fromUsername, peerMagic: parsedMessage.fromMagic, fromUsername: userProxy.username, fromMagic: userProxy.magic, webrtcOffer: userProxy.webrtcOffer }); // Format your message
-                    ws.send(magicContactPeerMessageResponse);
-                }
-            } else if (parsedMessage.event === 'contact-peer-response') {
-                if (parsedMessage.peerUsername === userProxy.username && parsedMessage.peerMagic === userProxy.magic) {
-                    shakeHandWith(parsedMessage.fromUsername, parsedMessage.fromMagic, parsedMessage.webrtcOffer)
-                }
+            switch (parsedMessage.event) {
+                case 'register':
+                    if (parsedMessage.username !== userProxy.username || parsedMessage.magic !== userProxy.magic) {
+                        console.log('====== message: register =========');
+                        const { username, magic, uuid } = parsedMessage;
+                        if (userProxy.username === username && userProxy.magic === magic) {
+                            ws?.send(JSON.stringify({ event: 'refuse-new-user', ...parsedMessage }));
+                        } else {
+                            await registerUser({ username, magic, uuid });
+                        }
+                    }
+                    break;
+                case 'unregister':
+                    console.log('====== message: unregister =========');
+                    await unregisterUser(parsedMessage);
+                    break;
+                case 'connection-request':
+                    if (parsedMessage.targetUsername === userProxy.username && parsedMessage.targetMagic === userProxy.magic) {
+                        console.log('====== message: connection-request =========');
+                        getSelectedView()?.webContents.send('chat-connection-request', {
+                            webrtcParticipant: parsedMessage.webrtcParticipant,
+                            username: parsedMessage.username,
+                            magic: parsedMessage.magic
+                        });
+                    }
+                    break;
+                case 'refuse-new-user':
+                    console.log('====== message: refuse new user =========');
+                    await unregisterUser(parsedMessage);
+                    if (parsedMessage.username === userProxy.username && parsedMessage.magic === userProxy.magic && parsedMessage.uuid === userProxy.uuid) {
+                        getSelectedView()?.webContents.send('chat-combo-taken');
+                    }
+                    break;
+                case 'contact-peer':
+                    console.log('====== message: contact-peer =========');
+                    if (parsedMessage.peerUsername === userProxy.username && parsedMessage.peerMagic === userProxy.magic) {
+                        const magicContactPeerMessageResponse = JSON.stringify({
+                            event: 'contact-peer-response',
+                            peerUsername: parsedMessage.fromUsername,
+                            peerMagic: parsedMessage.fromMagic,
+                            fromUsername: userProxy.username,
+                            fromMagic: userProxy.magic,
+                            webrtcOffer: userProxy.webrtcOffer
+                        });
+                        ws?.send(magicContactPeerMessageResponse);
+                    }
+                    break;
+                case 'contact-peer-response':
+                    console.log('====== message: contact-peer-response =========');
+                    if (parsedMessage.peerUsername === userProxy.username && parsedMessage.peerMagic === userProxy.magic) {
+                        shakeHandWith(parsedMessage.fromUsername, parsedMessage.fromMagic, parsedMessage.webrtcOffer);
+                    }
+                    break;
+                default:
+                    console.log('Unknown event:', parsedMessage.event);
             }
         } catch (error) {
             console.error("Error processing message:", error);
@@ -222,10 +269,10 @@ const connect = async () => {
     ws.on('close', (code, reason) => {
         console.log('WebSocket closed:', code, reason);
         isConnected = false;
-        unregisterUser({username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid});
-        // reconnect(); // Attempt to reconnect on close
+        unregisterUser({ username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid });
+        reconnect(); // Attempt to reconnect on close
     });
-}
+};
 
 forProxyConnect = connect
 

@@ -1,76 +1,69 @@
+/* eslint-disable promise/always-return */
 import { IpcRendererEvent } from 'electron';
 import { useCallback, useEffect } from 'react';
 
-// webrtc peerconnection
+// WebRTC PeerConnection
 const peerConnection = new window.RTCPeerConnection();
 const sdpConstraints = { optional: [{ RtpDataChannels: true }] };
-let webrtcDataChannel: RTCDataChannel = peerConnection.createDataChannel(
-  'BonBon/public_place'
-);
-let webrtcOffer;
+let webrtcDataChannel = peerConnection.createDataChannel('BonBon/public_place');
+let webrtcOfferFinal;
 
-peerConnection.oniceconnectionstatechange = (e: unknown) => {
+peerConnection.oniceconnectionstatechange = (e) => {
   const state = peerConnection.iceConnectionState;
-  console.log('oniceconnectionstatechange', { e, state });
+  console.log('===== oniceconnectionstatechange =====', { e, state });
 };
 
 peerConnection.onicecandidate = (e) => {
-  console.log('onicecandidate', { e });
+  if (e.candidate) {
+    console.log('===== onicecandidate =====', e.candidate);
+    window.app.chat.sendIceCandidate(JSON.stringify(e.candidate));
+  }
 };
 
 peerConnection.ondatachannel = (e) => {
   webrtcDataChannel = e.channel;
   webrtcDataChannel.onopen = () => {
-    console.log('ondatachannel/onopen/connected');
+    console.log('===== ondatachannel/onopen/connected =====');
   };
-  webrtcDataChannel.onmessage = function (onMessageEvent) {
-    console.log('onmessage', { onMessageEvent });
+  webrtcDataChannel.onmessage = (onMessageEvent) => {
+    console.log('onmessage', onMessageEvent.data);
   };
 };
 
 export default () => {
   const createWebrtcParticipantAction = useCallback(
-    (_e: IpcRendererEvent, args: { webrtcOffer: string, username: string, magic: string }) => {
-      console.log('===== createWebrtcParticipantAction =====', args.webrtcOffer)
-      peerConnection.setRemoteDescription(
-        JSON.parse(args.webrtcOffer) as unknown as RTCSessionDescriptionInit
-      );
+    (_e: IpcRendererEvent, { webrtcOffer, username, magic }: { webrtcOffer: string, username: string, magic: string}) => {
+      console.log('===== createWebrtcParticipantAction =====', webrtcOffer);
       peerConnection
-        .createAnswer(sdpConstraints)
+        .setRemoteDescription(new RTCSessionDescription(JSON.parse(webrtcOffer)))
+        .then(() => peerConnection.createAnswer(sdpConstraints))
         .then((webrtcParticipant) => {
-          console.log('===== creating webrtc answer =====', args.webrtcOffer)
+          console.log('===== creating webrtc answer =====', webrtcOffer);
           peerConnection.setLocalDescription(webrtcParticipant);
-          console.log({ webrtcParticipant });
-          console.log('===== created webrtc participant =====', args.webrtcOffer)
+          console.log('===== created webrtc participant =====', webrtcOffer);
           window.app.chat.createdWebrtcParticipant({
-            webrtcParticipant: JSON.stringify(webrtcParticipant) as unknown as string,
-            username: args.username,
-            magic: args.magic
-        });
-          return true;
+            webrtcParticipant: JSON.stringify(webrtcParticipant),
+            username,
+            magic
+          });
         })
-        .catch((e: unknown) => {
-          console.log({ e });
-        });
+        .catch((e) => console.log(e));
     },
     []
   );
 
   const createWebrtcOfferAction = useCallback(async () => {
-    console.log('===== createWebrtcOfferAction =====')
-    webrtcOffer = await peerConnection.createOffer();
-    console.log('===== created WebrtcOfferAction =====')
-    window.app.chat.createdWebrtcOffer(
-      JSON.stringify(webrtcOffer as unknown as string)
-    );
+    console.log('===== createWebrtcOfferAction =====');
+    webrtcOfferFinal = await peerConnection.createOffer();
+    await peerConnection.setLocalDescription(webrtcOfferFinal);
+    console.log('===== created WebrtcOfferAction =====');
+    window.app.chat.createdWebrtcOffer(JSON.stringify(webrtcOfferFinal));
   }, []);
 
   const webrtcConnectionRequestAction = useCallback(
-    (_e: IpcRendererEvent, args: { webrtcParticipant: string }) => {
-      console.log({ webrtcParticipant: args.webrtcParticipant });
-      const answerDesc = new RTCSessionDescription(
-        JSON.parse(args.webrtcParticipant)
-      );
+    (_e: IpcRendererEvent, { webrtcParticipant }: {webrtcParticipant: string}) => {
+      console.log({ webrtcParticipant });
+      const answerDesc = new RTCSessionDescription(JSON.parse(webrtcParticipant));
       peerConnection.setRemoteDescription(answerDesc);
     },
     []

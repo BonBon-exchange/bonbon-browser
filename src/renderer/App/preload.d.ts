@@ -65,6 +65,7 @@ declare global {
         contactPeer: (username: string, magic: string) => void
         refuseConnectionRequest: () => void
         acceptConnectionRequest: () => void
+        sendIceCandidate: (candidate: string) => void
       };
       config: {
         get: (key: string) => Promise<unknown>;
