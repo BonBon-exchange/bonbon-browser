@@ -5,6 +5,10 @@ export type ChatRunner = {
     context: any
 }
 
+export type ChatRunnerOptions = {
+    isVisible: boolean
+}
+
 export type ChatState = {
     username: string,
     magic: string,

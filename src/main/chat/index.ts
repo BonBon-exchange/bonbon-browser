@@ -13,7 +13,7 @@ import { getState, setState } from '../BonBon_Global_State';
 import { INITIAL_ACTIVE_CHAT, INITIAL_INACTIVE_CHAT } from '../constants';
 
 let memory: Database
-let ws: WebSocket;
+let ws: WebSocket | null;
 let reconnectInterval: any;
 let isConnected = false;
 
@@ -244,6 +244,7 @@ const endChat = () => {
     if (ws) {
         ws.send(unregistrationMessage);
         ws.close();
+        ws = null;
     }
     sendChatStateUpdate()
 }
@@ -253,4 +254,4 @@ const setChatState = (state: ChatState) => {
 }
 
 // Export the listUsers function for external usage
-export { listUsers, initChat, endChat, shakeHandWith, setUsername, setMagic, createRunner, setChatState };
+export { initChat, endChat, shakeHandWith, setUsername, setMagic, createRunner, setChatState };

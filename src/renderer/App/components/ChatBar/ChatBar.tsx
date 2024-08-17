@@ -51,6 +51,8 @@ export default  () => {
         username: inputContactUsername,
         magic: inputContactMagic,
       },
+    }, {
+      isVisible: true
     });
 
     window.app.chat.contactPeer(inputContactUsername,inputContactMagic)
@@ -126,7 +128,7 @@ export default  () => {
   const mouseMoveAction = useCallback((e: MouseEvent) => {
     const cb = chatBarRef.current?.getBoundingClientRect();
     const distance = Number(cb?.top) - e.clientY;
-    distance < 100
+    distance < 25
       ? setShouldEnhighChatbar(true)
       : setShouldEnhighChatbar(false);
   }, []);
@@ -286,6 +288,7 @@ export default  () => {
             onChange={(e) => setContactSendMessageInputValue(e.target.value)}
             placeholder="send a message"
             onKeyDown={sendContactMessageOnKeyDown}
+            disabled={chat.visibleRunner && chat.runners?.[chat.visibleRunner].context.isContactRequest && !chat.runners?.[chat.visibleRunner].context.isAccepted}
           />
         </div>
       )}

@@ -4,12 +4,65 @@
     height: 100%;
     position: fixed;
     margin-left: 50px;
-    background: linear-gradient(200.96deg, #c4a320, #a0455e, #5c2370);
+    background: linear-gradient(200.96deg, rgb(196, 163, 32), rgb(160, 69, 94), #5c2370);
     z-index: 10;
     flex-direction: column;
 
     &.selected {
         display: flex;
+    }
+
+    .chat-view-info {
+        display: flex;
+        align-self: center;
+        background-color: rgba(196, 163, 32, 0.6);
+        border-radius: 20px;
+        color: black;
+        padding: 13px;
+        margin: 10px;
+    }
+
+    .chat-view-confirm {
+        display: flex;
+        flex-direction: row;
+        align-self: center;
+
+        .chat-view-confirm-accept {
+            display: flex;
+            align-self: center;
+            background-color: rgba(187, 255, 175, 0.6);
+            border-radius: 20px;
+            color: black;
+            padding: 13px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .chat-view-confirm-refuse {
+            display: flex;
+            align-self: center;
+            background-color: rgba(160, 69, 94, 0.6);
+            border-radius: 20px;
+            color: black;
+            padding: 13px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .chat-view-confirm-accept,
+        .chat-view-confirm-refuse {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .chat-view-confirm-accept:hover {
+            transform: scale(1.05);
+            background-color: rgba(187, 255, 175, 0.8);
+        }
+
+        .chat-view-confirm-refuse:hover {
+            transform: scale(1.05);
+            background-color: rgba(160, 69, 94, 0.8);
+        }
     }
 
     .chat-view-message {

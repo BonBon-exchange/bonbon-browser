@@ -37,7 +37,7 @@ import {
   IpcTabSelect,
 } from 'types/ipc';
 import { DomainSuggestion } from 'types/suggestions';
-import { ChatRunner, ChatState } from 'types/chat';
+import { ChatRunner, ChatRunnerOptions, ChatState } from 'types/chat';
 
 import { getUrlToOpen, setUrlToOpen } from './appEvents';
 import {
@@ -496,8 +496,8 @@ export const makeIpcMainEvents = (): void => {
     setState("chat", chat)
   })
 
-  ipcMain.handle('create-chat-runner', async (_e, runner: ChatRunner) => {
-    const [chatRunnerId, _chatRunner] = await createRunner(runner)
+  ipcMain.handle('create-chat-runner', async (_e, runner: ChatRunner, options?: ChatRunnerOptions) => {
+    const [chatRunnerId, _chatRunner] = await createRunner(runner, options)
     sendChatStateUpdate()
     return chatRunnerId
   })
@@ -513,25 +513,45 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.on('send-chat-message', (_e, messageContent: string) => {
     const chat = getState('chat')
     const currentRunnerId = chat.visibleRunner;
-      if (currentRunnerId) {
-        const currentRunner = chat.runners?.[currentRunnerId]
-        const currentRunnerMessages = currentRunner?.context.messages ?? []
-        currentRunnerMessages.push(makeMessageFromSelf(chat, messageContent))
-        if (currentRunner) currentRunner.context.messages = currentRunnerMessages
-        if (chat.runners && currentRunner) chat.runners[currentRunnerId] = currentRunner
-        setStateAt('chat', chat)
-        sendChatStateUpdate()
-      }
+    if (currentRunnerId) {
+      const currentRunner = chat.runners?.[currentRunnerId]
+      const currentRunnerMessages = currentRunner?.context.messages ?? []
+      currentRunnerMessages.push(makeMessageFromSelf(chat, messageContent))
+      if (currentRunner) currentRunner.context.messages = currentRunnerMessages
+      if (chat.runners && currentRunner) chat.runners[currentRunnerId] = currentRunner
+      setStateAt('chat', chat)
+      sendChatStateUpdate()
+    }
   })
 
   ipcMain.handle('get-chat-state', (_e) => {
     return getState('chat')
   })
 
-  // ipcMain.on('chat-init-websocket', (_e) => {
-  //   console.log('===== chat-init-websocket ======')
-  //   getForProxyConnect()()
-  // })
+  ipcMain.on('refuse-chat-connection-request', (_e) => {
+    const chat = getState('chat')
+    const currentRunnerId = chat.visibleRunner;
+    if (currentRunnerId) {
+      const currentRunner = chat.runners?.[currentRunnerId]
+      if (currentRunner && !currentRunner.context.isAccepted) currentRunner.context.isRefused = true
+      if (chat.runners && currentRunner) chat.runners[currentRunnerId] = currentRunner
+      setStateAt('chat.visibleRunner', null)
+      setStateAt('chat', chat)
+      sendChatStateUpdate()
+    }
+  })
+
+  ipcMain.on('accept-chat-connection-request', (_e) => {
+    const chat = getState('chat')
+    const currentRunnerId = chat.visibleRunner;
+    if (currentRunnerId) {
+      const currentRunner = chat.runners?.[currentRunnerId]
+      if (currentRunner && !currentRunner.context.isRefused) currentRunner.context.isAccepted = true
+      if (chat.runners && currentRunner) chat.runners[currentRunnerId] = currentRunner
+      setStateAt('chat', chat)
+      sendChatStateUpdate()
+    }
+  })
 };
 
 

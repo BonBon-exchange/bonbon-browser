@@ -3,7 +3,7 @@ import { TFunction } from 'react-i18next';
 
 import { EventParams } from 'types/analytics';
 import { Bookmark, Provider, Tag } from 'types/bookmarks';
-import { ChatRunner, ChatState, ChatView } from 'types/chat';
+import { ChatRunner, ChatRunnerOptions, ChatState, ChatView } from 'types/chat';
 import { Download } from 'types/downloads';
 import { Extension } from 'types/extensions';
 import { Locale } from 'types/i18n';
@@ -102,8 +102,8 @@ contextBridge.exposeInMainWorld('app', {
     setMagic: (magic: string) => {
       ipcRenderer.send('set-chat-magic', magic);
     },
-    createRunner: (runner: ChatRunner) => {
-      ipcRenderer.invoke('create-chat-runner', runner)
+    createRunner: (runner: ChatRunner, options?: ChatRunnerOptions) => {
+      ipcRenderer.invoke('create-chat-runner', runner, options)
     },
     setState: (state: ChatState) => {
       ipcRenderer.send('set-chat-state', state)
@@ -125,6 +125,12 @@ contextBridge.exposeInMainWorld('app', {
     },
     contactPeer: (username: string, magic: string) => {
       ipcRenderer.send('magic-contact-peer', username, magic)
+    },
+    refuseConnectionRequest: () => {
+      ipcRenderer.send('refuse-chat-connection-request')
+    },
+    acceptConnectionRequest: () => {
+      ipcRenderer.send('accept-chat-connection-request')
     }
   },
   config: {

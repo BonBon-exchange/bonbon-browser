@@ -124,7 +124,7 @@ export const LeftBar = () => {
   }, [items, makeItem]);
 
   const makeChatItems = useCallback(() => {
-    return Object.keys(chat?.runners ?? {}).map((runnerId) => makeChatItem(runnerId));
+    return Object.keys(chat?.runners ?? {}).map((runnerId) => chat?.runners?.[runnerId].context.isRefused ? null : makeChatItem(runnerId));
   }, [chat?.runners, makeChatItem]);
 
   const initChat = () => {
@@ -133,6 +133,17 @@ export const LeftBar = () => {
 
   const chatConnectionRequestAction = useCallback((_e: IpcRendererEvent, args: {webrtcParticipant: string, username: string, magic: string}) => {
     console.log('===== chatConnectionRequestAction =====', {args})
+    window.app.chat.createRunner({
+      action: 'contact',
+      context: {
+        username: args.username,
+        magic: args.magic,
+        isContactRequest: true,
+        unread: true
+      },
+    }, {
+      isVisible: false,
+    });
   }, [])
 
   useEffect(() => {

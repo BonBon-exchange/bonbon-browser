@@ -1,7 +1,7 @@
 import { TFunction } from "react-i18next";
 import { EventParams } from "types/analytics";
 import { Bookmark, Provider, Tag } from "types/bookmarks";
-import { ChatRunner, ChatRunnerId, ChatState, ChatView } from "types/chat";
+import { ChatRunner, ChatRunnerId, ChatState, ChatView, ChatRunnerOptions } from "types/chat";
 import { Download } from "types/downloads";
 import { Extension } from "types/extensions";
 import { History } from "types/history";
@@ -55,7 +55,7 @@ declare global {
         createdWebrtcOffer: (webrtcOffer: string) => void
         setUsername: (username: string) => void
         setMagic: (magic: string) => void
-        createRunner: (runner: ChatRunner) => Promise<ChatRunnerId>
+        createRunner: (runner: ChatRunner, options?: ChatRunnerOptions) => Promise<ChatRunnerId>
         setState: (state: ChatState) => void
         getState: () => Primise<ChatState>
         setVisibleRunner: ((runner: string) => void)
@@ -63,6 +63,8 @@ declare global {
         init: () => void,
         initWebsocket: () => void
         contactPeer: (username: string, magic: string) => void
+        refuseConnectionRequest: () => void
+        acceptConnectionRequest: () => void
       };
       config: {
         get: (key: string) => Promise<unknown>;
