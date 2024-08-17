@@ -505,8 +505,16 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.on('set-visible-runner', (_e, runnerId: string) => {
 
     const chat = getState('chat')
-
+    const visibleRunner = chat.visibleRunner === runnerId ? null : runnerId
     setStateAt('chat.visibleRunner', chat.visibleRunner === runnerId ? null : runnerId)
+
+    if (visibleRunner) {
+      const currentRunner = chat.runners?.[visibleRunner]
+      if (currentRunner) currentRunner.context.unread = false
+      if (chat.runners && currentRunner) chat.runners[visibleRunner] = currentRunner
+      setStateAt('chat', chat)
+    }
+
     sendChatStateUpdate()
   })
 

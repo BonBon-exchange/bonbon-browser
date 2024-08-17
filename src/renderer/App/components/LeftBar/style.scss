@@ -47,6 +47,15 @@
   &:hover {
     background-color: var(--color-background-5);
   }
+
+  .LeftBar__chatItem-unread {
+    width:10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    right: 10px;
+  }
 }
 
 #LeftBar__browserFavContainer {

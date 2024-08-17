@@ -156,7 +156,7 @@ const connect = async () => {
                 setWebrtcOffer(webrtcOffer)
                 console.log('======== ipcEvent: creating registration message =========')
                 const registrationMessage = JSON.stringify({ event: 'register', username: userProxy.username, magic: userProxy.magic, uuid: userProxy.uuid });
-                ws.send(registrationMessage);
+                ws?.send(registrationMessage);
                 console.log({upwo: userProxy.webrtcOffer})
             }
         });
@@ -164,13 +164,13 @@ const connect = async () => {
         ipcMain.on('magic-contact-peer', (_event, peerUsername: string, peerMagic: string) => {
             console.log('======== ipcEvent: contact peer =========')
             const magicContactPeerMessage = JSON.stringify({ event: 'contact-peer', peerUsername, peerMagic, fromUsername: userProxy.username, fromMagic: userProxy.magic });
-            ws.send(magicContactPeerMessage);
+            ws?.send(magicContactPeerMessage);
         });
 
         ipcMain.on('created-webrtc-participant', (_event, args: { webrtcParticipant: string, username: string, magic: string }) => {
             console.log('===== ipcEvent: created WebrtcParticipant =====')
             const connectionMessage = buildConnectionRequestMessage(args.username, args.magic, `${args.webrtcParticipant}`, userProxy.username, userProxy.magic)
-            ws.send(connectionMessage);
+            ws?.send(connectionMessage);
         })
     });
 

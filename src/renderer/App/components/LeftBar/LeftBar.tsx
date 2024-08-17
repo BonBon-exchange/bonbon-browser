@@ -108,6 +108,7 @@ export const LeftBar = () => {
       <Reorder.Item key={`reorderChatItem-${runnerId}`} value={runnerId}>
         <Tooltip title={runner?.context.username} placement="right" key={runnerId}>
           <div className="LeftBar__chatItemContainer" onClick={() => window.app.chat.setVisibleRunner(runnerId)}>
+            {runner?.context?.unread && (<div className='LeftBar__chatItem-unread' />)}
             <div className="LeftBar__chatItem">
               {
                 runner?.action === 'contact' && (runner.context.username.substring(0, 1).toUpperCase())
