@@ -104,21 +104,22 @@ export const LeftBar = () => {
 
   const makeChatItem = useCallback((runnerId: string) => {
     const runner = chat?.runners?.[runnerId]
+    const isSelfSender = runner?.context.senderUsername === chat.username && runner?.context.senderMagic === chat.magic
     return (
       <Reorder.Item key={`reorderChatItem-${runnerId}`} value={runnerId}>
-        <Tooltip title={runner?.context.username} placement="right" key={runnerId}>
+        <Tooltip title={isSelfSender ? runner?.context.receiverUsername : runner?.context.senderUsername} placement="right" key={runnerId}>
           <div className="LeftBar__chatItemContainer" onClick={() => window.app.chat.setVisibleRunner(runnerId)}>
             {runner?.context?.unread && (<div className='LeftBar__chatItem-unread' />)}
             <div className="LeftBar__chatItem">
               {
-                runner?.action === 'contact' && (runner.context.username.substring(0, 1).toUpperCase())
+                runner?.action === 'contact' && (isSelfSender ? runner?.context?.receiverUsername?.substring(0, 1).toUpperCase() : runner?.context?.senderUsername?.substring(0, 1).toUpperCase())
               }
             </div>
           </div>
         </Tooltip>
       </Reorder.Item>
     )
-  }, [chat?.runners])
+  }, [chat.magic, chat?.runners, chat.username])
 
   const makeFavicons = useCallback(() => {
     return items.map((b: BrowserProps) => makeItem(b));
@@ -132,20 +133,23 @@ export const LeftBar = () => {
     window.app.chat.init()
   }
 
-  const chatConnectionRequestAction = useCallback((_e: IpcRendererEvent, args: {webrtcParticipant: string, username: string, magic: string}) => {
+  const chatConnectionRequestAction = useCallback((_e: IpcRendererEvent, args: {webrtcOffer: string, username: string, magic: string}) => {
     console.log('===== chatConnectionRequestAction =====', {args})
     window.app.chat.createRunner({
       action: 'contact',
       context: {
-        username: args.username,
-        magic: args.magic,
+        senderUsername: args.username,
+        senderMagic: args.magic,
+        receiverUsername: chat.username,
+        senderMagic: chat.magic,
         isContactRequest: true,
-        unread: true
+        unread: true,
+        webrtcOffer: args.webrtcOffer
       },
     }, {
       isVisible: false,
     });
-  }, [])
+  }, [chat.magic, chat.username])
 
   useEffect(() => {
     if (boardState.isFullSize) {

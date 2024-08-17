@@ -5,6 +5,7 @@ import { ChatMessage, ChatRunnerId } from 'types/chat';
 
 import './ChatViews.scss';
 import { useChat } from 'renderer/App/hooks/useChat';
+import { acceptWebrtcOffer } from 'renderer/App/hooks/useChatEvents';
 
 export default () => {
   const chat = useChat()
@@ -14,7 +15,8 @@ export default () => {
     window.app.chat.refuseConnectionRequest()
   }
 
-  const acceptChatConnectionRequest = () => {
+  const acceptChatConnectionRequest = (offer: string, peerUsername: string, peerMagic: string) => {
+    acceptWebrtcOffer()
     window.app.chat.acceptConnectionRequest()
   }
 
@@ -26,9 +28,9 @@ export default () => {
               runners[runnerId].action === 'contact' && 
               runners[runnerId].context.isContactRequest && !runners[runnerId].context.isAccepted && (
                 <>
-                  <div className='chat-view-info'>{runners[runnerId].context.username} @ {runners[runnerId].context.magic} wants to contact you.</div>
+                  <div className='chat-view-info'>{runners[runnerId].context.senderUsername} @ {runners[runnerId].context.senderMagic} wants to contact you.</div>
                   <div className='chat-view-confirm'>
-                    <div className='chat-view-confirm-accept' onClick={acceptChatConnectionRequest}>Accept</div>
+                    <div className='chat-view-confirm-accept' onClick={() => acceptChatConnectionRequest(runners[runnerId].context.webrtcOffer, runners[runnerId].context.receiverUsername, runners[runnerId].context.receiverMagic)}>Accept</div>
                     <div className='chat-view-confirm-refuse' onClick={refuseChatConnectionRequest}>Refuse</div>
                   </div>
                 </>

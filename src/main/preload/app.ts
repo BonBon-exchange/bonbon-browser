@@ -134,6 +134,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     sendIceCandidate: (candidate: string) => {
       ipcRenderer.send('send-ice-candidate', candidate)
+    },
+    createdWebrtcAnswer: (answer: string, peerUsername: string, peerMagic: string) => {
+      ipcRenderer.send('created-webrtc-answer', {answer, peerUsername, peerMagic})
     }
   },
   config: {

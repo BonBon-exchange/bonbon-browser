@@ -30,6 +30,14 @@ peerConnection.ondatachannel = (e) => {
   };
 };
 
+export const acceptWebrtcOffer = async (offer: string, peerUsername: string, peerMagic: string) => {
+  peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(offer)));
+  const answer = await peerConnection.createAnswer();
+  await peerConnection.setLocalDescription(answer);
+  window.app.chat.createdWebrtcAnswer(JSON.stringify(answer), peerUsername, peerMagic)
+  
+}
+
 export default () => {
   const createWebrtcParticipantAction = useCallback(
     (_e: IpcRendererEvent, { webrtcOffer, username, magic }: { webrtcOffer: string, username: string, magic: string}) => {

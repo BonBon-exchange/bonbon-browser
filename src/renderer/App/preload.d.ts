@@ -66,6 +66,7 @@ declare global {
         refuseConnectionRequest: () => void
         acceptConnectionRequest: () => void
         sendIceCandidate: (candidate: string) => void
+        createdWebrtcAnswer: (webrtcOffer: string, peerUsername: string, peerMagic: string) => void
       };
       config: {
         get: (key: string) => Promise<unknown>;

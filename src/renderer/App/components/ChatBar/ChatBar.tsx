@@ -48,8 +48,10 @@ export default  () => {
     await window.app.chat.createRunner({
       action: 'contact',
       context: {
-        username: inputContactUsername,
-        magic: inputContactMagic,
+        receiverUsername: inputContactUsername,
+        receiverMagic: inputContactMagic,
+        senderUsername: chat.username,
+        senderMagic: chat.magic
       },
     }, {
       isVisible: true

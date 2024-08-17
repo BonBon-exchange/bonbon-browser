@@ -221,7 +221,7 @@ const connect = async () => {
                     if (parsedMessage.targetUsername === userProxy.username && parsedMessage.targetMagic === userProxy.magic) {
                         console.log('====== message: connection-request =========');
                         getSelectedView()?.webContents.send('chat-connection-request', {
-                            webrtcParticipant: parsedMessage.webrtcParticipant,
+                            webrtcOffer: parsedMessage.webrtcOffer,
                             username: parsedMessage.username,
                             magic: parsedMessage.magic
                         });
