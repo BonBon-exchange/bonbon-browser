@@ -70,7 +70,7 @@ const userProxy = new Proxy({ username: "", magic: "", uuid: uuidv4, isRegistere
 
 const unregistrationMessage = JSON.stringify({ event: 'unregister', usr: userProxy.username }); // Format your message``
 
-const buildConnectionRequestMessage = (targetUsername: string, targetMagic: string, webrtcParticipant: string, username: string, magic: string) => JSON.stringify({ event: 'connection-request', targetUsername, targetMagic, webrtcParticipant, username, magic })
+const buildConnectionRequestMessage = (targetUsername: string, targetMagic: string, webrtcOffer: string, username: string, magic: string) => JSON.stringify({ event: 'connection-request', targetUsername, targetMagic, webrtcOffer, username, magic })
 
 const setUsername = (usr: string) => {
     userProxy.username = usr
@@ -171,27 +171,29 @@ const connect = async () => {
 
         ipcMain.on('magic-contact-peer', (_event, peerUsername, peerMagic) => {
             console.log('======== ipcEvent: contact peer =========');
-            const magicContactPeerMessage = JSON.stringify({
-                event: 'contact-peer',
-                peerUsername,
-                peerMagic,
-                fromUsername: userProxy.username,
-                fromMagic: userProxy.magic
-            });
-            ws?.send(magicContactPeerMessage);
+            const connectionRequestMessage = buildConnectionRequestMessage(peerUsername, peerMagic, userProxy.webrtcOffer, userProxy.username, userProxy.magic);
+            ws?.send(connectionRequestMessage);
+            // const magicContactPeerMessage = JSON.stringify({
+            //     event: 'contact-peer',
+            //     peerUsername,
+            //     peerMagic,
+            //     fromUsername: userProxy.username,
+            //     fromMagic: userProxy.magic,
+            // });
+            // ws?.send(magicContactPeerMessage);
         });
 
-        ipcMain.on('created-webrtc-participant', (_event, args) => {
-            console.log('===== ipcEvent: created WebrtcParticipant =====');
-            const connectionMessage = buildConnectionRequestMessage(
-                args.username, 
-                args.magic, 
-                args.webrtcParticipant, 
-                userProxy.username, 
-                userProxy.magic
-            );
-            ws?.send(connectionMessage);
-        });
+        // ipcMain.on('created-webrtc-participant', (_event, args) => {
+        //     console.log('===== ipcEvent: created WebrtcParticipant =====');
+        //     const connectionMessage = buildConnectionRequestMessage(
+        //         args.username, 
+        //         args.magic, 
+        //         args.webrtcParticipant, 
+        //         userProxy.username, 
+        //         userProxy.magic
+        //     );
+        //     ws?.send(connectionMessage);
+        // });
     });
 
     ws.on('message', async (message) => {
@@ -248,9 +250,9 @@ const connect = async () => {
                     break;
                 case 'contact-peer-response':
                     console.log('====== message: contact-peer-response =========');
-                    if (parsedMessage.peerUsername === userProxy.username && parsedMessage.peerMagic === userProxy.magic) {
-                        shakeHandWith(parsedMessage.fromUsername, parsedMessage.fromMagic, parsedMessage.webrtcOffer);
-                    }
+                    // if (parsedMessage.peerUsername === userProxy.username && parsedMessage.peerMagic === userProxy.magic) {
+                    //     shakeHandWith(parsedMessage.fromUsername, parsedMessage.fromMagic, parsedMessage.webrtcOffer);
+                    // }
                     break;
                 default:
                     console.log('Unknown event:', parsedMessage.event);
