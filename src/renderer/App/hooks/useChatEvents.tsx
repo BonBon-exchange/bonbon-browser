@@ -30,12 +30,11 @@ peerConnection.ondatachannel = (e) => {
   };
 };
 
-export const acceptWebrtcOffer = async (offer: string, peerUsername: string, peerMagic: string) => {
+export const acceptWebrtcOffer = async (offer: string, senderUsername: string, senderMagic: string) => {
   peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(offer)));
   const answer = await peerConnection.createAnswer();
   await peerConnection.setLocalDescription(answer);
-  window.app.chat.createdWebrtcAnswer(JSON.stringify(answer), peerUsername, peerMagic)
-  
+  window.app.chat.createdWebrtcAnswer(JSON.stringify(answer), senderUsername, senderMagic)
 }
 
 export default () => {
@@ -68,14 +67,37 @@ export default () => {
     window.app.chat.createdWebrtcOffer(JSON.stringify(webrtcOfferFinal));
   }, []);
 
-  const webrtcConnectionRequestAction = useCallback(
-    (_e: IpcRendererEvent, { webrtcParticipant }: {webrtcParticipant: string}) => {
-      console.log({ webrtcParticipant });
-      const answerDesc = new RTCSessionDescription(JSON.parse(webrtcParticipant));
-      peerConnection.setRemoteDescription(answerDesc);
-    },
-    []
-  );
+  const chatConnectionRequestAcceptedAction = useCallback((_e: IpcRendererEvent, { 
+    senderUsername,
+    senderMagic,
+    receiverUsername,
+    receiverMagic,
+    webrtcAnswer
+  }: {senderUsername: string, senderMagic: string, receiverUsername: string, receiverMagic: string, webrtcAnswer: string}) => {
+      console.log('===== chatConnectionRequestAcceptedAction =====');
+      const answerDesc = new RTCSessionDescription(JSON.parse(webrtcAnswer));
+      // Check if the signaling state is correct before setting the remote description
+      if (peerConnection.signalingState === "have-local-offer") {
+        peerConnection.setRemoteDescription(answerDesc)
+          .then(() => {
+            console.log('Remote description set successfully');
+          })
+          .catch((error) => {
+            console.error('Error setting remote description:', error);
+          });
+      } else {
+        console.warn('Cannot set remote description. Current signaling state:', peerConnection.signalingState);
+      }
+    }, [])
+
+  // const webrtcConnectionRequestAction = useCallback(
+  //   (_e: IpcRendererEvent, { webrtcParticipant }: {webrtcParticipant: string}) => {
+  //     console.log({ webrtcParticipant });
+  //     const answerDesc = new RTCSessionDescription(JSON.parse(webrtcParticipant));
+  //     peerConnection.setRemoteDescription(answerDesc);
+  //   },
+  //   []
+  // );
 
   useEffect(() => {
     window.app.listener.createWebrtcOffer(createWebrtcOfferAction);
@@ -87,8 +109,13 @@ export default () => {
     return () => window.app.off.createWebrtcParticipant();
   }, [createWebrtcParticipantAction]);
 
+  // useEffect(() => {
+  //   window.app.listener.webrtcConnectionRequest(webrtcConnectionRequestAction);
+  //   return () => window.app.off.webrtcConnectionRequest();
+  // }, [webrtcConnectionRequestAction]);
+
   useEffect(() => {
-    window.app.listener.webrtcConnectionRequest(webrtcConnectionRequestAction);
-    return () => window.app.off.webrtcConnectionRequest();
-  }, [webrtcConnectionRequestAction]);
+    window.app.listener.chatConnectionRequestAccepted(chatConnectionRequestAcceptedAction);
+    return () => window.app.off.chatConnectionRequestAccepted();
+  }, [chatConnectionRequestAcceptedAction]);
 };

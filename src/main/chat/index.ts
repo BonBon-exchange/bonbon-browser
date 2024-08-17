@@ -169,6 +169,17 @@ const connect = async () => {
             }
         });
 
+        ipcMain.on('created-webrtc-answer', (_event, webrtcAnswer, senderUsername, senderMagic) => {
+            ws?.send(JSON.stringify({
+                event: 'magic-contact-accepted',
+                receiverUsername: userProxy.username,
+                receiverMagic: userProxy.magic,
+                senderUsername,
+                senderMagic,
+                webrtcAnswer
+            }))
+        });
+
         ipcMain.on('magic-contact-peer', (_event, peerUsername, peerMagic) => {
             console.log('======== ipcEvent: contact peer =========');
             const connectionRequestMessage = buildConnectionRequestMessage(peerUsername, peerMagic, userProxy.webrtcOffer, userProxy.username, userProxy.magic);
@@ -236,13 +247,13 @@ const connect = async () => {
                     break;
                 case 'contact-peer':
                     console.log('====== message: contact-peer =========');
-                    if (parsedMessage.peerUsername === userProxy.username && parsedMessage.peerMagic === userProxy.magic) {
+                    if (parsedMessage.receiverUsername === userProxy.username && parsedMessage.receiverMagic === userProxy.magic) {
                         const magicContactPeerMessageResponse = JSON.stringify({
                             event: 'contact-peer-response',
-                            peerUsername: parsedMessage.fromUsername,
-                            peerMagic: parsedMessage.fromMagic,
-                            fromUsername: userProxy.username,
-                            fromMagic: userProxy.magic,
+                            receiverUsername: parsedMessage.fromUsername,
+                            receiverMagic: parsedMessage.fromMagic,
+                            senderUsername: userProxy.username,
+                            senderMagic: userProxy.magic,
                             webrtcOffer: userProxy.webrtcOffer
                         });
                         ws?.send(magicContactPeerMessageResponse);
@@ -253,6 +264,14 @@ const connect = async () => {
                     // if (parsedMessage.peerUsername === userProxy.username && parsedMessage.peerMagic === userProxy.magic) {
                     //     shakeHandWith(parsedMessage.fromUsername, parsedMessage.fromMagic, parsedMessage.webrtcOffer);
                     // }
+                    break;
+                    
+                case 'magic-contact-accepted':
+                    console.log('====== message: magic-contact-accepted =========', userProxy, parsedMessage);
+                    if(parsedMessage.senderUsername === userProxy.username && parsedMessage.senderMagic === userProxy.magic) {
+                        console.log('====>>> sending: chat-connection-request-accepted');
+                        getSelectedView()?.webContents.send('chat-connection-request-accepted', parsedMessage);
+                    }
                     break;
                 default:
                     console.log('Unknown event:', parsedMessage.event);

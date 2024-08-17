@@ -135,8 +135,8 @@ contextBridge.exposeInMainWorld('app', {
     sendIceCandidate: (candidate: string) => {
       ipcRenderer.send('send-ice-candidate', candidate)
     },
-    createdWebrtcAnswer: (answer: string, peerUsername: string, peerMagic: string) => {
-      ipcRenderer.send('created-webrtc-answer', {answer, peerUsername, peerMagic})
+    createdWebrtcAnswer: (answer: string, senderUsername: string, senderMagic: string) => {
+      ipcRenderer.send('created-webrtc-answer', answer, senderUsername, senderMagic)
     }
   },
   config: {
@@ -285,6 +285,9 @@ contextBridge.exposeInMainWorld('app', {
     chatConnectionRequest: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
       ipcRenderer.on('chat-connection-request', action);
     },
+    chatConnectionRequestAccepted: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
+      ipcRenderer.on('chat-connection-request-accepted', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -355,6 +358,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     chatConnectionRequest: () => {
       ipcRenderer.removeAllListeners('chat-connection-request');
+    },
+    chatConnectionRequestAccepted: () => {
+      ipcRenderer.removeAllListeners('chat-connection-request-accepted');
     },
   },
   tools: {

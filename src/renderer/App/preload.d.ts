@@ -66,7 +66,7 @@ declare global {
         refuseConnectionRequest: () => void
         acceptConnectionRequest: () => void
         sendIceCandidate: (candidate: string) => void
-        createdWebrtcAnswer: (webrtcOffer: string, peerUsername: string, peerMagic: string) => void
+        createdWebrtcAnswer: (webrtcOffer: string, senderUsername: string, senderMagic: string) => void
       };
       config: {
         get: (key: string) => Promise<unknown>;
@@ -117,6 +117,7 @@ declare global {
         chatState: (action: unknown) => void;
         chatComboTaken: (action: unknown) => void;
         chatConnectionRequest: (action: unknown) => void;
+        chatConnectionRequestAccepted: (action: unknown) => void;
       };
       off: {
         newWindow: () => void;
@@ -144,6 +145,7 @@ declare global {
         chatState: () => void;
         chatComboTaken: () => void;
         chatConnectionRequest: () => void;
+        chatConnectionRequestAccepted: () => void;
       };
       tools: {
         inspectElement: (point: IpcInspectElement) => void;

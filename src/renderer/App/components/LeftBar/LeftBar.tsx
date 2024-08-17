@@ -141,7 +141,7 @@ export const LeftBar = () => {
         senderUsername: args.username,
         senderMagic: args.magic,
         receiverUsername: chat.username,
-        senderMagic: chat.magic,
+        receiverMagic: chat.magic,
         isContactRequest: true,
         unread: true,
         webrtcOffer: args.webrtcOffer
@@ -167,6 +167,10 @@ export const LeftBar = () => {
     window.app.listener.chatConnectionRequest(chatConnectionRequestAction);
     return () => window.app.off.chatConnectionRequest()
   }, [chatConnectionRequestAction])
+
+  useEffect(() => {
+    console.log({runners: chat.runners})
+  }, [chat.runners])
 
   return (
     <>

@@ -15,8 +15,8 @@ export default () => {
     window.app.chat.refuseConnectionRequest()
   }
 
-  const acceptChatConnectionRequest = (offer: string, peerUsername: string, peerMagic: string) => {
-    acceptWebrtcOffer()
+  const acceptChatConnectionRequest = (offer: string, senderUsername: string, senderMagic: string) => {
+    acceptWebrtcOffer(offer, senderUsername, senderMagic)
     window.app.chat.acceptConnectionRequest()
   }
 
@@ -30,7 +30,7 @@ export default () => {
                 <>
                   <div className='chat-view-info'>{runners[runnerId].context.senderUsername} @ {runners[runnerId].context.senderMagic} wants to contact you.</div>
                   <div className='chat-view-confirm'>
-                    <div className='chat-view-confirm-accept' onClick={() => acceptChatConnectionRequest(runners[runnerId].context.webrtcOffer, runners[runnerId].context.receiverUsername, runners[runnerId].context.receiverMagic)}>Accept</div>
+                    <div className='chat-view-confirm-accept' onClick={() => acceptChatConnectionRequest(runners[runnerId].context.webrtcOffer, runners[runnerId].context.senderUsername, runners[runnerId].context.senderMagic)}>Accept</div>
                     <div className='chat-view-confirm-refuse' onClick={refuseChatConnectionRequest}>Refuse</div>
                   </div>
                 </>
