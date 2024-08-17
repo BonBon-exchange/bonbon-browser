@@ -4,7 +4,7 @@
     height: 100%;
     position: fixed;
     margin-left: 50px;
-    background: linear-gradient(200.96deg, rgb(196, 163, 32), rgb(160, 69, 94), #5c2370);
+    background: linear-gradient(200.96deg, rgb(32 196 123), rgb(160, 69, 94), #5c2370);
     z-index: 10;
     flex-direction: column;
 
@@ -70,14 +70,13 @@
         padding: 13px;
         margin: 10px;
         width: fit-content;
-        color: white;
+        background-color: rgba(244,244,244, 0.6);
+        border-radius: 20px;
+        color: black;
 
         &.message-by-self {
-            background-color: rgba(244,244,244, 0.6);
-            border-radius: 20px;
             text-align: right;
             align-self: end;
-            color: black;
         }
     }
 }
