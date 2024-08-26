@@ -32,6 +32,16 @@ export const KeyboardShortcuts = () => {
       </div>
       <div className="Documentation__item">
         <div className="Documentation__item-title">
+          CTRL + t + s - Open a new webpage in a separate session
+        </div>
+        <div className="Documentation__item-description">
+          {t(
+            'Pressing CTRL and T and S at the same time will open a new webpage (named Tab in other browsers) in a separate session. It allows to be connected on the same website with multiple different accounts in multiple webpages.'
+          )}
+        </div>
+      </div>
+      <div className="Documentation__item">
+        <div className="Documentation__item-title">
           CTRL + SHIFT + t - Reopen last closed webpage
         </div>
         <div className="Documentation__item-description">
