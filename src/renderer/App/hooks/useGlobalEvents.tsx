@@ -56,11 +56,11 @@ export const useGlobalEvents = () => {
 
   const keyDownListener = useCallback(
     (e: KeyboardEvent) => {
-      keysPressed = [...keysPressed, e.key.toLowerCase()]
-
+      
       // Clear any previous timeout
       if (keyDownTimeoutId) clearTimeout(keyDownTimeoutId);
-
+      keysPressed = [...keysPressed, e.key.toLowerCase()]
+      
       keyDownTimeoutId = setTimeout(() => {
         const webview = getActiveWebview();
         if (e.key === 'Alt') {
@@ -77,12 +77,27 @@ export const useGlobalEvents = () => {
         else if (e.ctrlKey && e.shiftKey && e.key === 'Tab') {
           window.app.board.selectNext();
         }
-        else if (e.ctrlKey && !e.shiftKey && keysPressed.includes('t') && keysPressed.includes('s') && keysPressed.length === 3){
+
+        // open a new board
+        else if (e.ctrlKey && !e.shiftKey && keysPressed.includes('b') && keysPressed.length === 2){
+          console.log('open board with new session')
+        }
+
+        // open a new board with new session
+        else if (e.ctrlKey && !e.shiftKey && keysPressed.includes('b') && keysPressed.includes('s') && keysPressed.length === 3){
           console.log('open tab with new session')
         }
-        else if (e.ctrlKey && !e.shiftKey && e.key === 't') {
+
+        // open a new browser view
+        else if (e.ctrlKey && !e.shiftKey && e.key === 't' && keysPressed.length === 2) {
           browser.add({});
         }
+
+        // open a new browser view with new session
+        else if (e.ctrlKey && !e.shiftKey && keysPressed.includes('t') && keysPressed.includes('s') && keysPressed.length === 3){
+          browser.add({newSession: true});
+        }
+
         else if (e.ctrlKey && e.shiftKey && e.key === 'T') {
           browser.reopenLastClosed();
         }
@@ -104,7 +119,7 @@ export const useGlobalEvents = () => {
         }
         keysPressed = []
         keyDownTimeoutId = null
-      }, 300) as unknown as number;
+      }, 400) as unknown as number;
     },
     [getActiveWebview, isPointerEventDisabled, disablePointerEventsForAll, boardState.browsers.length, boardState.activeBrowser, next, focus, browser, board]
   );

@@ -45,6 +45,7 @@ export const Browser = ({
   webContentsId,
   isSearching,
   capture,
+  session
 }: BrowserProps) => {
   const dispatch = useAppDispatch();
   const {
@@ -344,28 +345,13 @@ export const Browser = ({
             // @ts-ignore
             allowpopups="true"
             src={hasBeenActive || !board.isFullSize ? renderedUrl : undefined}
-            partition="persist:user-partition"
+            partition={session ?? "persist:user-partition"}
             ref={webviewRef}
           />
         </div>
       </motion.div>
     );
-  }, [
-    board.isFullSize,
-    certificateErrorFingerprint,
-    favicon,
-    focus,
-    hasBeenActive,
-    helpers.browser,
-    id,
-    isLoading,
-    isSearching,
-    renderedUrl,
-    title,
-    toggleFullSizeBrowser,
-    url,
-    webContentsId,
-  ]);
+  }, [board.isFullSize, certificateErrorFingerprint, favicon, focus, hasBeenActive, helpers.browser, id, isLoading, isSearching, renderedUrl, session, title, toggleFullSizeBrowser, url, webContentsId]);
 
   useEffect(() => {
     if (id === board.activeBrowser || !board.isFullSize) setHasBeenActive(true);

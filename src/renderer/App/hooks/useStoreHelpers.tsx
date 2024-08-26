@@ -41,6 +41,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       url?: string;
       top?: number;
       left?: number;
+      newSession?: boolean;
     }) => {
       const browserId = params.id || v4();
       const defaultWebpage = (await window.app.config.get(
@@ -111,6 +112,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         firstRendering: true,
         isLoading: true,
         isMinimized: false,
+        session: params.newSession ? v4() : undefined,
       };
       return newBrowser;
     },
@@ -118,7 +120,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   );
 
   const makeAndAddBrowser = useCallback(
-    async (params: { url?: string }): Promise<void> => {
+    async (params: { url?: string, newSession?: boolean }): Promise<void> => {
       if (board) {
         const newBrowser = await makeBrowser(params);
         dispatch(addBrowser(newBrowser));
