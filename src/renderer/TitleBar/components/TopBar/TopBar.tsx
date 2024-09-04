@@ -40,7 +40,7 @@ export const TopBar = () => {
   const dispatch = useAppDispatch();
 
   const pushTab = useCallback(
-    (params: { id?: string; label?: string }) => {
+    (params: { id?: string; label?: string, newSession?: boolean }) => {
       const id = params.id || v4();
       const newTab = {
         id,
@@ -48,8 +48,7 @@ export const TopBar = () => {
       };
 
       dispatch(addTab(newTab));
-      window.titleBar.tabs.select(id);
-      window.titleBar.analytics.event('add_board');
+      window.titleBar.tabs.select(id, params.newSession);
     },
     [dispatch]
   );
@@ -70,9 +69,9 @@ export const TopBar = () => {
   };
 
   const switchBoard = useCallback(
-    (tabId: string) => {
+    (args: {tabId: string, newSession?: boolean}) => {
       if (!isRenaming) {
-        window.titleBar.tabs.select(tabId);
+        window.titleBar.tabs.select(args?.tabId, args.newSession);
         window.titleBar.analytics.event('switch_board');
       }
     },
@@ -86,10 +85,12 @@ export const TopBar = () => {
 
   const openTabListener = useCallback(
     (_e: unknown, args: { id?: string; label?: string }) => {
-      if (tabs?.find((t) => t.id === args?.id)) {
-        if (args.id) switchBoard(args.id);
+      if (args && args?.id) {
+        if (tabs?.find((t) => t.id === args?.id)) {
+          switchBoard({tabId: args.id});
+        }
       } else {
-        pushTab(args);
+        pushTab({...args, id: v4()});
       }
     },
     [pushTab, switchBoard, tabs]
@@ -210,6 +211,10 @@ export const TopBar = () => {
     toRemove?.remove();
   }, []);
 
+  const clickOnAddIcon = (event: {shiftKey: boolean}) => {
+    event.shiftKey ? pushTab({newSession: true}) : pushTab({})
+  }
+
   const handleReorder = (newOrder: TabProps[]) => {
     dispatch(setTabs(newOrder));
   };
@@ -247,7 +252,7 @@ export const TopBar = () => {
   }, [dblclickEventListener, tabs]);
 
   useEffect(() => {
-    switchBoard(activeTab);
+    switchBoard({tabId: activeTab});
   }, [switchBoard, activeTab]);
 
   useEffect(() => {
@@ -388,7 +393,7 @@ export const TopBar = () => {
           );
         })}
       </Reorder.Group>
-      <div id="TopBar__addBoard" onClick={() => pushTab({})}>
+      <div id="TopBar__addBoard" onClick={clickOnAddIcon}>
         <AddIcon />
       </div>
       <div id="TopBar__controls">

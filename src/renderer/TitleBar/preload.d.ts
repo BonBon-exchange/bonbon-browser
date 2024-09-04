@@ -50,7 +50,7 @@ declare global {
         appClicked: () => void;
       };
       tabs: {
-        select: (tabId: string) => void;
+        select: (tabId: string, newSession?: boolean) => void;
         purge: (tabId: string) => void;
         save: (tabId: string) => void;
         rename: (args: IpcRenameTab) => void;

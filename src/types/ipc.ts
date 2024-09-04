@@ -17,6 +17,7 @@ export type IpcAnalyticsPage = {
 
 export type IpcTabSelect = {
   tabId: string;
+  newSession?: boolean;
 };
 
 export type IpcTabPurge = {

@@ -27,6 +27,7 @@ declare global {
       };
       board: {
         close: () => void;
+        add: (params?: { newSession?: boolean}) => void;
         selectNext: () => void;
         setWindowsCount: (args: IpcSetWindowsCount) => void;
       };

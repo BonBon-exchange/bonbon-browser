@@ -14,4 +14,5 @@ export interface BrowserProps {
   certificateErrorFingerprint?: string | null;
   isSearching?: boolean;
   capture?: string;
+  session?: string;
 }

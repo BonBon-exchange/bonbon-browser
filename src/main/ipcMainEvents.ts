@@ -450,4 +450,8 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.handle('is-app-maximized', () => {
     return getMainWindow()?.isMaximized() || false;
   });
+
+  ipcMain.on('open-new-board', (_e, params?: { newSession?: boolean}) => {
+    getMainWindow()?.webContents.send('open-tab', params);
+  })
 };

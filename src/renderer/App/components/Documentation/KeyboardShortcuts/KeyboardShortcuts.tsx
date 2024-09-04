@@ -22,11 +22,31 @@ export const KeyboardShortcuts = () => {
       </div>
       <div className="Documentation__item">
         <div className="Documentation__item-title">
+          CTRL + b - Open a new board
+        </div>
+        <div className="Documentation__item-description">
+          {t(
+            'Pressing CTRL and B at the same time will open a new collection.'
+          )}
+        </div>
+      </div>
+      <div className="Documentation__item">
+        <div className="Documentation__item-title">
           CTRL + t - Open a new webpage
         </div>
         <div className="Documentation__item-description">
           {t(
             'Pressing CTRL and T at the same time will open a new webpage (named Tab in other browsers).'
+          )}
+        </div>
+      </div>
+      <div className="Documentation__item">
+        <div className="Documentation__item-title">
+          CTRL + t + s - Open a new webpage in a separate session
+        </div>
+        <div className="Documentation__item-description">
+          {t(
+            'Pressing CTRL and T and S at the same time will open a new webpage (named Tab in other browsers) in a separate session. It allows to be connected on the same website with multiple different accounts in multiple webpages.'
           )}
         </div>
       </div>
