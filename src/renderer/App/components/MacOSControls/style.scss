@@ -1,0 +1,72 @@
+.window-controls {
+    display: flex;
+    gap: 8px; /* Espace entre les boutons */
+    padding: 10px; /* Optionnel, pour le padding autour des boutons */
+    cursor: auto;
+  }
+  
+  .control {
+    width: 12px; /* Diamètre des boutons */
+    height: 12px;
+    border-radius: 50%; /* Pour faire des cercles */
+    display: inline-block;
+    position: relative;
+  }
+  
+  .red {
+    background-color: #ff5f57; /* Couleur rouge */
+  }
+  
+  .red::before {
+    content: '✕'; /* Symbole X */
+    font-size: 10px;
+    color: black;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .red:hover::before {
+    display: block;
+  }
+  
+  .yellow {
+    background-color: #ffbd2e; /* Couleur jaune */
+  }
+  
+  .yellow::before {
+    content: '–'; /* Symbole tiret */
+    font-size: 14px;
+    color: black;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .yellow:hover::before {
+    display: block;
+  }
+  
+  .green {
+    background-color: #28c840; /* Couleur verte */
+  }
+  
+  .green::before {
+    content: '⧉'; /* Symbole carré avec ligne oblique (vous pouvez changer ce symbole selon le design exact) */
+    font-size: 10px;
+    color: black;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .green:hover::before {
+    display: block;
+  }
+  

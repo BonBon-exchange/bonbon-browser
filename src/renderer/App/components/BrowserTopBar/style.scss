@@ -5,6 +5,10 @@
   flex-direction: row;
   padding-left: 10px;
   cursor: grab;
+  
+  &.macos {
+    padding-left: 0px;
+  }
 }
 
 .BrowserTopBar__title {
@@ -21,7 +25,13 @@
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
+
+  &.macos {
+    flex-direction: row !important;
+    margin-right: 10px;
+  }
 }
+
 
 .BrowserTopBar__control-button {
   color: var(--color-icon-primary);

@@ -274,4 +274,7 @@ contextBridge.exposeInMainWorld('app', {
       return ipcRenderer.invoke('find-in-known-domains', input);
     },
   },
+  os: {
+    getPlatform: () => process.platform,
+  },
 });

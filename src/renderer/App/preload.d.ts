@@ -109,6 +109,9 @@ declare global {
         distributeWindowsEvenly: () => void;
         setDefaultWindowSize: () => void;
       };
+      os: {
+        getPlatform: () => string;
+      };
       tools: {
         inspectElement: (point: IpcInspectElement) => void;
         toggleDarkMode: () => void;
