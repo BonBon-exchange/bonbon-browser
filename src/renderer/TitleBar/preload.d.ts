@@ -20,19 +20,19 @@ declare global {
         inspectElement: (point: IpcInspectElement) => void;
       };
       listener: {
-        openTab: (action: unknown) => void;
-        closeTab: (action: unknown) => void;
-        renameTab: (action: unknown) => void;
-        saveBoard: (action: unknown) => void;
-        closeActiveTab: (action: unknown) => void;
-        selectNextBoard: (action: unknown) => void;
-        setWindowsCount: (action: unknown) => void;
-        closeAllTab: (action: unknown) => void;
-        closeOthersTab: (action: unknown) => void;
-        downloadState: (action: unknown) => void;
-        removeExtension: (action: unknown) => void;
-        hideDownloadsPreview: (action: unknown) => void;
-        appClicked: (action: unknown) => void;
+        openTab: (action: (_e: IpcRendererEvent, args: { id?: string; label?: string; }) => void) => void;
+        closeTab: (action: (_e: IpcRendererEvent, args: { x: number; y: number }) => void) => void;
+        renameTab: (action: (_e: IpcRendererEvent, args: { x: number; y: number; }) => void) => void;
+        saveBoard: (action: (_e: IpcRendererEvent, args: { x: number; y: number; }) => void) => void;
+        closeActiveTab: (action: () => void) => void;
+        selectNextBoard: (action: () => void) => void;
+        setWindowsCount: (action: (_e: IpcRendererEvent, args: { boardId: string; count: number; }) => void) => void;
+        closeAllTab: (action: () => void) => void;
+        closeOthersTab: (action: (_e: IpcRendererEvent, args: { x: number; y: number; }) => void) => void;
+        downloadState: (action: (_e: IpcRendererEvent, state: DownloadState) => void) => void;
+        removeExtension: (action: (_e: IpcRendererEvent, id: string) => void) => void;
+        hideDownloadsPreview: (action: () => void) => void;
+        appClicked: (action: () => void) => void;
       };
       off: {
         openTab: () => void;
