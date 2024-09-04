@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
+import { IpcRendererEvent } from 'electron';
 import React, { useEffect, useCallback, useState } from 'react';
 import { v4 } from 'uuid';
 import TextField from '@mui/material/TextField';
@@ -31,7 +32,6 @@ import { AppControls } from 'renderer/TitleBar/components/AppControls';
 
 import './style.scss';
 import { DownloadState } from './Types';
-import { IpcRendererEvent } from 'electron';
 
 export const TopBar = () => {
   const [downloadState, setDownloadState] = useState<DownloadState>(null);
