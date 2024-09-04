@@ -17,6 +17,7 @@ import {
   IpcShowLeftbarContextMenu
 } from "types/ipc";
 import { DomainSuggestion } from "types/suggestions";
+import { DownloadState } from "renderer/TitleBar/components/TopBar/Types";
 
 declare global {
   interface Window {
@@ -74,28 +75,24 @@ declare global {
         getAllHistory: () => Promise<History[]>;
       };
       listener: {
-        newWindow: (action: unknown) => void;
-        loadBoard: (action: unknown) => void;
-        purge: (action: unknown) => void;
-        showLibrary: (action: unknown) => void;
-        showSettings: (action: unknown) => void;
-        saveBoard: (action: unknown) => void;
-        renameBoard: (action: unknown) => void;
-        closeWebview: (action: unknown) => void;
-        closeAllWebview: (action: unknown) => void;
-        closeOthersWebview: (action: unknown) => void;
-        showAppMenu: (action: unknown) => void;
-        certificateError: (action: unknown) => void;
-        downloading: (action: unknown) => void;
-        showDownloadsPreview: (action: unknown) => void;
-        distributeWindowsEvenly: (action: unknown) => void;
-        setDefaultWindowSize: (action: unknown) => void;
+        newWindow: (action: (_e: IpcRendererEvent, args: { url: string; }) => void) => void;
+        loadBoard: (action: (_e: any, args: { boardId: string; }) => void) => void;
+        purge: (action: () => void) => void;
+        saveBoard: (action: () => void) => void;
+        renameBoard: (action: (_e: IpcRendererEvent, args: { label: string; }) => void) => void;
+        closeWebview: (action: (_e: IpcRendererEvent, args: Position) => void) => void;
+        closeAllWebview: (action: () => void) => void;
+        closeOthersWebview: (action: (_e: IpcRendererEvent, args: Position) => void) => void;
+        showAppMenu: (action: () => void) => void;
+        certificateError: (action: (_e: IpcRendererEvent, args: { webContentsId: number; fingerprint: string; }) => void) => void;
+        downloading: (action: (_e: IpcRendererEvent, args: { savePath: string; filename: string; progress: number; etag: string; startTime: number; state: DownloadState }) => void) => void;
+        showDownloadsPreview: (action: () => void) => void;
+        distributeWindowsEvenly: (action: () => void) => void;
+        setDefaultWindowSize: (action: (_e: IpcRendererEvent, wcId: number) => void) => void;
       };
       off: {
         newWindow: () => void;
         loadBoard: () => void;
-        showLibrary: () => void;
-        showSettings: () => void;
         purge: () => void;
         saveBoard: () => void;
         renameBoard: () => void;

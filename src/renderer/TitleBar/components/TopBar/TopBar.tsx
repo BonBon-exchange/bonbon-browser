@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
+import { IpcRendererEvent } from 'electron';
 import React, { useEffect, useCallback, useState } from 'react';
 import { v4 } from 'uuid';
 import TextField from '@mui/material/TextField';
@@ -84,7 +85,7 @@ export const TopBar = () => {
   );
 
   const openTabListener = useCallback(
-    (_e: unknown, args: { id?: string; label?: string }) => {
+    (_e: IpcRendererEvent, args: { id?: string; label?: string }) => {
       if (args && args?.id) {
         if (tabs?.find((t) => t.id === args?.id)) {
           switchBoard({tabId: args.id});
@@ -97,7 +98,7 @@ export const TopBar = () => {
   );
 
   const closeTabListener = useCallback(
-    (_e: unknown, args: { x: number; y: number }) => {
+    (_e: IpcRendererEvent, args: { x: number; y: number }) => {
       const el = document.elementFromPoint(args.x, args.y);
       const tabId = el?.getAttribute('data-tabid');
       if (tabId) {
@@ -120,7 +121,7 @@ export const TopBar = () => {
   }, [dispatch, activeTab]);
 
   const renameTabListener = useCallback(
-    (_e: unknown, args: { x: number; y: number }) => {
+    (_e: IpcRendererEvent, args: { x: number; y: number }) => {
       const el = document.elementFromPoint(args.x, args.y);
       const tabId = el?.getAttribute('data-tabid');
       if (tabId) {
@@ -131,7 +132,7 @@ export const TopBar = () => {
   );
 
   const saveBoardListener = useCallback(
-    (_e: unknown, args: { x: number; y: number }) => {
+    (_e: IpcRendererEvent, args: { x: number; y: number }) => {
       const el = document.elementFromPoint(args.x, args.y);
       const tabId = el?.getAttribute('data-tabid');
       if (tabId) {
@@ -142,7 +143,7 @@ export const TopBar = () => {
   );
 
   const setWindowsCountListener = useCallback(
-    (_e: unknown, args: { boardId: string; count: number }) => {
+    (_e: IpcRendererEvent, args: { boardId: string; count: number }) => {
       dispatch(setWindowsCount({ id: args.boardId, count: args.count }));
     },
     [dispatch]
@@ -182,7 +183,7 @@ export const TopBar = () => {
   };
 
   const closeOthersTabListener = useCallback(
-    (_e: unknown, args: { x: number; y: number }) => {
+    (_e: IpcRendererEvent, args: { x: number; y: number }) => {
       const el = document.elementFromPoint(args.x, args.y);
       const tabId = el?.getAttribute('data-tabid');
       if (tabId) {
@@ -193,7 +194,7 @@ export const TopBar = () => {
   );
 
   const downloadStateListener = useCallback(
-    (_e: unknown, state: DownloadState) => {
+    (_e: IpcRendererEvent, state: DownloadState) => {
       setDownloadState(state);
     },
     []
@@ -203,7 +204,7 @@ export const TopBar = () => {
     setDownloadState(null);
   }, []);
 
-  const removeExtensionListener = useCallback((_e: unknown, id: string) => {
+  const removeExtensionListener = useCallback((_e: IpcRendererEvent, id: string) => {
     const bal = document.querySelector('browser-action-list');
     const balRoot = bal && bal.shadowRoot;
 
