@@ -56,10 +56,9 @@ export const setBrowserViewBonds = (
 };
 
 const createFreeBrowserView = (options?: {newSession?: boolean}): BrowserView => {
-  console.log('createFreeBrowserView options', options)
   const view = new BrowserView({
     webPreferences: {
-      partition: options?.newSession ? v4() : 'persist:user-partition',
+      partition: options?.newSession ? `persist:${v4()}` : 'persist:user-partition',
       sandbox: true,
       webviewTag: true,
       safeDialogs: true,

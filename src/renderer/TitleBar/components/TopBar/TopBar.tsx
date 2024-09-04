@@ -69,9 +69,9 @@ export const TopBar = () => {
   };
 
   const switchBoard = useCallback(
-    (tabId: string) => {
+    (args: {tabId: string, newSession?: boolean}) => {
       if (!isRenaming) {
-        window.titleBar.tabs.select(tabId);
+        window.titleBar.tabs.select(args?.tabId, args.newSession);
         window.titleBar.analytics.event('switch_board');
       }
     },
@@ -85,10 +85,9 @@ export const TopBar = () => {
 
   const openTabListener = useCallback(
     (_e: unknown, args: { id?: string; label?: string }) => {
-      console.log({args})
       if (args && args?.id) {
         if (tabs?.find((t) => t.id === args?.id)) {
-          switchBoard(args.id);
+          switchBoard({tabId: args.id});
         }
       } else {
         pushTab({...args, id: v4()});
@@ -253,7 +252,7 @@ export const TopBar = () => {
   }, [dblclickEventListener, tabs]);
 
   useEffect(() => {
-    switchBoard(activeTab);
+    switchBoard({tabId: activeTab});
   }, [switchBoard, activeTab]);
 
   useEffect(() => {
