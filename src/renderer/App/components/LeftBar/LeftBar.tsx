@@ -15,6 +15,7 @@ import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { setBrowsers } from 'renderer/App/store/reducers/Board';
 import { ButtonAddBrowser } from 'renderer/App/components/ButtonAddBrowser';
+import ErrorFallback from 'renderer/App/components/ErrorFallback';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 
 import loadingImg from 'renderer/App/svg/loading.svg';
@@ -110,11 +111,13 @@ export const LeftBar = () => {
   }, [board.getSortedBrowsers, boardState.isFullSize]);
 
   return (
-    <div id="LeftBar__browserFavContainer">
-      <Reorder.Group values={items} onReorder={handleReorder} axis="y">
-        <div id="LeftBar__browserFavContainerItems">{makeFavicons()}</div>
-        <ButtonAddBrowser onClick={browser.add} />
-      </Reorder.Group>
-    </div>
+    <ErrorFallback>
+      <div id="LeftBar__browserFavContainer">
+        <Reorder.Group values={items} onReorder={handleReorder} axis="y">
+          <div id="LeftBar__browserFavContainerItems">{makeFavicons()}</div>
+          <ButtonAddBrowser onClick={browser.add} />
+        </Reorder.Group>
+      </div>
+    </ErrorFallback>
   );
 };

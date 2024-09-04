@@ -5,6 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { store, getPersistedStoreAndPersistor } from 'renderer/App/store/store';
 import { Addaps } from 'renderer/App/components/Addaps';
+import ErrorFallback from 'renderer/App/components/ErrorFallback';
 
 import './i18n';
 
@@ -62,15 +63,19 @@ export function App() {
     });
   }, []);
 
-  return isLoadedBoard ? (
-    <Provider store={persisted.current?.store}>
-      <PersistGate loading={null} persistor={persisted.current?.persistor}>
-        <Addaps boardId={boardId} />
-      </PersistGate>
-    </Provider>
-  ) : (
-    <Provider store={store}>
-      <Addaps />
-    </Provider>
+  return (
+    <ErrorFallback>
+      {isLoadedBoard ? (
+        <Provider store={persisted.current?.store}>
+          <PersistGate loading={null} persistor={persisted.current?.persistor}>
+            <Addaps boardId={boardId} />
+          </PersistGate>
+        </Provider>
+      ) : (
+        <Provider store={store}>
+          <Addaps />
+        </Provider>
+      )}
+    </ErrorFallback>
   );
 }
