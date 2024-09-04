@@ -2,6 +2,7 @@
 import electron, { BrowserView, BrowserWindow, app } from 'electron';
 import path from 'path';
 import { machineIdSync } from 'node-machine-id';
+import { v4 } from 'uuid';
 
 import { getExtensionsObject, installDevtoolsExtensions } from './extensions';
 import { resolveHtmlPath } from './util';
@@ -54,10 +55,10 @@ export const setBrowserViewBonds = (
   view.setBounds({ x: 0, y: bY, width: bWidth, height: bHeight });
 };
 
-const createFreeBrowserView = (): BrowserView => {
+const createFreeBrowserView = (options?: {newSession: boolean}): BrowserView => {
   const view = new BrowserView({
     webPreferences: {
-      partition: 'persist:user-partition',
+      partition: options?.newSession ? v4() : 'persist:user-partition',
       sandbox: true,
       webviewTag: true,
       safeDialogs: true,
@@ -74,10 +75,10 @@ const createFreeBrowserView = (): BrowserView => {
   return view;
 };
 
-export const createBrowserView = (): BrowserView => {
+export const createBrowserView = (options?: { newSession?: boolean}): BrowserView => {
   const tmpView = getFreeView();
-  const view = tmpView || createFreeBrowserView();
-  setFreeView(createFreeBrowserView());
+  const view = tmpView || createFreeBrowserView(options);
+  setFreeView(createFreeBrowserView(options));
 
   if (!app.isPackaged) view.webContents.toggleDevTools();
   const extensions = getExtensionsObject();

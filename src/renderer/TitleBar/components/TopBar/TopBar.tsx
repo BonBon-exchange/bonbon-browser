@@ -40,11 +40,12 @@ export const TopBar = () => {
   const dispatch = useAppDispatch();
 
   const pushTab = useCallback(
-    (params: { id?: string; label?: string }) => {
+    (params: { id?: string; label?: string, newSession?: boolean }) => {
       const id = params.id || v4();
       const newTab = {
         id,
         label: params.label || 'New collection',
+        session: params.newSession ? v4() : undefined
       };
 
       dispatch(addTab(newTab));
@@ -86,10 +87,13 @@ export const TopBar = () => {
 
   const openTabListener = useCallback(
     (_e: unknown, args: { id?: string; label?: string }) => {
-      if (tabs?.find((t) => t.id === args?.id)) {
-        if (args.id) switchBoard(args.id);
+      console.log({args})
+      if (args && args?.id) {
+        if (tabs?.find((t) => t.id === args?.id)) {
+          switchBoard(args.id);
+        }
       } else {
-        pushTab(args);
+        pushTab({...args, id: v4()});
       }
     },
     [pushTab, switchBoard, tabs]
@@ -209,6 +213,12 @@ export const TopBar = () => {
     const toRemove = balRoot && balRoot.getElementById(id);
     toRemove?.remove();
   }, []);
+
+
+
+  const clickOnAddIcon = (event: {shiftKey: boolean}) => {
+    event.shiftKey ? pushTab({newSession: true}) : pushTab({})
+  }
 
   const handleReorder = (newOrder: TabProps[]) => {
     dispatch(setTabs(newOrder));
@@ -388,7 +398,7 @@ export const TopBar = () => {
           );
         })}
       </Reorder.Group>
-      <div id="TopBar__addBoard" onClick={() => pushTab({})}>
+      <div id="TopBar__addBoard" onClick={clickOnAddIcon}>
         <AddIcon />
       </div>
       <div id="TopBar__controls">

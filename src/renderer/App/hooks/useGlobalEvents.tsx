@@ -80,12 +80,14 @@ export const useGlobalEvents = () => {
 
         // open a new board
         else if (e.ctrlKey && !e.shiftKey && keysPressed.includes('b') && keysPressed.length === 2){
-          console.log('open board with new session')
+          console.log('open board')
+          window.app.board.add()
         }
 
         // open a new board with new session
         else if (e.ctrlKey && !e.shiftKey && keysPressed.includes('b') && keysPressed.includes('s') && keysPressed.length === 3){
-          console.log('open tab with new session')
+          console.log('open board with new session')
+          window.app.board.add({newSession: true})
         }
 
         // open a new browser view

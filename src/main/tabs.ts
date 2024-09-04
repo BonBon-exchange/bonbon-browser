@@ -15,7 +15,7 @@ export const selectTab = (args: IpcTabSelect) => {
   const views = getViews();
   const viewToShow: BrowserView = views[args.tabId]
     ? views[args.tabId]
-    : createBrowserView();
+    : createBrowserView({newSession: args.newSession });
   views[args.tabId] = viewToShow;
   setViews(views);
   getMainWindow()?.setTopBrowserView(viewToShow);

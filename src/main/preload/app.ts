@@ -29,6 +29,9 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   board: {
+    add: (params: {newSession?: boolean}) => {
+      ipcRenderer.send('open-new-board', params);
+    },
     close: () => {
       ipcRenderer.send('close-active-board');
     },
