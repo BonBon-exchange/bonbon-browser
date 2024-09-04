@@ -30,6 +30,7 @@
   "History": "History",
   "Documentation": "Documentation",
   "Keyboard shortcuts": "Keyboard shortcuts",
+  "Pressing CTRL and B at the same time will open a new collection.": "Pressing CTRL and B at the same time will open a new collection.",
   "Pressing CTRL and T at the same time will open a new webpage (named Tab in other browsers).": "Pressing CTRL and T at the same time will open a new webpage (named Tab in other browsers).",
   "Pressing CTRL and T and S at the same time will open a new webpage (named Tab in other browsers) in a separate session. It allows to be connected on the same website with multiple different accounts in multiple webpages.": "Pressing CTRL and T and S at the same time will open a new webpage (named Tab in other browsers) in a separate session. It allows to be connected on the same website with multiple different accounts in multiple webpages.",
   "Pressing CTRL, SHIFT and T at the same time will reopen a last closed webpage (named Tab in other browsers).": "Pressing CTRL, SHIFT and T at the same time will reopen a last closed webpage (named Tab in other browsers).",

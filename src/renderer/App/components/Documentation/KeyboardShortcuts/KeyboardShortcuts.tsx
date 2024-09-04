@@ -22,6 +22,16 @@ export const KeyboardShortcuts = () => {
       </div>
       <div className="Documentation__item">
         <div className="Documentation__item-title">
+          CTRL + b - Open a new board
+        </div>
+        <div className="Documentation__item-description">
+          {t(
+            'Pressing CTRL and B at the same time will open a new collection.'
+          )}
+        </div>
+      </div>
+      <div className="Documentation__item">
+        <div className="Documentation__item-title">
           CTRL + t - Open a new webpage
         </div>
         <div className="Documentation__item-description">
