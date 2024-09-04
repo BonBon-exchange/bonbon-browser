@@ -14,6 +14,7 @@ import { BrowserControlBar } from 'renderer/App/components/BrowserControlBar';
 import { BrowserTopBar } from 'renderer/App/components/BrowserTopBar';
 import { CertificateErrorPage } from 'renderer/App/components/CertificateErrorPage';
 import { SearchForm } from 'renderer/App/components/SearchForm';
+import ErrorFallback from 'renderer/App/components/ErrorFallback';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserEvents } from 'renderer/App/hooks/useBrowserEvents';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
@@ -422,43 +423,45 @@ export const Browser = ({
   }, [scrollListener]);
 
   return (
-    <Rnd
-      style={{ display: 'flex' }}
-      default={{
-        x: left,
-        y: top,
-        width,
-        height,
-      }}
-      position={{
-        x,
-        y,
-      }}
-      size={{
-        width: rndWidth,
-        height: rndHeight,
-      }}
-      dragHandleClassName="BrowserTopBar__container"
-      onDragStart={onDragStart}
-      onDragStop={onDragStop}
-      onDrag={onDrag}
-      onResizeStop={(_e, _dir, ref, _delta, pos) => onResizeStop(ref, pos)}
-      onResizeStart={onResizeStart}
-      bounds="#Board__container"
-      id={`Browser__${id}`}
-      className={clsx({
-        'Browser__is-full-size': board.isFullSize && !firstRenderingState,
-        'Browser__is-minimized': isMinimized,
-        'Browser__display-none': board.isFullSize && id !== board.activeBrowser,
-        'Browser__draggable-container': true,
-      })}
-      disableDragging={board.isFullSize}
-      enableResizing={board.isFullSize ? {} : undefined}
-      data-testid="browser-window"
-      data-id={id}
-      ref={rndRef}
-    >
-      {makeBrowser}
-    </Rnd>
+    <ErrorFallback>
+      <Rnd
+        style={{ display: 'flex' }}
+        default={{
+          x: left,
+          y: top,
+          width,
+          height,
+        }}
+        position={{
+          x,
+          y,
+        }}
+        size={{
+          width: rndWidth,
+          height: rndHeight,
+        }}
+        dragHandleClassName="BrowserTopBar__container"
+        onDragStart={onDragStart}
+        onDragStop={onDragStop}
+        onDrag={onDrag}
+        onResizeStop={(_e, _dir, ref, _delta, pos) => onResizeStop(ref, pos)}
+        onResizeStart={onResizeStart}
+        bounds="#Board__container"
+        id={`Browser__${id}`}
+        className={clsx({
+          'Browser__is-full-size': board.isFullSize && !firstRenderingState,
+          'Browser__is-minimized': isMinimized,
+          'Browser__display-none': board.isFullSize && id !== board.activeBrowser,
+          'Browser__draggable-container': true,
+        })}
+        disableDragging={board.isFullSize}
+        enableResizing={board.isFullSize ? {} : undefined}
+        data-testid="browser-window"
+        data-id={id}
+        ref={rndRef}
+      >
+        {makeBrowser}
+      </Rnd>
+    </ErrorFallback>
   );
 };

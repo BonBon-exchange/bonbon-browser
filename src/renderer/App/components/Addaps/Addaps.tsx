@@ -11,6 +11,7 @@ import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { useAppSelector } from 'renderer/App/store/hooks';
 import { Loader } from 'renderer/App/components/Loader';
 import { About } from 'renderer/App/components/About';
+import ErrorFallback from 'renderer/App/components/ErrorFallback';
 
 import { AddapsProps } from './Types';
 
@@ -129,56 +130,58 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   }, []);
 
   return (
-    <Suspense fallback={<Loader />}>
-      <div
-        id="Addaps__container"
-        data-boardid={boardId}
-        className={clsx({
-          'justify-content-right':
-            i18n.language === 'ar' || i18n.language === 'fa',
-        })}
-      >
-        <div id="Addaps__background" />
-        <LeftBar />
-        <Board
-          boardId={boardId}
-          isFullSize={
-            showSettings ||
-            showBookmarks ||
-            showHistory ||
-            showDownloads ||
-            showDocumentation ||
-            showExtensions
-          }
-        />
-        {showPopup && (
-          <Popup title={popupTitle} closePopup={() => setShowPopup(false)}>
-            {popupChildren}
-          </Popup>
-        )}
-        {showAppMenu && (
-          <AppMenu
-            showAbout={showAbout}
-            showSettings={handleShowSettings}
-            showBookmarks={handleShowBookmarks}
-            showHistory={handleShowHistory}
-            showDownloads={handleShowDownloads}
-            showDocumentation={handleShowDocumentation}
-            showExtensions={handleShowExtensions}
+    <ErrorFallback>
+      <Suspense fallback={<Loader />}>
+        <div
+          id="Addaps__container"
+          data-boardid={boardId}
+          className={clsx({
+            'justify-content-right':
+              i18n.language === 'ar' || i18n.language === 'fa',
+          })}
+        >
+          <div id="Addaps__background" />
+          <LeftBar />
+          <Board
+            boardId={boardId}
+            isFullSize={
+              showSettings ||
+              showBookmarks ||
+              showHistory ||
+              showDownloads ||
+              showDocumentation ||
+              showExtensions
+            }
           />
-        )}
-        {showDownloadsPreview && <DownloadsPreview />}
-        {showSettings && <Settings handleClose={handleCloseSettings} />}
-        {showBookmarks && <Bookmarks handleClose={handleCloseBookmarks} />}
-        {showHistory && <History handleClose={handleCloseHistory} />}
-        {showDownloads && <Downloads handleClose={handleCloseDownloads} />}
-        {showExtensions && <Extensions handleClose={handleCloseExtensions} />}
-        {showDocumentation && (
-          <Documentation handleClose={handleCloseDocumentation} />
-        )}
-        <div id="Minimap__detection-zone" />
-        {showMinimap && <Minimap handleHide={() => setShowMinimap(false)} />}
-      </div>
-    </Suspense>
+          {showPopup && (
+            <Popup title={popupTitle} closePopup={() => setShowPopup(false)}>
+              {popupChildren}
+            </Popup>
+          )}
+          {showAppMenu && (
+            <AppMenu
+              showAbout={showAbout}
+              showSettings={handleShowSettings}
+              showBookmarks={handleShowBookmarks}
+              showHistory={handleShowHistory}
+              showDownloads={handleShowDownloads}
+              showDocumentation={handleShowDocumentation}
+              showExtensions={handleShowExtensions}
+            />
+          )}
+          {showDownloadsPreview && <DownloadsPreview />}
+          {showSettings && <Settings handleClose={handleCloseSettings} />}
+          {showBookmarks && <Bookmarks handleClose={handleCloseBookmarks} />}
+          {showHistory && <History handleClose={handleCloseHistory} />}
+          {showDownloads && <Downloads handleClose={handleCloseDownloads} />}
+          {showExtensions && <Extensions handleClose={handleCloseExtensions} />}
+          {showDocumentation && (
+            <Documentation handleClose={handleCloseDocumentation} />
+          )}
+          <div id="Minimap__detection-zone" />
+          {showMinimap && <Minimap handleHide={() => setShowMinimap(false)} />}
+        </div>
+      </Suspense>
+    </ErrorFallback>
   );
 };

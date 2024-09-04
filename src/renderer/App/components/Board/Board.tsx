@@ -7,6 +7,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
 
 import { Browser } from 'renderer/App/components/Browser';
+import ErrorFallback from 'renderer/App/components/ErrorFallback';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
@@ -118,17 +119,19 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
   }, []);
 
   return (
-    <div
-      id="Board__container"
-      className={clsx({
-        'Board__is-maximized': board.isFullSize || isFullSize,
-        'Board__isnt-maximized': !board.isFullSize && !isFullSize,
-      })}
-    >
-      <AnimatePresence>{makeBrowsers(items)}</AnimatePresence>
-      <div className="Board__edge-snap-left" />
-      <div className="Board__edge-snap-right" />
-      <div className="Board__edge-snap-maximized" />
-    </div>
+    <ErrorFallback>
+      <div
+        id="Board__container"
+        className={clsx({
+          'Board__is-maximized': board.isFullSize || isFullSize,
+          'Board__isnt-maximized': !board.isFullSize && !isFullSize,
+        })}
+      >
+        <AnimatePresence>{makeBrowsers(items)}</AnimatePresence>
+        <div className="Board__edge-snap-left" />
+        <div className="Board__edge-snap-right" />
+        <div className="Board__edge-snap-maximized" />
+      </div>
+    </ErrorFallback>
   );
 };
