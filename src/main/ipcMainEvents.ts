@@ -452,7 +452,6 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('open-new-board', (_e, params?: { newSession?: boolean}) => {
-    console.log('open-tab-from-app')
     getMainWindow()?.webContents.send('open-tab', params);
   })
 };

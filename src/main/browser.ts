@@ -55,7 +55,8 @@ export const setBrowserViewBonds = (
   view.setBounds({ x: 0, y: bY, width: bWidth, height: bHeight });
 };
 
-const createFreeBrowserView = (options?: {newSession: boolean}): BrowserView => {
+const createFreeBrowserView = (options?: {newSession?: boolean}): BrowserView => {
+  console.log('createFreeBrowserView options', options)
   const view = new BrowserView({
     webPreferences: {
       partition: options?.newSession ? v4() : 'persist:user-partition',
@@ -77,8 +78,9 @@ const createFreeBrowserView = (options?: {newSession: boolean}): BrowserView => 
 
 export const createBrowserView = (options?: { newSession?: boolean}): BrowserView => {
   const tmpView = getFreeView();
-  const view = tmpView || createFreeBrowserView(options);
-  setFreeView(createFreeBrowserView(options));
+  console.log('options', options)
+  const view = options?.newSession || !tmpView ? createFreeBrowserView(options) : tmpView;
+  setFreeView(createFreeBrowserView());
 
   if (!app.isPackaged) view.webContents.toggleDevTools();
   const extensions = getExtensionsObject();

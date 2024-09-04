@@ -12,6 +12,7 @@ import {
 import { getViews, setViews } from './ipcMainEvents';
 
 export const selectTab = (args: IpcTabSelect) => {
+  console.log('select tab', args)
   const views = getViews();
   const viewToShow: BrowserView = views[args.tabId]
     ? views[args.tabId]

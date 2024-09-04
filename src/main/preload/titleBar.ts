@@ -48,8 +48,8 @@ contextBridge.exposeInMainWorld('titleBar', {
     },
   },
   tabs: {
-    select: (tabId: string) => {
-      ipcRenderer.send('tab-select', { tabId });
+    select: (tabId: string, newSession?: boolean) => {
+      ipcRenderer.send('tab-select', { tabId, newSession });
     },
     purge: (tabId: string) => {
       ipcRenderer.send('tab-purge', { tabId });

@@ -45,12 +45,10 @@ export const TopBar = () => {
       const newTab = {
         id,
         label: params.label || 'New collection',
-        session: params.newSession ? v4() : undefined
       };
 
       dispatch(addTab(newTab));
-      window.titleBar.tabs.select(id);
-      window.titleBar.analytics.event('add_board');
+      window.titleBar.tabs.select(id, params.newSession);
     },
     [dispatch]
   );
@@ -213,8 +211,6 @@ export const TopBar = () => {
     const toRemove = balRoot && balRoot.getElementById(id);
     toRemove?.remove();
   }, []);
-
-
 
   const clickOnAddIcon = (event: {shiftKey: boolean}) => {
     event.shiftKey ? pushTab({newSession: true}) : pushTab({})
