@@ -15,4 +15,5 @@ export interface BrowserProps {
   isSearching?: boolean;
   capture?: string;
   session?: string;
+  isPinned: boolean;
 }

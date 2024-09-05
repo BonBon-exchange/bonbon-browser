@@ -100,6 +100,18 @@ export const showLeftbarContextMenu = (
       type: 'separator',
     },
     {
+      label: i18n.t('Toggle pin window'),
+      click: () => {
+        selectedView?.webContents.send('pin-webview', {
+          x: params.x,
+          y: params.y,
+        });
+      },
+    },
+    {
+      type: 'separator',
+    },
+    {
       label: i18n.t('Inspect element'),
       click: () => {
         e.sender.inspectElement(params.x, params.y);

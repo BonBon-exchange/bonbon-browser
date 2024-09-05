@@ -112,6 +112,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         firstRendering: true,
         isLoading: true,
         isMinimized: false,
+        isPinned: false,
         session: params.newSession ? v4() : undefined,
       };
       return newBrowser;

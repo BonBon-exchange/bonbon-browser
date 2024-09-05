@@ -206,6 +206,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('set-default-window-size', action);
     },
+    pinWebview: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('pin-webview', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -246,6 +251,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     setDefaultWindowSize: () => {
       ipcRenderer.removeAllListeners('set-default-window-size');
+    },
+    pinWebview: () => {
+      ipcRenderer.removeAllListeners('pin-webview');
     },
   },
   tools: {

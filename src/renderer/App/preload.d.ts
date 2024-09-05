@@ -81,6 +81,7 @@ declare global {
         saveBoard: (action: () => void) => void;
         renameBoard: (action: (_e: IpcRendererEvent, args: { label: string; }) => void) => void;
         closeWebview: (action: (_e: IpcRendererEvent, args: Position) => void) => void;
+        pinWebview: (action: (_e: IpcRendererEvent, args: Position) => void) => void;
         closeAllWebview: (action: () => void) => void;
         closeOthersWebview: (action: (_e: IpcRendererEvent, args: Position) => void) => void;
         showAppMenu: (action: () => void) => void;
@@ -105,6 +106,7 @@ declare global {
         showDownloadsPreview: () => void;
         distributeWindowsEvenly: () => void;
         setDefaultWindowSize: () => void;
+        pinWebview: () => void;
       };
       os: {
         getPlatform: () => string;
