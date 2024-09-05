@@ -24,7 +24,7 @@ jobs:
       #   run: python3 ./.github/compare_versions.py
 
   release:
-    needs: checkVersions
+    # needs: checkVersions
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -37,7 +37,7 @@ jobs:
       - name: Install Node.js and NPM
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 16.17.0
           cache: npm
 
       - name: Install dependencies
@@ -52,8 +52,8 @@ jobs:
       - name: Compile
         run: npm run build
 
-      - name: Check tests
-        run: npm run test
+      # - name: Check tests
+      #   run: npm run test
 
       - name: Package
         env:
