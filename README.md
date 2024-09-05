@@ -10,17 +10,17 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <a href="https://bonbon.exchange" target="_blank"><img src="https://raw.githubusercontent.com/BonBon-exchange/bonbon-web-browser/main/assets/icon.png" alt="Logo" width="80" height="80"></a>
+    <a href="https://bonbon.exchange" target="_blank"><img src="https://raw.githubusercontent.com/BonBon-exchange/bonbon-browser/main/assets/icon.png" alt="Logo" width="80" height="80"></a>
 
-  <h3 align="center">BonBon Web Browser by <a href="https://bonbon.exchange">BonBon Exchange</h3>
+  <h3 align="center">BonBon Browser</h3>
 
   <p align="center">
     <a href="https://youtu.be/T1lL7ZQEFQo" target="_blank">https://youtu.be/T1lL7ZQEFQo</a>
     <br />
     <br />
-    <a href="https://github.com/BonBon-exchange/bonbon-web-browser/issues/new?assignees=&labels=bug&template=1-Bug_report.md">Report Bug</a>
+    <a href="https://github.com/BonBon-exchange/bonbon-browser/issues/new?assignees=&labels=bug&template=1-Bug_report.md">Report Bug</a>
     ·
-    <a href="https://github.com/BonBon-exchange/bonbon-web-browser/issues/new?assignees=&labels=enhancement&template=3-Feature_request.md">Request Feature</a>
+    <a href="https://github.com/BonBon-exchange/bonbon-browser/issues/new?assignees=&labels=enhancement&template=3-Feature_request.md">Request Feature</a>
   </p>
 </div>
 
@@ -68,9 +68,7 @@
 
 ### 🚀 Download
 
-Download the latest version BonBon for Windows/macOS ARM/macOS x64/Linux: [0.30.6](https://github.com/BonBon-exchange/bonbon-web-browser/releases/latest)
-
-**Notes: the program is detected as potentially dangerous for the system, because it is not signed using a certificate. On Windows, to obtain this certificate, we need to have a registered company. It will be done by October 2022.**
+Download the latest version BonBon for Windows/macOS ARM/macOS x64/Linux: [0.30.6](https://github.com/BonBon-exchange/bonbon-browser/releases/latest)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -78,11 +76,11 @@ Download the latest version BonBon for Windows/macOS ARM/macOS x64/Linux: [0.30.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/BonBon-exchange/bonbon-web-browser.git
+   git clone https://github.com/BonBon-exchange/bonbon-browser.git
    ```
 2. Install NPM packages
    ```sh
-   cd bonbon-web-browser
+   cd bonbon-browser
    npm install
    ```
 3. Run the app
@@ -123,7 +121,7 @@ Install extensions from the Chrome Web Store, as simple as "Add to BonBon".
 - [x] uBlockOrigin by default
 - [x] Keyboard shortcuts: ctrl (+ shift) +t, +r, +w | alt + scroll
 
-See the [open issues](https://github.com/BonBon-exchange/bonbon-web-browser/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/BonBon-exchange/bonbon-browser/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -152,16 +150,6 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### 👁️‍ Communities
-
-To stay up to date with the project, submit bugs, and submit features, please join:
-
-- Discord server: [https://discord.gg/hrpp8G9Fqs](https://discord.gg/hrpp8G9Fqs)
-
-- Subreddit: [https://www.reddit.com/r/bonbonbrowser](https://www.reddit.com/r/bonbonbrowser)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 <!-- LICENSE -->
 
 ## ⚖ License
@@ -184,17 +172,17 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-[contributors-shield]: https://img.shields.io/github/contributors/BonBon-exchange/bonbon-web-browser.svg?style=for-the-badge
-[contributors-url]: https://github.com/BonBon-exchange/bonbon-web-browser/graphs/contributors
-[downloads-shield]: https://img.shields.io/github/downloads/BonBon-exchange/bonbon-web-browser/total.svg?style=for-the-badge
-[downloads-url]: https://github.com/BonBon-exchange/bonbon-web-browser/releases
-[forks-shield]: https://img.shields.io/github/forks/BonBon-exchange/bonbon-web-browser.svg?style=for-the-badge
-[forks-url]: https://github.com/BonBon-exchange/bonbon-web-browser/network/members
-[stars-shield]: https://img.shields.io/github/stars/BonBon-exchange/bonbon-web-browser.svg?style=for-the-badge
-[stars-url]: https://github.com/BonBon-exchange/bonbon-web-browser/stargazers
-[issues-shield]: https://img.shields.io/github/issues/BonBon-exchange/bonbon-web-browser.svg?style=for-the-badge
-[issues-url]: https://github.com/BonBon-exchange/bonbon-web-browser/issues
-[license-shield]: https://img.shields.io/github/license/BonBon-exchange/bonbon-web-browser.svg?style=for-the-badge
-[license-url]: https://github.com/BonBon-exchange/bonbon-web-browser/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/BonBon-exchange/bonbon-browser.svg?style=for-the-badge
+[contributors-url]: https://github.com/BonBon-exchange/bonbon-browser/graphs/contributors
+[downloads-shield]: https://img.shields.io/github/downloads/BonBon-exchange/bonbon-browser/total.svg?style=for-the-badge
+[downloads-url]: https://github.com/BonBon-exchange/bonbon-browser/releases
+[forks-shield]: https://img.shields.io/github/forks/BonBon-exchange/bonbon-browser.svg?style=for-the-badge
+[forks-url]: https://github.com/BonBon-exchange/bonbon-browser/network/members
+[stars-shield]: https://img.shields.io/github/stars/BonBon-exchange/bonbon-browser.svg?style=for-the-badge
+[stars-url]: https://github.com/BonBon-exchange/bonbon-browser/stargazers
+[issues-shield]: https://img.shields.io/github/issues/BonBon-exchange/bonbon-browser.svg?style=for-the-badge
+[issues-url]: https://github.com/BonBon-exchange/bonbon-browser/issues
+[license-shield]: https://img.shields.io/github/license/BonBon-exchange/bonbon-browser.svg?style=for-the-badge
+[license-url]: https://github.com/BonBon-exchange/bonbon-browser/blob/master/LICENSE.txt
 [product-screenshot]: https://media.giphy.com/media/P9hq4y6F1ijINhE6kf/giphy.gif
-[minimap-image]: https://github.com/BonBon-exchange/bonbon-web-browser/raw/main/images/minimap.png
+[minimap-image]: https://github.com/BonBon-exchange/bonbon-browser/raw/main/images/minimap.png
