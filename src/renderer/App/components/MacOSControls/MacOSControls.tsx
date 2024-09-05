@@ -7,15 +7,17 @@ import './style.scss';
 export const MacOSControls = ({
     closeBrowser,
     toggleFullSizeBrowser,
-    minimizeBrowser
+    minimizeBrowser,
+    isPinned
   }: {
     closeBrowser: () => void
     toggleFullSizeBrowser: () => void
     minimizeBrowser: () => void
+    isPinned: boolean
   }) => {
     return (
         <div className="window-controls">
-          <span className="control red" onClick={closeBrowser}/>
+          {!isPinned && <span className="control red" onClick={closeBrowser}/>}
           <span className="control yellow" onClick={minimizeBrowser}/>
           <span className="control green" onClick={toggleFullSizeBrowser}/>
         </div>

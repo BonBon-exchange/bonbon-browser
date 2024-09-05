@@ -11,7 +11,6 @@ webview {
   flex-direction: column;
   flex-grow: 1;
   border: 1px solid var(--color-border);
-
 }
 
 .Browser__webview-container {
@@ -34,4 +33,9 @@ webview {
 
 .Browser__display-none {
   display: none !important;
+}
+
+.Browser__is-pinned {
+  position: fixed !important;
+  margin-left: 50px;
 }

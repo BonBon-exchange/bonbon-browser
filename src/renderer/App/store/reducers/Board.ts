@@ -49,7 +49,7 @@ const newBoard = {
   isFullSize: false,
   browsersActivity: [],
   height: 0,
-};
+} as BoardType;
 
 export const initialState: BoardState = {
   board: newBoard,
@@ -306,6 +306,15 @@ export const boardSlice = createSlice({
     setBoardHeight: (state, action: PayloadAction<number>) => {
       state.board.height = action.payload;
     },
+    togglePinBrowser: (state, action: PayloadAction<string>) => {
+      const browserIndex = getBrowserIndexFromBrowserId(
+        state,
+        action.payload
+      );
+      if (browserIndex > -1) {
+        state.board.browsers[browserIndex].isPinned = !state.board.browsers[browserIndex].isPinned;
+      }
+    }
   },
 });
 
@@ -331,6 +340,7 @@ export const {
   toggleSearch,
   setLastResizedBrowserDimensions,
   setBoardHeight,
+  togglePinBrowser
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

@@ -26,6 +26,7 @@ export const BrowserTopBar = ({
   onClick,
   isLoading,
   isMaximized,
+  isPinned
 }: BrowserTopBarProps) => {
   return (
     <div
@@ -40,6 +41,7 @@ export const BrowserTopBar = ({
             minimizeBrowser={minimizeBrowser}
             isMaximized={isMaximized}
             toggleFullSizeBrowser={toggleFullSizeBrowser}
+            isPinned={isPinned}
             />
         )
       }
@@ -59,6 +61,7 @@ export const BrowserTopBar = ({
             minimizeBrowser={minimizeBrowser}
             isMaximized={isMaximized}
             toggleFullSizeBrowser={toggleFullSizeBrowser}
+            isPinned={isPinned}
             />
         )
       }
@@ -70,25 +73,29 @@ const Controls = ({
   closeBrowser,
   toggleFullSizeBrowser,
   isMaximized,
-  minimizeBrowser
+  minimizeBrowser,
+  isPinned
 }: {
   closeBrowser: () => void
   toggleFullSizeBrowser: () => void
   minimizeBrowser: () => void
   isMaximized: boolean
+  isPinned: boolean
 }) => {
   return (
     <div className={clsx({'macos': window.app.os.getPlatform() === 'darwin'}, "BrowserTopBar__controls")}>
       {
         window.app.os.getPlatform() !== 'darwin' && (
           <>
-            <div
-          className="BrowserTopBar__control-button close-button"
-          onClick={closeBrowser}
-          data-testid="close-browser"
-        >
-          <CloseIcon />
-        </div>
+            {!isPinned && (<div
+              className="BrowserTopBar__control-button close-button"
+              onClick={closeBrowser}
+              data-testid="close-browser"
+            >
+              <CloseIcon />
+            </div>
+          )
+        }
         <div
           className="BrowserTopBar__control-button"
           onClick={toggleFullSizeBrowser}
@@ -108,7 +115,7 @@ const Controls = ({
       }
 
       {
-        window.app.os.getPlatform() === 'darwin' && (<MacOSControls closeBrowser={closeBrowser} minimizeBrowser={minimizeBrowser} toggleFullSizeBrowser={toggleFullSizeBrowser}/>)
+        window.app.os.getPlatform() === 'darwin' && (<MacOSControls isPinned={isPinned} closeBrowser={closeBrowser} minimizeBrowser={minimizeBrowser} toggleFullSizeBrowser={toggleFullSizeBrowser}/>)
       }
       
     </div>

@@ -46,7 +46,8 @@ export const Browser = ({
   webContentsId,
   isSearching,
   capture,
-  session
+  session,
+  isPinned
 }: BrowserProps) => {
   const dispatch = useAppDispatch();
   const {
@@ -325,6 +326,7 @@ export const Browser = ({
           closeBrowser={() => setTimeout(() => helpers.browser.close(id), 0)}
           minimizeBrowser={() => helpers.browser.minimize(id)}
           toggleFullSizeBrowser={toggleFullSizeBrowser}
+          isPinned={isPinned}
           onClick={() => focus(id, true)}
           title={title}
           favicon={favicon}
@@ -352,7 +354,7 @@ export const Browser = ({
         </div>
       </motion.div>
     );
-  }, [board.isFullSize, certificateErrorFingerprint, favicon, focus, hasBeenActive, helpers.browser, id, isLoading, isSearching, renderedUrl, session, title, toggleFullSizeBrowser, url, webContentsId]);
+  }, [board.isFullSize, certificateErrorFingerprint, favicon, focus, hasBeenActive, helpers.browser, id, isLoading, isPinned, isSearching, renderedUrl, session, title, toggleFullSizeBrowser, url, webContentsId]);
 
   useEffect(() => {
     if (id === board.activeBrowser || !board.isFullSize) setHasBeenActive(true);
@@ -452,10 +454,11 @@ export const Browser = ({
           'Browser__is-full-size': board.isFullSize && !firstRenderingState,
           'Browser__is-minimized': isMinimized,
           'Browser__display-none': board.isFullSize && id !== board.activeBrowser,
+          'Browser__is-pinned': isPinned,
           'Browser__draggable-container': true,
         })}
-        disableDragging={board.isFullSize}
-        enableResizing={board.isFullSize ? {} : undefined}
+        disableDragging={board.isFullSize || isPinned}
+        enableResizing={board.isFullSize || isPinned ? {} : undefined}
         data-testid="browser-window"
         data-id={id}
         ref={rndRef}

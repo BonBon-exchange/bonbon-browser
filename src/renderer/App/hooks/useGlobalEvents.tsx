@@ -12,6 +12,7 @@ import {
   renameBoard,
   updateBrowserCertificateErrorFingerprint,
   setBoardHeight,
+  togglePinBrowser,
 } from 'renderer/App/store/reducers/Board';
 import { setDownloadItem } from 'renderer/App/store/reducers/Downloads';
 import { useAppDispatch } from 'renderer/App/store/hooks';
@@ -163,6 +164,17 @@ export const useGlobalEvents = () => {
     [dispatch]
   );
 
+  const pinWebviewAction = useCallback(
+    (_e: IpcRendererEvent, args: Position) => {
+      const el = document.elementFromPoint(args.x, args.y);
+      const browserId = el?.getAttribute('data-browserid');
+      if (browserId) {
+        dispatch(togglePinBrowser(browserId));
+      }
+    },
+    [dispatch]
+  );
+
   const closeOthersWebviewAction = useCallback(
     (_e: IpcRendererEvent, args: Position) => {
       const el = document.elementFromPoint(args.x, args.y);
@@ -289,6 +301,11 @@ export const useGlobalEvents = () => {
     window.app.listener.closeWebview(closeWebviewAction);
     return () => window.app.off.closeWebview();
   }, [closeWebviewAction]);
+
+  useEffect(() => {
+    window.app.listener.pinWebview(pinWebviewAction);
+    return () => window.app.off.pinWebview();
+  }, [pinWebviewAction]);
 
   useEffect(() => {
     window.app.listener.closeAllWebview(closeAllWebviewAction);

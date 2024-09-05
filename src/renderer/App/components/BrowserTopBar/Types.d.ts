@@ -7,4 +7,5 @@ export interface BrowserTopBarProps {
   favicon?: string;
   isLoading: boolean;
   isMaximized: boolean;
+  isPinned: boolean;
 }
