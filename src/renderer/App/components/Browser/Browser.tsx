@@ -456,8 +456,8 @@ export const Browser = ({
           'Browser__display-none': board.isFullSize && id !== board.activeBrowser,
           'Browser__draggable-container': true,
         })}
-        disableDragging={board.isFullSize}
-        enableResizing={board.isFullSize ? {} : undefined}
+        disableDragging={board.isFullSize || isPinned}
+        enableResizing={board.isFullSize || isPinned ? {} : undefined}
         data-testid="browser-window"
         data-id={id}
         ref={rndRef}
