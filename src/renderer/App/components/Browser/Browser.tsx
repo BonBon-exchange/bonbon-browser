@@ -454,6 +454,7 @@ export const Browser = ({
           'Browser__is-full-size': board.isFullSize && !firstRenderingState,
           'Browser__is-minimized': isMinimized,
           'Browser__display-none': board.isFullSize && id !== board.activeBrowser,
+          'Browser__is-pinned': isPinned,
           'Browser__draggable-container': true,
         })}
         disableDragging={board.isFullSize || isPinned}
