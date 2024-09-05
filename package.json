@@ -338,7 +338,8 @@
     "publish": {
       "provider": "github",
       "owner": "BonBon-exchange",
-      "repo": "bonbon-web-browser"
+      "repo": "bonbon-browser",
+      "releaseType": "release"
     }
   },
   "devEngines": {
