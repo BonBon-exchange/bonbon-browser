@@ -51,6 +51,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   const [popupTitle, setPopupTitle] = useState<string>('');
   const [popupChildren, setPopupChildren] = useState<React.JSX.Element>();
   const [showMinimap, setShowMinimap] = useState<boolean>(false);
+  const [backgroundGradientColors, setBackgroundGradientColors] = useState<[string, string, string]>(["", "", ""]);
   const { i18n } = useTranslation();
 
   const showAppMenuAction = useCallback(() => {
@@ -129,6 +130,14 @@ export const Addaps = ({ boardId }: AddapsProps) => {
         ?.removeEventListener('mouseenter', minimapMouseEnterListener);
   }, []);
 
+  useEffect(() => {
+    window.app.config.get(
+      'application.backgroundGradientColors'
+    ).then((res) => {
+      setBackgroundGradientColors(res as [string, string, string])
+    }).catch(console.log)
+  }, [])
+
   return (
     <ErrorFallback>
       <Suspense fallback={<Loader />}>
@@ -140,7 +149,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
               i18n.language === 'ar' || i18n.language === 'fa',
           })}
         >
-          <div id="Addaps__background" />
+          <div id="Addaps__background" style={{background: `linear-gradient(200.96deg, ${backgroundGradientColors[0]} -29.09%, ${backgroundGradientColors[1]} 51.77%, ${backgroundGradientColors[2]} 129.35%)`}}/>
           <LeftBar />
           <Board
             boardId={boardId}

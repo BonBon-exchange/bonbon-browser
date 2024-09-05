@@ -15,6 +15,10 @@
     box-shadow: 0px 1px 3px var(--color-background-tertiary);
     margin-bottom: 30px;
 
+    input[type=text] {
+      margin-right: 10px; 
+    }
+
     .Settings__item-description {
       font-style: italic;
       margin-top: 10px;

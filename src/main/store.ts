@@ -22,5 +22,8 @@ if (
 )
   store.set('browsing.size', 'lastResized');
 
-if (store.get('browsing.topEdge') === undefined)
-  store.set('browsing.topEdge', 'fit');
+  if (store.get('browsing.topEdge') === undefined)
+    store.set('browsing.topEdge', 'fit');
+
+  if (store.get('application.backgroundGradientColors') === undefined)
+    store.set('application.backgroundGradientColors', ["#fedc2a", "#dd5789", "#7a2c9e"]);

@@ -9,6 +9,9 @@ import { Locale } from 'types/i18n';
 export const ApplicationSettings = () => {
   const { t, i18n } = useTranslation();
   const [appSettingLaunch, setAppSettingLaunch] = useState<boolean>(false);
+  const [appSettingBackgroundColor1, setAppSettingBackgroundColor1] = useState<string>("#fedc2a");
+  const [appSettingBackgroundColor2, setAppSettingBackgroundColor2] = useState<string>("#dd5789");
+  const [appSettingBackgroundColor3, setAppSettingBackgroundColor3] = useState<string>("#7a2c9e");
 
   const updateAppSettingLaunch = (value: boolean) => {
     setAppSettingLaunch(value);
@@ -30,8 +33,26 @@ export const ApplicationSettings = () => {
       .get('application.launchAtStartup')
       .then((val: unknown) => setAppSettingLaunch(Boolean(val)));
 
-    window.app.analytics.page('/settings/application');
+      window.app.config
+      .get('application.backgroundGradientColors')
+      .then((val: unknown) => {
+        console.log({val})
+        setAppSettingBackgroundColor1((val as [string, string, string])[0])
+        setAppSettingBackgroundColor2((val as [string, string, string])[1])
+        setAppSettingBackgroundColor3((val as [string, string, string])[2])
+        return true
+  });
+
   }, []);
+
+  useEffect(() => {
+    window.app.config
+    .set({
+      key: 'application.backgroundGradientColors',
+      value: [appSettingBackgroundColor1, appSettingBackgroundColor2, appSettingBackgroundColor3],
+    })
+    .catch(console.log);
+  }, [appSettingBackgroundColor1, appSettingBackgroundColor2, appSettingBackgroundColor3])
 
   return (
     <>
@@ -48,6 +69,45 @@ export const ApplicationSettings = () => {
         </label>
         <div className="Settings__item-description">
           {t('If checked, the app will auto-launch at system startup.')}
+        </div>
+      </div>
+      <div className="Settings__item">
+        <div>
+          <input
+            type="text"
+            id="application-settings-background-color-1"
+            value={appSettingBackgroundColor1}
+            onChange={(e) => setAppSettingBackgroundColor1(e.target.value)}
+          />
+          <label htmlFor="application-settings-launch-at-startup">
+            {t('Background color 1')}
+          </label>
+        </div>
+        <div>
+          <input
+            type="text"
+            id="application-settings-background-color-3"
+            value={appSettingBackgroundColor2}
+            onChange={(e) => setAppSettingBackgroundColor2(e.target.value)}
+          />
+          <label htmlFor="application-settings-launch-at-startup">
+            {t('Background color 2')}
+          </label>
+        </div>
+        <div>
+          <input
+            type="text"
+            id="application-settings-background-color-2"
+            checked={appSettingLaunch}
+            value={appSettingBackgroundColor3}
+            onChange={(e) => setAppSettingBackgroundColor3(e.target.value)}
+          />
+          <label htmlFor="application-settings-launch-at-startup">
+            {t('Background color 3')}
+          </label>
+        </div>
+        <div className="Settings__item-description">
+          {t('Change the background gradient colors.')}
         </div>
       </div>
       <div className="Settings__item">
