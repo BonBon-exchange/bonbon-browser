@@ -13,7 +13,7 @@ export const MacOSControls = ({
     closeBrowser: () => void
     toggleFullSizeBrowser: () => void
     minimizeBrowser: () => void
-    isPinned: BooleanConstructor
+    isPinned: boolean
   }) => {
     return (
         <div className="window-controls">

@@ -44,14 +44,14 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
     if (!board.isFullSize) {
       setTimeout(() => {
         helpers.board
-          .distributeWindowsByOrder(board.browsers)
-          .then(() => {
+          // .distributeWindowsByOrder(board.browsers)
+          // .then(() => {
             setTimeout(
               () => board.activeBrowser && focus(board.activeBrowser),
               300
             );
-          })
-          .catch(console.log);
+          // })
+          // .catch(console.log);
       }, 300);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
