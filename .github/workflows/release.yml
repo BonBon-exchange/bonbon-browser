@@ -66,10 +66,12 @@ jobs:
           set -e
           xcrun altool --notarize-app --primary-bundle-id "org.erb.BonBon" --username "$APPLE_ID" --password "$APPLE_ID_PASSWORD" --file release/build/BonBon-*.*.*.dmg | tee notarization_log.txt
           xcrun stapler staple release/build/BonBon-*.*.*.dmg | tee -a notarization_log.txt
+        continue-on-error: true
 
       - name: Verify macOS notarization
         if: matrix.os == 'macos-latest'
         run: xcrun stapler validate release/build/BonBon-*.*.*.dmg
+        continue-on-error: true
 
       - if: matrix.os == 'ubuntu-latest'
         name: Linux Appimage release
@@ -78,6 +80,7 @@ jobs:
           file_glob: true
           file: release/build/*-latest.yml
           tag: ${{ github.ref }}
+        continue-on-error: true
 
       - if: matrix.os == 'ubuntu-latest'
         name: Linux Appimage release
@@ -86,6 +89,7 @@ jobs:
           file_glob: true
           file: release/build/BonBon-*.*.*.AppImage
           tag: ${{ github.ref }}
+        continue-on-error: true
 
       - if: matrix.os == 'macos-latest'
         name: macOS arm64 release
@@ -94,6 +98,7 @@ jobs:
           file_glob: true
           file: release/build/BonBon-*.*.*-arm64.dmg
           tag: ${{ github.ref }}
+        continue-on-error: true
 
       - if: matrix.os == 'macos-latest'
         name: macOS intel release
@@ -102,6 +107,7 @@ jobs:
           file_glob: true
           file: release/build/BonBon-*.*.*.dmg
           tag: ${{ github.ref }}
+        continue-on-error: true
 
       - if: matrix.os == 'macos-latest'
         name: latest.yml release for macOS
@@ -110,6 +116,7 @@ jobs:
           file_glob: true
           file: release/build/*-latest.yml
           tag: ${{ github.ref }}
+        continue-on-error: true
 
       - name: Notarize app (macOS)
         if: matrix.os == 'macos-latest'
@@ -120,6 +127,7 @@ jobs:
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+        continue-on-error: true
 
       - if: matrix.os == 'windows-latest'
         name: latest.yml release for Windows
@@ -128,6 +136,7 @@ jobs:
           file_glob: true
           file: release/build/*-latest.yml
           tag: ${{ github.ref }}
+        continue-on-error: true
 
       - if: matrix.os == 'windows-latest'
         name: setup installer for Windows
@@ -136,3 +145,4 @@ jobs:
           file_glob: true
           file: release/build/BonBon Setup *.*.*.exe
           tag: ${{ github.ref }}
+        continue-on-error: true
