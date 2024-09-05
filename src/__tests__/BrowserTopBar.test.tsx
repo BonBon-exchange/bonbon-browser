@@ -21,6 +21,7 @@ const browserTopBarProps = {
   minimizeBrowser: jest.fn(),
   isMaximized: true,
   isLoading: false,
+  isPinned: false,
 };
 
 describe('BrowserTopBar', () => {

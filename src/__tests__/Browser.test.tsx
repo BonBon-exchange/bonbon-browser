@@ -23,6 +23,7 @@ const browserProps = {
   firstRendering: true,
   isLoading: true,
   isMinimized: false,
+  isPinned: false
 };
 
 describe('Browser', () => {

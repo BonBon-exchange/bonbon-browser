@@ -61,6 +61,7 @@ export const BrowserTopBar = ({
             minimizeBrowser={minimizeBrowser}
             isMaximized={isMaximized}
             toggleFullSizeBrowser={toggleFullSizeBrowser}
+            isPinned={isPinned}
             />
         )
       }
