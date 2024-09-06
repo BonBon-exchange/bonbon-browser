@@ -68,7 +68,7 @@
 
 ### 🚀 Download
 
-Download the latest version BonBon for Windows/macOS ARM/macOS x64/Linux: [1.0.0-early](https://github.com/BonBon-exchange/bonbon-browser/releases/latest)
+Download the latest version BonBon for Windows/macOS ARM/macOS x64/Linux: [1.0.1-early](https://github.com/BonBon-exchange/bonbon-browser/releases/latest)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
