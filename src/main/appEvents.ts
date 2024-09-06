@@ -99,6 +99,13 @@ const makeAppEvents = () => {
   app.on('web-contents-created', (_event, contents) => {
     const extensions = getExtensionsObject();
 
+    // Intercept new-window events and prevent default popups
+    contents.setWindowOpenHandler(({ url }) => {
+      const selectedView = getSelectedView();
+      selectedView?.webContents.send('new-window', { url });
+      return { action: 'deny' };
+    });
+
     contents.on('enter-html-full-screen', () => {
       const view = getSelectedView();
       if (view) setBrowserViewBonds(view, true);
