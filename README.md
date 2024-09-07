@@ -47,9 +47,6 @@
     <li><a href="#-contributing">Contributing</a></li>
     <li>
       <a href="#-about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#%EF%B8%8F-communities">Communities</a></li>
-      </ul>
     </li>
     <li><a href="#-license">License</a></li>
     <li><a href="#-team">Team</a></li>
@@ -144,9 +141,12 @@ Don't forget to give the project a star! Thanks again!
 
 ## 😎 About The Project
 
-**BonBon** is a project that allows web users to obtain full control of their browsing data. Rather than accepting the inevitable theft of their data from Big Tech, BonBon's vision is to allow people the deserved freedom of controlling what happens to their data and not have it sold to big tech without their consent.
+**BonBon Browser** is a next-generation, open-source web browser designed with privacy and user control at its core. Available for Windows, macOS, and Linux, BonBon Browser aims to redefine the browsing experience by offering a lightweight, feature-rich platform that respects your privacy. Unlike many other browsers, BonBon does not collect any user data, ensuring that your browsing activities remain private and secure. With BonBon Browser, you are in control of your data, not Big Tech.
 
 [![Product Name Screen Shot][product-screenshot]](https://github.com/BonBon-exchange/bonbon-browser)
+
+- **Follow us on X:** Stay up-to-date with the latest news, updates, and announcements by following us on [X (@bonbon_browser)](https://x.com/bonbon_browser).
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
