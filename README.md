@@ -145,7 +145,7 @@ Don't forget to give the project a star! Thanks again!
 
 [![Product Name Screen Shot][product-screenshot]](https://github.com/BonBon-exchange/bonbon-browser)
 
-- **Follow us on X:** Stay up-to-date with the latest news, updates, and announcements by following us on [X (@bonbon_browser)](https://x.com/bonbon_browser).
+- **Follow us on X and Telegram:** Stay up-to-date with the latest news, updates, and announcements by following us on [X (@bonbon_browser)](https://x.com/bonbon_browser) and [Telegram](https://t.me/bonbon_browser).
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
