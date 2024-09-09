@@ -89,12 +89,12 @@ Download the latest version BonBon for Windows(setup and portable)/macOS intel/m
 
 ## 🗝 Features
 
-### Collections
-The tabs at the top of the app are Collections. The classic tabs are represented by the website Favicon in the left bar of each collection.
+### Boards
+The tabs at the top of the app are Boards. The classic tabs are represented by the website Favicon in the left bar of each board.
 
 
 ### Minimap
-On the right side of the screen, you will find the minimap. A representation of your collection. It's a quick and efficient way of scrolling.
+On the right side of the screen, you will find the minimap. A representation of your board. It's a quick and efficient way of scrolling.
 
 [![Minimap][minimap-image]]()
 
