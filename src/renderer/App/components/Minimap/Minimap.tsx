@@ -25,6 +25,7 @@ export const Minimap = ({ handleHide }: MinimapProps) => {
     height: 100,
   });
   const [showView, setShowView] = useState<boolean>(true);
+  const [timeoutTime, setTimeoutTime] = useState<number>(600);
   const hideTimeout = useRef<any>();
 
   const minimapContainer = document.querySelector('#Minimap__container');
@@ -156,8 +157,8 @@ export const Minimap = ({ handleHide }: MinimapProps) => {
 
   const mouseMoveHandler = useCallback(() => {
     if (hideTimeout.current) clearTimeout(hideTimeout.current);
-    hideTimeout.current = setTimeout(() => handleHide(), 1000);
-  }, [handleHide]);
+    hideTimeout.current = setTimeout(() => handleHide(), timeoutTime);
+  }, [handleHide, timeoutTime]);
 
   const scrollHandler = useCallback(() => {
     prepareView();
@@ -222,6 +223,13 @@ export const Minimap = ({ handleHide }: MinimapProps) => {
   }, [mouseEnterHandler]);
 
   useEffect(() => {
+    window.app.config
+      .get('application.minimapTimeout')
+      .then((val: unknown) => {
+        setTimeoutTime(val as number)
+        return true
+      }).catch(console.log);
+
     return () => mouseUpHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

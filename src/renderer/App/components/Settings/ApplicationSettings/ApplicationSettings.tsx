@@ -12,6 +12,7 @@ export const ApplicationSettings = () => {
   const [appSettingBackgroundColor1, setAppSettingBackgroundColor1] = useState<string>("#fedc2a");
   const [appSettingBackgroundColor2, setAppSettingBackgroundColor2] = useState<string>("#dd5789");
   const [appSettingBackgroundColor3, setAppSettingBackgroundColor3] = useState<string>("#7a2c9e");
+  const [appSettingMinimapTimeout, setAppSettingMinimapTimeout] = useState<number>(600);
 
   const updateAppSettingLaunch = (value: boolean) => {
     setAppSettingLaunch(value);
@@ -36,13 +37,18 @@ export const ApplicationSettings = () => {
       window.app.config
       .get('application.backgroundGradientColors')
       .then((val: unknown) => {
-        console.log({val})
         setAppSettingBackgroundColor1((val as [string, string, string])[0])
         setAppSettingBackgroundColor2((val as [string, string, string])[1])
         setAppSettingBackgroundColor3((val as [string, string, string])[2])
         return true
-  });
+      });
 
+      window.app.config
+      .get('application.minimapTimeout')
+      .then((val: unknown) => {
+        setAppSettingMinimapTimeout(val as number)
+        return true
+      });
   }, []);
 
   useEffect(() => {
@@ -53,6 +59,15 @@ export const ApplicationSettings = () => {
     })
     .catch(console.log);
   }, [appSettingBackgroundColor1, appSettingBackgroundColor2, appSettingBackgroundColor3])
+  
+  useEffect(() => {
+    window.app.config
+    .set({
+      key: 'application.minimapTimeout',
+      value: appSettingMinimapTimeout,
+    })
+    .catch(console.log);
+  }, [appSettingMinimapTimeout])
 
   return (
     <>
@@ -98,7 +113,6 @@ export const ApplicationSettings = () => {
           <input
             type="text"
             id="application-settings-background-color-2"
-            checked={appSettingLaunch}
             value={appSettingBackgroundColor3}
             onChange={(e) => setAppSettingBackgroundColor3(e.target.value)}
           />
@@ -133,6 +147,20 @@ export const ApplicationSettings = () => {
         </select>
         <div className="Settings__item-description">
           {t('The language in which displays the application.')}
+        </div>
+      </div>
+      <div className="Settings__item">
+        <input
+            type="number"
+            id="application-settings-minimap-timeout"
+            value={appSettingMinimapTimeout}
+            onChange={(e) => setAppSettingMinimapTimeout(Number(e.target.value))}
+          />
+        <label htmlFor="application-settings-launch-at-startup">
+          {t('ms before minimap disapearing')}
+        </label>
+        <div className="Settings__item-description">
+          {t('The timeout before minimap disapearing of the screen when the mouse leave the detection zone.')}
         </div>
       </div>
     </>
