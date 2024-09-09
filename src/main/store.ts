@@ -28,5 +28,8 @@ if (store.get('browsing.topEdge') === undefined)
 if (store.get('application.backgroundGradientColors') === undefined)
   store.set('application.backgroundGradientColors', ["#fedc2a", "#dd5789", "#7a2c9e"]);
 
-if (store.get('application.minimapTimemout') === undefined)
-  store.set('application.minimapTimemout', 600);
+if (store.get('application.minimapTimeout') === undefined)
+  store.set('application.minimapTimeout', 600);
+
+if (store.get('application.minimapOn') === undefined)
+  store.set('application.minimapOn', false);
