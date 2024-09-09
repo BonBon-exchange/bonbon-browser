@@ -156,19 +156,6 @@ Don't forget to give the project a star! Thanks again!
 
 Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- CONTACT -->
-
-## 🤟 Team
-
-- danny febrero ([@cdxxotus](https://github.com/cdxxotus))
-- Antho
-- 0xCUBE ([@0xCUB3](https://github.com/0xCUB3))
-- Nuklusone
-- Howard ([@PerpetualOwl](https://github.com/PerpetualOwl))
-- Faouzi
-- Daniel Callus ([@dcallus](https://github.com/dcallus))
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
