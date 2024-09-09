@@ -144,7 +144,6 @@ export const Addaps = ({ boardId }: AddapsProps) => {
     window.app.config
       .get('application.minimapOn')
       .then((val: unknown) => {
-        console.log({val})
         setMinimapOn(val as boolean)
         return true
       }).catch(console.log);

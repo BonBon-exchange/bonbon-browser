@@ -116,7 +116,6 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
       window.app.config
       .get('application.minimapOn')
       .then((val: unknown) => {
-        console.log({val})
         setMinimapOn(val as boolean)
         return true
       }).catch(console.log);
