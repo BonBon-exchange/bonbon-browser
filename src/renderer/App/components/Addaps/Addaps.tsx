@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
+import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useGlobalEvents } from 'renderer/App/hooks/useGlobalEvents';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { useAppSelector } from 'renderer/App/store/hooks';
@@ -16,7 +17,6 @@ import ErrorFallback from 'renderer/App/components/ErrorFallback';
 import { AddapsProps } from './Types';
 
 import './style.css';
-import { useBoard } from 'renderer/App/hooks/useBoard';
 
 const Board = lazy(() => import('renderer/App/components/Board'));
 const LeftBar = lazy(() => import('renderer/App/components/LeftBar'));
