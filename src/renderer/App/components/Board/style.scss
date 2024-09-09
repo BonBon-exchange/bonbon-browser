@@ -6,6 +6,14 @@
   position: absolute;
   overflow: hidden;
 
+  &.Board__minimap-always-on {
+    width: calc(100% - 250px);
+
+    .Board__edge-snap-right {
+      right: 210px;
+    }
+  }
+
   .Board__edge-snap-left,  
   .Board__edge-snap-right, 
   .Board__edge-snap-maximized {

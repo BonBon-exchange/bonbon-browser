@@ -27,6 +27,7 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
   const dispatch = useAppDispatch();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>([]);
+  const [minimapOn, setMinimapOn] = useState<boolean>(false);
   const helpers = useStoreHelpers();
 
   const boardContainer = document.querySelector('#Board__container');
@@ -112,6 +113,14 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
       .getElementById('Board__container')
       ?.addEventListener('contextmenu', contextMenuListener);
 
+      window.app.config
+      .get('application.minimapOn')
+      .then((val: unknown) => {
+        console.log({val})
+        setMinimapOn(val as boolean)
+        return true
+      }).catch(console.log);
+
     return () =>
       document
         .getElementById('Board__container')
@@ -125,6 +134,7 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
         className={clsx({
           'Board__is-maximized': board.isFullSize || isFullSize,
           'Board__isnt-maximized': !board.isFullSize && !isFullSize,
+          'Board__minimap-always-on': !board.isFullSize && minimapOn,
         })}
       >
         <AnimatePresence>{makeBrowsers(items)}</AnimatePresence>

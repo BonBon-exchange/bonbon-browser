@@ -13,16 +13,7 @@ export const ApplicationSettings = () => {
   const [appSettingBackgroundColor2, setAppSettingBackgroundColor2] = useState<string>("#dd5789");
   const [appSettingBackgroundColor3, setAppSettingBackgroundColor3] = useState<string>("#7a2c9e");
   const [appSettingMinimapTimeout, setAppSettingMinimapTimeout] = useState<number>(600);
-
-  const updateAppSettingLaunch = (value: boolean) => {
-    setAppSettingLaunch(value);
-    window.app.config
-      .set({
-        key: 'application.launchAtStartup',
-        value,
-      })
-      .catch(console.log);
-  };
+  const [appSettingMinimapOn, setAppSettingMinimapOn] = useState<boolean>(false);
 
   const updateLanguage = (value: Locale) => {
     i18n.changeLanguage(value).catch(console.log);
@@ -49,7 +40,23 @@ export const ApplicationSettings = () => {
         setAppSettingMinimapTimeout(val as number)
         return true
       });
+
+      window.app.config
+      .get('application.minimapOn')
+      .then((val: unknown) => {
+        setAppSettingMinimapOn(val as boolean)
+        return true
+      });
   }, []);
+
+  useEffect(() => {
+    window.app.config
+      .set({
+        key: 'application.launchAtStartup',
+        value: appSettingLaunch,
+      })
+      .catch(console.log);
+  }, [appSettingLaunch]);
 
   useEffect(() => {
     window.app.config
@@ -69,6 +76,15 @@ export const ApplicationSettings = () => {
     .catch(console.log);
   }, [appSettingMinimapTimeout])
 
+  useEffect(() => {
+    window.app.config
+    .set({
+      key: 'application.minimapOn',
+      value: appSettingMinimapOn,
+    })
+    .catch(console.log);
+  }, [appSettingMinimapOn])
+
   return (
     <>
       <h2>{t('Application')}</h2>
@@ -77,7 +93,7 @@ export const ApplicationSettings = () => {
           type="checkbox"
           id="application-settings-launch-at-startup"
           checked={appSettingLaunch}
-          onChange={(e) => updateAppSettingLaunch(e.target.checked)}
+          onChange={(e) => setAppSettingLaunch(e.target.checked)}
         />
         <label htmlFor="application-settings-launch-at-startup">
           {t('Launch at startup')}
@@ -161,6 +177,20 @@ export const ApplicationSettings = () => {
         </label>
         <div className="Settings__item-description">
           {t('The timeout before minimap disapearing of the screen when the mouse leave the detection zone.')}
+        </div>
+      </div>
+      <div className="Settings__item">
+        <input
+          type="checkbox"
+          id="application-settings-minimap-always-on"
+          checked={appSettingMinimapOn}
+          onChange={(e) => setAppSettingMinimapOn(e.target.checked)}
+        />
+        <label htmlFor="application-settings-minimap-always-on">
+          {t('Minimap always visible')}
+        </label>
+        <div className="Settings__item-description">
+          {t('If checked, the minimap on the right side will always be visible.')}
         </div>
       </div>
     </>
