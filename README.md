@@ -162,7 +162,7 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 
 ## 🤟 Team
 
-- danny bengal ([@danielfebrero](https://github.com/danielfebrero))
+- danny febrero ([@cdxxotus](https://github.com/cdxxotus))
 - Antho
 - 0xCUBE ([@0xCUB3](https://github.com/0xCUB3))
 - Nuklusone
