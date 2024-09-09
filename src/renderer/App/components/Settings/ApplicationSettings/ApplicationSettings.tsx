@@ -46,7 +46,6 @@ export const ApplicationSettings = () => {
       window.app.config
       .get('application.minimapTimeout')
       .then((val: unknown) => {
-        console.log({val})
         setAppSettingMinimapTimeout(val as number)
         return true
       });
