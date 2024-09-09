@@ -16,6 +16,7 @@ import ErrorFallback from 'renderer/App/components/ErrorFallback';
 import { AddapsProps } from './Types';
 
 import './style.css';
+import { useBoard } from 'renderer/App/hooks/useBoard';
 
 const Board = lazy(() => import('renderer/App/components/Board'));
 const LeftBar = lazy(() => import('renderer/App/components/LeftBar'));
@@ -38,6 +39,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   useGlobalEvents();
   const { items } = useAppSelector((state) => state.downloads);
   const { board } = useStoreHelpers({ boardId });
+  const boardUsed = useBoard();
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showBookmarks, setShowBookmarks] = useState<boolean>(false);
@@ -52,6 +54,8 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   const [popupChildren, setPopupChildren] = useState<React.JSX.Element>();
   const [showMinimap, setShowMinimap] = useState<boolean>(false);
   const [backgroundGradientColors, setBackgroundGradientColors] = useState<[string, string, string]>(["", "", ""]);
+  const [minimapOn, setMinimapOn] = useState<boolean>(false);
+
   const { i18n } = useTranslation();
 
   const showAppMenuAction = useCallback(() => {
@@ -136,6 +140,14 @@ export const Addaps = ({ boardId }: AddapsProps) => {
     ).then((res) => {
       setBackgroundGradientColors(res as [string, string, string])
     }).catch(console.log)
+
+    window.app.config
+      .get('application.minimapOn')
+      .then((val: unknown) => {
+        console.log({val})
+        setMinimapOn(val as boolean)
+        return true
+      }).catch(console.log);
   }, [])
 
   return (
@@ -188,7 +200,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
             <Documentation handleClose={handleCloseDocumentation} />
           )}
           <div id="Minimap__detection-zone" />
-          {showMinimap && <Minimap handleHide={() => setShowMinimap(false)} />}
+          {(showMinimap || minimapOn) && !boardUsed?.isFullSize && <Minimap handleHide={() => setShowMinimap(false)} />}
         </div>
       </Suspense>
     </ErrorFallback>
