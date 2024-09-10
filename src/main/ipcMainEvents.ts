@@ -467,4 +467,8 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.on('delete-board', (_e, boardId: string) => {
     deleteBoard(boardId)
   })
+
+  ipcMain.on('load-saved-board', (_e, boardId: string) => {
+    getMainWindow()?.webContents.send('load-saved-board', boardId);
+  })
 };

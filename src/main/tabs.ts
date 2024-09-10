@@ -25,12 +25,14 @@ export const selectTab = (args: IpcTabSelect) => {
   getMainWindow()?.setTopBrowserView(viewToShow);
   viewToShow.webContents.send('load-board', {
     boardId: args.tabId,
+    board: args.isSavedBoard ? args.board : undefined
   });
   viewToShow.webContents.on('dom-ready', () => {
     const interval = setInterval(() => {
       try {
         viewToShow.webContents.send('load-board', {
           boardId: args.tabId,
+          board: args.isSavedBoard ? args.board : undefined
         });
       } catch (e) {
         console.log(e);

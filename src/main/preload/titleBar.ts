@@ -5,6 +5,7 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { injectBrowserAction } from 'electron-chrome-extensions-production/dist/browser-action';
 
 import { EventParams } from 'types/analytics';
+import { Board } from 'types/boards';
 import {
   IpcInspectElement,
   IpcRenameTab,
@@ -48,8 +49,8 @@ contextBridge.exposeInMainWorld('titleBar', {
     },
   },
   tabs: {
-    select: (tabId: string, newSession?: boolean) => {
-      ipcRenderer.send('tab-select', { tabId, newSession });
+    select: ({tabId, newSession, isSavedBoard, board}: {tabId: string, newSession?: boolean, isSavedBoard?: boolean, board?: Board}) => {
+      ipcRenderer.send('tab-select', { tabId, newSession, isSavedBoard, board });
     },
     purge: (tabId: string) => {
       ipcRenderer.send('tab-purge', { tabId });
@@ -119,6 +120,11 @@ contextBridge.exposeInMainWorld('titleBar', {
     ) => {
       ipcRenderer.on('app-clicked', action);
     },
+    loadSavedBoard: (
+      action: (event: IpcRendererEvent, board: Board) => void
+    ) => {
+      ipcRenderer.on('load-saved-board', action);
+    },
   },
   off: {
     openTab: () => {
@@ -159,6 +165,9 @@ contextBridge.exposeInMainWorld('titleBar', {
     },
     appClicked: () => {
       ipcRenderer.removeAllListeners('app-clicked');
+    },
+    loadSavedBoard: () => {
+      ipcRenderer.removeAllListeners('load-saved-board');
     },
   },
   screens: {

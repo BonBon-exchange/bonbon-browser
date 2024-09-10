@@ -19,7 +19,7 @@ import {
   setBoardHeight,
 } from 'renderer/App/store/reducers/Board';
 
-import { BoardProps } from './Types';
+import { BoardProps, BoardType } from './Types';
 
 import './style.scss';
 import { Notification } from '../Notification';
@@ -53,6 +53,13 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
       window.app.board.save(board);
     }
   }, [board])
+
+  const loadBoardAction = useCallback(
+    (_e: any, args: { boardId: string, board?: BoardType }) => {
+      if(args.board) helpers.board.load({}, args.board)
+    },
+    [helpers.board]
+  );
 
   useEffect(() => {
     if (!board.isFullSize) {
@@ -143,6 +150,11 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
       window.app.off.saveBoard()
     }
   }, [saveBoardAction]);
+
+  useEffect(() => {
+    window.app.listener.loadBoard(loadBoardAction);
+    return () => window.app.off.loadBoard();
+  }, [loadBoardAction]);
 
   return (
     <ErrorFallback>

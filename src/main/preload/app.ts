@@ -50,7 +50,10 @@ contextBridge.exposeInMainWorld('app', {
     },
     delete: (boardId: string) => {
       ipcRenderer.send('delete-board', boardId);
-    }
+    },
+    load: (board: Board) => {
+      ipcRenderer.send('load-saved-board', board);
+    },
   },
   bookmark: {
     findInBookmarks: (str: string): Promise<Bookmark[]> => {

@@ -9,7 +9,6 @@ import { FixedSizeList as List } from 'react-window';
 import AutoSize from 'react-virtualized-auto-sizer';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
-import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { Loader } from 'renderer/App/components/Loader';
 import { Board as BoardType } from '../../../../types/boards';
 import { BoardsItem } from './BoardsItem';
@@ -25,7 +24,6 @@ export const Boards = ({ handleClose }: BoardsProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [items, setItems] = useState<BoardType[]>([]);
   const [filteredItems, setFilteredItems] = useState<BoardType[]>([]);
-  const { browser } = useStoreHelpers();
 
   const handleDeleteBoard = (id: string) => {
       window.app.board.delete(id);
@@ -36,8 +34,8 @@ export const Boards = ({ handleClose }: BoardsProps) => {
       setItems(newItems);
   };
 
-  const handleBoardClick = (url: string) => {
-    browser.add({ url });
+  const handleBoardClick = (boardId: string) => {
+    window.app.board.load(items.find(b => b.id === boardId) as BoardType)
     handleClose();
   };
 

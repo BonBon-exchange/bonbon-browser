@@ -29,9 +29,11 @@ import {
   setTabs,
 } from 'renderer/TitleBar/store/reducers/Tabs';
 import { AppControls } from 'renderer/TitleBar/components/AppControls';
+import { BoardType } from 'renderer/App/components/Board/Types';
+import { Board } from 'types/boards';
+import { DownloadState } from './Types';
 
 import './style.scss';
-import { DownloadState } from './Types';
 
 export const TopBar = () => {
   const [downloadState, setDownloadState] = useState<DownloadState>(null);
@@ -41,7 +43,7 @@ export const TopBar = () => {
   const dispatch = useAppDispatch();
 
   const pushTab = useCallback(
-    (params: { id?: string; label?: string, newSession?: boolean }) => {
+    (params: { id?: string; label?: string, newSession?: boolean, isSavedBoard?: boolean, board?: BoardType }) => {
       const id = params.id || v4();
       const newTab = {
         id,
@@ -49,7 +51,7 @@ export const TopBar = () => {
       };
 
       dispatch(addTab(newTab));
-      window.titleBar.tabs.select(id, params.newSession);
+      window.titleBar.tabs.select({tabId: id, newSession: params.newSession, isSavedBoard: params.isSavedBoard, board: params.board});
     },
     [dispatch]
   );
@@ -72,7 +74,7 @@ export const TopBar = () => {
   const switchBoard = useCallback(
     (args: {tabId: string, newSession?: boolean}) => {
       if (!isRenaming) {
-        window.titleBar.tabs.select(args?.tabId, args.newSession);
+        window.titleBar.tabs.select({tabId: args?.tabId, newSession: args.newSession});
         window.titleBar.analytics.event('switch_board');
       }
     },
@@ -204,6 +206,10 @@ export const TopBar = () => {
     setDownloadState(null);
   }, []);
 
+  const loadSavedBoardAction = useCallback((_e: IpcRendererEvent, board: Board) => {
+    pushTab({id: board.id, label: board.label, isSavedBoard: true, board})
+  }, [pushTab])
+
   const removeExtensionListener = useCallback((_e: IpcRendererEvent, id: string) => {
     const bal = document.querySelector('browser-action-list');
     const balRoot = bal && bal.shadowRoot;
@@ -320,6 +326,11 @@ export const TopBar = () => {
     window.titleBar.listener.appClicked(appClickedListener);
     return () => window.titleBar.off.appClicked();
   }, [appClickedListener]);
+
+  useEffect(() => {
+    window.titleBar.listener.loadSavedBoard(loadSavedBoardAction);
+    return () => window.titleBar.off.loadSavedBoard();
+  }, [loadSavedBoardAction]);
 
   useEffect(() => {
     if (tabs.length === 0) pushTab({});
