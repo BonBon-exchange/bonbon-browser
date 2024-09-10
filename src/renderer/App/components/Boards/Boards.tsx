@@ -27,19 +27,13 @@ export const Boards = ({ handleClose }: BoardsProps) => {
   const [filteredItems, setFilteredItems] = useState<BoardType[]>([]);
   const { browser } = useStoreHelpers();
 
-  const handleDeleteBoard = (_id: string) => {
-    // const url = items.find((i) => i.id === id)?.url;
-    // if (url) {
-    //   window.app.board
-    //     .removeBoard(url)
-    //     .then(() => {
-    //       const newItems = [...items];
-    //       const index = newItems.findIndex((i) => i.id === id);
-    //       if (index > -1) newItems.splice(index, 1);
-    //       setItems(newItems);
-    //     })
-    //     .catch(console.log);
-    // }
+  const handleDeleteBoard = (id: string) => {
+      window.app.board.delete(id);
+        
+      const newItems = [...items];
+      const index = newItems.findIndex((i) => i.id === id);
+      if (index > -1) newItems.splice(index, 1);
+      setItems(newItems);
   };
 
   const handleBoardClick = (url: string) => {
@@ -51,7 +45,6 @@ export const Boards = ({ handleClose }: BoardsProps) => {
     window.app.board
       .getAllBoards()
       .then((val) => {
-        console.log({val})
         setItems(val.map(el => JSON.parse(el.content)));
         setFilteredItems(val.map(el => JSON.parse(el.content)));
         setIsLoading(false);

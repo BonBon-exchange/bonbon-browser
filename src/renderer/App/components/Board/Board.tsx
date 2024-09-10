@@ -144,10 +144,6 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
     }
   }, [saveBoardAction]);
 
-  useEffect(() => {
-    console.log({displayNotification})
-  }, [displayNotification])
-
   return (
     <ErrorFallback>
       <div

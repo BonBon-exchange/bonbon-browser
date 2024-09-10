@@ -47,6 +47,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     save: (board: Board) => {
       ipcRenderer.send('save-board-callback', board);
+    },
+    delete: (boardId: string) => {
+      ipcRenderer.send('delete-board', boardId);
     }
   },
   bookmark: {

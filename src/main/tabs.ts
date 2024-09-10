@@ -74,31 +74,56 @@ export const renameTab = (args: IpcRenameTab) => {
 
 export const saveBoardCallback = async (board: Board) => {
   return new Promise((resolve, reject) => {
-    db.run(
-      'INSERT INTO boards (boardId, content) VALUES (?, ?)',
-      board.id,
-      JSON.stringify(board),
-      () => {
-        db.all(
-          'SELECT id, boardId, content FROM boards WHERE boardId = ? ORDER BY id DESC LIMIT 1',
-          board.id,
-          (err: any, rows: { id: number; content: string, boardId: string }[]) => {
-            if (err) {
-              reject(
-                new Error(
-                  `Error when saving board while selecting Id.`
-                )
-              );
-            } else {
-              resolve({
-                id: rows[0].id,
-                boardId: rows[0].boardId,
-                content: JSON.parse(rows[0].content),
-              });
+    db.run('DELETE FROM boards WHERE boardId = ?', board.id, (_err?: Error) => {
+      db.run(
+        'INSERT INTO boards (boardId, content) VALUES (?, ?)',
+        board.id,
+        JSON.stringify(board),
+        () => {
+          db.all(
+            'SELECT id, boardId, content FROM boards WHERE boardId = ? ORDER BY id DESC LIMIT 1',
+            board.id,
+            (err: any, rows: { id: number; content: string, boardId: string }[]) => {
+              if (err) {
+                reject(
+                  new Error(
+                    `Error when saving board while selecting Id.`
+                  )
+                );
+              } else {
+                resolve({
+                  id: rows[0].id,
+                  boardId: rows[0].boardId,
+                  content: JSON.parse(rows[0].content),
+                });
+              }
             }
-          }
-        );
-      }
-    );
+          );
+        }
+      );
+    });
   });
 }
+
+export const getAllBoards = async () => {
+  return new Promise((resolve, reject) => {
+      db.all(
+          'SELECT * FROM boards ORDER BY id DESC',
+          (err: Error | null, rows: Board[]) => {
+            if (err) reject(new Error(`Couldn't get boards: ${err.message}`));
+            else resolve(rows);
+          }
+        );
+  })
+}
+
+export const deleteBoard = (boardId: string): Promise<void> => {
+  console.log('deleteBoard', boardId)
+  return new Promise((resolve, reject) => {
+    db.run('DELETE FROM boards WHERE boardId = ?', boardId, (err?: Error) => {
+      if (err)
+        reject(new Error(`Couldn't delete from boards: ${err.message}`));
+      else resolve();
+    });
+  });
+};

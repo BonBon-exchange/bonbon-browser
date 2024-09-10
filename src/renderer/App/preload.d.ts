@@ -34,6 +34,7 @@ declare global {
         setWindowsCount: (args: IpcSetWindowsCount) => void;
         getAllBoards: () => Promise<{id: string, boardId: string, content: string}[]>;
         save: (board: Board) => void;
+        delete: (boardId: string) => void;
       };
       bookmark: {
         importBookmarks: (bookmarks: Partial<Bookmark>[]) => Promise<void>;

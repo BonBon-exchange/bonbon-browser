@@ -82,8 +82,7 @@ import {
 } from './history';
 import i18n from './i18n';
 import { getStore } from './store';
-import { purgeTab, renameTab, saveBoardCallback, saveTab, selectTab } from './tabs';
-import { getAllBoards } from './boards';
+import { purgeTab, renameTab, saveBoardCallback, saveTab, selectTab, getAllBoards, deleteBoard } from './tabs';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -464,4 +463,8 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.handle('get-all-boards', () => {
     return getAllBoards();
   });
+
+  ipcMain.on('delete-board', (_e, boardId: string) => {
+    deleteBoard(boardId)
+  })
 };
