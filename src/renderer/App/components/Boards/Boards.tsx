@@ -51,8 +51,9 @@ export const Boards = ({ handleClose }: BoardsProps) => {
     window.app.board
       .getAllBoards()
       .then((val) => {
-        setItems(val);
-        setFilteredItems(val);
+        console.log({val})
+        setItems(val.map(el => JSON.parse(el.content)));
+        setFilteredItems(val.map(el => JSON.parse(el.content)));
         setIsLoading(false);
       })
       .catch((e) => {
@@ -83,15 +84,11 @@ export const Boards = ({ handleClose }: BoardsProps) => {
   };
 
   useEffect(() => {
-    // const filtered = items?.filter(
-    //   (i) =>
-    //     i.url.toLowerCase().includes(search.toLowerCase()) ||
-    //     i.name.toLowerCase().includes(search.toLowerCase()) ||
-    //     !i.tags?.every(
-    //       (tag) => !tag.toLocaleLowerCase().includes(search.toLowerCase())
-    //     )
-    // );
-    // setFilteredItems(filtered);
+    const filtered = items?.filter(
+      (i) =>
+        i.label.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredItems(filtered);
   }, [search, items]);
 
   useEffect(() => {

@@ -32,7 +32,7 @@ declare global {
         add: (params?: { newSession?: boolean}) => void;
         selectNext: () => void;
         setWindowsCount: (args: IpcSetWindowsCount) => void;
-        getAllBoards: () => Promise<Board[]>;
+        getAllBoards: () => Promise<{id: string, boardId: string, content: string}[]>;
         save: (board: Board) => void;
       };
       bookmark: {

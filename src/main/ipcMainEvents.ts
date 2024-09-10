@@ -83,6 +83,7 @@ import {
 import i18n from './i18n';
 import { getStore } from './store';
 import { purgeTab, renameTab, saveBoardCallback, saveTab, selectTab } from './tabs';
+import { getAllBoards } from './boards';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -459,4 +460,8 @@ export const makeIpcMainEvents = (): void => {
   ipcMain.on('save-board-callback', (_e, board: Board) => {
     saveBoardCallback(board).then(console.log).catch(console.log)
   })
+
+  ipcMain.handle('get-all-boards', () => {
+    return getAllBoards();
+  });
 };
