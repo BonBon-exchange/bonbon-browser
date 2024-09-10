@@ -30,7 +30,7 @@ export const addHistory = (args: {
             db.all(
               'SELECT id, date FROM history WHERE url = ? ORDER BY id DESC LIMIT 1',
               args.url,
-              (err, rows: { id: number; date: number }[]) => {
+              (err: any, rows: { id: number; date: number }[]) => {
                 if (err) {
                   reject(
                     new Error(

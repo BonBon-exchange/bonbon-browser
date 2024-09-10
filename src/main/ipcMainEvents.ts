@@ -81,7 +81,7 @@ import {
 } from './history';
 import i18n from './i18n';
 import { getStore } from './store';
-import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
+import { purgeTab, renameTab, saveBoardCallback, saveTab, selectTab } from './tabs';
 import { Board } from 'types/boards';
 
 const store = getStore();
@@ -457,6 +457,6 @@ export const makeIpcMainEvents = (): void => {
   })
 
   ipcMain.on('save-board-callback', (_e, board: Board) => {
-    console.log('save-board-callback', board);
+    saveBoardCallback(board)
   })
 };

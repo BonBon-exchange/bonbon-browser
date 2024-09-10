@@ -1,6 +1,8 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable import/prefer-default-export */
 import { BrowserView } from 'electron';
+
+import { Board } from 'types/boards';
 import { IpcRenameTab, IpcSaveTab, IpcTabPurge, IpcTabSelect } from 'types/ipc';
 import {
   createBrowserView,
@@ -10,6 +12,8 @@ import {
 } from './browser';
 
 import { getViews, setViews } from './ipcMainEvents';
+import db from './db';
+
 
 export const selectTab = (args: IpcTabSelect) => {
   const views = getViews();
@@ -67,3 +71,35 @@ export const renameTab = (args: IpcRenameTab) => {
   const view = views[args.tabId];
   if (view) view.webContents.send('rename-board', { label: args.label });
 };
+
+export const saveBoardCallback = async (board: Board) => {
+  console.log(board)
+  return new Promise((resolve, reject) => {
+
+    db.run(
+      'INSERT INTO boards (boardId, content) VALUES (?, ?)',
+      board.id,
+      JSON.stringify(board),
+      () => {
+        db.all(
+          'SELECT id, content FROM boards WHERE id = ? ORDER BY id DESC LIMIT 1',
+          board.id,
+          (err: any, rows: { id: number; content: string }[]) => {
+            if (err) {
+              reject(
+                new Error(
+                  `Error when saving board while selecting Id.`
+                )
+              );
+            } else {
+              resolve({
+                id: Number(rows[0].id),
+                content: JSON.parse(rows[0].content),
+              });
+            }
+          }
+        );
+      }
+    );
+  });
+}
