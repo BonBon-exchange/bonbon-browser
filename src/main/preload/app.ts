@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { TFunction } from 'react-i18next';
 
 import { EventParams } from 'types/analytics';
+import { Board } from 'types/boards';
 import { Bookmark, Provider, Tag } from 'types/bookmarks';
 import { Download } from 'types/downloads';
 import { Extension } from 'types/extensions';
@@ -40,6 +41,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     setWindowsCount: (args: IpcSetWindowsCount) => {
       ipcRenderer.send('set-windows-count', args);
+    },
+    getAllBoards: (): Promise<Board[]> => {
+      return ipcRenderer.invoke('get-all-boards');
     },
   },
   bookmark: {

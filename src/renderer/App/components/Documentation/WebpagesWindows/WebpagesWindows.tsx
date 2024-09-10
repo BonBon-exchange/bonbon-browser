@@ -5,10 +5,6 @@ import { useTranslation } from 'react-i18next';
 export const WebpagesWindows = () => {
   const { t } = useTranslation();
 
-  useEffect(() => {
-    window.app.analytics.page('/documentation/webpagesWindows');
-  }, []);
-
   return (
     <>
       <h2 data-testid="documentation-webpages-page">{t('Webpages windows')}</h2>

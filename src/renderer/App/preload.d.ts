@@ -17,6 +17,7 @@ import {
   IpcShowLeftbarContextMenu
 } from "types/ipc";
 import { DomainSuggestion } from "types/suggestions";
+import { Board } from "types/boards";
 import { DownloadState } from "renderer/TitleBar/components/TopBar/Types";
 
 declare global {
@@ -31,6 +32,7 @@ declare global {
         add: (params?: { newSession?: boolean}) => void;
         selectNext: () => void;
         setWindowsCount: (args: IpcSetWindowsCount) => void;
+        getAllBoards: () => Promise<Board[]>;
       };
       bookmark: {
         importBookmarks: (bookmarks: Partial<Bookmark>[]) => Promise<void>;

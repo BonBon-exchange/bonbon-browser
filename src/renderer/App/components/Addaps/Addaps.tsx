@@ -24,6 +24,7 @@ const LeftBar = lazy(() => import('renderer/App/components/LeftBar'));
 const DownloadsPreview = lazy(
   () => import('renderer/App/components/DownloadsPreview')
 );
+const Boards = lazy(() => import('renderer/App/components/Boards'));
 const Settings = lazy(() => import('renderer/App/components/Settings'));
 const Bookmarks = lazy(() => import('renderer/App/components/Bookmarks'));
 const History = lazy(() => import('renderer/App/components/History'));

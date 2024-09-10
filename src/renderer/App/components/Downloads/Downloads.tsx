@@ -62,7 +62,6 @@ export const Downloads = ({ handleClose }: DownloadsProps) => {
       })
       .catch(console.log);
 
-    window.app.analytics.page('/downloads');
   }, []);
 
   return (

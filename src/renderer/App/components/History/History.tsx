@@ -128,7 +128,6 @@ export const History = ({ handleClose }: HistoryProps) => {
         console.log(e);
       });
 
-    window.app.analytics.page('/history');
   }, []);
 
   return (

@@ -21,7 +21,6 @@ export const ExtensionsSettings = () => {
       .get('extensions.forceInstallUBlockOrigin')
       .then((val: unknown) => setForceUBlock(Boolean(val)));
 
-    window.app.analytics.page('/settings/extensions');
   }, []);
 
   return (

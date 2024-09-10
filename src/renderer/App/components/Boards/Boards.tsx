@@ -12,36 +12,35 @@ import AutoSize from 'react-virtualized-auto-sizer';
 import { CloseButton } from 'renderer/App/components/CloseButton';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { Loader } from 'renderer/App/components/Loader';
-import { Bookmark as BookmarkType } from 'types/bookmarks';
-import { BookmarksItem } from './BookmarksItem';
-import { Import } from './Import';
+import { Board as BoardType } from 'types/boards';
+import { BoardsItem } from './BoardsItem';
 
-import { BookmarksProps } from './Types';
+import { BoardsProps } from './Types';
 
 import './style.scss';
 
 /* eslint-disable react/prop-types */
-export const Bookmarks = ({ handleClose }: BookmarksProps) => {
+export const Boards = ({ handleClose }: BoardsProps) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState<string>('');
   const [showImport, setShowImport] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [items, setItems] = useState<BookmarkType[]>([]);
-  const [filteredItems, setFilteredItems] = useState<BookmarkType[]>([]);
+  const [items, setItems] = useState<BoardType[]>([]);
+  const [filteredItems, setFilteredItems] = useState<BoardType[]>([]);
   const { browser } = useStoreHelpers();
 
-  const replaceItem = (bookmark: BookmarkType) => {
+  const replaceItem = (board: BoardType) => {
     const newItems = [...items];
-    const index = newItems.findIndex((i) => i.id === bookmark.id);
-    if (index > -1) newItems[index] = bookmark;
+    const index = newItems.findIndex((i) => i.id === board.id);
+    if (index > -1) newItems[index] = board;
     setItems(newItems);
   };
 
-  const handleDeleteBookmark = (id: number) => {
+  const handleDeleteBoard = (id: number) => {
     const url = items.find((i) => i.id === id)?.url;
     if (url) {
-      window.app.bookmark
-        .removeBookmark(url)
+      window.app.board
+        .removeBoard(url)
         .then(() => {
           const newItems = [...items];
           const index = newItems.findIndex((i) => i.id === id);
@@ -52,14 +51,14 @@ export const Bookmarks = ({ handleClose }: BookmarksProps) => {
     }
   };
 
-  const handleBookmarkClick = (url: string) => {
+  const handleBoardClick = (url: string) => {
     browser.add({ url });
     handleClose();
   };
 
   const refreshList = () => {
-    window.app.bookmark
-      .getAllBookmarks()
+    window.app.board
+      .getAllBoards()
       .then((val) => {
         setItems(val);
         setFilteredItems(val);
@@ -71,28 +70,22 @@ export const Bookmarks = ({ handleClose }: BookmarksProps) => {
       });
   };
 
-  const handleImport = () => setShowImport(true);
-  const handleCloseImport = () => {
-    setShowImport(false);
-    refreshList();
-  };
-
   const Item = ({
     data,
     index,
     style,
   }: {
-    data: BookmarkType[];
+    data: BoardType[];
     index: number;
     style: any;
   }) => {
     return (
       <div style={style}>
-        <BookmarksItem
+        <BoardsItem
           key={data[index].id}
-          bookmark={data[index]}
-          handleClick={handleBookmarkClick}
-          handleDelete={handleDeleteBookmark}
+          board={data[index]}
+          handleClick={handleBoardClick}
+          handleDelete={handleDeleteBoard}
           replaceItem={replaceItem}
         />
       </div>
@@ -116,23 +109,13 @@ export const Bookmarks = ({ handleClose }: BookmarksProps) => {
   }, []);
 
   return (
-    <>
-      {showImport && <Import handleClose={handleCloseImport} />}
-      <div id="Bookmarks__container">
+    <div id="Boards__container">
         <CloseButton handleClose={handleClose} />
-        <div id="Bookmarks__centered-container">
-          <h2>{t('Bookmarks')}</h2>
-          <Button
-            variant="contained"
-            className="Bookmarks_import-button"
-            onClick={handleImport}
-            data-testid="import-bookmarks-button"
-          >
-            {t('Import')}
-          </Button>
+        <div id="Boards__centered-container">
+          <h2>{t('Boards')}</h2>
           <input
             type="text"
-            className="Bookmarks__search"
+            className="Boards__search"
             onChange={(e) => setSearch(e.target.value)}
             placeholder={t('Search')}
           />
@@ -155,6 +138,5 @@ export const Bookmarks = ({ handleClose }: BookmarksProps) => {
           )}
         </div>
       </div>
-    </>
   );
 };

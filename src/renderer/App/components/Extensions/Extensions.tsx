@@ -48,7 +48,6 @@ export const Extensions = ({ handleClose }: ExtensionsProps) => {
       })
       .catch(console.log);
 
-    window.app.analytics.page('/extensions');
   }, []);
 
   return (

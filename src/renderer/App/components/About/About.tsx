@@ -9,10 +9,6 @@ import './style.scss';
 export const About = () => {
   const { t } = useTranslation();
 
-  useEffect(() => {
-    window.app.analytics.page('/about');
-  }, []);
-
   return (
     <>
       <div className="About__property-line">
