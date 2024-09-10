@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
+import { IpcRendererEvent } from 'electron';
 import clsx from 'clsx';
 import { AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
@@ -21,7 +22,6 @@ import {
 import { BoardProps } from './Types';
 
 import './style.scss';
-import { IpcRendererEvent } from 'electron';
 
 export const Board = ({ isFullSize, boardId }: BoardProps) => {
   const board = useBoard();

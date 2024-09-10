@@ -37,6 +37,7 @@ import {
   IpcTabSelect,
 } from 'types/ipc';
 import { DomainSuggestion } from 'types/suggestions';
+import { Board } from 'types/boards';
 
 import { event, page } from './analytics';
 import { getUrlToOpen, setUrlToOpen } from './appEvents';
@@ -82,7 +83,6 @@ import {
 import i18n from './i18n';
 import { getStore } from './store';
 import { purgeTab, renameTab, saveBoardCallback, saveTab, selectTab } from './tabs';
-import { Board } from 'types/boards';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
