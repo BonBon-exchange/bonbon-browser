@@ -73,18 +73,16 @@ export const renameTab = (args: IpcRenameTab) => {
 };
 
 export const saveBoardCallback = async (board: Board) => {
-  console.log(board)
   return new Promise((resolve, reject) => {
-
     db.run(
       'INSERT INTO boards (boardId, content) VALUES (?, ?)',
       board.id,
       JSON.stringify(board),
       () => {
         db.all(
-          'SELECT id, content FROM boards WHERE id = ? ORDER BY id DESC LIMIT 1',
+          'SELECT id, boardId, content FROM boards WHERE boardId = ? ORDER BY id DESC LIMIT 1',
           board.id,
-          (err: any, rows: { id: number; content: string }[]) => {
+          (err: any, rows: { id: number; content: string, boardId: string }[]) => {
             if (err) {
               reject(
                 new Error(
@@ -93,7 +91,8 @@ export const saveBoardCallback = async (board: Board) => {
               );
             } else {
               resolve({
-                id: Number(rows[0].id),
+                id: rows[0].id,
+                boardId: rows[0].boardId,
                 content: JSON.parse(rows[0].content),
               });
             }

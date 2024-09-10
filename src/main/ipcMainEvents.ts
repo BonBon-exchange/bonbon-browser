@@ -457,6 +457,6 @@ export const makeIpcMainEvents = (): void => {
   })
 
   ipcMain.on('save-board-callback', (_e, board: Board) => {
-    saveBoardCallback(board)
+    saveBoardCallback(board).then(console.log).catch(console.log)
   })
 };
