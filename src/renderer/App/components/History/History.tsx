@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
 import { FixedSizeList as List, ListChildComponentProps } from 'react-window';
-import AutoSize from 'react-virtualized-auto-sizer';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
 import { Loader } from 'renderer/App/components/Loader';
@@ -47,15 +47,13 @@ const handleDeleteHistory = (
 
 const Item = ({
   data,
-  index,
   style,
   items,
   setItems,
   browser,
   handleClose,
 }: {
-  data: HistoryType[];
-  index: number;
+  data: HistoryType;
   style: any;
   items: HistoryType[];
   setItems: Dispatch<React.SetStateAction<HistoryType[]>>;
@@ -64,21 +62,21 @@ const Item = ({
 }) => {
   return (
     <div style={style}>
-      <div className="History__item" key={data[index].id}>
+      <div className="History__item" key={data?.id}>
         <div
           className="History__item-text"
           onClick={() =>
-            handleHistoryClick(data[index].url, browser, handleClose)
+            handleHistoryClick(data?.url, browser, handleClose)
           }
         >
-          <div className="History__item-title">{data[index].title}</div>
-          <div className="History__item-date">{data[index].date}</div>
-          <div className="History__item-url">{data[index].url}</div>
+          <div className="History__item-title">{data?.title}</div>
+          <div className="History__item-date">{data?.date}</div>
+          <div className="History__item-url">{data?.url}</div>
         </div>
         <div className="History__item-controls">
           <div
             className="History__item-control"
-            onClick={() => handleDeleteHistory(data[index].id, items, setItems)}
+            onClick={() => handleDeleteHistory(data?.id, items, setItems)}
           >
             <DeleteForeverIcon />
           </div>
@@ -112,6 +110,7 @@ export const History = ({ handleClose }: HistoryProps) => {
         (i.url && i.url.includes(search)) ||
         (i.title && i.title.includes(search))
     );
+    console.log(filtered)
     setFilteredItems(filtered);
   }, [search, items]);
 
@@ -151,31 +150,28 @@ export const History = ({ handleClose }: HistoryProps) => {
         {isLoading ? (
           <Loader />
         ) : (
-          <AutoSize>
+          <AutoSizer>
             {({ height }: { height: number }) => (
               <List
-                height={height - 230}
-                itemCount={filteredItems.length}
-                width={800}
-                itemData={filteredItems as unknown as History[]}
-                itemSize={110}
-              >
-                {
-                  ((data: any, index: any, style: any) => (
-                    <Item
-                      data={data}
-                      index={index}
-                      style={style}
-                      items={items}
-                      setItems={setItems}
-                      browser={browser}
-                      handleClose={handleClose}
-                    />
-                  )) as ComponentType<ListChildComponentProps<History[]>>
-                }
-              </List>
+              height={height - 230}
+              itemCount={filteredItems.length}
+              width={800}
+              itemData={filteredItems}
+              itemSize={110}
+            >
+              {({ index, style, data }) => (
+                <Item
+                  data={data[index]}
+                  style={style}
+                  items={items}
+                  setItems={setItems}
+                  browser={browser}
+                  handleClose={handleClose}
+                />
+              )}
+            </List>
             )}
-          </AutoSize>
+          </AutoSizer>
         )}
       </div>
     </div>
