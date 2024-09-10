@@ -11,6 +11,7 @@ export interface BoardType {
   lastResizedBrowserDimensions?: [number, number];
   browsersActivity: string[];
   height: number;
+  isInAppMenu: boolean;
 }
 
 export interface BoardProps {
