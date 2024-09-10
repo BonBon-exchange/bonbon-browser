@@ -42,8 +42,8 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
     window.app.tools.showBoardContextMenu({ x: e.clientX, y: e.clientY });
   };
 
-  const saveBoardAction = useCallback((e: IpcRendererEvent, args: { tabId: string}) => {
-    if (board.id === args.tabId) window.app.board.save(board);
+  const saveBoardAction = useCallback((_e: IpcRendererEvent, args: { boardId: string}) => {
+    if (board.id === args.boardId) window.app.board.save(board);
   }, [board])
 
   useEffect(() => {

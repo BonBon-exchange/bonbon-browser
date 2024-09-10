@@ -5,14 +5,13 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@mui/material';
 import { FixedSizeList as List } from 'react-window';
 import AutoSize from 'react-virtualized-auto-sizer';
 
 import { CloseButton } from 'renderer/App/components/CloseButton';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
 import { Loader } from 'renderer/App/components/Loader';
-import { Board as BoardType } from 'types/boards';
+import { Board as BoardType } from '../../../../types/boards';
 import { BoardsItem } from './BoardsItem';
 
 import { BoardsProps } from './Types';
@@ -23,32 +22,24 @@ import './style.scss';
 export const Boards = ({ handleClose }: BoardsProps) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState<string>('');
-  const [showImport, setShowImport] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [items, setItems] = useState<BoardType[]>([]);
   const [filteredItems, setFilteredItems] = useState<BoardType[]>([]);
   const { browser } = useStoreHelpers();
 
-  const replaceItem = (board: BoardType) => {
-    const newItems = [...items];
-    const index = newItems.findIndex((i) => i.id === board.id);
-    if (index > -1) newItems[index] = board;
-    setItems(newItems);
-  };
-
-  const handleDeleteBoard = (id: number) => {
-    const url = items.find((i) => i.id === id)?.url;
-    if (url) {
-      window.app.board
-        .removeBoard(url)
-        .then(() => {
-          const newItems = [...items];
-          const index = newItems.findIndex((i) => i.id === id);
-          if (index > -1) newItems.splice(index, 1);
-          setItems(newItems);
-        })
-        .catch(console.log);
-    }
+  const handleDeleteBoard = (_id: string) => {
+    // const url = items.find((i) => i.id === id)?.url;
+    // if (url) {
+    //   window.app.board
+    //     .removeBoard(url)
+    //     .then(() => {
+    //       const newItems = [...items];
+    //       const index = newItems.findIndex((i) => i.id === id);
+    //       if (index > -1) newItems.splice(index, 1);
+    //       setItems(newItems);
+    //     })
+    //     .catch(console.log);
+    // }
   };
 
   const handleBoardClick = (url: string) => {
@@ -86,22 +77,21 @@ export const Boards = ({ handleClose }: BoardsProps) => {
           board={data[index]}
           handleClick={handleBoardClick}
           handleDelete={handleDeleteBoard}
-          replaceItem={replaceItem}
         />
       </div>
     );
   };
 
   useEffect(() => {
-    const filtered = items?.filter(
-      (i) =>
-        i.url.toLowerCase().includes(search.toLowerCase()) ||
-        i.name.toLowerCase().includes(search.toLowerCase()) ||
-        !i.tags?.every(
-          (tag) => !tag.toLocaleLowerCase().includes(search.toLowerCase())
-        )
-    );
-    setFilteredItems(filtered);
+    // const filtered = items?.filter(
+    //   (i) =>
+    //     i.url.toLowerCase().includes(search.toLowerCase()) ||
+    //     i.name.toLowerCase().includes(search.toLowerCase()) ||
+    //     !i.tags?.every(
+    //       (tag) => !tag.toLocaleLowerCase().includes(search.toLowerCase())
+    //     )
+    // );
+    // setFilteredItems(filtered);
   }, [search, items]);
 
   useEffect(() => {

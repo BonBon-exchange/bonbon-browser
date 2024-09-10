@@ -7,64 +7,48 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DoneIcon from '@mui/icons-material/Done';
 import EditIcon from '@mui/icons-material/Edit';
-import { Chip, TextField } from '@mui/material';
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import { TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import { Tag } from 'types/boards';
-
-import { BoardItemProps } from './Types';
+import { BoardsItemProps } from './Types';
 
 export const BoardsItem = ({
   board,
   handleDelete,
   handleClick,
-  replaceItem,
-}: BoardItemProps) => {
+}: BoardsItemProps) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [name, setName] = useState<string>(board.name);
-  const [url, setUrl] = useState<string>(board.url);
-  const [tags, setTags] = useState<Tag[]>([]);
-  const [tagsOption, setTagsOptions] = useState<Tag[]>([]);
+  const [name, setName] = useState<string>(board.label);
 
   const handleEditBoard = () => setIsEditing(true);
   const handleSaveBoard = () => {
-    const formattedBoard = {
-      id: board.id,
-      name,
-      url,
-      host: board.host,
-      domain: board.domain,
-      tags: tags.map((tg) => (tg.inputValue ? tg.inputValue : tg.tag)),
-    };
-    window.app.board
-      .editBoard(formattedBoard)
-      .then((b) => {
-        setIsEditing(false);
-        replaceItem(b);
-      })
-      .catch(console.log);
+    // const formattedBoard = {
+    //   id: board.id,
+    //   name,
+    //   host: board.host,
+    //   domain: board.domain,
+    //   tags: tags.map((tg) => (tg.inputValue ? tg.inputValue : tg.tag)),
+    // };
+
+    // window.app.board
+    //   .editBoard(formattedBoard)
+    //   .then((b) => {
+    //     setIsEditing(false);
+    //     replaceItem(b);
+    //   })
+    //   .catch(console.log);
   };
 
-  const filter = createFilterOptions<Tag>();
+  // const filter = createFilterOptions<Tag>();
 
   useEffect(() => {
-    window.app.board
-      .getBoardTags()
-      .then((val) => {
-        setTagsOptions(val);
-      })
-      .catch(console.log);
+    // window.app.board
+    //   .getBoardTags()
+    //   .then((val) => {
+    //     setTagsOptions(val);
+    //   })
+    //   .catch(console.log);
   }, []);
-
-  useEffect(() => {
-    if (board.tags)
-      setTags(
-        board.tags?.map((tg) => ({
-          tag: tg,
-        }))
-      );
-  }, [board.tags]);
 
   return isEditing ? (
     <div className="Boards__item" key={board.id}>
@@ -73,75 +57,6 @@ export const BoardsItem = ({
           <TextField
             value={name}
             onChange={(e) => setName(e.target.value)}
-            fullWidth
-          />
-        </div>
-        <div className="Boards__item-url">
-          <TextField
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            fullWidth
-          />
-        </div>
-        <div className="Boards__item-tags">
-          <Autocomplete
-            multiple
-            value={tags}
-            onChange={(_event, newValue: any) => {
-              if (typeof newValue === 'string') {
-                setTags([
-                  {
-                    tag: newValue,
-                  },
-                ]);
-              } else if (newValue && newValue.inputValue) {
-                // Create a new value from the user input
-                setTags([
-                  {
-                    tag: newValue.inputValue,
-                  },
-                ]);
-              } else {
-                setTags(newValue);
-              }
-            }}
-            filterOptions={(options, params) => {
-              const filtered = filter(options, params);
-
-              const { inputValue }: { inputValue: any } = params;
-              // Suggest the creation of a new value
-              const isExisting = options.some(
-                (option) => inputValue === option.tag
-              );
-              if (inputValue !== '' && !isExisting) {
-                filtered.push({
-                  inputValue,
-                  tag: `Add "${inputValue}"`,
-                });
-              }
-
-              return filtered;
-            }}
-            selectOnFocus
-            clearOnBlur
-            handleHomeEndKeys
-            id="free-solo-with-text-demo"
-            options={tagsOption}
-            getOptionLabel={(option: any) => {
-              // Value selected with enter, right from the input
-              if (typeof option === 'string') {
-                return option;
-              }
-              // Add "xxx" option created dynamically
-              if (option.inputValue) {
-                return option.inputValue;
-              }
-              // Regular option
-              return option.tag;
-            }}
-            renderOption={(props, option) => <li {...props}>{option.tag}</li>}
-            freeSolo
-            renderInput={(params) => <TextField {...params} />}
             fullWidth
           />
         </div>
@@ -165,15 +80,9 @@ export const BoardsItem = ({
     <div className="Boards__item" key={board.id}>
       <div
         className="Boards__item-text"
-        onClick={() => handleClick(board.url)}
+        onClick={() => handleClick(board.id)}
       >
-        <div className="Boards__item-name">{board.name}</div>
-        <div className="Boards__item-url">{board.url}</div>
-        <div className="Boards__item-tags">
-          {board.tags?.map((tag: string) => (
-            <Chip label={tag} />
-          ))}
-        </div>
+        <div className="Boards__item-name">{board.label}</div>
       </div>
       <div className="Boards__item-controls">
         <div
