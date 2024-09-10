@@ -55,7 +55,7 @@ contextBridge.exposeInMainWorld('titleBar', {
       ipcRenderer.send('tab-purge', { tabId });
     },
     save: (tabId: string) => {
-      ipcRenderer.send('save-tab', { tabId });
+      ipcRenderer.send('save-board', { tabId });
     },
     rename: (args: IpcRenameTab) => {
       ipcRenderer.send('rename-tab', args);

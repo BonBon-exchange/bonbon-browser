@@ -51,7 +51,7 @@ export const showTabContextMenu = (
     {
       label: i18n.t('Save board'),
       click: () => {
-        mainWindow?.webContents.send('save-tab', {
+        mainWindow?.webContents.send('save-board', {
           x: params.x,
           y: params.y,
         });

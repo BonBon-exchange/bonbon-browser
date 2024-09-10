@@ -156,7 +156,7 @@ export const makeIpcMainEvents = (): void => {
     purgeTab(args);
   });
 
-  ipcMain.on('save-tab', (_event, args: IpcSaveTab) => {
+  ipcMain.on('save-board', (_event, args: IpcSaveTab) => {
     saveTab(args);
   });
 
