@@ -83,5 +83,6 @@
   "The timeout before minimap disapearing of the screen when the mouse leave the detection zone.": "The timeout before minimap disapearing of the screen when the mouse leave the detection zone.",
   "ms before minimap disapearing": "ms before minimap disapearing",
   "Minimap always visible": "Minimap always visible",
-  "If checked, the minimap on the right side will always be visible.": "If checked, the minimap on the right side will always be visible."
+  "If checked, the minimap on the right side will always be visible.": "If checked, the minimap on the right side will always be visible.",
+  "Boards":"Boards"
 }
