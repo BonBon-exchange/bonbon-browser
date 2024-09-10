@@ -145,12 +145,13 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       const id = params.id || v4();
       const newBoard = {
         id,
-        label: t('New collection'),
+        label: t('New board'),
         browsers: [newBrowser],
         closedUrls: [],
         isFullSize: false,
         browsersActivity: [],
         height: 0,
+        isInAppMenu: false
       };
 
       dispatch(setBoard(newBoard));

@@ -84,5 +84,6 @@
   "ms before minimap disapearing": "ms before minimap disapearing",
   "Minimap always visible": "Minimap always visible",
   "If checked, the minimap on the right side will always be visible.": "If checked, the minimap on the right side will always be visible.",
-  "Boards":"Boards"
+  "Boards":"Boards",
+  "New board": "New board"
 }
