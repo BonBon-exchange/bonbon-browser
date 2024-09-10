@@ -82,6 +82,7 @@ import {
 import i18n from './i18n';
 import { getStore } from './store';
 import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
+import { Board } from 'types/boards';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -453,5 +454,9 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('open-new-board', (_e, params?: { newSession?: boolean}) => {
     getMainWindow()?.webContents.send('open-tab', params);
+  })
+
+  ipcMain.on('save-board-callback', (_e, board: Board) => {
+    console.log('save-board-callback', board);
   })
 };

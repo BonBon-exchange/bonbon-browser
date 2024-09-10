@@ -45,6 +45,9 @@ contextBridge.exposeInMainWorld('app', {
     getAllBoards: (): Promise<Board[]> => {
       return ipcRenderer.invoke('get-all-boards');
     },
+    save: (board: Board) => {
+      ipcRenderer.send('save-board-callback', board);
+    }
   },
   bookmark: {
     findInBookmarks: (str: string): Promise<Bookmark[]> => {
@@ -165,6 +168,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('rename-board', action);
     },
+    saveBoard: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('save-board', action);
+    },
     closeWebview: (
       action: (event: IpcRendererEvent, ...args: unknown[]) => void
     ) => {
@@ -258,6 +266,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     pinWebview: () => {
       ipcRenderer.removeAllListeners('pin-webview');
+    },
+    saveBoard: () => {
+      ipcRenderer.removeAllListeners('save-board');
     },
   },
   tools: {

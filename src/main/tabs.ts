@@ -55,7 +55,11 @@ export const purgeTab = (args: IpcTabPurge) => {
 };
 
 export const saveTab = (args: IpcSaveTab) => {
-  // save in mongodb
+  const views = getViews();
+  const view = views[args.tabId] as any;
+  if (view) {
+    view.webContents.send('save-board', args);
+  }
 };
 
 export const renameTab = (args: IpcRenameTab) => {

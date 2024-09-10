@@ -21,6 +21,7 @@ import {
 import { BoardProps } from './Types';
 
 import './style.scss';
+import { IpcRendererEvent } from 'electron';
 
 export const Board = ({ isFullSize, boardId }: BoardProps) => {
   const board = useBoard();
@@ -40,6 +41,10 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
     e.preventDefault();
     window.app.tools.showBoardContextMenu({ x: e.clientX, y: e.clientY });
   };
+
+  const saveBoardAction = useCallback((e: IpcRendererEvent, args: { tabId: string}) => {
+    if (board.id === args.tabId) window.app.board.save(board);
+  }, [board])
 
   useEffect(() => {
     if (!board.isFullSize) {
@@ -113,6 +118,8 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
       .getElementById('Board__container')
       ?.addEventListener('contextmenu', contextMenuListener);
 
+    window.app.listener.saveBoard(saveBoardAction);
+
       window.app.config
       .get('application.minimapOn')
       .then((val: unknown) => {
@@ -120,11 +127,14 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
         return true
       }).catch(console.log);
 
-    return () =>
+    return () => {
       document
-        .getElementById('Board__container')
-        ?.removeEventListener('contextmenu', contextMenuListener);
-  }, []);
+      .getElementById('Board__container')
+      ?.removeEventListener('contextmenu', contextMenuListener);
+      
+      window.app.off.saveBoard()
+    }
+  }, [saveBoardAction]);
 
   return (
     <ErrorFallback>
