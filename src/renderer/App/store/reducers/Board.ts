@@ -42,7 +42,7 @@ interface BoardState {
 const boardId = v4();
 const newBoard = {
   id: boardId,
-  label: 'New collection',
+  label: 'New board',
   browsers: [],
   activeBrowser: null,
   closedUrls: [],

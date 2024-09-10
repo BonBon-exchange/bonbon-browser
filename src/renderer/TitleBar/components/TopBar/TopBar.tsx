@@ -45,7 +45,7 @@ export const TopBar = () => {
       const id = params.id || v4();
       const newTab = {
         id,
-        label: params.label || 'New collection',
+        label: params.label || 'New board',
       };
 
       dispatch(addTab(newTab));

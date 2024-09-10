@@ -81,7 +81,7 @@ declare global {
         newWindow: (action: (_e: IpcRendererEvent, args: { url: string; }) => void) => void;
         loadBoard: (action: (_e: any, args: { boardId: string; }) => void) => void;
         purge: (action: () => void) => void;
-        saveBoard: (action: (_e: any, args: { boardId: string; }) => void) => void;
+        saveBoard: (action: (_e: any, args: { tabId: string; }) => void) => void;
         renameBoard: (action: (_e: IpcRendererEvent, args: { label: string; }) => void) => void;
         closeWebview: (action: (_e: IpcRendererEvent, args: Position) => void) => void;
         pinWebview: (action: (_e: IpcRendererEvent, args: Position) => void) => void;

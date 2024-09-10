@@ -22,6 +22,7 @@ import {
 import { BoardProps } from './Types';
 
 import './style.scss';
+import { Notification } from '../Notification';
 
 export const Board = ({ isFullSize, boardId }: BoardProps) => {
   const board = useBoard();
@@ -30,6 +31,8 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
   const [items, setItems] = useState<BrowserProps[]>([]);
   const [minimapOn, setMinimapOn] = useState<boolean>(false);
   const helpers = useStoreHelpers();
+  const [displayNotification, setDisplayNotification] = useState<boolean>(false) 
+  const [notification, setNotication] = useState<string>("") 
 
   const boardContainer = document.querySelector('#Board__container');
 
@@ -42,8 +45,13 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
     window.app.tools.showBoardContextMenu({ x: e.clientX, y: e.clientY });
   };
 
-  const saveBoardAction = useCallback((_e: IpcRendererEvent, args: { boardId: string}) => {
-    if (board.id === args.boardId) window.app.board.save(board);
+  const saveBoardAction = useCallback((_e: IpcRendererEvent, args: { tabId: string}) => {
+    console.log({args})
+    if (board.id === args.tabId) {
+      setDisplayNotification(true)
+      setNotication("Board saved")
+      window.app.board.save(board);
+    }
   }, [board])
 
   useEffect(() => {
@@ -136,6 +144,10 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
     }
   }, [saveBoardAction]);
 
+  useEffect(() => {
+    console.log({displayNotification})
+  }, [displayNotification])
+
   return (
     <ErrorFallback>
       <div
@@ -146,6 +158,12 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
           'Board__minimap-always-on': !board.isFullSize && minimapOn,
         })}
       >
+        <Notification 
+         closePopup={() => setDisplayNotification(false)}
+         className={clsx({"display": displayNotification})}
+         >
+          <div>{notification}</div>
+        </Notification>
         <AnimatePresence>{makeBrowsers(items)}</AnimatePresence>
         <div className="Board__edge-snap-left" />
         <div className="Board__edge-snap-right" />
