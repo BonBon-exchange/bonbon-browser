@@ -180,7 +180,6 @@ export const makeIpcMainEvents = (): void => {
   });
 
   ipcMain.on('close-app', () => {
-    event('close_app');
     app.quit();
   });
 
