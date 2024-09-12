@@ -140,6 +140,8 @@
     "dmg-license": "^1.0.11"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
     "@reduxjs/toolkit": "^1.8.2",
