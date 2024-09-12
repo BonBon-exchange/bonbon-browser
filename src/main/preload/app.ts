@@ -166,6 +166,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('load-board', action);
     },
+    loadSavedBoard: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('load-saved-board-callback', action);
+    },
     purge: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
       ipcRenderer.on('purge', action);
     },
@@ -275,6 +280,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     saveBoard: () => {
       ipcRenderer.removeAllListeners('save-board');
+    },
+    loadSavedBoard: () => {
+      ipcRenderer.removeAllListeners('load-saved-board-callback');
     },
   },
   tools: {

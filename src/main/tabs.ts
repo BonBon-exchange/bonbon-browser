@@ -27,12 +27,19 @@ export const selectTab = (args: IpcTabSelect) => {
     boardId: args.tabId,
     board: args.isSavedBoard ? args.board : undefined
   });
+
+  if (args.isSavedBoard) {
+    viewToShow.webContents.send('load-saved-board-callback', {
+      boardId: args.tabId,
+      board: args.board
+    });
+  }
+
   viewToShow.webContents.on('dom-ready', () => {
     const interval = setInterval(() => {
       try {
         viewToShow.webContents.send('load-board', {
           boardId: args.tabId,
-          board: args.isSavedBoard ? args.board : undefined
         });
       } catch (e) {
         console.log(e);

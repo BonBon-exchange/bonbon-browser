@@ -28,11 +28,24 @@ const initialState: TabsState = {
   isRenaming: null,
 };
 
+const closeTab = (state: TabsState, tabId: string) => {
+  const tabIndex = state.tabs.findIndex((t) => t.id === tabId);
+      if (tabIndex > -1) state.tabs.splice(tabIndex, 1);
+      if (state.activeTab === tabId && state.tabs.length > 0) {
+        state.activeTab = state.tabs[tabIndex]
+          ? state.tabs[tabIndex].id
+          : state.tabs[tabIndex - 1].id;
+      }
+
+      window.titleBar.tabs.purge(tabId);
+}
+
 export const tabsSlice: Slice<TabsState> = createSlice({
   name: 'tabs',
   initialState,
   reducers: {
     addTab: (state, action: PayloadAction<TabProps>) => {
+      closeTab(state, action.payload.id)
       state.tabs.push(action.payload);
       state.activeTab = action.payload.id;
     },
@@ -50,15 +63,7 @@ export const tabsSlice: Slice<TabsState> = createSlice({
       state.tabs[tabIndex].label = action.payload.label;
     },
     removeTab: (state, action: PayloadAction<string>) => {
-      const tabIndex = state.tabs.findIndex((t) => t.id === action.payload);
-      if (tabIndex > -1) state.tabs.splice(tabIndex, 1);
-      if (state.activeTab === action.payload && state.tabs.length > 0) {
-        state.activeTab = state.tabs[tabIndex]
-          ? state.tabs[tabIndex].id
-          : state.tabs[tabIndex - 1].id;
-      }
-
-      window.titleBar.tabs.purge(action.payload);
+      closeTab(state, action.payload)
 
       if (state.tabs.length === 0) window.titleBar.app.close();
     },

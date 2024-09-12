@@ -54,9 +54,9 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
     }
   }, [board])
 
-  const loadBoardAction = useCallback(
+  const loadSavedBoardAction = useCallback(
     (_e: any, args: { boardId: string, board?: BoardType }) => {
-      if(args.board) helpers.board.load({}, args.board)
+      if(args.board && args.boardId === args.board.id) helpers.board.load({}, args.board)
     },
     [helpers.board]
   );
@@ -152,9 +152,9 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
   }, [saveBoardAction]);
 
   useEffect(() => {
-    window.app.listener.loadBoard(loadBoardAction);
-    return () => window.app.off.loadBoard();
-  }, [loadBoardAction]);
+    window.app.listener.loadSavedBoard(loadSavedBoardAction);
+    return () => window.app.off.loadSavedBoard();
+  }, [loadSavedBoardAction]);
 
   return (
     <ErrorFallback>
