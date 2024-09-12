@@ -76,14 +76,4 @@ db.get(
   }
 );
 
-// migrate board table => add boardId column
-db.get(
-  'SELECT COUNT(*) AS CNTREC FROM pragma_table_info("boards") WHERE name="boardId"',
-  (_err, row: { CNTREC: number }) => {
-    if (row.CNTREC === 0) {
-      db.run('ALTER TABLE boards ADD boardId TEXT');
-    }
-  }
-);
-
 export default db;
