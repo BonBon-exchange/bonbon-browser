@@ -32,4 +32,4 @@ if (store.get('application.minimapTimeout') === undefined)
   store.set('application.minimapTimeout', 600);
 
 if (store.get('application.minimapOn') === undefined)
-  store.set('application.minimapOn', false);
+  store.set('application.minimapOn', true);
