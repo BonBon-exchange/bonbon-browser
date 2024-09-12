@@ -42,13 +42,14 @@ interface BoardState {
 const boardId = v4();
 const newBoard = {
   id: boardId,
-  label: 'New collection',
+  label: 'New board',
   browsers: [],
   activeBrowser: null,
   closedUrls: [],
   isFullSize: false,
   browsersActivity: [],
   height: 0,
+  isInAppMenu: false
 } as BoardType;
 
 export const initialState: BoardState = {
@@ -314,7 +315,10 @@ export const boardSlice = createSlice({
       if (browserIndex > -1) {
         state.board.browsers[browserIndex].isPinned = !state.board.browsers[browserIndex].isPinned;
       }
-    }
+    },
+    setInAppMenu: (state, action: PayloadAction<boolean>) => {
+      state.board.isInAppMenu = action.payload;
+    },
   },
 });
 
@@ -340,7 +344,8 @@ export const {
   toggleSearch,
   setLastResizedBrowserDimensions,
   setBoardHeight,
-  togglePinBrowser
+  togglePinBrowser,
+  setInAppMenu
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

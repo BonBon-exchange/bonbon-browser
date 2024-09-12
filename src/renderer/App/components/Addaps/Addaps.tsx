@@ -9,10 +9,11 @@ import { useTranslation } from 'react-i18next';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useGlobalEvents } from 'renderer/App/hooks/useGlobalEvents';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
-import { useAppSelector } from 'renderer/App/store/hooks';
+import { useAppSelector, useAppDispatch } from 'renderer/App/store/hooks';
 import { Loader } from 'renderer/App/components/Loader';
 import { About } from 'renderer/App/components/About';
 import ErrorFallback from 'renderer/App/components/ErrorFallback';
+import { setInAppMenu } from 'renderer/App/store/reducers/Board';
 
 import { AddapsProps } from './Types';
 
@@ -23,6 +24,7 @@ const LeftBar = lazy(() => import('renderer/App/components/LeftBar'));
 const DownloadsPreview = lazy(
   () => import('renderer/App/components/DownloadsPreview')
 );
+const Boards = lazy(() => import('renderer/App/components/Boards'));
 const Settings = lazy(() => import('renderer/App/components/Settings'));
 const Bookmarks = lazy(() => import('renderer/App/components/Bookmarks'));
 const History = lazy(() => import('renderer/App/components/History'));
@@ -37,11 +39,13 @@ const Minimap = lazy(() => import('renderer/App/components/Minimap'));
 
 export const Addaps = ({ boardId }: AddapsProps) => {
   useGlobalEvents();
+  const dispatch = useAppDispatch()
   const { items } = useAppSelector((state) => state.downloads);
   const { board } = useStoreHelpers({ boardId });
   const boardUsed = useBoard();
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [showBoards, setShowBoards] = useState<boolean>(false);
   const [showBookmarks, setShowBookmarks] = useState<boolean>(false);
   const [showHistory, setShowHistory] = useState<boolean>(false);
   const [showDownloads, setShowDownloads] = useState<boolean>(false);
@@ -90,19 +94,75 @@ export const Addaps = ({ boardId }: AddapsProps) => {
     window.app.analytics.event('open_about');
   };
 
-  const handleCloseSettings = () => setShowSettings(false);
-  const handleCloseBookmarks = () => setShowBookmarks(false);
-  const handleCloseHistory = () => setShowHistory(false);
-  const handleCloseDownloads = () => setShowDownloads(false);
-  const handleCloseDocumentation = () => setShowDocumentation(false);
-  const handleCloseExtensions = () => setShowExtensions(false);
+  const handleCloseSettings = () => {
+    dispatch(setInAppMenu(false));
+    setShowSettings(false);
+  }
 
-  const handleShowSettings = () => setShowSettings(true);
-  const handleShowBookmarks = () => setShowBookmarks(true);
-  const handleShowHistory = () => setShowHistory(true);
-  const handleShowDownloads = () => setShowDownloads(true);
-  const handleShowDocumentation = () => setShowDocumentation(true);
-  const handleShowExtensions = () => setShowExtensions(true);
+  const handleCloseBookmarks = () => {
+    dispatch(setInAppMenu(false));
+    setShowBookmarks(false);
+  }
+
+  const handleCloseHistory = () => {
+    dispatch(setInAppMenu(false));
+    setShowHistory(false);
+  }
+
+  const handleCloseDownloads = () => {
+    dispatch(setInAppMenu(false));
+    setShowDownloads(false);
+  }
+
+  const handleCloseDocumentation = () => {
+    dispatch(setInAppMenu(false));
+    setShowDocumentation(false);
+  }
+
+  const handleCloseExtensions = () => {
+    dispatch(setInAppMenu(false));
+    setShowExtensions(false);
+  }
+
+  const handleCloseBoards = () => {
+    dispatch(setInAppMenu(false));
+    setShowBoards(false);
+  }
+
+  const handleShowSettings = () => {
+    dispatch(setInAppMenu(true));
+    setShowSettings(true);
+  }
+
+  const handleShowBookmarks = () => {
+    dispatch(setInAppMenu(true));
+    setShowBookmarks(true);
+  }
+
+  const handleShowHistory = () => {
+    dispatch(setInAppMenu(true));
+    setShowHistory(true);
+  }
+
+  const handleShowDownloads = () => {
+    dispatch(setInAppMenu(true));
+    setShowDownloads(true);
+  }
+
+  const handleShowDocumentation = () => {
+    dispatch(setInAppMenu(true));
+    setShowDocumentation(true);
+  }
+
+  const handleShowExtensions = () => {
+    dispatch(setInAppMenu(true));
+    setShowExtensions(true);
+  }
+
+  const handleShowBoards = () => {
+    dispatch(setInAppMenu(true));
+    setShowBoards(true);
+  }
 
   useEffect(() => {
     if (boardId) board.load({ id: boardId });
@@ -187,10 +247,12 @@ export const Addaps = ({ boardId }: AddapsProps) => {
               showDownloads={handleShowDownloads}
               showDocumentation={handleShowDocumentation}
               showExtensions={handleShowExtensions}
+              showBoards={handleShowBoards}
             />
           )}
           {showDownloadsPreview && <DownloadsPreview />}
           {showSettings && <Settings handleClose={handleCloseSettings} />}
+          {showBoards && <Boards handleClose={handleCloseBoards} />}
           {showBookmarks && <Bookmarks handleClose={handleCloseBookmarks} />}
           {showHistory && <History handleClose={handleCloseHistory} />}
           {showDownloads && <Downloads handleClose={handleCloseDownloads} />}
@@ -199,7 +261,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
             <Documentation handleClose={handleCloseDocumentation} />
           )}
           <div id="Minimap__detection-zone" />
-          {(showMinimap || minimapOn) && !boardUsed?.isFullSize && <Minimap handleHide={() => setShowMinimap(false)} />}
+          {(showMinimap || minimapOn) && !boardUsed?.isFullSize && !boardUsed.isInAppMenu && <Minimap handleHide={() => setShowMinimap(false)} />}
         </div>
       </Suspense>
     </ErrorFallback>

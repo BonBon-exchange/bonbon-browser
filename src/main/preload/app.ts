@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { TFunction } from 'react-i18next';
 
 import { EventParams } from 'types/analytics';
+import { Board } from 'types/boards';
 import { Bookmark, Provider, Tag } from 'types/bookmarks';
 import { Download } from 'types/downloads';
 import { Extension } from 'types/extensions';
@@ -40,6 +41,18 @@ contextBridge.exposeInMainWorld('app', {
     },
     setWindowsCount: (args: IpcSetWindowsCount) => {
       ipcRenderer.send('set-windows-count', args);
+    },
+    getAllBoards: (): Promise<Board[]> => {
+      return ipcRenderer.invoke('get-all-boards');
+    },
+    save: (board: Board) => {
+      ipcRenderer.send('save-board-callback', board);
+    },
+    delete: (boardId: string) => {
+      ipcRenderer.send('delete-board', boardId);
+    },
+    load: (board: Board) => {
+      ipcRenderer.send('load-saved-board', board);
     },
   },
   bookmark: {
@@ -153,6 +166,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('load-board', action);
     },
+    loadSavedBoard: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('load-saved-board-callback', action);
+    },
     purge: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
       ipcRenderer.on('purge', action);
     },
@@ -160,6 +178,11 @@ contextBridge.exposeInMainWorld('app', {
       action: (event: IpcRendererEvent, ...args: unknown[]) => void
     ) => {
       ipcRenderer.on('rename-board', action);
+    },
+    saveBoard: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('save-board', action);
     },
     closeWebview: (
       action: (event: IpcRendererEvent, ...args: unknown[]) => void
@@ -254,6 +277,12 @@ contextBridge.exposeInMainWorld('app', {
     },
     pinWebview: () => {
       ipcRenderer.removeAllListeners('pin-webview');
+    },
+    saveBoard: () => {
+      ipcRenderer.removeAllListeners('save-board');
+    },
+    loadSavedBoard: () => {
+      ipcRenderer.removeAllListeners('load-saved-board-callback');
     },
   },
   tools: {

@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
+import { IpcRendererEvent } from 'electron';
 import clsx from 'clsx';
 import { AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
@@ -18,9 +19,10 @@ import {
   setBoardHeight,
 } from 'renderer/App/store/reducers/Board';
 
-import { BoardProps } from './Types';
+import { BoardProps, BoardType } from './Types';
 
 import './style.scss';
+import { Notification } from '../Notification';
 
 export const Board = ({ isFullSize, boardId }: BoardProps) => {
   const board = useBoard();
@@ -29,6 +31,8 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
   const [items, setItems] = useState<BrowserProps[]>([]);
   const [minimapOn, setMinimapOn] = useState<boolean>(false);
   const helpers = useStoreHelpers();
+  const [displayNotification, setDisplayNotification] = useState<boolean>(false) 
+  const [notification, setNotication] = useState<string>("") 
 
   const boardContainer = document.querySelector('#Board__container');
 
@@ -40,6 +44,22 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
     e.preventDefault();
     window.app.tools.showBoardContextMenu({ x: e.clientX, y: e.clientY });
   };
+
+  const saveBoardAction = useCallback((_e: IpcRendererEvent, args: { tabId: string}) => {
+    console.log({args})
+    if (board.id === args.tabId) {
+      setDisplayNotification(true)
+      setNotication("Board saved")
+      window.app.board.save(board);
+    }
+  }, [board])
+
+  const loadSavedBoardAction = useCallback(
+    (_e: any, args: { boardId: string, board?: BoardType }) => {
+      if(args.board && args.boardId === args.board.id) helpers.board.load({}, args.board)
+    },
+    [helpers.board]
+  );
 
   useEffect(() => {
     if (!board.isFullSize) {
@@ -113,6 +133,8 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
       .getElementById('Board__container')
       ?.addEventListener('contextmenu', contextMenuListener);
 
+    window.app.listener.saveBoard(saveBoardAction);
+
       window.app.config
       .get('application.minimapOn')
       .then((val: unknown) => {
@@ -120,11 +142,19 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
         return true
       }).catch(console.log);
 
-    return () =>
+    return () => {
       document
-        .getElementById('Board__container')
-        ?.removeEventListener('contextmenu', contextMenuListener);
-  }, []);
+      .getElementById('Board__container')
+      ?.removeEventListener('contextmenu', contextMenuListener);
+      
+      window.app.off.saveBoard()
+    }
+  }, [saveBoardAction]);
+
+  useEffect(() => {
+    window.app.listener.loadSavedBoard(loadSavedBoardAction);
+    return () => window.app.off.loadSavedBoard();
+  }, [loadSavedBoardAction]);
 
   return (
     <ErrorFallback>
@@ -136,6 +166,12 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
           'Board__minimap-always-on': !board.isFullSize && minimapOn,
         })}
       >
+        <Notification 
+         closePopup={() => setDisplayNotification(false)}
+         className={clsx({"display": displayNotification})}
+         >
+          <div>{notification}</div>
+        </Notification>
         <AnimatePresence>{makeBrowsers(items)}</AnimatePresence>
         <div className="Board__edge-snap-left" />
         <div className="Board__edge-snap-right" />

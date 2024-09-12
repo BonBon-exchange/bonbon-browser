@@ -1,13 +1,8 @@
 /* eslint-disable import/prefer-default-export */
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const KeyboardShortcuts = () => {
   const { t } = useTranslation();
-
-  useEffect(() => {
-    window.app.analytics.page('/documentation/keyboardShortcuts');
-  }, []);
 
   return (
     <>

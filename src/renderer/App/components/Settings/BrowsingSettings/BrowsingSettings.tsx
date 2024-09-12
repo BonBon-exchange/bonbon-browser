@@ -137,7 +137,6 @@ export const BrowsingSettings = () => {
       setBrowsingSettingTopEdge(typedVal);
     });
 
-    window.app.analytics.page('/settings/browsing');
   }, []);
 
   return (

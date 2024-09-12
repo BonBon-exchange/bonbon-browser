@@ -113,7 +113,6 @@ export const Bookmarks = ({ handleClose }: BookmarksProps) => {
 
   useEffect(() => {
     refreshList();
-    window.app.analytics.page('/bookmarks');
   }, []);
 
   return (

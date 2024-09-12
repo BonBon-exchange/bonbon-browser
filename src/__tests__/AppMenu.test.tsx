@@ -21,6 +21,7 @@ const props = {
   showDownloads: jest.fn(),
   showDocumentation: jest.fn(),
   showExtensions: jest.fn(),
+  showBoards: jest.fn(),
 };
 
 describe('AppMenu', () => {

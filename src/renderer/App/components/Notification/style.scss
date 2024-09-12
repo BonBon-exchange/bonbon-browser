@@ -1,0 +1,21 @@
+#Notification__container {
+  z-index: 2000;
+  height: auto;
+  width: 300px;
+  top: -220px;
+  right: 20px;
+  background-color: var(--color-background-tertiary);
+  color: var(--color-text-primary);
+  border-radius: 5px;
+  border: 1px solid var(--color-border);
+  display: flex;
+  padding: 20px;
+  position: fixed !important;
+  flex-direction: column;
+  transition: top 0.5s ease-in-out;
+
+  &.display {
+    top: 20px;
+  }
+}
+

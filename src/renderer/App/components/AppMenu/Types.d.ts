@@ -6,4 +6,5 @@ export interface AppMenuProps {
   showDownloads: () => void;
   showDocumentation: () => void;
   showExtensions: () => void;
+  showBoards: () => void;
 }

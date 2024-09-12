@@ -21,6 +21,7 @@ import {
 } from 'renderer/App/store/reducers/Board';
 import { getCoordinateWithNoCollision } from 'renderer/App/helpers/d2';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
+import { Board } from 'types/boards';
 import { useBoard } from './useBoard';
 import { useBrowserMethods } from './useBrowserMethods';
 
@@ -135,7 +136,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   );
 
   const createBoard = useCallback(
-    async (params: { id?: string }) => {
+    async (params: { id?: string }, savedBoard?: Board) => {
       const newBrowser = await makeBrowser({
         id:
           params.id === 'jest-test-board-id'
@@ -145,12 +146,14 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       const id = params.id || v4();
       const newBoard = {
         id,
-        label: t('New collection'),
+        label: t('New board'),
         browsers: [newBrowser],
         closedUrls: [],
         isFullSize: false,
         browsersActivity: [],
         height: 0,
+        isInAppMenu: false,
+        ...savedBoard
       };
 
       dispatch(setBoard(newBoard));
@@ -160,10 +163,9 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   );
 
   const loadBoard = useCallback(
-    (params: { id: string }) => {
-      window.app.analytics.event('load_board');
+    (params: { id?: string }, savedBoard?: Board) => {
       if (board.id === helpersParams?.boardId) return;
-      createBoard(params);
+      createBoard(params, savedBoard);
     },
     [createBoard, board.id, helpersParams?.boardId]
   );

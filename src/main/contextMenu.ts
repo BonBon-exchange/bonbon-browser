@@ -16,7 +16,7 @@ export const showTabContextMenu = (
   const mainWindow = getMainWindow();
   const template = [
     {
-      label: i18n.t('Close tab'),
+      label: i18n.t('Close board'),
       click: () => {
         mainWindow?.webContents.send('close-tab', {
           x: params.x,
@@ -25,13 +25,13 @@ export const showTabContextMenu = (
       },
     },
     {
-      label: i18n.t('Close all tabs'),
+      label: i18n.t('Close all boards'),
       click: () => {
         mainWindow?.webContents.send('close-all-tab');
       },
     },
     {
-      label: i18n.t('Close others tabs'),
+      label: i18n.t('Close others boards'),
       click: () => {
         mainWindow?.webContents.send('close-others-tab', {
           x: params.x,
@@ -40,9 +40,18 @@ export const showTabContextMenu = (
       },
     },
     {
-      label: i18n.t('Rename tab'),
+      label: i18n.t('Rename board'),
       click: () => {
         mainWindow?.webContents.send('rename-tab', {
+          x: params.x,
+          y: params.y,
+        });
+      },
+    },
+    {
+      label: i18n.t('Save board'),
+      click: () => {
+        mainWindow?.webContents.send('save-board', {
           x: params.x,
           y: params.y,
         });

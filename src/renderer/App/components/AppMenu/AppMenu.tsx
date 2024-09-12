@@ -15,6 +15,7 @@ export const AppMenu = ({
   showDownloads,
   showDocumentation,
   showExtensions,
+  showBoards,
 }: AppMenuProps) => {
   const { t } = useTranslation();
 
@@ -28,6 +29,7 @@ export const AppMenu = ({
         <li onClick={() => window.app.tools.toggleDarkMode()}>
           {t('Toggle dark mode')}
         </li>
+        <li onClick={() => showBoards()}>{t('Boards')}</li>
         <li onClick={() => showExtensions()}>{t('Extensions')}</li>
         <li onClick={() => showDownloads()}>{t('Downloads')}</li>
         <li onClick={() => showBookmarks()}>{t('Bookmarks')}</li>

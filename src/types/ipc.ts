@@ -1,3 +1,5 @@
+import { Board } from "./boards";
+
 export type Position = {
   x: number;
   y: number;
@@ -18,6 +20,8 @@ export type IpcAnalyticsPage = {
 export type IpcTabSelect = {
   tabId: string;
   newSession?: boolean;
+  isSavedBoard?: boolean;
+  board?: Board
 };
 
 export type IpcTabPurge = {

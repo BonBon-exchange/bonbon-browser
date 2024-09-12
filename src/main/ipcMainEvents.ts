@@ -37,6 +37,7 @@ import {
   IpcTabSelect,
 } from 'types/ipc';
 import { DomainSuggestion } from 'types/suggestions';
+import { Board } from 'types/boards';
 
 import { event, page } from './analytics';
 import { getUrlToOpen, setUrlToOpen } from './appEvents';
@@ -81,7 +82,7 @@ import {
 } from './history';
 import i18n from './i18n';
 import { getStore } from './store';
-import { purgeTab, renameTab, saveTab, selectTab } from './tabs';
+import { purgeTab, renameTab, saveBoardCallback, saveTab, selectTab, getAllBoards, deleteBoard } from './tabs';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -156,7 +157,7 @@ export const makeIpcMainEvents = (): void => {
     purgeTab(args);
   });
 
-  ipcMain.on('save-tab', (_event, args: IpcSaveTab) => {
+  ipcMain.on('save-board', (_event, args: IpcSaveTab) => {
     saveTab(args);
   });
 
@@ -453,5 +454,21 @@ export const makeIpcMainEvents = (): void => {
 
   ipcMain.on('open-new-board', (_e, params?: { newSession?: boolean}) => {
     getMainWindow()?.webContents.send('open-tab', params);
+  })
+
+  ipcMain.on('save-board-callback', (_e, board: Board) => {
+    saveBoardCallback(board).then(console.log).catch(console.log)
+  })
+
+  ipcMain.handle('get-all-boards', () => {
+    return getAllBoards();
+  });
+
+  ipcMain.on('delete-board', (_e, boardId: string) => {
+    deleteBoard(boardId)
+  })
+
+  ipcMain.on('load-saved-board', (_e, boardId: string) => {
+    getMainWindow()?.webContents.send('load-saved-board', boardId);
   })
 };

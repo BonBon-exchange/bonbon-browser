@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import packagejson from '../../../../../package.json';
@@ -8,10 +7,6 @@ import './style.scss';
 
 export const About = () => {
   const { t } = useTranslation();
-
-  useEffect(() => {
-    window.app.analytics.page('/about');
-  }, []);
 
   return (
     <>

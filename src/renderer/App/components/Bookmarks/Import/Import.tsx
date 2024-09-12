@@ -106,7 +106,6 @@ export const Import = ({ handleClose }: ImportProps) => {
       })
       .catch(console.log);
 
-    window.app.analytics.page('/bookmarks/import');
   }, []);
 
   useEffect(() => {

@@ -17,6 +17,7 @@ import {
   IpcShowLeftbarContextMenu
 } from "types/ipc";
 import { DomainSuggestion } from "types/suggestions";
+import { Board } from "types/boards";
 import { DownloadState } from "renderer/TitleBar/components/TopBar/Types";
 
 declare global {
@@ -31,6 +32,10 @@ declare global {
         add: (params?: { newSession?: boolean}) => void;
         selectNext: () => void;
         setWindowsCount: (args: IpcSetWindowsCount) => void;
+        getAllBoards: () => Promise<{id: string, boardId: string, content: string}[]>;
+        save: (board: Board) => void;
+        delete: (boardId: string) => void;
+        load: (board: Board) => void;
       };
       bookmark: {
         importBookmarks: (bookmarks: Partial<Bookmark>[]) => Promise<void>;
@@ -76,9 +81,10 @@ declare global {
       };
       listener: {
         newWindow: (action: (_e: IpcRendererEvent, args: { url: string; }) => void) => void;
-        loadBoard: (action: (_e: any, args: { boardId: string; }) => void) => void;
+        loadBoard: (action: (_e: any, args: { boardId: string }) => void) => void;
+        loadSavedBoard: (action: (_e: any, args: { boardId: string; board?: Board }) => void) => void;
         purge: (action: () => void) => void;
-        saveBoard: (action: () => void) => void;
+        saveBoard: (action: (_e: any, args: { tabId: string; }) => void) => void;
         renameBoard: (action: (_e: IpcRendererEvent, args: { label: string; }) => void) => void;
         closeWebview: (action: (_e: IpcRendererEvent, args: Position) => void) => void;
         pinWebview: (action: (_e: IpcRendererEvent, args: Position) => void) => void;
@@ -94,6 +100,7 @@ declare global {
       off: {
         newWindow: () => void;
         loadBoard: () => void;
+        loadSavedBoard: () => void;
         purge: () => void;
         saveBoard: () => void;
         renameBoard: () => void;

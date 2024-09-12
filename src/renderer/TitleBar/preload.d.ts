@@ -1,4 +1,5 @@
 import { EventParams } from "types/analytics";
+import { Board } from "types/boards";
 import { IpcInspectElement, IpcRenameTab, IpcShowTabContextMenu } from "types/ipc";
 
 declare global {
@@ -33,6 +34,7 @@ declare global {
         removeExtension: (action: (_e: IpcRendererEvent, id: string) => void) => void;
         hideDownloadsPreview: (action: () => void) => void;
         appClicked: (action: () => void) => void;
+        loadSavedBoard: (action: (_e: IpcRendererEvent, board: Board) => void) => void;
       };
       off: {
         openTab: () => void;
@@ -48,9 +50,10 @@ declare global {
         removeExtension: () => void;
         hideDownloadsPreview: () => void;
         appClicked: () => void;
+        loadSavedBoard: () => void;
       };
       tabs: {
-        select: (tabId: string, newSession?: boolean) => void;
+        select: ({tabId, newSession, isSavedBoard, board}: {tabId: string, newSession?: boolean, isSavedBoard?: boolean, board?: Board}) => void;
         purge: (tabId: string) => void;
         save: (tabId: string) => void;
         rename: (args: IpcRenameTab) => void;
