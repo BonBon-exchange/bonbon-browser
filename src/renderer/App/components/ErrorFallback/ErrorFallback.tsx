@@ -1,7 +1,9 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/button-has-type */
 // TypedErrorBoundary.tsx
-import React, { ErrorInfo, useState } from 'react';
+import React, { ErrorInfo, useEffect, useState } from 'react';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
+import { v4 } from 'uuid';
 
 // Composant de fallback pour afficher un message d'erreur
 const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
@@ -17,11 +19,12 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) =
 // Typage des props pour le composant ErrorBoundary
 interface TypedErrorBoundaryProps {
   children: React.ReactNode;
+  manualResetKey?: string;
 }
 
 // Composant Error Boundary fonctionnel typé
-const TypedErrorBoundary: React.FC<TypedErrorBoundaryProps> = ({ children }) => {
-  const [resetKey, setResetKey] = useState(0); // Clé de reset pour forcer le re-render
+const TypedErrorBoundary: React.FC<TypedErrorBoundaryProps> = ({ children, manualResetKey }) => {
+  const [resetKey, setResetKey] = useState<string>(manualResetKey ?? v4()); // Clé de reset pour forcer le re-render
 
   // Typage correct pour la fonction onError
   const onError = (error: Error, info: ErrorInfo) => {
@@ -30,8 +33,12 @@ const TypedErrorBoundary: React.FC<TypedErrorBoundaryProps> = ({ children }) => 
 
   // Fonction onReset pour forcer un re-render
   const onReset = () => {
-    setResetKey((prevKey) => prevKey + 1); // Incrémente la clé de reset pour forcer le re-render
+    setResetKey(v4()); // Incrémente la clé de reset pour forcer le re-render
   };
+
+  useEffect(() => {
+    if(manualResetKey) setResetKey(manualResetKey)
+  }, [manualResetKey])
 
   return (
     <ErrorBoundary

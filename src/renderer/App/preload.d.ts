@@ -96,6 +96,7 @@ declare global {
         showDownloadsPreview: (action: () => void) => void;
         distributeWindowsEvenly: (action: () => void) => void;
         setDefaultWindowSize: (action: (_e: IpcRendererEvent, wcId: number) => void) => void;
+        resetBoard: (action: (_e: IpcRendererEvent, boardId?: string) => void) => void;
       };
       off: {
         newWindow: () => void;
@@ -114,6 +115,7 @@ declare global {
         distributeWindowsEvenly: () => void;
         setDefaultWindowSize: () => void;
         pinWebview: () => void;
+        resetBoard: () => void;
       };
       os: {
         getPlatform: () => string;

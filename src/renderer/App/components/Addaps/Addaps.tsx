@@ -5,6 +5,7 @@
 import React, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { v4 } from 'uuid';
 
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { useGlobalEvents } from 'renderer/App/hooks/useGlobalEvents';
@@ -59,6 +60,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   const [showMinimap, setShowMinimap] = useState<boolean>(false);
   const [backgroundGradientColors, setBackgroundGradientColors] = useState<[string, string, string]>(["", "", ""]);
   const [minimapOn, setMinimapOn] = useState<boolean>(false);
+  const [manualResetKey, setManualResetKey] = useState<string|undefined>()
 
   const { i18n } = useTranslation();
 
@@ -164,6 +166,28 @@ export const Addaps = ({ boardId }: AddapsProps) => {
     setShowBoards(true);
   }
 
+  const resetBoardAction = useCallback((_e: any, bId?: string) => {
+    if(!bId || boardId === bId) {
+      initSettings()
+      setManualResetKey(v4())
+    }
+  }, [boardId])
+
+  const initSettings = () => {
+    window.app.config.get(
+      'application.backgroundGradientColors'
+    ).then((res) => {
+      setBackgroundGradientColors(res as [string, string, string])
+    }).catch(console.log)
+
+    window.app.config
+      .get('application.minimapOn')
+      .then((val: unknown) => {
+        setMinimapOn(val as boolean)
+        return true
+      }).catch(console.log);
+  }
+
   useEffect(() => {
     if (boardId) board.load({ id: boardId });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -195,22 +219,16 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   }, []);
 
   useEffect(() => {
-    window.app.config.get(
-      'application.backgroundGradientColors'
-    ).then((res) => {
-      setBackgroundGradientColors(res as [string, string, string])
-    }).catch(console.log)
-
-    window.app.config
-      .get('application.minimapOn')
-      .then((val: unknown) => {
-        setMinimapOn(val as boolean)
-        return true
-      }).catch(console.log);
+    initSettings()
   }, [])
 
+  useEffect(() => {
+    window.app.listener.resetBoard(resetBoardAction);
+    return () => window.app.off.resetBoard();
+  }, [resetBoardAction]);
+
   return (
-    <ErrorFallback>
+    <ErrorFallback manualResetKey={manualResetKey}>
       <Suspense fallback={<Loader />}>
         <div
           id="Addaps__container"

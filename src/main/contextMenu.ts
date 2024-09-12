@@ -148,6 +148,12 @@ export const showBoardContextMenu = (
       },
     },
     {
+      label: i18n.t('Reset settings'),
+      click: () => {
+        selectedView?.webContents.send('reset-board');
+      },
+    },
+    {
       type: 'separator',
     },
     {
