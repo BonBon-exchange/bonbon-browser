@@ -9,25 +9,9 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import { app } from 'electron';
-import { machineIdSync } from 'node-machine-id';
-import Nucleus from 'nucleus-analytics';
 
 import './appEvents';
 import './logger';
-
-const machineId = machineIdSync();
-const appVersion = app.getVersion();
-
-Nucleus.init('62aaf235a3310eb923a238e2');
-Nucleus.setUserId(machineId);
-Nucleus.setProps(
-  {
-    app_version: appVersion,
-    version: appVersion,
-    app_is_packaged: app.isPackaged,
-  },
-  true
-);
 
 if (app.isPackaged) {
   const sourceMapSupport = require('source-map-support');

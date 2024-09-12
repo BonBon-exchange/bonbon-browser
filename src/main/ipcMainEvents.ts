@@ -39,7 +39,6 @@ import {
 import { DomainSuggestion } from 'types/suggestions';
 import { Board } from 'types/boards';
 
-import { event, page } from './analytics';
 import { getUrlToOpen, setUrlToOpen } from './appEvents';
 import {
   editBookmark,
@@ -129,12 +128,10 @@ export const makeIpcMainEvents = (): void => {
     e.sender.inspectElement(args.x, args.y);
   });
 
-  ipcMain.on('analytics-event', (_event, args: IpcAnalyticsEvent) => {
-    event(args.eventName, args.params);
+  ipcMain.on('analytics-event', (_event, _args: IpcAnalyticsEvent) => {
   });
 
-  ipcMain.on('analytics-page', (_event, args: IpcAnalyticsPage) => {
-    page(args.pageName, args.params);
+  ipcMain.on('analytics-page', (_event, _args: IpcAnalyticsPage) => {
   });
 
   ipcMain.on('tab-select', (_event, args: IpcTabSelect) => {

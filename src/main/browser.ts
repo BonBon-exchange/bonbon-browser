@@ -1,15 +1,11 @@
 /* eslint-disable import/no-cycle */
 import electron, { BrowserView, BrowserWindow, app } from 'electron';
 import path from 'path';
-import { machineIdSync } from 'node-machine-id';
 import { v4 } from 'uuid';
 
 import { getExtensionsObject, installDevtoolsExtensions } from './extensions';
 import { resolveHtmlPath } from './util';
-import { event } from './analytics';
 import { DARWIN } from './constants';
-
-const machineId = machineIdSync();
 
 let selectedView: BrowserView | null = null;
 let freeView: BrowserView | null = null;
@@ -132,11 +128,9 @@ export const createWindow = async (): Promise<BrowserWindow> => {
   });
 
   mainWindow.webContents.executeJavaScript(
-    `localStorage.setItem("machineId", "${machineId}"); localStorage.setItem("appIsPackaged", "${app.isPackaged}");`,
+    `localStorage.setItem("appIsPackaged", "${app.isPackaged}");`,
     true
   );
-
-  event('open_app');
 
   return mainWindow;
 };

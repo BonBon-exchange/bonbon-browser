@@ -6,7 +6,7 @@
     "typescript",
     "react"
   ],
-  "version": "1.0.1-early",
+  "version": "1.0.2-alpha",
   "homepage": "https://github.com/BonBon-exchange/bonbon-web-browser#readme",
   "bugs": {
     "url": "https://github.com/BonBon-exchange/bonbon-web-browser/issues"
@@ -140,8 +140,6 @@
     "dmg-license": "^1.0.11"
   },
   "dependencies": {
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
     "@reduxjs/toolkit": "^1.8.2",
@@ -157,8 +155,6 @@
     "framer-motion": "^6.5.1",
     "i18next": "^21.8.13",
     "i18next-browser-languagedetector": "^6.1.4",
-    "node-machine-id": "^1.1.12",
-    "nucleus-analytics": "^4.0.0",
     "parse-domain": "^5.0.0",
     "rage-edit": "^1.2.0",
     "react": "^18.1.0",
