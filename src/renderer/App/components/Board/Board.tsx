@@ -133,8 +133,6 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
       .getElementById('Board__container')
       ?.addEventListener('contextmenu', contextMenuListener);
 
-    window.app.listener.saveBoard(saveBoardAction);
-
       window.app.config
       .get('application.minimapOn')
       .then((val: unknown) => {
@@ -146,15 +144,18 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
       document
       .getElementById('Board__container')
       ?.removeEventListener('contextmenu', contextMenuListener);
-      
-      window.app.off.saveBoard()
     }
-  }, [saveBoardAction]);
+  }, []);
 
   useEffect(() => {
     window.app.listener.loadSavedBoard(loadSavedBoardAction);
     return () => window.app.off.loadSavedBoard();
   }, [loadSavedBoardAction]);
+
+  useEffect(() => {
+    window.app.listener.saveBoard(saveBoardAction);
+    return () => window.app.off.saveBoard();
+  }, [saveBoardAction]);
 
   return (
     <ErrorFallback>

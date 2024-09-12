@@ -234,6 +234,11 @@ contextBridge.exposeInMainWorld('app', {
     ) => {
       ipcRenderer.on('pin-webview', action);
     },
+    resetBoard: (
+      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+    ) => {
+      ipcRenderer.on('reset-board', action);
+    },
   },
   off: {
     newWindow: () => {
@@ -283,6 +288,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     loadSavedBoard: () => {
       ipcRenderer.removeAllListeners('load-saved-board-callback');
+    },
+    resetBoard: () => {
+      ipcRenderer.removeAllListeners('reset-board');
     },
   },
   tools: {
