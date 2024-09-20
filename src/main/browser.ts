@@ -51,10 +51,14 @@ export const setBrowserViewBonds = (
   view.setBounds({ x: 0, y: bY, width: bWidth, height: bHeight });
 };
 
-const createFreeBrowserView = (options?: {newSession?: boolean}): BrowserView => {
+const createFreeBrowserView = (options?: {
+  newSession?: boolean;
+}): BrowserView => {
   const view = new BrowserView({
     webPreferences: {
-      partition: options?.newSession ? `persist:${v4()}` : 'persist:user-partition',
+      partition: options?.newSession
+        ? `persist:${v4()}`
+        : 'persist:user-partition',
       sandbox: true,
       webviewTag: true,
       safeDialogs: true,
@@ -71,10 +75,12 @@ const createFreeBrowserView = (options?: {newSession?: boolean}): BrowserView =>
   return view;
 };
 
-export const createBrowserView = (options?: { newSession?: boolean}): BrowserView => {
+export const createBrowserView = (options?: {
+  newSession?: boolean;
+}): BrowserView => {
   const tmpView = getFreeView();
-  console.log('options', options)
-  const view = options?.newSession || !tmpView ? createFreeBrowserView(options) : tmpView;
+  const view =
+    options?.newSession || !tmpView ? createFreeBrowserView(options) : tmpView;
   setFreeView(createFreeBrowserView());
 
   if (!app.isPackaged) view.webContents.toggleDevTools();

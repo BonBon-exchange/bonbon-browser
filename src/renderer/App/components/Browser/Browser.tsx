@@ -47,7 +47,7 @@ export const Browser = ({
   isSearching,
   capture,
   session,
-  isPinned
+  isPinned,
 }: BrowserProps) => {
   const dispatch = useAppDispatch();
   const {
@@ -68,6 +68,7 @@ export const Browser = ({
   const [rndWidth, setRndWidth] = useState<number>(width);
   const [rndHeight, setRndHeight] = useState<number>(height);
   const [scrollY, setScrollY] = useState<null | number>(null);
+  const [minimapOn, setMinimapOn] = useState<boolean>(true);
   const [hasBeenActive, setHasBeenActive] = useState<boolean>(
     board.activeBrowser === id
   );
@@ -87,12 +88,16 @@ export const Browser = ({
   }, [dispatch]);
 
   const zoomEdgeClass = (edgeClass: Element | null, max = false) => {
+    const boardWidth =
+      document.getElementById('Board__container')?.clientWidth || 1024;
     // @ts-ignore
     edgeClass.style.opacity = '0.3';
     // @ts-ignore
     edgeClass.style.height = 'calc(100vh - 30px)';
     // @ts-ignore
-    edgeClass.style.width = max ? 'calc(94vw + 5px)' : '47vw';
+    edgeClass.style.width = max
+      ? `${boardWidth - 20}px`
+      : `${boardWidth / 2 - 20}px`;
   };
 
   const resetEdgeClass = (edgeClass: Element | null) => {
@@ -348,13 +353,30 @@ export const Browser = ({
             // @ts-ignore
             allowpopups="true"
             src={hasBeenActive || !board.isFullSize ? renderedUrl : undefined}
-            partition={session ?? "persist:user-partition"}
+            partition={session ?? 'persist:user-partition'}
             ref={webviewRef}
           />
         </div>
       </motion.div>
     );
-  }, [board.isFullSize, certificateErrorFingerprint, favicon, focus, hasBeenActive, helpers.browser, id, isLoading, isPinned, isSearching, renderedUrl, session, title, toggleFullSizeBrowser, url, webContentsId]);
+  }, [
+    board.isFullSize,
+    certificateErrorFingerprint,
+    favicon,
+    focus,
+    hasBeenActive,
+    helpers.browser,
+    id,
+    isLoading,
+    isPinned,
+    isSearching,
+    renderedUrl,
+    session,
+    title,
+    toggleFullSizeBrowser,
+    url,
+    webContentsId,
+  ]);
 
   useEffect(() => {
     if (id === board.activeBrowser || !board.isFullSize) setHasBeenActive(true);
@@ -424,6 +446,16 @@ export const Browser = ({
     return () => window.removeEventListener('scroll', scrollListener);
   }, [scrollListener]);
 
+  useEffect(() => {
+    window.app.config
+      .get('application.minimapOn')
+      .then((val: unknown) => {
+        setMinimapOn(val as boolean);
+        return true;
+      })
+      .catch(console.log);
+  }, []);
+
   return (
     <ErrorFallback>
       <Rnd
@@ -453,7 +485,8 @@ export const Browser = ({
         className={clsx({
           'Browser__is-full-size': board.isFullSize && !firstRenderingState,
           'Browser__is-minimized': isMinimized,
-          'Browser__display-none': board.isFullSize && id !== board.activeBrowser,
+          'Browser__display-none':
+            board.isFullSize && id !== board.activeBrowser,
           'Browser__is-pinned': isPinned,
           'Browser__draggable-container': true,
         })}
