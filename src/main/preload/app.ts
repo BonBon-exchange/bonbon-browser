@@ -4,6 +4,7 @@ import { TFunction } from 'react-i18next';
 import { EventParams } from 'types/analytics';
 import { Board } from 'types/boards';
 import { Bookmark, Provider, Tag } from 'types/bookmarks';
+import { ConfigKeys } from 'types/configKeys';
 import { Download } from 'types/downloads';
 import { Extension } from 'types/extensions';
 import { Locale } from 'types/i18n';
@@ -11,12 +12,30 @@ import {
   IpcAddBookmark,
   IpcAddDownload,
   IpcAddHistory,
+  IpcCertificateError,
   IpcCertificateErrorAnswer,
+  IpcCloseAllWebview,
+  IpcCloseOthersWebview,
+  IpcCloseWebview,
+  IpcDistributeWindowsEvenly,
+  IpcDownloading,
   IpcInspectElement,
+  IpcLoadBoard,
+  IpcLoadSavedBoardCallback,
+  IpcNewWindow,
+  IpcPinWebview,
+  IpcPurge,
+  IpcRenameBoard,
+  IpcResetBoard,
+  IpcSaveBoard,
+  IpcSetDefaultWindowSize,
   IpcSetStoreValue,
   IpcSetWindowsCount,
+  IpcShowAppMenu,
   IpcShowBoardContextMenu,
+  IpcShowDownloadsPreview,
   IpcShowLeftbarContextMenu,
+  StoreValue,
 } from 'types/ipc';
 import { DomainSuggestion } from 'types/suggestions';
 
@@ -30,7 +49,7 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   board: {
-    add: (params: {newSession?: boolean}) => {
+    add: (params: { newSession?: boolean }) => {
       ipcRenderer.send('open-new-board', params);
     },
     close: () => {
@@ -105,10 +124,12 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   config: {
-    get: (key: string): Promise<unknown> =>
+    get: <K extends keyof ConfigKeys>(key: K): Promise<ConfigKeys[K]> =>
       ipcRenderer.invoke('get-store-value', key),
-    set: (args: IpcSetStoreValue): Promise<void> =>
-      ipcRenderer.invoke('set-store-value', args),
+    set: <K extends keyof ConfigKeys>(args: {
+      key: K;
+      value: ConfigKeys[K];
+    }): Promise<void> => ipcRenderer.invoke('set-store-value', args),
   },
   download: {
     removeDownload: (id: number): Promise<void> => {
@@ -157,87 +178,122 @@ contextBridge.exposeInMainWorld('app', {
   },
   listener: {
     newWindow: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcNewWindow) => void
     ) => {
-      ipcRenderer.on('new-window', action);
+      ipcRenderer.on('new-window', (event, args) =>
+        action(event, args as IpcNewWindow)
+      );
     },
     loadBoard: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcLoadBoard) => void
     ) => {
-      ipcRenderer.on('load-board', action);
+      ipcRenderer.on('load-board', (event, args) =>
+        action(event, args as IpcLoadBoard)
+      );
     },
     loadSavedBoard: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcLoadSavedBoardCallback) => void
     ) => {
-      ipcRenderer.on('load-saved-board-callback', action);
+      ipcRenderer.on('load-saved-board-callback', (event, args) =>
+        action(event, args as IpcLoadSavedBoardCallback)
+      );
     },
-    purge: (action: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
-      ipcRenderer.on('purge', action);
+    purge: (action: (event: IpcRendererEvent, args: IpcPurge) => void) => {
+      ipcRenderer.on('purge', (event, args) => action(event, args as IpcPurge));
     },
     renameBoard: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcRenameBoard) => void
     ) => {
-      ipcRenderer.on('rename-board', action);
+      ipcRenderer.on('rename-board', (event, args) =>
+        action(event, args as IpcRenameBoard)
+      );
     },
     saveBoard: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcSaveBoard) => void
     ) => {
-      ipcRenderer.on('save-board', action);
+      ipcRenderer.on('save-board', (event, args) =>
+        action(event, args as IpcSaveBoard)
+      );
     },
     closeWebview: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcCloseWebview) => void
     ) => {
-      ipcRenderer.on('close-webview', action);
+      ipcRenderer.on('close-webview', (event, args) =>
+        action(event, args as IpcCloseWebview)
+      );
     },
     closeAllWebview: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcCloseAllWebview) => void
     ) => {
-      ipcRenderer.on('close-all-webview', action);
+      ipcRenderer.on('close-all-webview', (event, args) =>
+        action(event, args as IpcCloseAllWebview)
+      );
     },
     closeOthersWebview: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcCloseOthersWebview) => void
     ) => {
-      ipcRenderer.on('close-others-webview', action);
+      ipcRenderer.on('close-others-webview', (event, args) =>
+        action(event, args as IpcCloseOthersWebview)
+      );
     },
     showAppMenu: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcShowAppMenu) => void
     ) => {
-      ipcRenderer.on('show-app-menu', action);
+      ipcRenderer.on('show-app-menu', (event, args) =>
+        action(event, args as IpcShowAppMenu)
+      );
     },
     certificateError: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcCertificateError) => void
     ) => {
-      ipcRenderer.on('certificate-error', action);
+      ipcRenderer.on('certificate-error', (event, args) =>
+        action(event, args as IpcCertificateError)
+      );
     },
     downloading: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcDownloading) => void
     ) => {
-      ipcRenderer.on('downloading', action);
+      ipcRenderer.on('downloading', (event, args) =>
+        action(event, args as IpcDownloading)
+      );
     },
     showDownloadsPreview: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcShowDownloadsPreview) => void
     ) => {
-      ipcRenderer.on('show-downloads-preview', action);
+      ipcRenderer.on('show-downloads-preview', (event, args) =>
+        action(event, args as IpcShowDownloadsPreview)
+      );
     },
     distributeWindowsEvenly: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (
+        event: IpcRendererEvent,
+        args: IpcDistributeWindowsEvenly
+      ) => void
     ) => {
-      ipcRenderer.on('distribute-windows-evenly', action);
+      ipcRenderer.on('distribute-windows-evenly', (event, args) =>
+        action(event, args as IpcDistributeWindowsEvenly)
+      );
     },
     setDefaultWindowSize: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcSetDefaultWindowSize) => void
     ) => {
-      ipcRenderer.on('set-default-window-size', action);
+      ipcRenderer.on('set-default-window-size', (event, args) =>
+        action(event, args as IpcSetDefaultWindowSize)
+      );
     },
     pinWebview: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcPinWebview) => void
     ) => {
-      ipcRenderer.on('pin-webview', action);
+      ipcRenderer.on('pin-webview', (event, args) =>
+        action(event, args as IpcPinWebview)
+      );
     },
     resetBoard: (
-      action: (event: IpcRendererEvent, ...args: unknown[]) => void
+      action: (event: IpcRendererEvent, args: IpcResetBoard) => void
     ) => {
-      ipcRenderer.on('reset-board', action);
+      ipcRenderer.on('reset-board', (event, args) =>
+        action(event, args as IpcResetBoard)
+      );
     },
   },
   off: {
