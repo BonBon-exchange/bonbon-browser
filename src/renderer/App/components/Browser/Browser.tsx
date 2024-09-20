@@ -68,7 +68,6 @@ export const Browser = ({
   const [rndWidth, setRndWidth] = useState<number>(width);
   const [rndHeight, setRndHeight] = useState<number>(height);
   const [scrollY, setScrollY] = useState<null | number>(null);
-  const [minimapOn, setMinimapOn] = useState<boolean>(true);
   const [hasBeenActive, setHasBeenActive] = useState<boolean>(
     board.activeBrowser === id
   );
@@ -445,16 +444,6 @@ export const Browser = ({
     window.addEventListener('scroll', scrollListener);
     return () => window.removeEventListener('scroll', scrollListener);
   }, [scrollListener]);
-
-  useEffect(() => {
-    window.app.config
-      .get('application.minimapOn')
-      .then((val: unknown) => {
-        setMinimapOn(val as boolean);
-        return true;
-      })
-      .catch(console.log);
-  }, []);
 
   return (
     <ErrorFallback>
