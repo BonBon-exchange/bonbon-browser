@@ -3,17 +3,30 @@
 /* eslint-disable import/prefer-default-export */
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSettings } from 'renderer/App/hooks/useSettings';
+import { useAppDispatch } from 'renderer/App/store/hooks';
+import { setSetting } from 'renderer/App/store/reducers/Settings';
 
 import { Locale } from 'types/i18n';
 
 export const ApplicationSettings = () => {
   const { t, i18n } = useTranslation();
-  const [appSettingLaunch, setAppSettingLaunch] = useState<boolean>(false);
-  const [appSettingBackgroundColor1, setAppSettingBackgroundColor1] = useState<string>("#fedc2a");
-  const [appSettingBackgroundColor2, setAppSettingBackgroundColor2] = useState<string>("#dd5789");
-  const [appSettingBackgroundColor3, setAppSettingBackgroundColor3] = useState<string>("#7a2c9e");
-  const [appSettingMinimapTimeout, setAppSettingMinimapTimeout] = useState<number>(600);
-  const [appSettingMinimapOn, setAppSettingMinimapOn] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const settings = useSettings();
+  const [appSettingLaunch, setAppSettingLaunch] = useState<boolean>(
+    settings['application.launchAtStartup']
+  );
+  const [appSettingBackgroundColor1, setAppSettingBackgroundColor1] =
+    useState<string>(settings['application.backgroundGradientColors.0']);
+  const [appSettingBackgroundColor2, setAppSettingBackgroundColor2] =
+    useState<string>(settings['application.backgroundGradientColors.1']);
+  const [appSettingBackgroundColor3, setAppSettingBackgroundColor3] =
+    useState<string>(settings['application.backgroundGradientColors.2']);
+  const [appSettingMinimapTimeout, setAppSettingMinimapTimeout] =
+    useState<number>(settings['application.minimapTimeout']);
+  const [appSettingMinimapOn, setAppSettingMinimapOn] = useState<boolean>(
+    settings['application.minimapOn']
+  );
 
   const updateLanguage = (value: Locale) => {
     i18n.changeLanguage(value).catch(console.log);
@@ -21,69 +34,49 @@ export const ApplicationSettings = () => {
   };
 
   useEffect(() => {
-    window.app.config
-      .get('application.launchAtStartup')
-      .then((val: unknown) => setAppSettingLaunch(Boolean(val)));
-
-      window.app.config
-      .get('application.backgroundGradientColors')
-      .then((val: unknown) => {
-        setAppSettingBackgroundColor1((val as [string, string, string])[0])
-        setAppSettingBackgroundColor2((val as [string, string, string])[1])
-        setAppSettingBackgroundColor3((val as [string, string, string])[2])
-        return true
-      });
-
-      window.app.config
-      .get('application.minimapTimeout')
-      .then((val: unknown) => {
-        setAppSettingMinimapTimeout(val as number)
-        return true
-      });
-
-      window.app.config
-      .get('application.minimapOn')
-      .then((val: unknown) => {
-        setAppSettingMinimapOn(val as boolean)
-        return true
-      });
-  }, []);
-
-  useEffect(() => {
-    window.app.config
-      .set({
+    dispatch(
+      setSetting({
         key: 'application.launchAtStartup',
         value: appSettingLaunch,
       })
-      .catch(console.log);
-  }, [appSettingLaunch]);
+    );
+  }, [appSettingLaunch, dispatch]);
 
   useEffect(() => {
-    window.app.config
-    .set({
-      key: 'application.backgroundGradientColors',
-      value: [appSettingBackgroundColor1, appSettingBackgroundColor2, appSettingBackgroundColor3],
-    })
-    .catch(console.log);
-  }, [appSettingBackgroundColor1, appSettingBackgroundColor2, appSettingBackgroundColor3])
-  
-  useEffect(() => {
-    window.app.config
-    .set({
-      key: 'application.minimapTimeout',
-      value: appSettingMinimapTimeout,
-    })
-    .catch(console.log);
-  }, [appSettingMinimapTimeout])
+    dispatch(
+      setSetting({
+        key: 'application.backgroundGradientColors',
+        value: [
+          appSettingBackgroundColor1,
+          appSettingBackgroundColor2,
+          appSettingBackgroundColor3,
+        ],
+      })
+    );
+  }, [
+    appSettingBackgroundColor1,
+    appSettingBackgroundColor2,
+    appSettingBackgroundColor3,
+    dispatch,
+  ]);
 
   useEffect(() => {
-    window.app.config
-    .set({
-      key: 'application.minimapOn',
-      value: appSettingMinimapOn,
-    })
-    .catch(console.log);
-  }, [appSettingMinimapOn])
+    dispatch(
+      setSetting({
+        key: 'application.minimapTimeout',
+        value: appSettingMinimapTimeout,
+      })
+    );
+  }, [appSettingMinimapTimeout, dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      setSetting({
+        key: 'application.minimapOn',
+        value: appSettingMinimapOn,
+      })
+    );
+  }, [appSettingMinimapOn, dispatch]);
 
   return (
     <>
@@ -167,16 +160,18 @@ export const ApplicationSettings = () => {
       </div>
       <div className="Settings__item">
         <input
-            type="number"
-            id="application-settings-minimap-timeout"
-            value={appSettingMinimapTimeout}
-            onChange={(e) => setAppSettingMinimapTimeout(Number(e.target.value))}
-          />
+          type="number"
+          id="application-settings-minimap-timeout"
+          value={appSettingMinimapTimeout}
+          onChange={(e) => setAppSettingMinimapTimeout(Number(e.target.value))}
+        />
         <label htmlFor="application-settings-launch-at-startup">
           {t('ms before minimap disapearing')}
         </label>
         <div className="Settings__item-description">
-          {t('The timeout before minimap disapearing of the screen when the mouse leave the detection zone.')}
+          {t(
+            'The timeout before minimap disapearing of the screen when the mouse leave the detection zone.'
+          )}
         </div>
       </div>
       <div className="Settings__item">
@@ -190,7 +185,9 @@ export const ApplicationSettings = () => {
           {t('Minimap always visible')}
         </label>
         <div className="Settings__item-description">
-          {t('If checked, the minimap on the right side will always be visible.')}
+          {t(
+            'If checked, the minimap on the right side will always be visible.'
+          )}
         </div>
       </div>
     </>

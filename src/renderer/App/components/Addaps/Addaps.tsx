@@ -15,6 +15,7 @@ import { Loader } from 'renderer/App/components/Loader';
 import { About } from 'renderer/App/components/About';
 import ErrorFallback from 'renderer/App/components/ErrorFallback';
 import { setInAppMenu } from 'renderer/App/store/reducers/Board';
+import { syncSettings } from 'renderer/App/store/reducers/Settings';
 
 import { AddapsProps } from './Types';
 
@@ -40,7 +41,7 @@ const Minimap = lazy(() => import('renderer/App/components/Minimap'));
 
 export const Addaps = ({ boardId }: AddapsProps) => {
   useGlobalEvents();
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const { items } = useAppSelector((state) => state.downloads);
   const { board } = useStoreHelpers({ boardId });
   const boardUsed = useBoard();
@@ -58,9 +59,11 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   const [popupTitle, setPopupTitle] = useState<string>('');
   const [popupChildren, setPopupChildren] = useState<React.JSX.Element>();
   const [showMinimap, setShowMinimap] = useState<boolean>(false);
-  const [backgroundGradientColors, setBackgroundGradientColors] = useState<[string, string, string]>(["", "", ""]);
+  const [backgroundGradientColors, setBackgroundGradientColors] = useState<
+    [string, string, string]
+  >(['', '', '']);
   const [minimapOn, setMinimapOn] = useState<boolean>(false);
-  const [manualResetKey, setManualResetKey] = useState<string|undefined>()
+  const [manualResetKey, setManualResetKey] = useState<string | undefined>();
 
   const { i18n } = useTranslation();
 
@@ -99,94 +102,99 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   const handleCloseSettings = () => {
     dispatch(setInAppMenu(false));
     setShowSettings(false);
-  }
+  };
 
   const handleCloseBookmarks = () => {
     dispatch(setInAppMenu(false));
     setShowBookmarks(false);
-  }
+  };
 
   const handleCloseHistory = () => {
     dispatch(setInAppMenu(false));
     setShowHistory(false);
-  }
+  };
 
   const handleCloseDownloads = () => {
     dispatch(setInAppMenu(false));
     setShowDownloads(false);
-  }
+  };
 
   const handleCloseDocumentation = () => {
     dispatch(setInAppMenu(false));
     setShowDocumentation(false);
-  }
+  };
 
   const handleCloseExtensions = () => {
     dispatch(setInAppMenu(false));
     setShowExtensions(false);
-  }
+  };
 
   const handleCloseBoards = () => {
     dispatch(setInAppMenu(false));
     setShowBoards(false);
-  }
+  };
 
   const handleShowSettings = () => {
     dispatch(setInAppMenu(true));
     setShowSettings(true);
-  }
+  };
 
   const handleShowBookmarks = () => {
     dispatch(setInAppMenu(true));
     setShowBookmarks(true);
-  }
+  };
 
   const handleShowHistory = () => {
     dispatch(setInAppMenu(true));
     setShowHistory(true);
-  }
+  };
 
   const handleShowDownloads = () => {
     dispatch(setInAppMenu(true));
     setShowDownloads(true);
-  }
+  };
 
   const handleShowDocumentation = () => {
     dispatch(setInAppMenu(true));
     setShowDocumentation(true);
-  }
+  };
 
   const handleShowExtensions = () => {
     dispatch(setInAppMenu(true));
     setShowExtensions(true);
-  }
+  };
 
   const handleShowBoards = () => {
     dispatch(setInAppMenu(true));
     setShowBoards(true);
-  }
+  };
 
-  const resetBoardAction = useCallback((_e: any, bId?: string) => {
-    if(!bId || boardId === bId) {
-      initSettings()
-      setManualResetKey(v4())
-    }
-  }, [boardId])
+  const resetBoardAction = useCallback(
+    (_e: any, bId?: string) => {
+      if (!bId || boardId === bId) {
+        initSettings();
+        setManualResetKey(v4());
+      }
+    },
+    [boardId]
+  );
 
   const initSettings = () => {
-    window.app.config.get(
-      'application.backgroundGradientColors'
-    ).then((res) => {
-      setBackgroundGradientColors(res as [string, string, string])
-    }).catch(console.log)
+    window.app.config
+      .get('application.backgroundGradientColors')
+      .then((res) => {
+        setBackgroundGradientColors(res as [string, string, string]);
+      })
+      .catch(console.log);
 
     window.app.config
       .get('application.minimapOn')
       .then((val: unknown) => {
-        setMinimapOn(val as boolean)
-        return true
-      }).catch(console.log);
-  }
+        setMinimapOn(val as boolean);
+        return true;
+      })
+      .catch(console.log);
+  };
 
   useEffect(() => {
     if (boardId) board.load({ id: boardId });
@@ -219,13 +227,22 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   }, []);
 
   useEffect(() => {
-    initSettings()
-  }, [])
+    initSettings();
+  }, []);
 
   useEffect(() => {
     window.app.listener.resetBoard(resetBoardAction);
     return () => window.app.off.resetBoard();
   }, [resetBoardAction]);
+
+  useEffect(() => {
+    window.app.config
+      .getAll()
+      .then((res) => {
+        dispatch(syncSettings(res));
+      })
+      .catch(console.log);
+  }, [dispatch]);
 
   return (
     <ErrorFallback manualResetKey={manualResetKey}>
@@ -238,7 +255,12 @@ export const Addaps = ({ boardId }: AddapsProps) => {
               i18n.language === 'ar' || i18n.language === 'fa',
           })}
         >
-          <div id="Addaps__background" style={{background: `linear-gradient(200.96deg, ${backgroundGradientColors[0]} -29.09%, ${backgroundGradientColors[1]} 51.77%, ${backgroundGradientColors[2]} 129.35%)`}}/>
+          <div
+            id="Addaps__background"
+            style={{
+              background: `linear-gradient(200.96deg, ${backgroundGradientColors[0]} -29.09%, ${backgroundGradientColors[1]} 51.77%, ${backgroundGradientColors[2]} 129.35%)`,
+            }}
+          />
           <LeftBar />
           <Board
             boardId={boardId}
@@ -279,7 +301,11 @@ export const Addaps = ({ boardId }: AddapsProps) => {
             <Documentation handleClose={handleCloseDocumentation} />
           )}
           <div id="Minimap__detection-zone" />
-          {(showMinimap || minimapOn) && !boardUsed?.isFullSize && !boardUsed.isInAppMenu && <Minimap handleHide={() => setShowMinimap(false)} />}
+          {(showMinimap || minimapOn) &&
+            !boardUsed?.isFullSize &&
+            !boardUsed.isInAppMenu && (
+              <Minimap handleHide={() => setShowMinimap(false)} />
+            )}
         </div>
       </Suspense>
     </ErrorFallback>

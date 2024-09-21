@@ -154,6 +154,7 @@
     "electron-log": "^4.4.8",
     "electron-store": "^8.0.2",
     "electron-updater": "^6.3.0",
+    "flat": "^6.0.1",
     "framer-motion": "^6.5.1",
     "i18next": "^21.8.13",
     "i18next-browser-languagedetector": "^6.1.4",

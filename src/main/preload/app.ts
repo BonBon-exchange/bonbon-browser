@@ -29,13 +29,11 @@ import {
   IpcResetBoard,
   IpcSaveBoard,
   IpcSetDefaultWindowSize,
-  IpcSetStoreValue,
   IpcSetWindowsCount,
   IpcShowAppMenu,
   IpcShowBoardContextMenu,
   IpcShowDownloadsPreview,
   IpcShowLeftbarContextMenu,
-  StoreValue,
 } from 'types/ipc';
 import { DomainSuggestion } from 'types/suggestions';
 
@@ -124,6 +122,7 @@ contextBridge.exposeInMainWorld('app', {
     },
   },
   config: {
+    getAll: () => ipcRenderer.invoke('get-all-store-values'),
     get: <K extends keyof ConfigKeys>(key: K): Promise<ConfigKeys[K]> =>
       ipcRenderer.invoke('get-store-value', key),
     set: <K extends keyof ConfigKeys>(args: {
