@@ -1,11 +1,7 @@
 // types/ipc.ts
 
 import { Board } from './boards';
-import { Bookmark, Provider, Tag } from './bookmarks';
 import { Download } from './downloads';
-import { Extension } from './extensions';
-import { Locale } from './i18n';
-import { DomainSuggestion } from './suggestions';
 
 // Basic Types
 export type Position = {
