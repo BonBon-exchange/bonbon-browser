@@ -4,24 +4,26 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useAppDispatch } from 'renderer/App/store/hooks';
+import { setSetting } from 'renderer/App/store/reducers/Settings';
+import { useSettings } from 'renderer/App/hooks/useSettings';
+
 export const ExtensionsSettings = () => {
   const { t } = useTranslation();
-  const [extForceUBlock, setForceUBlock] = useState<boolean>(false);
-
-  const updateSetForceUBlock = (value: boolean) => {
-    setForceUBlock(value);
-    window.app.config.set({
-      key: 'extensions.forceInstallUBlockOrigin',
-      value,
-    });
-  };
+  const dispatch = useAppDispatch();
+  const settings = useSettings();
+  const [extForceUBlock, setForceUBlock] = useState<boolean>(
+    settings['extensions.forceInstallUBlockOrigin']
+  );
 
   useEffect(() => {
-    window.app.config
-      .get('extensions.forceInstallUBlockOrigin')
-      .then((val: unknown) => setForceUBlock(Boolean(val)));
-
-  }, []);
+    dispatch(
+      setSetting({
+        key: 'extensions.forceInstallUBlockOrigin',
+        value: extForceUBlock,
+      })
+    );
+  }, [dispatch, extForceUBlock]);
 
   return (
     <>
@@ -31,7 +33,7 @@ export const ExtensionsSettings = () => {
           type="checkbox"
           id="extensions-force-install-u-block"
           checked={extForceUBlock}
-          onChange={(e) => updateSetForceUBlock(e.target.checked)}
+          onChange={(e) => setForceUBlock(e.target.checked)}
         />
         <label htmlFor="extensions-force-install-u-block">
           {t('Force uBlockOrigin installation at startup')}
