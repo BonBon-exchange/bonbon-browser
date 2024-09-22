@@ -38,9 +38,19 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
 
   const boardContainer = document.querySelector('#Board__container');
 
-  const makeBrowsers = useCallback((sorted: BrowserProps[]) => {
-    return sorted.map((b) => <Browser {...b} key={b.id} firstRendering />);
-  }, []);
+  const makeBrowsers = useCallback(
+    (sorted: BrowserProps[]) => {
+      return sorted.map((b) => (
+        <Browser
+          {...b}
+          url={b.url ?? settings['browsing.defaultWebpage']}
+          key={b.id}
+          firstRendering
+        />
+      ));
+    },
+    [settings]
+  );
 
   const contextMenuListener = (e: MouseEvent) => {
     e.preventDefault();

@@ -401,8 +401,7 @@ export const Browser = ({
       window.app.history
         .addHistory({ url, title: title || '' })
         .catch(console.log);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url, settings]);
+  }, [url, settings, title]);
 
   useEffect(() => {
     const maxWidth = boardContainer?.clientWidth;

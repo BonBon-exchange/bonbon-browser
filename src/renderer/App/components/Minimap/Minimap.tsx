@@ -226,19 +226,6 @@ export const Minimap = ({ handleHide }: MinimapProps) => {
     mouseEnterHandler();
   }, [mouseEnterHandler]);
 
-  useEffect(() => {
-    window.app.config
-      .get('application.minimapTimeout')
-      .then((val: unknown) => {
-        setTimeoutTime(val as number);
-        return true;
-      })
-      .catch(console.log);
-
-    return () => mouseUpHandler();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <div id="Minimap__container">
       {showView && (
