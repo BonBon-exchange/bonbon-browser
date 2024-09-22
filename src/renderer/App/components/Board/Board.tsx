@@ -18,6 +18,7 @@ import {
   setActiveBrowser,
   setBoardHeight,
 } from 'renderer/App/store/reducers/Board';
+import { useSettings } from 'renderer/App/hooks/useSettings';
 
 import { BoardProps, BoardType } from './Types';
 
@@ -27,36 +28,51 @@ import { Notification } from '../Notification';
 export const Board = ({ isFullSize, boardId }: BoardProps) => {
   const board = useBoard();
   const dispatch = useAppDispatch();
+  const settings = useSettings();
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>([]);
-  const [minimapOn, setMinimapOn] = useState<boolean>(false);
   const helpers = useStoreHelpers();
-  const [displayNotification, setDisplayNotification] = useState<boolean>(false) 
-  const [notification, setNotication] = useState<string>("") 
+  const [displayNotification, setDisplayNotification] =
+    useState<boolean>(false);
+  const [notification, setNotication] = useState<string>('');
 
   const boardContainer = document.querySelector('#Board__container');
 
-  const makeBrowsers = useCallback((sorted: BrowserProps[]) => {
-    return sorted.map((b) => <Browser {...b} key={b.id} firstRendering />);
-  }, []);
+  const makeBrowsers = useCallback(
+    (sorted: BrowserProps[]) => {
+      return sorted.map((b) => (
+        <Browser
+          {...b}
+          url={b.url ?? settings['browsing.defaultWebpage']}
+          key={b.id}
+          firstRendering
+        />
+      ));
+    },
+    [settings]
+  );
 
   const contextMenuListener = (e: MouseEvent) => {
     e.preventDefault();
     window.app.tools.showBoardContextMenu({ x: e.clientX, y: e.clientY });
   };
 
-  const saveBoardAction = useCallback((_e: IpcRendererEvent, args: { tabId: string}) => {
-    console.log({args})
-    if (board.id === args.tabId) {
-      setDisplayNotification(true)
-      setNotication("Board saved")
-      window.app.board.save(board);
-    }
-  }, [board])
+  const saveBoardAction = useCallback(
+    (_e: IpcRendererEvent, args: { tabId: string }) => {
+      console.log({ args });
+      if (board.id === args.tabId) {
+        setDisplayNotification(true);
+        setNotication('Board saved');
+        window.app.board.save(board);
+      }
+    },
+    [board]
+  );
 
   const loadSavedBoardAction = useCallback(
-    (_e: any, args: { boardId: string, board?: BoardType }) => {
-      if(args.board && args.boardId === args.board.id) helpers.board.load({}, args.board)
+    (_e: any, args: { boardId: string; board?: BoardType }) => {
+      if (args.board && args.boardId === args.board.id)
+        helpers.board.load({}, args.board);
     },
     [helpers.board]
   );
@@ -64,15 +80,15 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
   useEffect(() => {
     if (!board.isFullSize) {
       setTimeout(() => {
-        helpers.board
-          // .distributeWindowsByOrder(board.browsers)
-          // .then(() => {
-            setTimeout(
-              () => board.activeBrowser && focus(board.activeBrowser),
-              300
-            );
-          // })
-          // .catch(console.log);
+        helpers.board;
+        // .distributeWindowsByOrder(board.browsers)
+        // .then(() => {
+        setTimeout(
+          () => board.activeBrowser && focus(board.activeBrowser),
+          300
+        );
+        // })
+        // .catch(console.log);
       }, 300);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,18 +149,11 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
       .getElementById('Board__container')
       ?.addEventListener('contextmenu', contextMenuListener);
 
-      window.app.config
-      .get('application.minimapOn')
-      .then((val: unknown) => {
-        setMinimapOn(val as boolean)
-        return true
-      }).catch(console.log);
-
     return () => {
       document
-      .getElementById('Board__container')
-      ?.removeEventListener('contextmenu', contextMenuListener);
-    }
+        .getElementById('Board__container')
+        ?.removeEventListener('contextmenu', contextMenuListener);
+    };
   }, []);
 
   useEffect(() => {
@@ -164,13 +173,14 @@ export const Board = ({ isFullSize, boardId }: BoardProps) => {
         className={clsx({
           'Board__is-maximized': board.isFullSize || isFullSize,
           'Board__isnt-maximized': !board.isFullSize && !isFullSize,
-          'Board__minimap-always-on': !board.isFullSize && minimapOn,
+          'Board__minimap-always-on':
+            !board.isFullSize && settings['application.minimapOn'],
         })}
       >
-        <Notification 
-         closePopup={() => setDisplayNotification(false)}
-         className={clsx({"display": displayNotification})}
-         >
+        <Notification
+          closePopup={() => setDisplayNotification(false)}
+          className={clsx({ display: displayNotification })}
+        >
           <div>{notification}</div>
         </Notification>
         <AnimatePresence>{makeBrowsers(items)}</AnimatePresence>

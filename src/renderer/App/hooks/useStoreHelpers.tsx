@@ -24,12 +24,14 @@ import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { Board } from 'types/boards';
 import { useBoard } from './useBoard';
 import { useBrowserMethods } from './useBrowserMethods';
+import { useSettings } from './useSettings';
 
 const DEFAULT_HEIGHT = 800;
 const DEFAULT_WIDTH = 600;
 
 export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const dispatch = useAppDispatch();
+  const settings = useSettings();
   const board = useBoard();
   const { focus, focusUrlBar, next } = useBrowserMethods();
   const { t } = useTranslation();
@@ -45,18 +47,10 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       newSession?: boolean;
     }) => {
       const browserId = params.id || v4();
-      const defaultWebpage = (await window.app.config.get(
-        'browsing.defaultWebpage'
-      )) as string;
-      const defaultSize = (await window.app.config.get(
-        'browsing.size'
-      )) as string;
-      const defaultWidth = (await window.app.config.get(
-        'browsing.width'
-      )) as number;
-      const defaultHeight = (await window.app.config.get(
-        'browsing.height'
-      )) as number;
+      const defaultWebpage = settings['browsing.defaultWebpage'] as string;
+      const defaultSize = settings['browsing.size'] as string;
+      const defaultWidth = settings['browsing.width'] as number;
+      const defaultHeight = settings['browsing.height'] as number;
 
       let width;
       let height;
@@ -118,11 +112,11 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       };
       return newBrowser;
     },
-    [board, boardContainer]
+    [board, boardContainer, settings]
   );
 
   const makeAndAddBrowser = useCallback(
-    async (params: { url?: string, newSession?: boolean }): Promise<void> => {
+    async (params: { url?: string; newSession?: boolean }): Promise<void> => {
       if (board) {
         const newBrowser = await makeBrowser(params);
         dispatch(addBrowser(newBrowser));
@@ -153,7 +147,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         browsersActivity: [],
         height: 0,
         isInAppMenu: false,
-        ...savedBoard
+        ...savedBoard,
       };
 
       dispatch(setBoard(newBoard));

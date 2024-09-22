@@ -81,7 +81,15 @@ import {
 } from './history';
 import i18n from './i18n';
 import { getStore } from './store';
-import { purgeTab, renameTab, saveBoardCallback, saveTab, selectTab, getAllBoards, deleteBoard } from './tabs';
+import {
+  purgeTab,
+  renameTab,
+  saveBoardCallback,
+  saveTab,
+  selectTab,
+  getAllBoards,
+  deleteBoard,
+} from './tabs';
 
 const store = getStore();
 let views: Record<string, BrowserView> = {};
@@ -128,11 +136,9 @@ export const makeIpcMainEvents = (): void => {
     e.sender.inspectElement(args.x, args.y);
   });
 
-  ipcMain.on('analytics-event', (_event, _args: IpcAnalyticsEvent) => {
-  });
+  ipcMain.on('analytics-event', (_event, _args: IpcAnalyticsEvent) => {});
 
-  ipcMain.on('analytics-page', (_event, _args: IpcAnalyticsPage) => {
-  });
+  ipcMain.on('analytics-page', (_event, _args: IpcAnalyticsPage) => {});
 
   ipcMain.on('tab-select', (_event, args: IpcTabSelect) => {
     selectTab(args);
@@ -209,6 +215,10 @@ export const makeIpcMainEvents = (): void => {
     return store.get(key);
   });
 
+  ipcMain.handle('get-all-store-values', (_event) => {
+    return store.store;
+  });
+
   ipcMain.handle(
     'set-store-value',
     (_e, args: IpcSetStoreValue): Promise<void> => {
@@ -221,17 +231,17 @@ export const makeIpcMainEvents = (): void => {
           case 'application.launchAtStartup':
             args.value === true
               ? bonbonAutoLauncher.enable().catch(() => {
-                reject(
-                  new Error(`Couldn't enable BonBon Browser at startup.`)
-                );
-                rejected = true;
-              })
+                  reject(
+                    new Error(`Couldn't enable BonBon Browser at startup.`)
+                  );
+                  rejected = true;
+                })
               : bonbonAutoLauncher.disable().catch(() => {
-                reject(
-                  new Error(`Couldn't disable BonBon Browser at startup.`)
-                );
-                rejected = true;
-              });
+                  reject(
+                    new Error(`Couldn't disable BonBon Browser at startup.`)
+                  );
+                  rejected = true;
+                });
             break;
 
           default:
@@ -448,23 +458,23 @@ export const makeIpcMainEvents = (): void => {
     return getMainWindow()?.isMaximized() || false;
   });
 
-  ipcMain.on('open-new-board', (_e, params?: { newSession?: boolean}) => {
+  ipcMain.on('open-new-board', (_e, params?: { newSession?: boolean }) => {
     getMainWindow()?.webContents.send('open-tab', params);
-  })
+  });
 
   ipcMain.on('save-board-callback', (_e, board: Board) => {
-    saveBoardCallback(board).then(console.log).catch(console.log)
-  })
+    saveBoardCallback(board).then(console.log).catch(console.log);
+  });
 
   ipcMain.handle('get-all-boards', () => {
     return getAllBoards();
   });
 
   ipcMain.on('delete-board', (_e, boardId: string) => {
-    deleteBoard(boardId)
-  })
+    deleteBoard(boardId);
+  });
 
   ipcMain.on('load-saved-board', (_e, boardId: string) => {
     getMainWindow()?.webContents.send('load-saved-board', boardId);
-  })
+  });
 };

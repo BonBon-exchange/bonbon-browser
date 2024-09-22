@@ -12,6 +12,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import icon from 'renderer/App/components/LeftBar/icon.png';
 import loadingImg from 'renderer/App/svg/loading.svg';
+import { useSettings } from 'renderer/App/hooks/useSettings';
 
 import { MiniWindow, MiniView, MinimapProps } from './Types';
 
@@ -19,13 +20,13 @@ import './style.scss';
 
 export const Minimap = ({ handleHide }: MinimapProps) => {
   const board = useBoard();
+  const settings = useSettings();
   const [windows, setWindows] = useState<MiniWindow[]>([]);
   const [view, setView] = useState<MiniView>({
     top: 0,
     height: 100,
   });
   const [showView, setShowView] = useState<boolean>(true);
-  const [timeoutTime, setTimeoutTime] = useState<number>(600);
   const hideTimeout = useRef<any>();
 
   const minimapContainer = document.querySelector('#Minimap__container');
@@ -157,8 +158,11 @@ export const Minimap = ({ handleHide }: MinimapProps) => {
 
   const mouseMoveHandler = useCallback(() => {
     if (hideTimeout.current) clearTimeout(hideTimeout.current);
-    hideTimeout.current = setTimeout(() => handleHide(), timeoutTime);
-  }, [handleHide, timeoutTime]);
+    hideTimeout.current = setTimeout(
+      () => handleHide(),
+      settings['application.minimapTimeout']
+    );
+  }, [handleHide, settings]);
 
   const scrollHandler = useCallback(() => {
     prepareView();
@@ -221,18 +225,6 @@ export const Minimap = ({ handleHide }: MinimapProps) => {
   useEffect(() => {
     mouseEnterHandler();
   }, [mouseEnterHandler]);
-
-  useEffect(() => {
-    window.app.config
-      .get('application.minimapTimeout')
-      .then((val: unknown) => {
-        setTimeoutTime(val as number)
-        return true
-      }).catch(console.log);
-
-    return () => mouseUpHandler();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div id="Minimap__container">

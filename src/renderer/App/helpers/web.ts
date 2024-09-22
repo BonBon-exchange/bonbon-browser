@@ -13,11 +13,8 @@ export const isValidHttpUrl = (s: string) => {
   return url.protocol === 'http:' || url.protocol === 'https:';
 };
 
-export const makeSearchUrl = async (search: string): Promise<string> => {
-  const val = await window.app.config.get('browsing.searchEngine');
-
-  const typedVal = val as string | undefined;
-  switch (typedVal) {
+export const makeSearchUrl = (search: string, searchEngine: string): string => {
+  switch (searchEngine) {
     case 'presearch':
       return `https://presearch.com/search?q=${search}`;
 

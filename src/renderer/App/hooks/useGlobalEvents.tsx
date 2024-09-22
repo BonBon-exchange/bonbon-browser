@@ -18,12 +18,12 @@ import { setDownloadItem } from 'renderer/App/store/reducers/Downloads';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { DownloadState } from 'renderer/TitleBar/components/TopBar/Types';
 import { getContainerFromBrowserId } from 'renderer/App/helpers/dom';
-import { Position } from 'types/ipc';
+import { Position, StoreValue } from 'types/ipc';
 import { useBoard } from './useBoard';
 import { useBrowserMethods } from './useBrowserMethods';
 
-let keyDownTimeoutId: number|null = null;
-let keysPressed: string[] = []
+let keyDownTimeoutId: number | null = null;
+let keysPressed: string[] = [];
 
 export const useGlobalEvents = () => {
   const { browser, board } = useStoreHelpers();
@@ -57,11 +57,10 @@ export const useGlobalEvents = () => {
 
   const keyDownListener = useCallback(
     (e: KeyboardEvent) => {
-      
       // Clear any previous timeout
       if (keyDownTimeoutId) clearTimeout(keyDownTimeoutId);
-      keysPressed = [...keysPressed, e.key.toLowerCase()]
-      
+      keysPressed = [...keysPressed, e.key.toLowerCase()];
+
       keyDownTimeoutId = setTimeout(() => {
         const webview = getActiveWebview();
         if (e.key === 'Alt') {
@@ -69,62 +68,86 @@ export const useGlobalEvents = () => {
             disablePointerEventsForAll();
             setIsPointerEventDisabled(true);
           }
-        }
-        else if (e.ctrlKey && !e.shiftKey && e.key === 'Tab') {
+        } else if (e.ctrlKey && !e.shiftKey && e.key === 'Tab') {
           if (boardState.browsers.length > 0) {
             if (next) focus(next);
           }
-        }
-        else if (e.ctrlKey && e.shiftKey && e.key === 'Tab') {
+        } else if (e.ctrlKey && e.shiftKey && e.key === 'Tab') {
           window.app.board.selectNext();
         }
 
         // open a new board
-        else if (e.ctrlKey && !e.shiftKey && keysPressed.includes('b') && keysPressed.length === 2){
-          console.log('open board')
-          window.app.board.add()
+        else if (
+          e.ctrlKey &&
+          !e.shiftKey &&
+          keysPressed.includes('b') &&
+          keysPressed.length === 2
+        ) {
+          console.log('open board');
+          window.app.board.add();
         }
 
         // open a new board with new session
-        else if (e.ctrlKey && !e.shiftKey && keysPressed.includes('b') && keysPressed.includes('s') && keysPressed.length === 3){
-          console.log('open board with new session')
-          window.app.board.add({newSession: true})
+        else if (
+          e.ctrlKey &&
+          !e.shiftKey &&
+          keysPressed.includes('b') &&
+          keysPressed.includes('s') &&
+          keysPressed.length === 3
+        ) {
+          console.log('open board with new session');
+          window.app.board.add({ newSession: true });
         }
 
         // open a new browser view
-        else if (e.ctrlKey && !e.shiftKey && e.key === 't' && keysPressed.length === 2) {
+        else if (
+          e.ctrlKey &&
+          !e.shiftKey &&
+          e.key === 't' &&
+          keysPressed.length === 2
+        ) {
           browser.add({});
         }
 
         // open a new browser view with new session
-        else if (e.ctrlKey && !e.shiftKey && keysPressed.includes('t') && keysPressed.includes('s') && keysPressed.length === 3){
-          browser.add({newSession: true});
-        }
-
-        else if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+        else if (
+          e.ctrlKey &&
+          !e.shiftKey &&
+          keysPressed.includes('t') &&
+          keysPressed.includes('s') &&
+          keysPressed.length === 3
+        ) {
+          browser.add({ newSession: true });
+        } else if (e.ctrlKey && e.shiftKey && e.key === 'T') {
           browser.reopenLastClosed();
-        }
-        else if (e.ctrlKey && !e.shiftKey && e.key === 'r') {
+        } else if (e.ctrlKey && !e.shiftKey && e.key === 'r') {
           if (webview) webview.reload();
-        }
-        else if (e.ctrlKey && !e.shiftKey && e.key === 'w') {
+        } else if (e.ctrlKey && !e.shiftKey && e.key === 'w') {
           if (boardState.activeBrowser) browser.close(boardState.activeBrowser);
           else board.close();
-        }
-        else if (e.ctrlKey && e.shiftKey && e.key === 'W') {
+        } else if (e.ctrlKey && e.shiftKey && e.key === 'W') {
           board.close();
-        }
-        else if (e.ctrlKey && !e.shiftKey && e.key === 'f') {
+        } else if (e.ctrlKey && !e.shiftKey && e.key === 'f') {
           if (boardState.activeBrowser) {
             browser.toggleSearch(boardState.activeBrowser);
             webview?.stopFindInPage('clearSelection');
           }
         }
-        keysPressed = []
-        keyDownTimeoutId = null
+        keysPressed = [];
+        keyDownTimeoutId = null;
       }, 400) as unknown as number;
     },
-    [getActiveWebview, isPointerEventDisabled, disablePointerEventsForAll, boardState.browsers.length, boardState.activeBrowser, next, focus, browser, board]
+    [
+      getActiveWebview,
+      isPointerEventDisabled,
+      disablePointerEventsForAll,
+      boardState.browsers.length,
+      boardState.activeBrowser,
+      next,
+      focus,
+      browser,
+      board,
+    ]
   );
 
   const scrollListener = useCallback(() => {
@@ -263,11 +286,11 @@ export const useGlobalEvents = () => {
       const brow = boardState.browsers.find((b) => b.webContentsId === wcId);
       window.app.config.set({
         key: 'browsing.height',
-        value: brow?.height,
+        value: brow?.height as StoreValue,
       });
       window.app.config.set({
         key: 'browsing.width',
-        value: brow?.width,
+        value: brow?.width as StoreValue,
       });
       window.app.config.set({
         key: 'browsing.size',

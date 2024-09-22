@@ -15,12 +15,14 @@ import storage from 'redux-persist/lib/storage';
 
 import boardReducer from './reducers/Board';
 import downloadsReducer from './reducers/Downloads';
+import settingsReducer from './reducers/Settings';
 import { migrations } from './migrations';
 
 export const store: Store = configureStore({
   reducer: {
     board: boardReducer,
     downloads: downloadsReducer,
+    settings: settingsReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });
@@ -39,10 +41,12 @@ export const getPersistedStoreAndPersistor = (
   };
   const persistedBoard = persistReducer(persistConfig, boardReducer);
   const persistedDownloads = persistReducer(persistConfig, downloadsReducer);
+  const persistedSettings = persistReducer(persistConfig, settingsReducer);
   const persistedStore = configureStore({
     reducer: {
       board: persistedBoard,
       downloads: persistedDownloads,
+      settings: persistedSettings,
     },
     devTools: process.env.NODE_ENV !== 'production',
     middleware: (getDefaultMiddleware) =>
