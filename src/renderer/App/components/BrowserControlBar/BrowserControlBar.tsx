@@ -27,6 +27,7 @@ import { useAppDispatch } from 'renderer/App/store/hooks';
 import { isValidHttpUrl, makeSearchUrl } from 'renderer/App/helpers/web';
 import { getWebviewFromBrowserId } from 'renderer/App/helpers/dom';
 import { useBoard } from 'renderer/App/hooks/useBoard';
+import { useSettings } from 'renderer/App/hooks/useSettings';
 
 import { BrowserControlBarProps } from './Types';
 
@@ -36,6 +37,7 @@ export const BrowserControlBar = ({
   url,
   browserId,
 }: BrowserControlBarProps) => {
+  const settings = useSettings();
   const [urlInputForSuggestion, setUrlInputForSuggestion] =
     useState<string>(url);
   const [urlInputForAutocomplete, setUrlInputForAutocomplete] =
@@ -64,7 +66,7 @@ export const BrowserControlBar = ({
     setSelectedSuggestion(null);
   };
 
-  const handleLoadUserUrl = async (loadUrl: string) => {
+  const handleLoadUserUrl = (loadUrl: string) => {
     const re =
       /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
 
@@ -77,7 +79,9 @@ export const BrowserControlBar = ({
     if (addHttps) {
       newUrl = `https://${loadUrl}`;
     } else {
-      newUrl = isValidHttpUrl(loadUrl) ? loadUrl : await makeSearchUrl(loadUrl);
+      newUrl = isValidHttpUrl(loadUrl)
+        ? loadUrl
+        : makeSearchUrl(loadUrl, settings['browsing.searchEngine']);
     }
 
     webview?.loadURL(newUrl).catch(console.log);
@@ -181,16 +185,14 @@ export const BrowserControlBar = ({
   };
 
   const goHome = () => {
-    window.app.config.get('browsing.defaultWebpage').then((val) => {
-      const defaultWebpage = val as string;
-      webview?.loadURL(defaultWebpage).catch(console.log);
-      dispatch(
-        updateBrowserUrl({
-          url: defaultWebpage,
-          browserId,
-        })
-      );
-    });
+    const defaultWebpage = settings['browsing.defaultWebpage'] as string;
+    webview?.loadURL(defaultWebpage).catch(console.log);
+    dispatch(
+      updateBrowserUrl({
+        url: defaultWebpage,
+        browserId,
+      })
+    );
   };
 
   useEffect(() => {

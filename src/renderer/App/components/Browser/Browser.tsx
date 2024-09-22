@@ -25,6 +25,7 @@ import {
   toggleBoardFullSize,
   updateBrowser,
 } from 'renderer/App/store/reducers/Board';
+import { useSettings } from 'renderer/App/hooks/useSettings';
 
 import { BrowserProps } from './Types';
 
@@ -50,6 +51,7 @@ export const Browser = ({
   isPinned,
 }: BrowserProps) => {
   const dispatch = useAppDispatch();
+  const settings = useSettings();
   const {
     enablePointerEventsForAll,
     disablePointerEventsForAll,
@@ -217,34 +219,32 @@ export const Browser = ({
 
         default:
           if (edgeTopValue <= 0 && scrollY !== null) {
-            window.app.config.get('browsing.topEdge').then((res: unknown) => {
-              if (res === 'maximize') {
-                toggleFullSizeBrowser();
-                focus(id, true);
-              }
-              if (res === 'fit') {
-                resizeWidth = Number(boardContainer?.clientWidth) - 20;
-                resizeHeight = window.innerHeight - 20;
-                setX(10);
-                setY(10 + scrollTop);
-                setRndWidth(resizeWidth);
-                setRndHeight(resizeHeight);
-                dispatch(
-                  updateBrowser({
-                    browserId: id,
-                    params: {
-                      top: 10 + scrollTop,
-                      left: 10,
-                      width: resizeWidth,
-                      height: resizeHeight,
-                    },
-                  })
-                );
-                dispatch(
-                  setLastResizedBrowserDimensions([resizeWidth, resizeHeight])
-                );
-              }
-            });
+            if (settings['browsing.topEdge'] === 'maximize') {
+              toggleFullSizeBrowser();
+              focus(id, true);
+            }
+            if (settings['browsing.topEdge'] === 'fit') {
+              resizeWidth = Number(boardContainer?.clientWidth) - 20;
+              resizeHeight = window.innerHeight - 20;
+              setX(10);
+              setY(10 + scrollTop);
+              setRndWidth(resizeWidth);
+              setRndHeight(resizeHeight);
+              dispatch(
+                updateBrowser({
+                  browserId: id,
+                  params: {
+                    top: 10 + scrollTop,
+                    left: 10,
+                    width: resizeWidth,
+                    height: resizeHeight,
+                  },
+                })
+              );
+              dispatch(
+                setLastResizedBrowserDimensions([resizeWidth, resizeHeight])
+              );
+            }
           } else {
             setX(d.x);
             setY(d.y);
@@ -394,15 +394,15 @@ export const Browser = ({
 
   useEffect(() => {
     window.app.analytics.event('browser_navigate');
-    window.app.config.get('browsing.dontSaveHistory').then((val: unknown) => {
-      const typedVal = val as boolean | undefined;
-      if (!typedVal)
-        window.app.history
-          .addHistory({ url, title: title || '' })
-          .catch(console.log);
-    });
+    const typedVal = settings['browsing.dontSaveHistory'] as
+      | boolean
+      | undefined;
+    if (!typedVal)
+      window.app.history
+        .addHistory({ url, title: title || '' })
+        .catch(console.log);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url]);
+  }, [url, settings]);
 
   useEffect(() => {
     const maxWidth = boardContainer?.clientWidth;
