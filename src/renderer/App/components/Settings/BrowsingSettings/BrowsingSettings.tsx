@@ -5,34 +5,40 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useSettings } from 'renderer/App/hooks/useSettings';
+import { useAppDispatch } from 'renderer/App/store/hooks';
+import { setSetting } from 'renderer/App/store/reducers/Settings';
 import './style.scss';
 
 export const BrowsingSettings = () => {
   const { t } = useTranslation();
+  const settings = useSettings();
+  const dispatch = useAppDispatch();
+
   const [browsingSettingDefaultWebpage, setBrowsingSettingDefaultWebpage] =
-    useState<string | undefined>('');
+    useState<string | undefined>(settings['browsing.defaultWebpage']);
 
   const [
     browsingSettingDefaultSearchEngine,
     setBrowsingSettingDefaultSearchEngine,
-  ] = useState<string | undefined>('');
+  ] = useState<string | undefined>(settings['browsing.searchEngine']);
 
   const [browsingSettingDefaultWidth, setBrowsingSettingDefaultWidth] =
-    useState<number | undefined>(0);
+    useState<number | undefined>(settings['browsing.width']);
 
   const [browsingSettingDefaultHeight, setBrowsingSettingDefaultHeight] =
-    useState<number | undefined>(0);
+    useState<number | undefined>(settings['browsing.height']);
 
   const [browsingSettingDefaultSize, setBrowsingSettingDefaultSize] = useState<
     string | undefined
-  >();
+  >(settings['browsing.size']);
 
   const [browsingSettingDontSaveHistory, setBrowsingSettingDontSaveHistory] =
-    useState<boolean | undefined>(false);
+    useState<boolean | undefined>(settings['browsing.dontSaveHistory']);
 
   const [browsingSettingTopEdge, setBrowsingSettingTopEdge] = useState<
     string | undefined
-  >();
+  >(settings['browsing.topEdge']);
 
   const searchEngines = [
     'Google',
@@ -45,99 +51,68 @@ export const BrowsingSettings = () => {
     'StartPage',
   ];
 
-  const updateBrowsingSettingWebpage = (value: string) => {
-    setBrowsingSettingDefaultWebpage(value);
-    window.app.config.set({
-      key: 'browsing.defaultWebpage',
-      value,
-    });
-  };
-
-  const updateBrowsingSettingSearchEngine = (value: string) => {
-    setBrowsingSettingDefaultSearchEngine(value);
-    window.app.config.set({
-      key: 'browsing.searchEngine',
-      value,
-    });
-  };
-
-  const updateBrowsingSettingWidth = (value: number) => {
-    setBrowsingSettingDefaultWidth(value);
-    window.app.config.set({
-      key: 'browsing.width',
-      value,
-    });
-  };
-
-  const updateBrowsingSettingHeight = (value: number) => {
-    setBrowsingSettingDefaultHeight(value);
-    window.app.config.set({
-      key: 'browsing.height',
-      value,
-    });
-  };
-
-  const updateBrowsingSettingSize = (value: string) => {
-    setBrowsingSettingDefaultSize(value);
-    window.app.config.set({
-      key: 'browsing.size',
-      value,
-    });
-  };
-
-  const updateBrowsingSettingDontSaveHistory = (value: boolean) => {
-    setBrowsingSettingDontSaveHistory(value);
-    window.app.config.set({
-      key: 'browsing.dontSaveHistory',
-      value,
-    });
-  };
-
-  const updateBrowsingSettingTopEdge = (value: string) => {
-    setBrowsingSettingTopEdge(value);
-    window.app.config.set({
-      key: 'browsing.topEdge',
-      value,
-    });
-  };
+  useEffect(() => {
+    dispatch(
+      setSetting({
+        key: 'browsing.defaultWebpage',
+        value: browsingSettingDefaultWebpage,
+      })
+    );
+  }, [browsingSettingDefaultWebpage, dispatch]);
 
   useEffect(() => {
-    window.app.config.get('browsing.defaultWebpage').then((val: unknown) => {
-      const typedVal = val as string | undefined;
-      setBrowsingSettingDefaultWebpage(typedVal);
-    });
+    dispatch(
+      setSetting({
+        key: 'browsing.searchEngine',
+        value: browsingSettingDefaultSearchEngine,
+      })
+    );
+  }, [browsingSettingDefaultSearchEngine, dispatch]);
 
-    window.app.config.get('browsing.searchEngine').then((val: unknown) => {
-      const typedVal = val as string | undefined;
-      setBrowsingSettingDefaultSearchEngine(typedVal);
-    });
+  useEffect(() => {
+    dispatch(
+      setSetting({
+        key: 'browsing.width',
+        value: browsingSettingDefaultWidth,
+      })
+    );
+  }, [browsingSettingDefaultWidth, dispatch]);
 
-    window.app.config.get('browsing.width').then((val: unknown) => {
-      const typedVal = val as number | undefined;
-      setBrowsingSettingDefaultWidth(typedVal);
-    });
+  useEffect(() => {
+    dispatch(
+      setSetting({
+        key: 'browsing.height',
+        value: browsingSettingDefaultHeight,
+      })
+    );
+  }, [browsingSettingDefaultHeight, dispatch]);
 
-    window.app.config.get('browsing.height').then((val: unknown) => {
-      const typedVal = val as number | undefined;
-      setBrowsingSettingDefaultHeight(typedVal);
-    });
+  useEffect(() => {
+    dispatch(
+      setSetting({
+        key: 'browsing.size',
+        value: browsingSettingDefaultSize,
+      })
+    );
+  }, [browsingSettingDefaultSize, dispatch]);
 
-    window.app.config.get('browsing.size').then((val: unknown) => {
-      const typedVal = val as string | undefined;
-      setBrowsingSettingDefaultSize(typedVal);
-    });
+  useEffect(() => {
+    dispatch(
+      setSetting({
+        key: 'browsing.dontSaveHistory',
+        value: browsingSettingDontSaveHistory,
+      })
+    );
+  }, [browsingSettingDontSaveHistory, dispatch]);
 
-    window.app.config.get('browsing.dontSaveHistory').then((val: unknown) => {
-      const typedVal = val as boolean | undefined;
-      setBrowsingSettingDontSaveHistory(typedVal);
-    });
-
-    window.app.config.get('browsing.topEdge').then((val: unknown) => {
-      const typedVal = val as string | undefined;
-      setBrowsingSettingTopEdge(typedVal);
-    });
-
-  }, []);
+  useEffect(() => {
+    dispatch(
+      setSetting({
+        key: 'browsing.topEdge',
+        value: browsingSettingTopEdge,
+      })
+    );
+  }, [browsingSettingTopEdge, dispatch]);
 
   return (
     <>
@@ -150,7 +125,7 @@ export const BrowsingSettings = () => {
           type="text"
           id="browsing-settings-default-webpage"
           value={browsingSettingDefaultWebpage}
-          onChange={(e) => updateBrowsingSettingWebpage(e.target.value)}
+          onChange={(e) => setBrowsingSettingDefaultWebpage(e.target.value)}
         />
         <div className="Settings__item-description">
           {t('The url that will open first when opening a new window.')}
@@ -162,7 +137,9 @@ export const BrowsingSettings = () => {
         </label>
         <select
           id="browsing-settings-default-search-engine"
-          onChange={(e) => updateBrowsingSettingSearchEngine(e.target.value)}
+          onChange={(e) =>
+            setBrowsingSettingDefaultSearchEngine(e.target.value)
+          }
           value={browsingSettingDefaultSearchEngine}
         >
           {searchEngines.map((se) => {
@@ -191,7 +168,7 @@ export const BrowsingSettings = () => {
           value="defined"
           checked={browsingSettingDefaultSize === 'defined'}
           name="browsing-settings-default-size"
-          onChange={(e) => updateBrowsingSettingSize(e.target.value)}
+          onChange={(e) => setBrowsingSettingDefaultSize(e.target.value)}
           id="browsing-settings-default-size-defined"
         />
         <label htmlFor="browsing-settings-default-size-defined">
@@ -201,21 +178,25 @@ export const BrowsingSettings = () => {
           type="number"
           id="browsing-settings-default-width"
           value={browsingSettingDefaultWidth}
-          onChange={(e) => updateBrowsingSettingWidth(Number(e.target.value))}
+          onChange={(e) =>
+            setBrowsingSettingDefaultWidth(Number(e.target.value))
+          }
         />
         x
         <input
           type="number"
           id="browsing-settings-default-height"
           value={browsingSettingDefaultHeight}
-          onChange={(e) => updateBrowsingSettingHeight(Number(e.target.value))}
+          onChange={(e) =>
+            setBrowsingSettingDefaultHeight(Number(e.target.value))
+          }
         />
         <br />
         <input
           type="radio"
           value="lastClosed"
           checked={browsingSettingDefaultSize === 'lastClosed'}
-          onChange={(e) => updateBrowsingSettingSize(e.target.value)}
+          onChange={(e) => setBrowsingSettingDefaultSize(e.target.value)}
           name="browsing-settings-default-size"
           id="browsing-settings-default-size-last-closed"
         />
@@ -227,7 +208,7 @@ export const BrowsingSettings = () => {
           type="radio"
           value="lastResized"
           checked={browsingSettingDefaultSize === 'lastResized'}
-          onChange={(e) => updateBrowsingSettingSize(e.target.value)}
+          onChange={(e) => setBrowsingSettingDefaultSize(e.target.value)}
           name="browsing-settings-default-size"
           id="browsing-settings-default-size-last-resized"
         />
@@ -243,9 +224,7 @@ export const BrowsingSettings = () => {
           type="checkbox"
           id="browsing-settings-dont-save-history"
           checked={browsingSettingDontSaveHistory}
-          onChange={(e) =>
-            updateBrowsingSettingDontSaveHistory(e.target.checked)
-          }
+          onChange={(e) => setBrowsingSettingDontSaveHistory(e.target.checked)}
         />
         <label htmlFor="browsing-settings-dont-save-history">
           {t('Do not save browsing history')}
@@ -265,7 +244,7 @@ export const BrowsingSettings = () => {
           value="maximize"
           checked={browsingSettingTopEdge === 'maximize'}
           name="browsing-settings-top-edge"
-          onChange={(e) => updateBrowsingSettingTopEdge(e.target.value)}
+          onChange={(e) => setBrowsingSettingTopEdge(e.target.value)}
           id="browsing-settings-top-edge-maximize"
         />
         <label htmlFor="browsing-settings-top-edge-maximize">
@@ -276,7 +255,7 @@ export const BrowsingSettings = () => {
           type="radio"
           value="fit"
           checked={browsingSettingTopEdge === 'fit'}
-          onChange={(e) => updateBrowsingSettingTopEdge(e.target.value)}
+          onChange={(e) => setBrowsingSettingTopEdge(e.target.value)}
           name="browsing-settings-top-edge"
           id="browsing-settings-top-edge-fit"
         />
