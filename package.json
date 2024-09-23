@@ -6,7 +6,7 @@
     "typescript",
     "react"
   ],
-  "version": "1.0.2-alpha",
+  "version": "1.0.3-beta-1",
   "homepage": "https://github.com/BonBon-exchange/bonbon-web-browser#readme",
   "bugs": {
     "url": "https://github.com/BonBon-exchange/bonbon-web-browser/issues"
@@ -18,45 +18,8 @@
   "license": "GPL-3.0",
   "author": {
     "name": "Daniel Febrero",
-    "email": "febrero.daniel@gmail.com",
-    "socials": {
-      "bsky": "danielfebrero.bsky.social"
-    }
+    "email": "febrero.daniel@gmail.com"
   },
-  "contributors": [
-    {
-      "name": "Daniel Febrero",
-      "email": "febrero.daniel@gmail.com"
-    },
-    {
-      "name": "Anthony Cettour",
-      "email": ""
-    },
-    {
-      "name": "0xCUBE",
-      "email": ""
-    },
-    {
-      "name": "Nuklusone",
-      "email": ""
-    },
-    {
-      "name": "Aitor",
-      "email": ""
-    },
-    {
-      "name": "Howard Huang",
-      "email": ""
-    },
-    {
-      "name": "Faouzi Benali",
-      "email": ""
-    },
-    {
-      "name": "Daniel Callus",
-      "email": ""
-    }
-  ],
   "main": "./src/main/main.js",
   "scripts": {
     "build": "npm install cross-env webpack webpack-cli --legacy-peer-deps && npm run buildmain && npm run buildrenderer",
