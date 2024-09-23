@@ -42,8 +42,9 @@ export const makeChromeExtensionSupport = () => {
     session: session.fromPartition('persist:user-partition'),
     modulePath: app.isPackaged
       ? path.join(
-        __dirname,
-        '../../../node_modules/electron-chrome-extensions-production')
+          __dirname,
+          '../../../node_modules/electron-chrome-extensions-production'
+        )
       : undefined,
     createTab(details) {
       return new Promise((resolve, reject) => {
@@ -110,7 +111,9 @@ const downloadChromeExtension = (
             });
         })
         .catch((err) => {
-          console.log(`Failed to fetch extension, trying ${attempts - 1} more times`); // eslint-disable-line
+          console.log(
+            `Failed to fetch extension, trying ${attempts - 1} more times`
+          ); // eslint-disable-line
           if (attempts <= 1) {
             return reject(err);
           }
@@ -214,6 +217,7 @@ export const deleteExtension = (id: string): Promise<void> => {
       .fromPartition('persist:user-partition')
       .getExtension(id);
     session.fromPartition('persist:user-partition').removeExtension(id);
+    if (!ext) return;
     rimraf(ext.path, (err) => {
       if (!err) {
         rimraf(`${ext.path}.crx`, () => resolve());

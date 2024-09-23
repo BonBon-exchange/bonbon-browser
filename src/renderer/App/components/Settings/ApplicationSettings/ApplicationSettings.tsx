@@ -6,8 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { useSettings } from 'renderer/App/hooks/useSettings';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { setSetting } from 'renderer/App/store/reducers/Settings';
+import PopoverColorPicker from 'renderer/App/components/PopoverColorPicker';
 
 import { Locale } from 'types/i18n';
+
+import './styles.scss';
 
 export const ApplicationSettings = () => {
   const { t, i18n } = useTranslation();
@@ -105,35 +108,56 @@ export const ApplicationSettings = () => {
         </div>
       </div>
       <div className="Settings__item">
-        <div>
+        <div className="flex-items">
           <input
             type="text"
             id="application-settings-background-color-1"
             value={appSettingBackgroundColor1}
             onChange={(e) => setAppSettingBackgroundColor1(e.target.value)}
+            className="color-picker-input"
           />
+          <div className="color-picker">
+            <PopoverColorPicker
+              color={appSettingBackgroundColor1}
+              onChange={setAppSettingBackgroundColor1}
+            />
+          </div>
           <label htmlFor="application-settings-launch-at-startup">
             {t('Background color 1')}
           </label>
         </div>
-        <div>
+        <div className="flex-items">
           <input
             type="text"
             id="application-settings-background-color-3"
             value={appSettingBackgroundColor2}
             onChange={(e) => setAppSettingBackgroundColor2(e.target.value)}
+            className="color-picker-input"
           />
+          <div className="color-picker">
+            <PopoverColorPicker
+              color={appSettingBackgroundColor2}
+              onChange={setAppSettingBackgroundColor2}
+            />
+          </div>
           <label htmlFor="application-settings-launch-at-startup">
             {t('Background color 2')}
           </label>
         </div>
-        <div>
+        <div className="flex-items">
           <input
             type="text"
             id="application-settings-background-color-2"
             value={appSettingBackgroundColor3}
             onChange={(e) => setAppSettingBackgroundColor3(e.target.value)}
+            className="color-picker-input"
           />
+          <div className="color-picker">
+            <PopoverColorPicker
+              color={appSettingBackgroundColor3}
+              onChange={setAppSettingBackgroundColor3}
+            />
+          </div>
           <label htmlFor="application-settings-launch-at-startup">
             {t('Background color 3')}
           </label>
