@@ -84,6 +84,8 @@
   "ms before minimap disapearing": "ms before minimap disapearing",
   "Minimap always visible": "Minimap always visible",
   "If checked, the minimap on the right side will always be visible.": "If checked, the minimap on the right side will always be visible.",
-  "Boards":"Boards",
-  "New board": "New board"
+  "Boards": "Boards",
+  "New board": "New board",
+  "Use macOS style for windows": "Use macOS style for windows",
+  "If checked, windows will use macOS style.": "If checked, windows will use macOS style."
 }

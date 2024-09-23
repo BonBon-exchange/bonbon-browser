@@ -51,3 +51,7 @@ if (store.get('application.minimapTimeout') === undefined) {
 if (store.get('application.minimapOn') === undefined) {
   store.set('application.minimapOn', true);
 }
+
+if (store.get('application.forceMacosStyle') === undefined) {
+  store.set('application.forceMacosStyle', false);
+}
