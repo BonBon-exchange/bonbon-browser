@@ -45,20 +45,29 @@ export const ApplicationSettings = () => {
   useEffect(() => {
     dispatch(
       setSetting({
-        key: 'application.backgroundGradientColors',
-        value: [
-          appSettingBackgroundColor1,
-          appSettingBackgroundColor2,
-          appSettingBackgroundColor3,
-        ],
+        key: 'application.backgroundGradientColors.0',
+        value: appSettingBackgroundColor1,
       })
     );
-  }, [
-    appSettingBackgroundColor1,
-    appSettingBackgroundColor2,
-    appSettingBackgroundColor3,
-    dispatch,
-  ]);
+  }, [appSettingBackgroundColor1, dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      setSetting({
+        key: 'application.backgroundGradientColors.1',
+        value: appSettingBackgroundColor2,
+      })
+    );
+  }, [appSettingBackgroundColor2, dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      setSetting({
+        key: 'application.backgroundGradientColors.2',
+        value: appSettingBackgroundColor3,
+      })
+    );
+  }, [appSettingBackgroundColor3, dispatch]);
 
   useEffect(() => {
     dispatch(
