@@ -124,6 +124,7 @@
     "parse-domain": "^5.0.0",
     "rage-edit": "^1.2.0",
     "react": "^18.1.0",
+    "react-colorful": "^5.6.1",
     "react-dom": "^18.1.0",
     "react-error-boundary": "^4.0.13",
     "react-i18next": "^11.18.0",
