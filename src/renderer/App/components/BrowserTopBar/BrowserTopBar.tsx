@@ -8,14 +8,15 @@ import CropSquareIcon from '@mui/icons-material/CropSquare';
 import MinimizeIcon from '@mui/icons-material/Minimize';
 import clsx from 'clsx';
 
-import { Unmaximize } from 'renderer/App/components/Unmaximize';
+import Unmaximize from 'renderer/App/components/Unmaximize';
+import MacOSControls from 'renderer/App/components/MacOSControls';
+import { useSettings } from 'renderer/App/hooks/useSettings';
 
 import loadingImg from 'renderer/App/svg/loading.svg';
 
 import { BrowserTopBarProps } from './Types';
 
 import './style.scss';
-import { MacOSControls } from '../MacOSControls/MacOSControls';
 
 export const BrowserTopBar = ({
   closeBrowser,
@@ -26,25 +27,33 @@ export const BrowserTopBar = ({
   onClick,
   isLoading,
   isMaximized,
-  isPinned
+  isPinned,
 }: BrowserTopBarProps) => {
+  const settings = useSettings();
+
   return (
     <div
-      className={clsx({'macos': window.app.os.getPlatform() === 'darwin'}, "BrowserTopBar__container")}
+      className={clsx(
+        {
+          macos:
+            window.app.os.getPlatform() === 'darwin' ||
+            settings['application.forceMacosStyle'],
+        },
+        'BrowserTopBar__container'
+      )}
       onDoubleClick={toggleFullSizeBrowser}
       onClick={onClick}
     >
-      {
-        window.app.os.getPlatform() === 'darwin' && (
-          <Controls 
-            closeBrowser={closeBrowser}
-            minimizeBrowser={minimizeBrowser}
-            isMaximized={isMaximized}
-            toggleFullSizeBrowser={toggleFullSizeBrowser}
-            isPinned={isPinned}
-            />
-        )
-      }
+      {(window.app.os.getPlatform() === 'darwin' ||
+        settings['application.forceMacosStyle']) && (
+        <Controls
+          closeBrowser={closeBrowser}
+          minimizeBrowser={minimizeBrowser}
+          isMaximized={isMaximized}
+          toggleFullSizeBrowser={toggleFullSizeBrowser}
+          isPinned={isPinned}
+        />
+      )}
       {favicon && (
         <img
           src={isLoading ? loadingImg : favicon}
@@ -54,17 +63,16 @@ export const BrowserTopBar = ({
         />
       )}
       <div className="BrowserTopBar__title">{title || ''}</div>
-      {
-        window.app.os.getPlatform() !== 'darwin' && (
-          <Controls 
+      {window.app.os.getPlatform() !== 'darwin' &&
+        !settings['application.forceMacosStyle'] && (
+          <Controls
             closeBrowser={closeBrowser}
             minimizeBrowser={minimizeBrowser}
             isMaximized={isMaximized}
             toggleFullSizeBrowser={toggleFullSizeBrowser}
             isPinned={isPinned}
-            />
-        )
-      }
+          />
+        )}
     </div>
   );
 };
@@ -74,50 +82,64 @@ const Controls = ({
   toggleFullSizeBrowser,
   isMaximized,
   minimizeBrowser,
-  isPinned
+  isPinned,
 }: {
-  closeBrowser: () => void
-  toggleFullSizeBrowser: () => void
-  minimizeBrowser: () => void
-  isMaximized: boolean
-  isPinned: boolean
+  closeBrowser: () => void;
+  toggleFullSizeBrowser: () => void;
+  minimizeBrowser: () => void;
+  isMaximized: boolean;
+  isPinned: boolean;
 }) => {
+  const settings = useSettings();
   return (
-    <div className={clsx({'macos': window.app.os.getPlatform() === 'darwin'}, "BrowserTopBar__controls")}>
-      {
-        window.app.os.getPlatform() !== 'darwin' && (
+    <div
+      className={clsx(
+        {
+          macos:
+            window.app.os.getPlatform() === 'darwin' ||
+            settings['application.forceMacosStyle'],
+        },
+        'BrowserTopBar__controls'
+      )}
+    >
+      {window.app.os.getPlatform() !== 'darwin' &&
+        !settings['application.forceMacosStyle'] && (
           <>
-            {!isPinned && (<div
-              className="BrowserTopBar__control-button close-button"
-              onClick={closeBrowser}
-              data-testid="close-browser"
+            {!isPinned && (
+              <div
+                className="BrowserTopBar__control-button close-button"
+                onClick={closeBrowser}
+                data-testid="close-browser"
+              >
+                <CloseIcon />
+              </div>
+            )}
+            <div
+              className="BrowserTopBar__control-button"
+              onClick={toggleFullSizeBrowser}
+              data-testid="toggle-enlarge-browser"
             >
-              <CloseIcon />
+              {isMaximized ? <Unmaximize /> : <CropSquareIcon />}
             </div>
-          )
-        }
-        <div
-          className="BrowserTopBar__control-button"
-          onClick={toggleFullSizeBrowser}
-          data-testid="toggle-enlarge-browser"
-        >
-          {isMaximized ? <Unmaximize /> : <CropSquareIcon />}
-        </div>
-        <div
-          className="BrowserTopBar__control-button"
-          onClick={minimizeBrowser}
-          data-testid="minimize-browser"
-        >
-          <MinimizeIcon />
-        </div>
+            <div
+              className="BrowserTopBar__control-button"
+              onClick={minimizeBrowser}
+              data-testid="minimize-browser"
+            >
+              <MinimizeIcon />
+            </div>
           </>
-        )
-      }
+        )}
 
-      {
-        window.app.os.getPlatform() === 'darwin' && (<MacOSControls isPinned={isPinned} closeBrowser={closeBrowser} minimizeBrowser={minimizeBrowser} toggleFullSizeBrowser={toggleFullSizeBrowser}/>)
-      }
-      
+      {window.app.os.getPlatform() === 'darwin' ||
+        (settings['application.forceMacosStyle'] && (
+          <MacOSControls
+            isPinned={isPinned}
+            closeBrowser={closeBrowser}
+            minimizeBrowser={minimizeBrowser}
+            toggleFullSizeBrowser={toggleFullSizeBrowser}
+          />
+        ))}
     </div>
-  )
-}
+  );
+};

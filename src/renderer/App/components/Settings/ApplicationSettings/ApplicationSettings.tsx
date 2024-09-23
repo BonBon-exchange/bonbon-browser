@@ -30,6 +30,8 @@ export const ApplicationSettings = () => {
   const [appSettingMinimapOn, setAppSettingMinimapOn] = useState<boolean>(
     settings['application.minimapOn']
   );
+  const [appSettingForceMacosStyle, setAppSettingForceMacosStyle] =
+    useState<boolean>(settings['application.forceMacosStyle']);
 
   const updateLanguage = (value: Locale) => {
     i18n.changeLanguage(value).catch(console.log);
@@ -89,6 +91,15 @@ export const ApplicationSettings = () => {
       })
     );
   }, [appSettingMinimapOn, dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      setSetting({
+        key: 'application.forceMacosStyle',
+        value: appSettingForceMacosStyle,
+      })
+    );
+  }, [appSettingForceMacosStyle, dispatch]);
 
   return (
     <>
@@ -221,6 +232,21 @@ export const ApplicationSettings = () => {
           {t(
             'If checked, the minimap on the right side will always be visible.'
           )}
+        </div>
+      </div>
+
+      <div className="Settings__item">
+        <input
+          type="checkbox"
+          id="application-settings-force-macos-style"
+          checked={appSettingForceMacosStyle}
+          onChange={(e) => setAppSettingForceMacosStyle(e.target.checked)}
+        />
+        <label htmlFor="application-settings-force-macos-style">
+          {t('Use macOS style for windows')}
+        </label>
+        <div className="Settings__item-description">
+          {t('If checked, windows will use macOS style.')}
         </div>
       </div>
     </>

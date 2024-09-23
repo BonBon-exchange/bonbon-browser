@@ -1,1 +1,3 @@
-export * from './Unmaximize';
+import { Unmaximize } from './Unmaximize';
+
+export default Unmaximize;
