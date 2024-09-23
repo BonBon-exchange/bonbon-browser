@@ -130,6 +130,7 @@ const makeAppEvents = () => {
 
     contents.on('did-attach-webview', (_daw, webContents) => {
       getBrowsers()[webContents.id] = webContents;
+      webContents.session.setMaxListeners(99);
       webContents.addListener('dom-ready', () => {
         if (webContents.getURL() === 'https://web.whatsapp.com/') {
           webContents.setUserAgent(

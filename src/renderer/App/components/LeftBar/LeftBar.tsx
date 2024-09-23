@@ -1,13 +1,9 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable import/prefer-default-export */
 import { ReactEventHandler, useCallback, useEffect, useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
-import { Reorder } from 'framer-motion';
 import CloseIcon from '@mui/icons-material/Close';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import clsx from 'clsx';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
@@ -30,16 +26,25 @@ export const LeftBar = () => {
   const [items, setItems] = useState<BrowserProps[]>(boardState.browsers);
   const { browser, board } = useStoreHelpers();
 
-  const handleReorder = (newOrder: BrowserProps[]) => {
-    setItems(newOrder);
-    dispatch(setBrowsers(newOrder));
-    board.distributeWindowsByOrder(newOrder);
+  const handleReorder = (result: any) => {
+    if (!result.destination) return;
+
+    const newItems = Array.from(items);
+    const [removed] = newItems.splice(result.source.index, 1);
+    newItems.splice(result.destination.index, 0, removed);
+
+    setItems(newItems);
+    dispatch(setBrowsers(newItems));
+    board.distributeWindowsByOrder(newItems);
   };
 
-  const handleImageError: ReactEventHandler<HTMLImageElement> = (e) => {
-    const target = e.target as HTMLImageElement;
-    target.src = icon;
-  };
+  const handleImageError: ReactEventHandler<HTMLImageElement> = useCallback(
+    (e) => {
+      const target = e.target as HTMLImageElement;
+      target.src = icon;
+    },
+    []
+  );
 
   const handleClickFavicon = useCallback(
     (browserId: string) => {
@@ -52,50 +57,58 @@ export const LeftBar = () => {
   );
 
   const makeItem = useCallback(
-    (b: BrowserProps) => {
+    (b: BrowserProps, index: number) => {
       return (
-        <Reorder.Item key={`reorderItem-${b.id}`} value={b}>
-          <Tooltip title={b.title || ''} placement="right" key={b.id}>
-            <div className="LeftBar__browserContainer">
-              <div
-                className={
-                  !b.isMinimized
-                    ? 'LeftBar__closeBrowser'
-                    : 'LeftBar__maximizeBrowser'
-                }
-                onClick={() => {
-                  if (!b.isMinimized) {
-                    browser.close(b.id);
-                  }
-                }}
-              >
-                {!b.isMinimized ? <CloseIcon /> : <OpenInFullIcon />}
-              </div>
-              <div
-                className={clsx({
-                  selected: b.id === boardState.activeBrowser,
-                  LeftBar__browserFav: true,
-                })}
-                key={b.id}
-                onClick={() => handleClickFavicon(b.id)}
-                data-browserid={b.id}
-              >
-                <img
-                  src={b.isLoading ? loadingImg : b.favicon || icon}
-                  className="LeftBar__browserFavImg"
-                  onError={handleImageError}
-                />
-              </div>
+        <Draggable key={b.id} draggableId={b.id} index={index}>
+          {(provided: any) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+            >
+              <Tooltip title={b.title || ''} placement="right">
+                <div className="LeftBar__browserContainer">
+                  <div
+                    className={
+                      !b.isMinimized
+                        ? 'LeftBar__closeBrowser'
+                        : 'LeftBar__maximizeBrowser'
+                    }
+                    onClick={() => {
+                      if (!b.isMinimized) {
+                        browser.close(b.id);
+                      }
+                    }}
+                  >
+                    {!b.isMinimized ? <CloseIcon /> : <OpenInFullIcon />}
+                  </div>
+                  <div
+                    className={clsx({
+                      selected: b.id === boardState.activeBrowser,
+                      LeftBar__browserFav: true,
+                    })}
+                    onClick={() => handleClickFavicon(b.id)}
+                    data-browserid={b.id}
+                  >
+                    <img
+                      src={b.isLoading ? loadingImg : b.favicon || icon}
+                      className="LeftBar__browserFavImg"
+                      onError={handleImageError}
+                      alt={b.title}
+                    />
+                  </div>
+                </div>
+              </Tooltip>
             </div>
-          </Tooltip>
-        </Reorder.Item>
+          )}
+        </Draggable>
       );
     },
-    [boardState.activeBrowser, browser, handleClickFavicon]
+    [boardState.activeBrowser, browser, handleClickFavicon, handleImageError]
   );
 
   const makeFavicons = useCallback(() => {
-    return items.map((b: BrowserProps) => makeItem(b));
+    return items.map((b: BrowserProps, index: number) => makeItem(b, index));
   }, [items, makeItem]);
 
   useEffect(() => {
@@ -113,10 +126,21 @@ export const LeftBar = () => {
   return (
     <ErrorFallback>
       <div id="LeftBar__browserFavContainer">
-        <Reorder.Group values={items} onReorder={handleReorder} axis="y">
-          <div id="LeftBar__browserFavContainerItems">{makeFavicons()}</div>
+        <DragDropContext onDragEnd={handleReorder}>
+          <Droppable droppableId="browsers">
+            {(provided) => (
+              <div
+                id="LeftBar__browserFavContainerItems"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {makeFavicons()}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
           <ButtonAddBrowser onClick={browser.add} />
-        </Reorder.Group>
+        </DragDropContext>
       </div>
     </ErrorFallback>
   );

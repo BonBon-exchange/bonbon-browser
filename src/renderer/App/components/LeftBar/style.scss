@@ -7,10 +7,10 @@
   align-items: center;
   z-index: 10;
   background-color: var(--color-background-tertiary);
+  padding-top: 10px;
 
   .LeftBar__browserContainer:hover {
-
-    .LeftBar__closeBrowser, 
+    .LeftBar__closeBrowser,
     .LeftBar__maximizeBrowser {
       display: block;
     }
@@ -34,12 +34,10 @@
     color: var(--color-icon-primary);
     margin-top: -19px;
     cursor: pointer;
-
   }
 }
 
 .LeftBar__closeBrowser {
-
   svg {
     height: 15px;
   }
