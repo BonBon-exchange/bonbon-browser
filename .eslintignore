@@ -35,3 +35,5 @@ npm-debug.log.*
 *.d.ts
 
 assets
+
+src/main/main.js

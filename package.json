@@ -57,7 +57,7 @@
       "email": ""
     }
   ],
-  "main": "./src/main/main.ts",
+  "main": "./src/main/main.js",
   "scripts": {
     "build": "npm install cross-env webpack webpack-cli --legacy-peer-deps && npm run buildmain && npm run buildrenderer",
     "buildmain": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
@@ -147,9 +147,9 @@
     "@reduxjs/toolkit": "^1.8.2",
     "clsx": "^1.1.1",
     "easy-auto-launch": "^6.0.2",
-    "electron": "^24.8.8",
+    "electron": "^32.1.2",
     "electron-chrome-extensions": "^3.9.0",
-    "electron-chrome-extensions-production": "^3.13.0",
+    "electron-chrome-extensions-production": "^3.15.0",
     "electron-context-menu": "^3.2.0",
     "electron-log": "^4.4.8",
     "electron-store": "^8.0.2",
