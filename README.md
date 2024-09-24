@@ -12,21 +12,12 @@
 <div align="center">
     <a href="https://bonbon.exchange" target="_blank"><img src="https://raw.githubusercontent.com/BonBon-exchange/bonbon-browser/main/assets/icon.png" alt="Logo" width="80" height="80"></a>
 
-  <h3 align="center">BonBon Browser</h3>
-
-  <p align="center">
-    <a href="https://youtu.be/T1lL7ZQEFQo" target="_blank">https://youtu.be/T1lL7ZQEFQo</a>
-    <br />
-    <br />
-    <a href="https://github.com/BonBon-exchange/bonbon-browser/issues/new?assignees=&labels=bug&template=1-Bug_report.md">Report Bug</a>
-    ·
-    <a href="https://github.com/BonBon-exchange/bonbon-browser/issues/new?assignees=&labels=enhancement&template=3-Feature_request.md">Request Feature</a>
-  </p>
+  <h3 align="center">BonBon Browser 1.0</h3>
 </div>
 
 ---
 
-<div align="center"> <a href="https://bonbon.exchange">Homepage</a> | <a href="#-download">Downloads</a> | <a href="#-features">Features</a> | <a href="#%EF%B8%8F-communities">Discord</a> | <a href="#%EF%B8%8F-communities">Reddit</a> </div>
+<div align="center"> <a href="#-download">Download</a> | <a href="#-features">Features</a> </div>
 
 ---
 
@@ -92,6 +83,8 @@ Download the latest version BonBon for Windows (setup and portable)/macOS intel/
 
 The tabs at the top of the app are Boards. The classic tabs are represented by the website Favicon in the left bar of each board.
 
+[![Boards][boards-image]]()
+
 ### Minimap
 
 On the right side of the screen, you will find the minimap. A representation of your board. It's a quick and efficient way of scrolling.
@@ -102,13 +95,11 @@ On the right side of the screen, you will find the minimap. A representation of 
 
 Snap your windows to the left, to the right or to the top, just by dragging it! So it perfectly fits your screen.
 
-### Extensions
-
-Install extensions from the Chrome Web Store, as simple as "Add to BonBon".
+[![Snap][snap-image]]()
 
 ### and more...
 
-- [x] Collections: create a composition of webviews
+- [x] Boards: create a composition of webviews
 - [x] Bookmarks
 - [x] Browsing History
 - [x] Download manager
@@ -116,7 +107,7 @@ Install extensions from the Chrome Web Store, as simple as "Add to BonBon".
 - [x] Snap windows to the left or to the right dragging it to the edge of the app
 - [x] Darkmode
 - [x] Drag and reorder tabs
-- [x] Download extensions from Chrome Web Store
+- [x] Download extensions manifest 2 from Chrome Web Store
 - [x] uBlockOrigin by default
 - [x] Keyboard shortcuts: ctrl (+ shift) +t, +r, +w | alt + scroll
 
@@ -145,8 +136,6 @@ Don't forget to give the project a star! Thanks again!
 
 **BonBon Browser** is a next-generation, open-source web browser designed with privacy and user control at its core. Available for Windows, macOS, and Linux, BonBon Browser aims to redefine the browsing experience by offering a lightweight, feature-rich platform that respects your privacy. Unlike many other browsers, BonBon does not collect any user data, ensuring that your browsing activities remain private and secure. With BonBon Browser, you are in control of your data, not Big Tech.
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/BonBon-exchange/bonbon-browser)
-
 - **Follow us on X and Telegram:** Stay up-to-date with the latest news, updates, and announcements by following us on [X (@bonbon_browser)](https://x.com/bonbon_browser) and [Telegram](https://t.me/bonbon_browser).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -172,4 +161,6 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 [license-shield]: https://img.shields.io/github/license/BonBon-exchange/bonbon-browser.svg?style=for-the-badge
 [license-url]: https://github.com/BonBon-exchange/bonbon-browser/blob/master/LICENSE.txt
 [product-screenshot]: https://media.giphy.com/media/P9hq4y6F1ijINhE6kf/giphy.gif
-[minimap-image]: https://github.com/BonBon-exchange/bonbon-browser/raw/main/images/minimap.png
+[minimap-image]: https://i.imgur.com/L7beGTv.gif
+[snap-image]: https://i.imgur.com/c6HDmts.gif
+[boards-image]: https://i.imgur.com/NCZXDRl.gif
