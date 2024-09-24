@@ -260,6 +260,9 @@ export const Browser = ({
           }
           break;
       }
+      setTimeout(() => {
+        helpers.browser.requestCapture(id);
+      }, 0);
       enablePointerEventsForAll();
       setScrollY(null);
     }
