@@ -17,14 +17,6 @@ export const About = () => {
       <div className="About__property-line">
         <span className="About__property">{t('Author')}:</span> Daniel Febrero
       </div>
-      <div className="About__property-line">
-        <span className="About__property">{t('Team')}:</span> Daniel Febrero,
-        Anthony Cettour, 0xCUBE, Nuklusone, Howard Huang, Faouzi Benali, Daniel
-        Callus
-      </div>
-      <div className="About__property-line">
-        <span className="About__property">{t('Past contributors')}:</span> Aitor
-      </div>
     </>
   );
 };
