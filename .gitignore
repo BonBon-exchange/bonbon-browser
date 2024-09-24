@@ -31,3 +31,6 @@ npm-debug.log.*
 
 src/renderer/localazy.json
 src/main/localazy.json
+
+# Sentry Config File
+.env.sentry-build-plugin

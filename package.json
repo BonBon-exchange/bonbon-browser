@@ -108,6 +108,7 @@
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
     "@reduxjs/toolkit": "^1.8.2",
+    "@sentry/electron": "^5.4.0",
     "clsx": "^1.1.1",
     "easy-auto-launch": "^6.0.2",
     "electron": "^32.1.2",
