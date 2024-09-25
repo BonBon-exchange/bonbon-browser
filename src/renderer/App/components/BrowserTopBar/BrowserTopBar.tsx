@@ -7,10 +7,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import MinimizeIcon from '@mui/icons-material/Minimize';
 import clsx from 'clsx';
+import { useState } from 'react';
 
 import Unmaximize from 'renderer/App/components/Unmaximize';
 import MacOSControls from 'renderer/App/components/MacOSControls';
 import { useSettings } from 'renderer/App/hooks/useSettings';
+import { useBoard } from 'renderer/App/hooks/useBoard';
 
 import loadingImg from 'renderer/App/svg/loading.svg';
 
@@ -30,6 +32,12 @@ export const BrowserTopBar = ({
   isPinned,
 }: BrowserTopBarProps) => {
   const settings = useSettings();
+  const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
+  const board = useBoard();
+
+  const onMouseLeave = () => {
+    if (isMouseDown && board.isFullSize) toggleFullSizeBrowser();
+  };
 
   return (
     <div
@@ -43,6 +51,9 @@ export const BrowserTopBar = ({
       )}
       onDoubleClick={toggleFullSizeBrowser}
       onClick={onClick}
+      onMouseDown={() => setIsMouseDown(true)}
+      onMouseUp={() => setIsMouseDown(false)}
+      onMouseLeave={onMouseLeave}
     >
       {(window.app.os.getPlatform() === 'darwin' ||
         settings['application.forceMacosStyle']) && (
