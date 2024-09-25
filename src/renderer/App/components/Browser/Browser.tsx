@@ -262,7 +262,7 @@ export const Browser = ({
       }
       setTimeout(() => {
         helpers.browser.requestCapture(id);
-      }, 0);
+      }, 50);
       enablePointerEventsForAll();
       setScrollY(null);
     }
