@@ -305,10 +305,6 @@ export const Browser = ({
     window.app.analytics.event('browser_reload');
   };
 
-  const browserTopBarOnClick = () => {
-    () => focus(id, true);
-  };
-
   const scrollListener = useCallback(() => {
     const timestamp = new Date().getTime();
     if (scrollY) window.scrollTo(0, scrollY);
@@ -338,7 +334,7 @@ export const Browser = ({
           minimizeBrowser={() => helpers.browser.minimize(id)}
           toggleFullSizeBrowser={toggleFullSizeBrowser}
           isPinned={isPinned}
-          onClick={browserTopBarOnClick}
+          onClick={() => focus(id, true)}
           title={title}
           favicon={favicon}
           isLoading={isLoading}
