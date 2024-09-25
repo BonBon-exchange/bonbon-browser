@@ -1,7 +1,8 @@
 #Popup__container {
   z-index: 2000;
   height: auto;
-  width: 300px;
+  width: auto;
+  max-width: 600px;
   top: calc(50% - 150px) !important;
   left: calc(50% - 150px) !important;
   background-color: var(--color-background-tertiary);

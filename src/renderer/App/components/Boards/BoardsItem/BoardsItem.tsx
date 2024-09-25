@@ -4,6 +4,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/prefer-default-export */
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import clsx from 'clsx';
 
 import { BoardsItemProps } from './Types';
 
@@ -12,18 +13,24 @@ export const BoardsItem = ({
   handleDelete,
   handleClick,
 }: BoardsItemProps) => {
-
   return (
-    <div className="Boards__item" key={board.id}>
+    <div
+      key={board.id}
+      className={clsx(
+        'bg-background-primary p-5 rounded-sm shadow-sm mb-7 cursor-pointer flex flex-row overflow-hidden transition border',
+        'hover:border-border'
+      )}
+    >
       <div
-        className="Boards__item-text"
+        className="flex-grow overflow-hidden"
         onClick={() => handleClick(board.id)}
       >
-        <div className="Boards__item-name">{board.label}</div>
+        <div className="font-bold">{board.label}</div>
+        {/* If you have tags or URLs, include them here with appropriate Tailwind classes */}
       </div>
-      <div className="Boards__item-controls">
+      <div className="flex flex-row">
         <div
-          className="Boards__item-control"
+          className="p-2 hover:text-icon-primary transition-colors"
           onClick={() => handleDelete(board.id)}
         >
           <DeleteForeverIcon />

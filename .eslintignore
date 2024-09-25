@@ -37,3 +37,5 @@ npm-debug.log.*
 assets
 
 src/main/main.js
+postcss.config.js
+tailwind.config.js

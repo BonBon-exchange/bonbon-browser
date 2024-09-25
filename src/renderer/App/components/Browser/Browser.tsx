@@ -89,6 +89,7 @@ export const Browser = ({
   }, [dispatch]);
 
   const zoomEdgeClass = (edgeClass: Element | null, max = false) => {
+    if (!edgeClass) return;
     const boardWidth =
       document.getElementById('Board__container')?.clientWidth || 1024;
     // @ts-ignore
@@ -102,6 +103,7 @@ export const Browser = ({
   };
 
   const resetEdgeClass = (edgeClass: Element | null) => {
+    if (!edgeClass) return;
     // @ts-ignore
     edgeClass.style.opacity = '0';
     // @ts-ignore

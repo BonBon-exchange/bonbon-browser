@@ -84,7 +84,7 @@ const configuration: webpack.Configuration = {
       },
       {
         test: /\.s?css$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
         exclude: /\.module\.s?(c|a)ss$/,
       },
       // Fonts
@@ -103,12 +103,12 @@ const configuration: webpack.Configuration = {
     ...(requiredByDLLConfig
       ? []
       : [
-        new webpack.DllReferencePlugin({
-          context: webpackPaths.dllPath,
-          manifest: require(manifest),
-          sourceType: 'var',
-        }),
-      ]),
+          new webpack.DllReferencePlugin({
+            context: webpackPaths.dllPath,
+            manifest: require(manifest),
+            sourceType: 'var',
+          }),
+        ]),
 
     new webpack.NoEmitOnErrorsPlugin(),
 

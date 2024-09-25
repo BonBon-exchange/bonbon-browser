@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/electron/renderer';
 import { TitleBar } from './TitleBar';
 
 import './TitleBar.scss';
+import './index.css';
 
 Sentry.init({
   integrations: [

@@ -20,8 +20,7 @@ import { useSettings } from 'renderer/App/hooks/useSettings';
 
 import { AddapsProps } from './Types';
 
-import './style.css';
-
+// Lazy-loaded components
 const Board = lazy(() => import('renderer/App/components/Board'));
 const LeftBar = lazy(() => import('renderer/App/components/LeftBar'));
 const DownloadsPreview = lazy(
@@ -47,6 +46,8 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   const { items } = useAppSelector((state) => state.downloads);
   const { board } = useStoreHelpers({ boardId });
   const boardUsed = useBoard();
+
+  // State management
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showBoards, setShowBoards] = useState<boolean>(false);
@@ -65,6 +66,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
 
   const { i18n } = useTranslation();
 
+  // Callbacks
   const showAppMenuAction = useCallback(() => {
     setShowAppMenu(!showAppMenu);
     setShowDownloadsPreview(false);
@@ -75,7 +77,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
       setShowDownloadsPreview(!showDownloadsPreview);
       setShowAppMenu(false);
     } else {
-      // show downloads
+      // Show downloads
       setShowDownloads(true);
     }
   }, [showDownloadsPreview, items.length]);
@@ -97,6 +99,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
     window.app.analytics.event('open_about');
   };
 
+  // Handlers for closing various modals
   const handleCloseSettings = () => {
     dispatch(setInAppMenu(false));
     setShowSettings(false);
@@ -132,6 +135,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
     setShowBoards(false);
   };
 
+  // Handlers for showing various modals
   const handleShowSettings = () => {
     dispatch(setInAppMenu(true));
     setShowSettings(true);
@@ -167,6 +171,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
     setShowBoards(true);
   };
 
+  // Reset board action
   const resetBoardAction = useCallback(
     (_e: any, bId?: string) => {
       if (!bId || boardId === bId) {
@@ -176,6 +181,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
     [boardId]
   );
 
+  // Effects
   useEffect(() => {
     if (boardId) board.load({ id: boardId });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -197,13 +203,10 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   }, []);
 
   useEffect(() => {
-    document
-      .querySelector('#Minimap__detection-zone')
-      ?.addEventListener('mouseenter', minimapMouseEnterListener);
+    const minimapZone = document.querySelector('#Minimap__detection-zone');
+    minimapZone?.addEventListener('mouseenter', minimapMouseEnterListener);
     return () =>
-      document
-        .querySelector('#Minimap__detection-zone')
-        ?.removeEventListener('mouseenter', minimapMouseEnterListener);
+      minimapZone?.removeEventListener('mouseenter', minimapMouseEnterListener);
   }, []);
 
   useEffect(() => {
@@ -226,18 +229,24 @@ export const Addaps = ({ boardId }: AddapsProps) => {
         <div
           id="Addaps__container"
           data-boardid={boardId}
-          className={clsx({
-            'justify-content-right':
-              i18n.language === 'ar' || i18n.language === 'fa',
+          className={clsx('flex', {
+            'justify-end': i18n.language === 'ar' || i18n.language === 'fa',
+            'justify-start': i18n.language !== 'ar' && i18n.language !== 'fa',
           })}
         >
+          {/* Background Gradient */}
           <div
             id="Addaps__background"
             style={{
               background: `linear-gradient(200.96deg, ${settings['application.backgroundGradientColors.0']} -29.09%, ${settings['application.backgroundGradientColors.1']} 51.77%, ${settings['application.backgroundGradientColors.2']} 129.35%)`,
             }}
+            className="h-full w-full fixed top-0 left-0"
           />
+
+          {/* Left Sidebar */}
           <LeftBar />
+
+          {/* Main Board */}
           <Board
             boardId={boardId}
             isFullSize={
@@ -249,11 +258,15 @@ export const Addaps = ({ boardId }: AddapsProps) => {
               showExtensions
             }
           />
+
+          {/* Popup Modal */}
           {showPopup && (
             <Popup title={popupTitle} closePopup={() => setShowPopup(false)}>
               {popupChildren}
             </Popup>
           )}
+
+          {/* App Menu */}
           {showAppMenu && (
             <AppMenu
               showAbout={showAbout}
@@ -266,7 +279,11 @@ export const Addaps = ({ boardId }: AddapsProps) => {
               showBoards={handleShowBoards}
             />
           )}
+
+          {/* Downloads Preview */}
           {showDownloadsPreview && <DownloadsPreview />}
+
+          {/* Various Modals */}
           {showSettings && <Settings handleClose={handleCloseSettings} />}
           {showBoards && <Boards handleClose={handleCloseBoards} />}
           {showBookmarks && <Bookmarks handleClose={handleCloseBookmarks} />}
@@ -276,7 +293,14 @@ export const Addaps = ({ boardId }: AddapsProps) => {
           {showDocumentation && (
             <Documentation handleClose={handleCloseDocumentation} />
           )}
-          <div id="Minimap__detection-zone" />
+
+          {/* Minimap Detection Zone */}
+          <div
+            id="Minimap__detection-zone"
+            className="h-full w-5 bg-transparent fixed right-0 top-0"
+          />
+
+          {/* Minimap Component */}
           {(showMinimap || settings['application.minimapOn']) &&
             !boardUsed?.isFullSize &&
             !boardUsed.isInAppMenu && (

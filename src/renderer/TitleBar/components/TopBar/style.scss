@@ -2,7 +2,7 @@
   display: flex;
   height: 30px;
   position: fixed;
-  width: calc(100%);
+  width: 100%;
   background-color: var(--color-background-tertiary);
   color: var(--color-text-primary);
   z-index: 1000;
@@ -12,7 +12,6 @@
 
 .macTitleBar {
   padding-left: 80px;
-  width: calc(100% - 80px) !important;
 }
 
 #TopBar__tabs-container {
@@ -150,5 +149,4 @@ browser-action-list {
   border-right: 1px solid var(--color-border);
   padding: 5px 15px;
   align-items: center;
-
 }

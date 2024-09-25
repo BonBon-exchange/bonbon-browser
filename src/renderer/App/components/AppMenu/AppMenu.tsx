@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import { AppMenuProps } from './Types';
 
-import './style.scss';
-
 export const AppMenu = ({
   showAbout,
   showSettings,
@@ -22,21 +20,64 @@ export const AppMenu = ({
   return (
     <div
       id="AppMenu__container"
-      className="AppMenu__container"
+      className="fixed right-0 top-0 bg-background-tertiary w-[200px] text-text-primary z-[100]"
       data-testid="app-menu"
     >
-      <ul>
-        <li onClick={() => window.app.tools.toggleDarkMode()}>
+      <ul className="list-none p-0 m-0">
+        <li
+          className="p-[13px] cursor-pointer hover:bg-background-5"
+          onClick={() => window.app.tools.toggleDarkMode()}
+        >
           {t('Toggle dark mode')}
         </li>
-        <li onClick={() => showBoards()}>{t('Boards')}</li>
-        <li onClick={() => showExtensions()}>{t('Extensions')}</li>
-        <li onClick={() => showDownloads()}>{t('Downloads')}</li>
-        <li onClick={() => showBookmarks()}>{t('Bookmarks')}</li>
-        <li onClick={() => showHistory()}>{t('History')}</li>
-        <li onClick={() => showSettings()}>{t('Settings')}</li>
-        <li onClick={() => showDocumentation()}>{t('Documentation')}</li>
-        <li onClick={() => showAbout()}>{t('About')}</li>
+        <li
+          className="p-[13px] border-t border-text-primary cursor-pointer hover:bg-background-5"
+          onClick={() => showBoards()}
+        >
+          {t('Boards')}
+        </li>
+        <li
+          className="p-[13px] border-t border-text-primary cursor-pointer hover:bg-background-5"
+          onClick={() => showExtensions()}
+        >
+          {t('Extensions')}
+        </li>
+        <li
+          className="p-[13px] border-t border-text-primary cursor-pointer hover:bg-background-5"
+          onClick={() => showDownloads()}
+        >
+          {t('Downloads')}
+        </li>
+        <li
+          className="p-[13px] border-t border-text-primary cursor-pointer hover:bg-background-5"
+          onClick={() => showBookmarks()}
+        >
+          {t('Bookmarks')}
+        </li>
+        <li
+          className="p-[13px] border-t border-text-primary cursor-pointer hover:bg-background-5"
+          onClick={() => showHistory()}
+        >
+          {t('History')}
+        </li>
+        <li
+          className="p-[13px] border-t border-text-primary cursor-pointer hover:bg-background-5"
+          onClick={() => showSettings()}
+        >
+          {t('Settings')}
+        </li>
+        <li
+          className="p-[13px] border-t border-text-primary cursor-pointer hover:bg-background-5"
+          onClick={() => showDocumentation()}
+        >
+          {t('Documentation')}
+        </li>
+        <li
+          className="p-[13px] border-t border-text-primary cursor-pointer hover:bg-background-5"
+          onClick={() => showAbout()}
+        >
+          {t('About')}
+        </li>
       </ul>
     </div>
   );
