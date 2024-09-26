@@ -142,15 +142,15 @@ const Controls = ({
           </>
         )}
 
-      {window.app.os.getPlatform() === 'darwin' ||
-        (settings['application.forceMacosStyle'] && (
-          <MacOSControls
-            isPinned={isPinned}
-            closeBrowser={closeBrowser}
-            minimizeBrowser={minimizeBrowser}
-            toggleFullSizeBrowser={toggleFullSizeBrowser}
-          />
-        ))}
+      {(window.app.os.getPlatform() === 'darwin' ||
+        settings['application.forceMacosStyle']) && (
+        <MacOSControls
+          isPinned={isPinned}
+          closeBrowser={closeBrowser}
+          minimizeBrowser={minimizeBrowser}
+          toggleFullSizeBrowser={toggleFullSizeBrowser}
+        />
+      )}
     </div>
   );
 };
