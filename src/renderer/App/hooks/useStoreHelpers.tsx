@@ -231,6 +231,69 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
     return sortedContainer;
   }, [board.browsers]);
 
+  const autotileWindows = useCallback(
+    (horizontal: number, vertical: number) => {
+      const margin = 10;
+      const container = document.getElementById('Board__container');
+      if (!container) return;
+
+      const totalWidth = container.clientWidth;
+      const totalHeight = window.innerHeight;
+
+      // Calculate the total margins
+      const totalHorizontalMargin = (horizontal + 1) * margin;
+      const totalVerticalMargin = (vertical + 1) * margin;
+
+      // Calculate the available width and height for the windows
+      const availableWidth = totalWidth - totalHorizontalMargin;
+      const availableHeight = totalHeight - totalVerticalMargin;
+
+      // Calculate the window width and height (ensuring all windows have the same size)
+      const windowWidth = availableWidth / horizontal;
+      const windowHeight = availableHeight / vertical;
+
+      // Ensure the windows are not larger than possible
+      const finalWindowWidth = Math.floor(windowWidth);
+      const finalWindowHeight = Math.floor(windowHeight);
+
+      // Calculate total used space and leftover space
+      const totalUsedWidth =
+        finalWindowWidth * horizontal + margin * (horizontal + 1);
+      const totalUsedHeight =
+        finalWindowHeight * vertical + margin * (vertical + 1);
+
+      const leftoverWidth = totalWidth - totalUsedWidth;
+      const leftoverHeight = totalHeight - totalUsedHeight;
+
+      // Adjust margins to center the grid if there's leftover space
+      const extraHorizontalMargin = margin + leftoverWidth / 2;
+      const extraVerticalMargin = margin + leftoverHeight / 2;
+
+      board.browsers.forEach((browser, index) => {
+        const rowIndex = Math.floor(index / horizontal);
+        const colIndex = index % horizontal;
+
+        const left =
+          extraHorizontalMargin + colIndex * (finalWindowWidth + margin);
+        const top =
+          extraVerticalMargin + rowIndex * (finalWindowHeight + margin);
+
+        dispatch(
+          updateBrowser({
+            browserId: browser.id,
+            params: {
+              left,
+              top,
+              width: finalWindowWidth,
+              height: finalWindowHeight,
+            },
+          })
+        );
+      });
+    },
+    [board.browsers, dispatch]
+  );
+
   const distributeWindowsEvenly = useCallback(
     (sortedContainers: Element[]): Promise<void> => {
       return new Promise((resolve) => {
@@ -386,6 +449,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       distributeWindowsEvenlyDefault,
       getSortedBrowsers,
       distributeWindowsByOrder,
+      autotileWindows,
     },
   };
 };

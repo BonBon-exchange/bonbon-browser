@@ -140,7 +140,8 @@ export const showBoardContextMenu = (
   params: IpcShowBoardContextMenu
 ) => {
   const selectedView = getSelectedView();
-  const template = [
+  // eslint-disable-next-line no-undef
+  const template: Electron.MenuItemConstructorOptions[] = [
     {
       label: i18n.t('Distribute windows evenly'),
       click: () => {
@@ -154,6 +155,35 @@ export const showBoardContextMenu = (
       },
     },
     {
+      label: i18n.t('Autotile'), // Submenu label
+      submenu: [
+        {
+          label: '2x1',
+          click: () => {
+            selectedView?.webContents.send('autotile-windows', 2, 1);
+          },
+        },
+        {
+          label: '2x2',
+          click: () => {
+            selectedView?.webContents.send('autotile-windows', 2, 2);
+          },
+        },
+        {
+          label: '3x1',
+          click: () => {
+            selectedView?.webContents.send('autotile-windows', 3, 1);
+          },
+        },
+        {
+          label: '3x2',
+          click: () => {
+            selectedView?.webContents.send('autotile-windows', 3, 2);
+          },
+        },
+      ],
+    },
+    {
       type: 'separator',
     },
     {
@@ -164,7 +194,6 @@ export const showBoardContextMenu = (
     },
   ];
 
-  // @ts-ignore
   const menu = Menu.buildFromTemplate(template);
   menu.popup({
     window: BrowserWindow.fromWebContents(e.sender) || undefined,

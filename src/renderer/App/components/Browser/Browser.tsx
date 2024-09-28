@@ -447,6 +447,12 @@ export const Browser = ({
     return () => window.removeEventListener('scroll', scrollListener);
   }, [scrollListener]);
 
+  useEffect(() => {
+    const browser = board.browsers.find((b) => b.id === id);
+    setRndWidth(browser?.width as number);
+    setRndHeight(browser?.height as number);
+  }, [board.browsers, id]);
+
   return (
     <ErrorFallback>
       <Rnd

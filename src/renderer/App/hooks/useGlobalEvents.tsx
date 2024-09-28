@@ -281,6 +281,14 @@ export const useGlobalEvents = () => {
     board.distributeWindowsEvenlyDefault();
   }, [board]);
 
+  const autotileWindowsAction = useCallback(
+    (_e: IpcRendererEvent, horizontal: number, vertical: number) => {
+      console.log({ horizontal, vertical });
+      board.autotileWindows(horizontal, vertical);
+    },
+    []
+  );
+
   const setDefaultWindowSizeAction = useCallback(
     (_e: IpcRendererEvent, wcId: number) => {
       const brow = boardState.browsers.find((b) => b.webContentsId === wcId);
@@ -349,6 +357,11 @@ export const useGlobalEvents = () => {
     window.app.listener.distributeWindowsEvenly(distributeWindowsEvenlyAction);
     return () => window.app.off.distributeWindowsEvenly();
   }, [distributeWindowsEvenlyAction]);
+
+  useEffect(() => {
+    window.app.listener.autotileWindows(autotileWindowsAction);
+    return () => window.app.off.autotileWindows();
+  }, [autotileWindowsAction]);
 
   useEffect(() => {
     window.addEventListener('keydown', keyDownListener, false);

@@ -294,6 +294,17 @@ contextBridge.exposeInMainWorld('app', {
         action(event, args as IpcResetBoard)
       );
     },
+    autotileWindows: (
+      action: (
+        event: IpcRendererEvent,
+        horizontal: number,
+        vertical: number
+      ) => void
+    ) => {
+      ipcRenderer.on('autotile-windows', (event, horizontal, vertical) =>
+        action(event, horizontal, vertical)
+      );
+    },
   },
   off: {
     newWindow: () => {
@@ -346,6 +357,9 @@ contextBridge.exposeInMainWorld('app', {
     },
     resetBoard: () => {
       ipcRenderer.removeAllListeners('reset-board');
+    },
+    autotileWindows: () => {
+      ipcRenderer.removeAllListeners('autotile-windows');
     },
   },
   tools: {
