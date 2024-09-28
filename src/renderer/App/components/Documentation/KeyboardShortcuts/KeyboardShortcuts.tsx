@@ -35,6 +35,17 @@ export const KeyboardShortcuts = () => {
           )}
         </div>
       </div>
+
+      <div className="Documentation__item">
+        <div className="Documentation__item-title">
+          CTRL + n - Open a new webpage in incognito mode
+        </div>
+        <div className="Documentation__item-description">
+          {t(
+            'Pressing CTRL and T at the same time will open a new webpage (named Tab in other browsers) in incognito mode.'
+          )}
+        </div>
+      </div>
       <div className="Documentation__item">
         <div className="Documentation__item-title">
           CTRL + t + s - Open a new webpage in a separate session

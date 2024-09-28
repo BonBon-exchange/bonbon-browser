@@ -49,6 +49,7 @@ export const Browser = ({
   capture,
   session,
   isPinned,
+  incognito,
 }: BrowserProps) => {
   const dispatch = useAppDispatch();
   const settings = useSettings();
@@ -400,11 +401,11 @@ export const Browser = ({
     const typedVal = settings['browsing.dontSaveHistory'] as
       | boolean
       | undefined;
-    if (!typedVal)
+    if (!typedVal && !incognito)
       window.app.history
         .addHistory({ url, title: title || '' })
         .catch(console.log);
-  }, [url, settings, title]);
+  }, [url, settings, title, incognito]);
 
   useEffect(() => {
     const maxWidth = boardContainer?.clientWidth;
