@@ -188,6 +188,35 @@ const makeAppEvents = () => {
               contents.send('distribute-windows-evenly');
             },
           },
+          {
+            label: i18n.t('Autotile'), // Submenu label
+            submenu: [
+              {
+                label: '2x1',
+                click: () => {
+                  contents.send('autotile-windows', 2, 1);
+                },
+              },
+              {
+                label: '2x2',
+                click: () => {
+                  contents.send('autotile-windows', 2, 2);
+                },
+              },
+              {
+                label: '3x1',
+                click: () => {
+                  contents.send('autotile-windows', 3, 1);
+                },
+              },
+              {
+                label: '3x2',
+                click: () => {
+                  contents.send('autotile-windows', 3, 2);
+                },
+              },
+            ],
+          },
         ],
         window: webContents,
         showInspectElement: true,

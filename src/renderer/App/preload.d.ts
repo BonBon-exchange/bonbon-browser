@@ -135,6 +135,13 @@ declare global {
         resetBoard: (
           action: (_e: IpcRendererEvent, boardId?: string) => void
         ) => void;
+        autotileWindows: (
+          action: (
+            _e: IpcRendererEvent,
+            horizontal: number,
+            vertical: number
+          ) => void
+        ) => void;
       };
       off: {
         newWindow: () => void;
@@ -154,6 +161,7 @@ declare global {
         setDefaultWindowSize: () => void;
         pinWebview: () => void;
         resetBoard: () => void;
+        autotileWindows: () => void;
       };
       os: {
         getPlatform: () => string;
