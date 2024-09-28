@@ -286,7 +286,7 @@ export const useGlobalEvents = () => {
       console.log({ horizontal, vertical });
       board.autotileWindows(horizontal, vertical);
     },
-    []
+    [board]
   );
 
   const setDefaultWindowSizeAction = useCallback(
