@@ -18,30 +18,18 @@ import db from './db';
 
 const BOOKMARKS_PATH: Record<Provider, string[]> = {
   Chrome: [
-    path.join(
-      app.getPath('userData'),
-      '../../Local/Google/Chrome/User Data/Default/Bookmarks'
-    ),
-    path.join(
-      app.getPath('userData'),
-      '../../Local/Google/Chrome/User Data/Profile 1/Bookmarks'
-    ),
-    path.join(
-      app.getPath('userData'),
-      '../../Local/Google/Chrome/User Data/Profile 2/Bookmarks'
-    ),
+    path.join(app.getPath('appData'), 'Google/Chrome/Default/Bookmarks'),
+    path.join(app.getPath('appData'), 'Google/Chrome/Profile 1/Bookmarks'),
+    path.join(app.getPath('appData'), 'Google/Chrome/Profile 2/Bookmarks'),
+    path.join(app.getPath('appData'), 'Google/Chrome/Profile 3/Bookmarks'), // Add more profiles as needed
   ],
   Edge: [
-    path.join(
-      app.getPath('userData'),
-      '../../Local/Microsoft/Edge/User Data/Default/Bookmarks'
-    ),
+    path.join(app.getPath('appData'), 'Microsoft/Edge/Default/Bookmarks'),
+    path.join(app.getPath('appData'), 'Microsoft/Edge/Profile 1/Bookmarks'), // Edge also has multiple profiles
   ],
   Brave: [
-    path.join(
-      app.getPath('userData'),
-      '../../Local/BraveSoftware/Brave-Browser/User Data/Default/Bookmarks'
-    ),
+    path.join(app.getPath('appData'), 'Brave-Browser/Default/Bookmarks'),
+    path.join(app.getPath('appData'), 'Brave-Browser/Profile 1/Bookmarks'), // Brave profiles can be added here
   ],
 };
 
@@ -103,9 +91,13 @@ const rawToBookmarks = (raw: any): Bookmark[] => {
 export const getBookmarksFromProvider = (provider: Provider): Bookmark[] => {
   if (BOOKMARKS_PATH[provider]) {
     return BOOKMARKS_PATH[provider].reduce((acc: any[], curr: string) => {
-      const rawBm = JSON.parse(fs.readFileSync(curr, 'utf-8'));
-      const bm: any[] = rawToBookmarks(rawBm);
-      return [...acc, ...bm];
+      try {
+        const rawBm = JSON.parse(fs.readFileSync(curr, 'utf-8'));
+        const bm: any[] = rawToBookmarks(rawBm);
+        return [...acc, ...bm];
+      } catch (e: any) {
+        return acc;
+      }
     }, []);
   }
 
@@ -173,8 +165,7 @@ export const getAllBookmarks = (): Promise<Bookmark[]> => {
                 ...row,
                 tags: JSON.parse((row.tags ?? '[]') as string).filter(
                   (t: any) => t !== null
-                )
-                ,
+                ),
               };
             } catch {
               return row;
