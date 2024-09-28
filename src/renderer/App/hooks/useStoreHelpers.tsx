@@ -45,6 +45,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       top?: number;
       left?: number;
       newSession?: boolean;
+      incognito?: boolean;
     }) => {
       const browserId = params.id || v4();
       const defaultWebpage = settings['browsing.defaultWebpage'] as string;
@@ -108,15 +109,20 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         isLoading: true,
         isMinimized: false,
         isPinned: false,
-        session: params.newSession ? v4() : undefined,
-      };
+        session: params.newSession || params.incognito ? v4() : undefined,
+        incognito: params.incognito,
+      } satisfies BrowserProps;
       return newBrowser;
     },
     [board, boardContainer, settings]
   );
 
   const makeAndAddBrowser = useCallback(
-    async (params: { url?: string; newSession?: boolean }): Promise<void> => {
+    async (params: {
+      url?: string;
+      newSession?: boolean;
+      incognito?: boolean;
+    }): Promise<void> => {
       if (board) {
         const newBrowser = await makeBrowser(params);
         dispatch(addBrowser(newBrowser));

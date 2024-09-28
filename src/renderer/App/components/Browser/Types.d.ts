@@ -16,4 +16,5 @@ export interface BrowserProps {
   capture?: string;
   session?: string;
   isPinned: boolean;
+  incognito?: boolean;
 }

@@ -95,7 +95,6 @@ export const useGlobalEvents = () => {
           keysPressed.includes('s') &&
           keysPressed.length === 3
         ) {
-          console.log('open board with new session');
           window.app.board.add({ newSession: true });
         }
 
@@ -107,6 +106,11 @@ export const useGlobalEvents = () => {
           keysPressed.length === 2
         ) {
           browser.add({});
+        }
+
+        // open a new browser view in incognito mode
+        else if (e.ctrlKey && !e.shiftKey && e.key === 'n') {
+          browser.add({ incognito: true });
         }
 
         // open a new browser view with new session
