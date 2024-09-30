@@ -7,5 +7,13 @@
   "Close window": "Venster sluiten",
   "Distribute windows evenly": "Vensters gelijkmatig verdelen",
   "Inspect element": "Inspecteer het element",
-  "Rename tab": "Tabblad hernoemen"
+  "Rename tab": "Tabblad hernoemen",
+  "Toggle pin window": "Venster vastzetten in-/uitschakelen",
+  "Close board": "Sluit bord",
+  "Close all boards": "Alle borden sluiten",
+  "Close others boards": "Sluit andere borden",
+  "Rename board": "Bord hernoemen",
+  "Save board": "Bord opslaan",
+  "Set as default window size": "Instellen als standaard venstergrootte",
+  "Reset settings": "Instellingen resetten"
 }

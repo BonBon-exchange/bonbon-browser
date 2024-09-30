@@ -7,5 +7,13 @@
   "Close window": "Закрыть окно",
   "Distribute windows evenly": "Равномерное распределение окон",
   "Inspect element": "Осмотреть элемент",
-  "Rename tab": "Вкладка Переименовать"
+  "Rename tab": "Вкладка Переименовать",
+  "Toggle pin window": "Переключить закрепление окна",
+  "Close board": "Закрыть доску",
+  "Close all boards": "Закрыть все доски",
+  "Close others boards": "Закрыть другие доски",
+  "Rename board": "Переименовать доску",
+  "Save board": "Сохранить доску",
+  "Set as default window size": "Установить как размер окна по умолчанию",
+  "Reset settings": "Сбросить настройки"
 }

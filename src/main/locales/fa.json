@@ -7,5 +7,13 @@
   "Close window": "پنجره بسته",
   "Distribute windows evenly": "توزیع ویندوز به طور مساوی",
   "Inspect element": "عنصر را بازرسی کنید",
-  "Rename tab": "تغییر نام برگه"
+  "Rename tab": "تغییر نام برگه",
+  "Toggle pin window": "پنجره پین را تغییر دهید",
+  "Close board": "تخته را ببندید",
+  "Close all boards": "بستن تمام تخته ها",
+  "Close others boards": "بستن تخته های دیگر",
+  "Rename board": "نام تخته را تغییر دهید",
+  "Save board": "ذخیره تخته",
+  "Set as default window size": "تنظیم به عنوان اندازه پیش فرض پنجره",
+  "Reset settings": "تنظیمات را بازنشانی کنید"
 }

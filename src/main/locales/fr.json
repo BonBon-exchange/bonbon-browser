@@ -7,5 +7,13 @@
   "Close window": "Fermer la fenêtre",
   "Distribute windows evenly": "Répartir uniformément les fenêtres",
   "Inspect element": "Inspecter l'élément",
-  "Rename tab": "Renommer l'onglet"
+  "Rename tab": "Renommer l'onglet",
+  "Toggle pin window": "Basculer la fenêtre d'ancrage",
+  "Close board": "Fermer le board",
+  "Close all boards": "Fermer tous les boards",
+  "Close others boards": "Fermer les autres boards",
+  "Rename board": "Renommer le board",
+  "Save board": "Sauvegarder le board",
+  "Set as default window size": "Définir comme taille de fenêtre par défaut",
+  "Reset settings": "Réinitialiser les paramètres"
 }

@@ -7,5 +7,13 @@
   "Close window": "关闭窗口",
   "Distribute windows evenly": "均匀分布窗口",
   "Inspect element": "检查元素",
-  "Rename tab": "重命名选项卡"
+  "Rename tab": "重命名选项卡",
+  "Toggle pin window": "切换固定窗口",
+  "Close board": "关闭面板",
+  "Close all boards": "关闭所有面板",
+  "Close others boards": "关闭其他面板",
+  "Rename board": "重命名面板",
+  "Save board": "保存面板",
+  "Set as default window size": "设为默认窗口大小",
+  "Reset settings": "重置设置"
 }

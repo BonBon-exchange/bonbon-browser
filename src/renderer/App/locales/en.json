@@ -65,12 +65,12 @@
   "Done": "Done",
   "Select a browser to import from": "Select a browser to import from",
   "German": "Deutsch",
-  "Turkish": "Türk",
-  "Chinese": "中国人",
+  "Turkish": "Türkçe",
+  "Chinese": "中文",
   "Persian": "فارسی",
   "Team": "Team",
   "Portuguese": "Português",
-  "Japanese": "日本",
+  "Japanese": "日本語",
   "When dragging a window to the top edge": "When dragging a window to the top edge",
   "Maximize": "Maximize",
   "Fit the screen": "Fit the screen",
@@ -103,5 +103,7 @@
   "Change Username": "Change Username",
   "No messages in this room yet.": "No messages in this room yet.",
   "Room name cannot be empty.": "Room name cannot be empty.",
-  "Username cannot be empty.": "Username cannot be empty."
+  "Username cannot be empty.": "Username cannot be empty.",
+  "Hindi": "हिन्दी",
+  "Bengali": "বাংলা"
 }
