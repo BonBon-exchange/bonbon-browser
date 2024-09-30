@@ -197,6 +197,8 @@ export const ApplicationSettings = () => {
           <option value="pl">{t('Polish')}</option>
           <option value="pt">{t('Portuguese')}</option>
           <option value="ja">{t('Japanese')}</option>
+          <option value="bn">{t('Bengali')}</option>
+          <option value="hi">{t('Hindi')}</option>
         </select>
         <div className="Settings__item-description">
           {t('The language in which displays the application.')}

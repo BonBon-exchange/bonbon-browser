@@ -7,5 +7,13 @@
   "Close window": "Fenster schließen",
   "Distribute windows evenly": "Fenster gleichmäßig verteilen",
   "Inspect element": "Element prüfen",
-  "Rename tab": "Registerkarte umbenennen"
+  "Rename tab": "Registerkarte umbenennen",
+  "Toggle pin window": "Fenster anheften umschalten",
+  "Close board": "Tafel schließen",
+  "Close all boards": "Alle Tafeln schließen",
+  "Close others boards": "Andere Tafeln schließen",
+  "Rename board": "Tafel umbenennen",
+  "Save board": "Tafel speichern",
+  "Set as default window size": "Als Standardfenstergröße festlegen",
+  "Reset settings": "Einstellungen zurücksetzen"
 }

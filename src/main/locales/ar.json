@@ -7,5 +7,13 @@
   "Close window": "أغلق النافذة",
   "Distribute windows evenly": "توزيع النوافذ بالتساوي",
   "Inspect element": "فحص العنصر",
-  "Rename tab": "إعادة تسمية علامة"
+  "Rename tab": "إعادة تسمية علامة",
+  "Toggle pin window": "تبديل تثبيت النافذة",
+  "Close board": "إغلاق اللوحة",
+  "Close all boards": "إغلاق جميع اللوحات",
+  "Close others boards": "إغلاق اللوحات الأخرى",
+  "Rename board": "إعادة تسمية اللوحة",
+  "Save board": "حفظ اللوحة",
+  "Set as default window size": "تعيين كحجم النافذة الافتراضي",
+  "Reset settings": "إعادة تعيين الإعدادات"
 }

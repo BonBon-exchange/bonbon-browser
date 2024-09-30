@@ -7,5 +7,13 @@
   "Close window": "Cerrar ventana",
   "Distribute windows evenly": "Distribuir las ventanas uniformemente",
   "Inspect element": "Inspeccionar elemento",
-  "Rename tab": "Cambiar nombre de la pestaña"
+  "Rename tab": "Cambiar nombre de la pestaña",
+  "Toggle pin window": "Alternar fijar ventana",
+  "Close board": "Cerrar tablero",
+  "Close all boards": "Cerrar todos los tableros",
+  "Close others boards": "Cerrar otros tableros",
+  "Rename board": "Renombrar tablero",
+  "Save board": "Guardar tablero",
+  "Set as default window size": "Establecer como tamaño de ventana predeterminado",
+  "Reset settings": "Restablecer configuración"
 }

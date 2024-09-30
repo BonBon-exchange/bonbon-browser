@@ -7,5 +7,13 @@
   "Close window": "Zamknij okno",
   "Distribute windows evenly": "Rozłóż okna równomiernie",
   "Inspect element": "Sprawdź element",
-  "Rename tab": "Zmień nazwę karty"
+  "Rename tab": "Zmień nazwę karty",
+  "Toggle pin window": "Przełącz przypinanie okna",
+  "Close board": "Zamknij tablicę",
+  "Close all boards": "Zamknij wszystkie tablice",
+  "Close others boards": "Zamknij inne tablice",
+  "Rename board": "Zmień nazwę tablicy",
+  "Save board": "Zapisz tablicę",
+  "Set as default window size": "Ustaw jako domyślny rozmiar okna",
+  "Reset settings": "Zresetuj ustawienia"
 }

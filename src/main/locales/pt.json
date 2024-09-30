@@ -7,5 +7,13 @@
   "Close window": "Fechar janela",
   "Distribute windows evenly": "Distribua as janelas uniformemente",
   "Inspect element": "Inspecionar elemento",
-  "Rename tab": "Guia Renomear"
+  "Rename tab": "Guia Renomear",
+  "Toggle pin window": "Alternar fixação de janela",
+  "Close board": "Fechar quadro",
+  "Close all boards": "Fechar todos os quadros",
+  "Close others boards": "Fechar outros quadros",
+  "Rename board": "Renomear quadro",
+  "Save board": "Salvar quadro",
+  "Set as default window size": "Definir como tamanho padrão da janela",
+  "Reset settings": "Redefinir configurações"
 }
