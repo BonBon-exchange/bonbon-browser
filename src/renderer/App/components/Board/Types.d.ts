@@ -12,6 +12,7 @@ export interface BoardType {
   browsersActivity: string[];
   height: number;
   isInAppMenu: boolean;
+  showMagicChat: boolean;
 }
 
 export interface BoardProps {

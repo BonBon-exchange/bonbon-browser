@@ -14,7 +14,12 @@ import { useAppSelector, useAppDispatch } from 'renderer/App/store/hooks';
 import { Loader } from 'renderer/App/components/Loader';
 import { About } from 'renderer/App/components/About';
 import ErrorFallback from 'renderer/App/components/ErrorFallback';
-import { setInAppMenu } from 'renderer/App/store/reducers/Board';
+import { Chat } from 'renderer/App/components/Chat';
+import { SettingsStateSynced } from 'renderer/App/components/SettingsStateSynced';
+import {
+  setInAppMenu,
+  toggleMagicChat,
+} from 'renderer/App/store/reducers/Board';
 import { syncSettings } from 'renderer/App/store/reducers/Settings';
 import { useSettings } from 'renderer/App/hooks/useSettings';
 
@@ -266,6 +271,11 @@ export const Addaps = ({ boardId }: AddapsProps) => {
               showBoards={handleShowBoards}
             />
           )}
+          {boardUsed.showMagicChat &&
+            settings['chat.username'] &&
+            settings['chat.userId'] && (
+              <Chat handleClose={() => dispatch(toggleMagicChat())} />
+            )}
           {showDownloadsPreview && <DownloadsPreview />}
           {showSettings && <Settings handleClose={handleCloseSettings} />}
           {showBoards && <Boards handleClose={handleCloseBoards} />}
@@ -279,11 +289,15 @@ export const Addaps = ({ boardId }: AddapsProps) => {
           <div id="Minimap__detection-zone" />
           {(showMinimap || settings['application.minimapOn']) &&
             !boardUsed?.isFullSize &&
-            !boardUsed.isInAppMenu && (
+            !boardUsed.isInAppMenu &&
+            !boardUsed.showMagicChat && (
               <Minimap handleHide={() => setShowMinimap(false)} />
             )}
         </div>
       </Suspense>
+      {settings['chat.username'] && settings['chat.userId'] && (
+        <SettingsStateSynced />
+      )}
     </ErrorFallback>
   );
 };

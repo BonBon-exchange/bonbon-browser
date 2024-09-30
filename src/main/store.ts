@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import Store from 'electron-store';
+import { v4 as uuidv4 } from 'uuid';
 import { ConfigKeys } from 'types/configKeys'; // Adjust the import path as necessary
 
 // Instantiate the store with the ConfigKeys interface for type safety
@@ -54,4 +55,10 @@ if (store.get('application.minimapOn') === undefined) {
 
 if (store.get('application.forceMacosStyle') === undefined) {
   store.set('application.forceMacosStyle', false);
+}
+
+if (store.get('chat.userId') === undefined) {
+  const randomUserId = uuidv4();
+  store.set('chat.userId', randomUserId);
+  store.set('chat.username', `User_${randomUserId.slice(0, 5)}`);
 }

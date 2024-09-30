@@ -49,7 +49,8 @@ const newBoard = {
   isFullSize: false,
   browsersActivity: [],
   height: 0,
-  isInAppMenu: false
+  isInAppMenu: false,
+  showMagicChat: false,
 } as BoardType;
 
 export const initialState: BoardState = {
@@ -238,8 +239,10 @@ export const boardSlice = createSlice({
 
           setStateActiveBrowser(
             state,
-            state.board.browsersActivity[state.board.browsersActivity.length - 1
-            ]);
+            state.board.browsersActivity[
+              state.board.browsersActivity.length - 1
+            ]
+          );
         } else {
           state.board.activeBrowser = null;
           window.app.browser.selectBrowserView();
@@ -308,16 +311,17 @@ export const boardSlice = createSlice({
       state.board.height = action.payload;
     },
     togglePinBrowser: (state, action: PayloadAction<string>) => {
-      const browserIndex = getBrowserIndexFromBrowserId(
-        state,
-        action.payload
-      );
+      const browserIndex = getBrowserIndexFromBrowserId(state, action.payload);
       if (browserIndex > -1) {
-        state.board.browsers[browserIndex].isPinned = !state.board.browsers[browserIndex].isPinned;
+        state.board.browsers[browserIndex].isPinned =
+          !state.board.browsers[browserIndex].isPinned;
       }
     },
     setInAppMenu: (state, action: PayloadAction<boolean>) => {
       state.board.isInAppMenu = action.payload;
+    },
+    toggleMagicChat: (state) => {
+      state.board.showMagicChat = !state.board.showMagicChat;
     },
   },
 });
@@ -345,7 +349,8 @@ export const {
   setLastResizedBrowserDimensions,
   setBoardHeight,
   togglePinBrowser,
-  setInAppMenu
+  setInAppMenu,
+  toggleMagicChat,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;
