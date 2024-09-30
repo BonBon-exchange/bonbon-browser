@@ -80,3 +80,10 @@
   filter: grayscale(70%);
   opacity: 0.3;
 }
+
+#LeftBar__magic-chat-icon {
+  bottom: 20px;
+  position: absolute;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}

@@ -9,7 +9,10 @@ import { useBoard } from 'renderer/App/hooks/useBoard';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
 import { useBrowserMethods } from 'renderer/App/hooks/useBrowserMethods';
 import { useAppDispatch } from 'renderer/App/store/hooks';
-import { setBrowsers } from 'renderer/App/store/reducers/Board';
+import {
+  setBrowsers,
+  toggleMagicChat,
+} from 'renderer/App/store/reducers/Board';
 import { ButtonAddBrowser } from 'renderer/App/components/ButtonAddBrowser';
 import ErrorFallback from 'renderer/App/components/ErrorFallback';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
@@ -111,6 +114,10 @@ export const LeftBar = () => {
     return items.map((b: BrowserProps, index: number) => makeItem(b, index));
   }, [items, makeItem]);
 
+  const magicChatOnClick = () => {
+    dispatch(toggleMagicChat());
+  };
+
   useEffect(() => {
     if (boardState.isFullSize) {
       setItems(boardState.browsers);
@@ -141,6 +148,9 @@ export const LeftBar = () => {
           </Droppable>
           <ButtonAddBrowser onClick={browser.add} />
         </DragDropContext>
+        <div id="LeftBar__magic-chat-icon" onClick={magicChatOnClick}>
+          @
+        </div>
       </div>
     </ErrorFallback>
   );

@@ -9,7 +9,6 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import { app } from 'electron';
-import * as Sentry from '@sentry/electron/main';
 
 import './appEvents';
 import './logger';
@@ -18,7 +17,3 @@ if (app.isPackaged) {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
 }
-
-Sentry.init({
-  dsn: 'https://42d1a849a9ce4cc98d47a7cf45ddbef3@o1316624.ingest.us.sentry.io/6569337',
-});

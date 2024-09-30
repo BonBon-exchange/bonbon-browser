@@ -153,6 +153,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
         browsersActivity: [],
         height: 0,
         isInAppMenu: false,
+        showMagicChat: false,
         ...savedBoard,
       };
 

@@ -88,5 +88,20 @@
   "Boards": "Boards",
   "New board": "New board",
   "Use macOS style for windows": "Use macOS style for windows",
-  "If checked, windows will use macOS style.": "If checked, windows will use macOS style."
+  "If checked, windows will use macOS style.": "If checked, windows will use macOS style.",
+  "Chat": "Chat",
+  "Type your message...": "Type your message...",
+  "Send": "Send",
+  "Connected Users": "Connected Users",
+  "Options": "Options",
+  "Username": "Username",
+  "Save": "Save",
+  "Loading...": "Loading...",
+  "Load More": "Load More",
+  "Room": "Room",
+  "Change Room": "Change Room",
+  "Change Username": "Change Username",
+  "No messages in this room yet.": "No messages in this room yet.",
+  "Room name cannot be empty.": "Room name cannot be empty.",
+  "Username cannot be empty.": "Username cannot be empty."
 }

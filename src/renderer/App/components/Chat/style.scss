@@ -1,0 +1,222 @@
+// src/components/Chat/style.scss
+
+#Chat__container {
+  background-color: var(--color-background-secondary);
+  color: var(--color-text-primary);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+
+  #Chat__centered-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    #Chat__header {
+      display: flex;
+      padding: 10px 20px;
+
+      h2 {
+        margin: 0;
+      }
+
+      #Chat__options-button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--color-accent);
+        color: var(--color-text-inverse);
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--color-accent-hover);
+        }
+      }
+    }
+
+    #Chat__content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+
+      #Chat__chatroom {
+        display: flex;
+        flex-direction: column;
+        flex: 3;
+        border-right: 1px solid var(--color-border);
+        overflow: hidden;
+
+        #Chat__messages {
+          flex: 1;
+          padding: 10px;
+          overflow-y: auto;
+          background-color: var(--color-background-primary);
+
+          .Chat__message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            background-color: var(--color-background-secondary);
+            width: calc(100% - 16px);
+            word-wrap: break-word;
+          }
+
+          .Chat__message--self {
+            background-color: var(--color-accent);
+            color: var(--color-text-inverse);
+          }
+
+          strong {
+            color: var(--color-text-primary);
+          }
+        }
+
+        #Chat__input-container {
+          display: flex;
+          padding: 10px;
+          background-color: var(--color-background-secondary);
+
+          input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid var(--color-border);
+            border-radius: 5px;
+            margin-right: 10px;
+          }
+
+          button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--color-accent);
+            color: var(--color-text-inverse);
+            cursor: pointer;
+
+            &:hover {
+              background-color: var(--color-accent-hover);
+            }
+          }
+        }
+      }
+
+      #Chat__users-list {
+        flex: 1;
+        background-color: var(--color-background-secondary);
+        padding: 10px;
+        overflow-y: auto;
+
+        h3 {
+          margin-top: 0;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          li {
+            padding: 5px 0;
+            border-bottom: 1px solid var(--color-border);
+          }
+        }
+      }
+    }
+  }
+}
+
+#Chat__options-popup {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+
+  label {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text-primary);
+
+    input {
+      margin-top: 5px;
+      padding: 8px;
+      border: 1px solid var(--color-border);
+      border-radius: 5px;
+    }
+  }
+
+  button {
+    align-self: flex-end;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--color-accent);
+    color: var(--color-text-inverse);
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-accent-hover);
+    }
+  }
+}
+
+.Chat__options-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.Chat__options-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.Chat__options-button:hover,
+.Chat__options-button:focus {
+  background-color: #0056b3;
+}
+
+.Chat__options-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.Chat__options-dropdown-content button {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.Chat__options-dropdown-content button:hover {
+  background-color: #f1f1f1;
+}
+
+.Chat__options-dropdown:hover .Chat__options-dropdown-content {
+  display: block;
+}
+
+.Chat__error-message {
+  color: red;
+  margin-top: 8px;
+  font-size: 0.9em;
+}
