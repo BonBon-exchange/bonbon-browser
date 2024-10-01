@@ -28,8 +28,11 @@ import {
   makeIpcMainEvents,
 } from './ipcMainEvents';
 import { isValidUrl } from './util';
+import Tracker from './analytics/tracker';
 
 let urlToOpen: string | undefined;
+
+export const tracker = new Tracker();
 
 export const setUrlToOpen = (url: string | undefined) => {
   urlToOpen = url;
