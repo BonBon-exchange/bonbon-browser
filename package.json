@@ -298,8 +298,7 @@
       "target": [
         "AppImage",
         "deb",
-        "rpm",
-        "flatpak"
+        "rpm"
       ],
       "category": "Development"
     },
