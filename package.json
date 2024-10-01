@@ -233,7 +233,7 @@
     "productName": "BonBon",
     "appId": "org.erb.BonBon",
     "asar": true,
-    "asarUnpack": "**\\*.{node,dll}",
+    "asarUnpack": "**/*.{node,dll}",
     "files": [
       "dist",
       "node_modules",
@@ -296,8 +296,20 @@
     },
     "linux": {
       "target": [
-        "AppImage",
-        "deb",
+        {
+          "target": "deb",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
         "rpm",
         "tar.gz",
         "snap"
