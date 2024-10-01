@@ -6,6 +6,9 @@ on:
       - created
   workflow_dispatch:
 
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   release:
     runs-on: ${{ matrix.os }}
@@ -31,24 +34,8 @@ jobs:
 
       # Packaging for Linux
       - if: matrix.os == 'ubuntu-latest'
-        name: Build Snap package
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y snapcraft
-          snapcraft
-
-      - if: matrix.os == 'ubuntu-latest'
-        name: Upload Snap package
-        uses: svenstaro/upload-release-action@v2
-        with:
-          file_glob: true
-          file: release/build/*.snap
-          tag: ${{ github.ref }}
-        continue-on-error: true
-
-      - if: matrix.os == 'ubuntu-latest'
         name: Build deb package
-        run: npm exec electron-builder --linux deb
+        run: npx electron-builder --linux deb --x64 --arm64
 
       - if: matrix.os == 'ubuntu-latest'
         name: Upload deb package
@@ -61,7 +48,7 @@ jobs:
 
       - if: matrix.os == 'ubuntu-latest'
         name: Build rpm package
-        run: npm exec electron-builder --linux rpm
+        run: npx electron-builder --linux rpm
 
       - if: matrix.os == 'ubuntu-latest'
         name: Upload rpm package
@@ -74,7 +61,7 @@ jobs:
 
       - if: matrix.os == 'ubuntu-latest'
         name: Build AppImage
-        run: npm exec electron-builder --linux AppImage
+        run: npx electron-builder --linux AppImage
 
       - if: matrix.os == 'ubuntu-latest'
         name: Upload AppImage
@@ -87,7 +74,7 @@ jobs:
 
       - if: matrix.os == 'ubuntu-latest'
         name: Build tar.gz package
-        run: npm exec electron-builder --linux tar.gz
+        run: npx electron-builder --linux tar.gz
 
       - if: matrix.os == 'ubuntu-latest'
         name: Upload tar.gz package
@@ -101,7 +88,7 @@ jobs:
       # Packaging for Windows
       - if: matrix.os == 'windows-latest'
         name: Build Windows Installer
-        run: npm exec electron-builder --win nsis
+        run: npx electron-builder --win nsis
 
       - if: matrix.os == 'windows-latest'
         name: Upload Windows Installer
@@ -114,7 +101,7 @@ jobs:
 
       - if: matrix.os == 'windows-latest'
         name: Build Windows Portable
-        run: npm exec electron-builder --win portable
+        run: npx electron-builder --win portable
 
       - if: matrix.os == 'windows-latest'
         name: Upload Windows Portable
@@ -128,7 +115,7 @@ jobs:
       # Packaging for macOS
       - if: matrix.os == 'macos-latest'
         name: Build macOS Universal DMG
-        run: npm exec electron-builder --mac universal
+        run: npx electron-builder --mac --universal
 
       - if: matrix.os == 'macos-latest'
         name: Upload macOS Universal DMG
@@ -141,7 +128,7 @@ jobs:
 
       - if: matrix.os == 'macos-latest'
         name: Build macOS arm64 DMG
-        run: npm exec electron-builder --mac arm64
+        run: npx electron-builder --mac arm64
 
       - if: matrix.os == 'macos-latest'
         name: Upload macOS arm64 DMG
@@ -154,7 +141,7 @@ jobs:
 
       - if: matrix.os == 'macos-latest'
         name: Build macOS Intel DMG
-        run: npm exec electron-builder --mac x64
+        run: npx electron-builder --mac x64
 
       - if: matrix.os == 'macos-latest'
         name: Upload macOS Intel DMG
