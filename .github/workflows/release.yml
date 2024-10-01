@@ -2,38 +2,165 @@ name: Release
 
 on:
   release:
-    types: [created]
+    types:
+      - created
   workflow_dispatch:
 
 jobs:
-  build-and-release:
+  release:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [macos-latest, windows-latest, ubuntu-latest]
 
     steps:
-      # 1. Check out the repository
-      - name: Check out repository
+      - name: Check out Git repository
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js environment
-      - name: Setup Node.js
+      - name: Install Node.js and NPM
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: 20
+          cache: npm
 
-      # 3. Install dependencies
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      # 4. Build the project
-      - name: Build project
+      - name: Compile
         run: npm run build
 
-      # 5. Package and publish using electron-builder
-      - name: Package and Publish
-        run: npx electron-builder
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Packaging for Linux
+      - if: matrix.os == 'ubuntu-latest'
+        name: Build Snap package
+        run: |
+          sudo apt-get update
+          sudo apt-get install snapcraft -y
+          npm exec electron-builder --linux snap
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Upload Snap package
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/*.snap
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Build deb package
+        run: npm exec electron-builder --linux deb
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Upload deb package
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/*.deb
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Build rpm package
+        run: npm exec electron-builder --linux rpm
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Upload rpm package
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/*.rpm
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Build AppImage
+        run: npm exec electron-builder --linux AppImage
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Upload AppImage
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/*.AppImage
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Build tar.gz package
+        run: npm exec electron-builder --linux tar.gz
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Upload tar.gz package
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/*.tar.gz
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      # Packaging for Windows
+      - if: matrix.os == 'windows-latest'
+        name: Build Windows Installer
+        run: npm exec electron-builder --win nsis
+
+      - if: matrix.os == 'windows-latest'
+        name: Upload Windows Installer
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/BonBon Setup-*.*.*.exe
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      - if: matrix.os == 'windows-latest'
+        name: Build Windows Portable
+        run: npm exec electron-builder --win portable
+
+      - if: matrix.os == 'windows-latest'
+        name: Upload Windows Portable
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/*.exe
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      # Packaging for macOS
+      - if: matrix.os == 'macos-latest'
+        name: Build macOS Universal DMG
+        run: npm exec electron-builder --mac universal
+
+      - if: matrix.os == 'macos-latest'
+        name: Upload macOS Universal DMG
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/*-universal.dmg
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      - if: matrix.os == 'macos-latest'
+        name: Build macOS arm64 DMG
+        run: npm exec electron-builder --mac arm64
+
+      - if: matrix.os == 'macos-latest'
+        name: Upload macOS arm64 DMG
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/*-arm64.dmg
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      - if: matrix.os == 'macos-latest'
+        name: Build macOS Intel DMG
+        run: npm exec electron-builder --mac x64
+
+      - if: matrix.os == 'macos-latest'
+        name: Upload macOS Intel DMG
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/*.dmg
+          tag: ${{ github.ref }}
+        continue-on-error: true
