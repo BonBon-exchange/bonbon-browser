@@ -303,10 +303,6 @@
         "tar.gz",
         "snap"
       ],
-      "arch": [
-        "x64",
-        "arm64"
-      ],
       "category": "Development"
     },
     "flatpak": {
