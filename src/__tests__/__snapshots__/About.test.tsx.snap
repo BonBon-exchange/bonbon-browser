@@ -1,8 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`About should show app version and match snapshot 1`] = `
-"<div class=\\"About__property-line\\"><span class=\\"About__property\\">App version:</span> 0.30.6</div>
-<div class=\\"About__property-line\\"><span class=\\"About__property\\">Author:</span> Daniel Febrero</div>
-<div class=\\"About__property-line\\"><span class=\\"About__property\\">Team:</span> Daniel Febrero, Anthony Cettour, 0xCUBE, Nuklusone, Howard Huang, Faouzi Benali, Daniel Callus</div>
-<div class=\\"About__property-line\\"><span class=\\"About__property\\">Past contributors:</span> Aitor</div>"
+"<div class=\\"About__property-line\\"><span class=\\"About__property\\">App version:</span> 1.0.4-beta-2</div>
+<div class=\\"About__property-line\\"><span class=\\"About__property\\">Author:</span> Daniel Febrero</div>"
 `;

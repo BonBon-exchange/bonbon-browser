@@ -15,6 +15,11 @@ exports[`AppMenu should render 1`] = `
     <li
       onClick={[Function]}
     >
+      Boards
+    </li>
+    <li
+      onClick={[Function]}
+    >
       Extensions
     </li>
     <li
