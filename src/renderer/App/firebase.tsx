@@ -4,6 +4,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { getAnalytics, logEvent, setUserProperties } from 'firebase/analytics';
+import i18n from './i18n';
 
 import packageJson from '../../../package.json';
 
@@ -27,7 +28,10 @@ const database = getDatabase(app);
 const auth = getAuth(app);
 
 const analytics = getAnalytics();
-setUserProperties(analytics, { app_version: packageJson.version });
+setUserProperties(analytics, {
+  app_version: packageJson.version,
+  language: i18n.language,
+});
 
 // Sign in anonymously
 signInAnonymously(auth)
