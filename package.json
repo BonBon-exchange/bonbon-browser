@@ -299,20 +299,10 @@
         "AppImage",
         "deb",
         "rpm",
-        "flatpak",
         "tar.gz",
         "snap"
       ],
       "category": "Development"
-    },
-    "flatpak": {
-      "runtime": "org.freedesktop.Platform",
-      "runtimeVersion": "20.08",
-      "sdk": "org.freedesktop.Sdk",
-      "finishArgs": [
-        "--share=network",
-        "--filesystem=home"
-      ]
     },
     "directories": {
       "app": "release/app",

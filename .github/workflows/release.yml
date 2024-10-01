@@ -41,11 +41,6 @@ jobs:
       - name: Compile
         run: npm run build
 
-      # Flatpak specific setup for Linux
-      - if: matrix.os == 'ubuntu-latest'
-        name: Install Flatpak
-        run: sudo apt-get install -y flatpak flatpak-builder
-
       # Build and package for Flatpak
       - if: matrix.os == 'ubuntu-latest'
         name: Build Flatpak package
