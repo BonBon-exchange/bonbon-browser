@@ -4,6 +4,7 @@ on:
   release:
     types:
       - created
+  workflow_dispatch:
 
 jobs:
   checkVersions:
@@ -17,12 +18,6 @@ jobs:
 
       - name: Get dependencies
         run: pip3 install semver
-
-      # Add your custom version check script here
-      # - name: Compare tag version and internal version
-      #   env:
-      #     TAG: ${{ github.ref }}
-      #   run: python3 ./.github/compare_versions.py
 
   release:
     runs-on: ${{ matrix.os }}
@@ -43,46 +38,48 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      # TypeScript check
-      # - name: Check types
-      #   run: npm exec tsc
-
-      # Run ESLint for code linting
-      # - name: Run ESLint
-      #   run: npm run lint
-
-      # Compile the app
       - name: Compile
         run: npm run build
 
-      # Run tests
-      # - name: Run tests
-      #   run: npm run test
+      # Flatpak specific setup for Linux
+      - if: matrix.os == 'ubuntu-latest'
+        name: Install Flatpak
+        run: sudo apt-get install -y flatpak flatpak-builder
 
-      # Package the app without publishing
-      - name: Package
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm exec electron-builder build --publish=never
-
-      # macOS notarization (if applicable)
-      - name: Notarize app for macOS
-        if: matrix.os == 'macos-latest'
+      # Build and package for Flatpak
+      - if: matrix.os == 'ubuntu-latest'
+        name: Build Flatpak package
         run: |
-          set -e
-          xcrun altool --notarize-app --primary-bundle-id "org.erb.BonBon" --username "$APPLE_ID" --password "$APPLE_ID_PASSWORD" --file release/build/BonBon-*.*.*.dmg | tee notarization_log.txt
-          xcrun stapler staple release/build/BonBon-*.*.*.dmg | tee -a notarization_log.txt
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          npm exec electron-builder --linux flatpak
+
+      # Upload the Flatpak package
+      - if: matrix.os == 'ubuntu-latest'
+        name: Upload Flatpak
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/BonBon-*.*.*.flatpak
+          tag: ${{ github.ref }}
         continue-on-error: true
 
-      - name: Verify macOS notarization
-        if: matrix.os == 'macos-latest'
-        run: xcrun stapler validate release/build/BonBon-*.*.*.dmg
+      # Packaging for Linux (Snap)
+      - if: matrix.os == 'ubuntu-latest'
+        name: Build Snap package
+        run: |
+          sudo apt-get update
+          sudo apt-get install snapcraft -y
+          snapcraft
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Upload Snap package
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: release/build/BonBon-*.*.*.snap
+          tag: ${{ github.ref }}
         continue-on-error: true
 
-      # Linux releases (AppImage and Flatpak)
+      # Linux AppImage release
       - if: matrix.os == 'ubuntu-latest'
         name: Linux AppImage release
         uses: svenstaro/upload-release-action@2.3.0
@@ -92,40 +89,31 @@ jobs:
           tag: ${{ github.ref }}
         continue-on-error: true
 
+      # Packaging for Linux tar.gz
       - if: matrix.os == 'ubuntu-latest'
-        name: latest.yml release for Linux
+        name: Build Linux Tarball
+        run: npm exec electron-builder --linux tar.gz
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Upload Linux Tarball
         uses: svenstaro/upload-release-action@2.3.0
         with:
           file_glob: true
-          file: release/build/*-latest.yml
+          file: release/build/*.tar.gz
           tag: ${{ github.ref }}
         continue-on-error: true
 
-      # macOS releases (Intel and ARM64)
-      - if: matrix.os == 'macos-latest'
-        name: macOS arm64 release
-        uses: svenstaro/upload-release-action@2.3.0
-        with:
-          file_glob: true
-          file: release/build/BonBon-*.*.*-arm64.dmg
-          tag: ${{ github.ref }}
-        continue-on-error: true
+      # Windows Portable release
+      - if: matrix.os == 'windows-latest'
+        name: Build Windows Portable
+        run: npm exec electron-builder --win portable
 
-      - if: matrix.os == 'macos-latest'
-        name: macOS intel release
+      - if: matrix.os == 'windows-latest'
+        name: Upload Windows Portable
         uses: svenstaro/upload-release-action@2.3.0
         with:
           file_glob: true
-          file: release/build/BonBon-*.*.*.dmg
-          tag: ${{ github.ref }}
-        continue-on-error: true
-
-      - if: matrix.os == 'macos-latest'
-        name: latest.yml release for macOS
-        uses: svenstaro/upload-release-action@2.3.0
-        with:
-          file_glob: true
-          file: release/build/*-latest.yml
+          file: release/build/*.exe
           tag: ${{ github.ref }}
         continue-on-error: true
 
@@ -145,5 +133,24 @@ jobs:
         with:
           file_glob: true
           file: release/build/BonBon Setup *.*.*.exe
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      # macOS releases
+      # - if: matrix.os == 'macos-latest'
+      #   name: macOS arm64 release
+      #   uses: svenstaro/upload-release-action@2.3.0
+      #   with:
+      #     file_glob: true
+      #     file: release/build/BonBon-*.*.*-arm64.dmg
+      #     tag: ${{ github.ref }}
+      #   continue-on-error: true
+
+      - if: matrix.os == 'macos-latest'
+        name: macOS intel release
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          file_glob: true
+          file: release/build/BonBon-*.*.*.dmg
           tag: ${{ github.ref }}
         continue-on-error: true
