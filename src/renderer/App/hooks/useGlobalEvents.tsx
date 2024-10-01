@@ -2,6 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import { useCallback, useEffect, useState } from 'react';
 import { IpcRendererEvent } from 'electron';
+import { logEvent } from 'firebase/analytics';
 
 import { Electron } from 'namespaces/_electronist';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
@@ -18,6 +19,7 @@ import { setDownloadItem } from 'renderer/App/store/reducers/Downloads';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { DownloadState } from 'renderer/TitleBar/components/TopBar/Types';
 import { getContainerFromBrowserId } from 'renderer/App/helpers/dom';
+import { analytics } from 'renderer/App/firebase';
 import { Position, StoreValue } from 'types/ipc';
 import { useBoard } from './useBoard';
 import { useBrowserMethods } from './useBrowserMethods';
@@ -287,8 +289,8 @@ export const useGlobalEvents = () => {
 
   const autotileWindowsAction = useCallback(
     (_e: IpcRendererEvent, horizontal: number, vertical: number) => {
-      console.log({ horizontal, vertical });
       board.autotileWindows(horizontal, vertical);
+      logEvent(analytics, 'autotile', { value: `${horizontal}x${vertical}` });
     },
     [board]
   );
