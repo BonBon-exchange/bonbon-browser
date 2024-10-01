@@ -25,7 +25,6 @@ jobs:
       #   run: python3 ./.github/compare_versions.py
 
   release:
-    # needs: checkVersions  # Uncomment if you want version check as prerequisite
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -44,12 +43,12 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      # Install flatpak on Ubuntu (only if os is ubuntu-latest)
-      - name: Install Flatpak
+      # Install flatpak and flatpak-builder on Ubuntu
+      - name: Install Flatpak and Flatpak-builder
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install flatpak -y
+          sudo apt-get install -y flatpak flatpak-builder
 
       # TypeScript check
       # - name: Check types
