@@ -35,7 +35,9 @@ jobs:
       # Flatpak specific setup for Linux
       - if: matrix.os == 'ubuntu-latest'
         name: Install Flatpak
-        run: sudo apt-get install -y flatpak flatpak-builder
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --fix-missing flatpak flatpak-builder
 
       - name: Package
         env:
