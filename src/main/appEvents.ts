@@ -195,6 +195,18 @@ const makeAppEvents = () => {
             label: i18n.t('Autotile'), // Submenu label
             submenu: [
               {
+                label: '1x1',
+                click: () => {
+                  contents.send('autotile-windows', 1, 1);
+                },
+              },
+              {
+                label: '1x2',
+                click: () => {
+                  contents.send('autotile-windows', 1, 2);
+                },
+              },
+              {
                 label: '2x1',
                 click: () => {
                   contents.send('autotile-windows', 2, 1);
