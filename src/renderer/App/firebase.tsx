@@ -3,6 +3,9 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { getAuth, signInAnonymously } from 'firebase/auth';
+import { getAnalytics, logEvent, setUserProperties } from 'firebase/analytics';
+
+import packageJson from '../../../package.json';
 
 // Your Firebase configuration (replace with your actual config)
 const firebaseConfig = {
@@ -23,13 +26,22 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
+const analytics = getAnalytics();
+setUserProperties(analytics, { app_version: packageJson.version });
+
 // Sign in anonymously
 signInAnonymously(auth)
   .then(() => {
     console.log('Signed in anonymously to Firebase Auth');
+    logEvent(analytics, 'firebase_signin_anonymous');
   })
   .catch((error) => {
     console.error('Firebase Auth Error:', error);
+    logEvent(analytics, 'firebase_signin_anonymous_error');
   });
 
-export { database };
+setInterval(() => {
+  logEvent(analytics, 'ping');
+}, 60000);
+
+export { database, analytics };
