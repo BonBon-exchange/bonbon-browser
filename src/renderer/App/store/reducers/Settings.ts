@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { flatten } from 'flat';
+import { logEvent } from 'firebase/analytics';
+
+import { analytics } from 'renderer/App/firebase';
 
 export type SettingsState = {
   settings: {
@@ -22,6 +25,10 @@ export const settingsSlice = createSlice({
       window.app.config.set({
         key: action.payload.key,
         value: action.payload.value,
+      });
+
+      logEvent(analytics, 'setting_change', {
+        [action.payload.key.replace('.', ':')]: action.payload.value,
       });
     },
 

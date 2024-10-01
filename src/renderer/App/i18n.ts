@@ -15,6 +15,8 @@ import tr from 'renderer/App/locales/tr.json';
 import de from 'renderer/App/locales/de.json';
 import fa from 'renderer/App/locales/fa.json';
 import ja from 'renderer/App/locales/ja.json';
+import bn from 'renderer/App/locales/bn.json';
+import hi from 'renderer/App/locales/hi.json';
 
 const resources = {
   en: {
@@ -55,6 +57,12 @@ const resources = {
   },
   ja: {
     translation: ja,
+  },
+  bn: {
+    translation: bn,
+  },
+  hi: {
+    translation: hi,
   },
 };
 

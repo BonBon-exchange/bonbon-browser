@@ -3,10 +3,12 @@
 /* eslint-disable import/prefer-default-export */
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { logEvent } from 'firebase/analytics';
 import { useSettings } from 'renderer/App/hooks/useSettings';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { setSetting } from 'renderer/App/store/reducers/Settings';
 import PopoverColorPicker from 'renderer/App/components/PopoverColorPicker';
+import { analytics } from 'renderer/App/firebase';
 
 import { Locale } from 'types/i18n';
 
@@ -36,6 +38,11 @@ export const ApplicationSettings = () => {
   const updateLanguage = (value: Locale) => {
     i18n.changeLanguage(value).catch(console.log);
     window.app.tools.changeLanguage(value).catch(console.log);
+  };
+
+  const changeLanguage = (e: any) => {
+    updateLanguage(e.target?.value as Locale);
+    logEvent(analytics, 'setting_change', { language: e.target?.value });
   };
 
   useEffect(() => {
@@ -182,7 +189,7 @@ export const ApplicationSettings = () => {
         <select
           id="application-settings-language"
           value={i18n.language}
-          onChange={(e) => updateLanguage(e.target.value as Locale)}
+          onChange={changeLanguage}
         >
           <option value="en">{t('English')}</option>
           <option value="es">{t('Spanish')}</option>
