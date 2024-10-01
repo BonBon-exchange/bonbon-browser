@@ -18,13 +18,14 @@ jobs:
       - name: Get dependencies
         run: pip3 install semver
 
+      # Add your custom version check script here
       # - name: Compare tag version and internal version
       #   env:
       #     TAG: ${{ github.ref }}
       #   run: python3 ./.github/compare_versions.py
 
   release:
-    # needs: checkVersions
+    # needs: checkVersions  # Uncomment if you want version check as prerequisite
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -43,29 +44,38 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
+      # TypeScript check
       # - name: Check types
       #   run: npm exec tsc
 
+      # Run ESLint for code linting
       # - name: Run ESLint
       #   run: npm run lint
 
+      # Compile the app
       - name: Compile
         run: npm run build
 
-      # - name: Check tests
+      # Run tests
+      # - name: Run tests
       #   run: npm run test
 
+      # Package the app without publishing
       - name: Package
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm exec electron-builder build --publish=never
 
-      - name: Enhanced logging for macOS notarization
+      # macOS notarization (if applicable)
+      - name: Notarize app for macOS
         if: matrix.os == 'macos-latest'
         run: |
           set -e
           xcrun altool --notarize-app --primary-bundle-id "org.erb.BonBon" --username "$APPLE_ID" --password "$APPLE_ID_PASSWORD" --file release/build/BonBon-*.*.*.dmg | tee notarization_log.txt
           xcrun stapler staple release/build/BonBon-*.*.*.dmg | tee -a notarization_log.txt
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
         continue-on-error: true
 
       - name: Verify macOS notarization
@@ -73,17 +83,9 @@ jobs:
         run: xcrun stapler validate release/build/BonBon-*.*.*.dmg
         continue-on-error: true
 
+      # Linux releases (AppImage and Flatpak)
       - if: matrix.os == 'ubuntu-latest'
-        name: Linux Appimage release
-        uses: svenstaro/upload-release-action@2.3.0
-        with:
-          file_glob: true
-          file: release/build/*-latest.yml
-          tag: ${{ github.ref }}
-        continue-on-error: true
-
-      - if: matrix.os == 'ubuntu-latest'
-        name: Linux Appimage release
+        name: Linux AppImage release
         uses: svenstaro/upload-release-action@2.3.0
         with:
           file_glob: true
@@ -91,6 +93,25 @@ jobs:
           tag: ${{ github.ref }}
         continue-on-error: true
 
+      - if: matrix.os == 'ubuntu-latest'
+        name: Linux Flatpak release
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          file_glob: true
+          file: release/build/BonBon-*.*.*.flatpak
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: latest.yml release for Linux
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          file_glob: true
+          file: release/build/*-latest.yml
+          tag: ${{ github.ref }}
+        continue-on-error: true
+
+      # macOS releases (Intel and ARM64)
       - if: matrix.os == 'macos-latest'
         name: macOS arm64 release
         uses: svenstaro/upload-release-action@2.3.0
@@ -118,17 +139,7 @@ jobs:
           tag: ${{ github.ref }}
         continue-on-error: true
 
-      - name: Notarize app (macOS)
-        if: matrix.os == 'macos-latest'
-        run: |
-          set -e
-          xcrun altool --notarize-app --primary-bundle-id "org.erb.BonBon" --username "$APPLE_ID" --password "$APPLE_ID_PASSWORD" --file release/build/BonBon-*.*.*.dmg | tee notarization_log.txt
-          xcrun stapler staple release/build/BonBon-*.*.*.dmg | tee -a notarization_log.txt
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-        continue-on-error: true
-
+      # Windows releases (Installer and latest.yml)
       - if: matrix.os == 'windows-latest'
         name: latest.yml release for Windows
         uses: svenstaro/upload-release-action@2.3.0
@@ -139,7 +150,7 @@ jobs:
         continue-on-error: true
 
       - if: matrix.os == 'windows-latest'
-        name: setup installer for Windows
+        name: Setup installer for Windows
         uses: svenstaro/upload-release-action@2.3.0
         with:
           file_glob: true
