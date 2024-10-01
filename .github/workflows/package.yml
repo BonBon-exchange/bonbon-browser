@@ -21,6 +21,9 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: install ts-node for everyone
+        run: npm install -g ts-node husky
+
       - name: Install dependencies
         run: |
           npm ci --omit=dev --legacy-peer-deps
