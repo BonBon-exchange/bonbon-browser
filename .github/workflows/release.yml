@@ -34,8 +34,8 @@ jobs:
         name: Build Snap package
         run: |
           sudo apt-get update
-          sudo apt-get install snapcraft -y
-          npm exec electron-builder --linux snap
+          sudo apt-get install -y snapcraft
+          snapcraft
 
       - if: matrix.os == 'ubuntu-latest'
         name: Upload Snap package
