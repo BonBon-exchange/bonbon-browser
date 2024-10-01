@@ -4,7 +4,7 @@ on: push
 
 jobs:
   deps:
-    name: Setup and get deps
+    name: Setup, Test, and Package
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -21,9 +21,6 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: install ts-node for everyone
-        run: npm install -g ts-node husky
-
       - name: Install dependencies
         run: |
           npm ci --omit=dev --legacy-peer-deps
@@ -36,19 +33,38 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm install -g ts-node \
           npm exec electron-builder build --publish=never
 
+      # Ubuntu packaging and testing for Snap, Flatpak, Tarball, AppImage, DEB, and RPM
       - if: matrix.os == 'ubuntu-latest'
-        name: Ubuntu release
+        name: Build Snap, Flatpak, Tarball, AppImage, DEB, and RPM
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y snapcraft flatpak flatpak-builder
+          npm exec electron-builder --linux snap flatpak tar.gz appimage deb rpm
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Ubuntu artifacts upload
         uses: actions/upload-artifact@v4
         with:
           name: BonBon-linux
           path: |
             release/build/*-latest.yml
+            release/build/BonBon-*.*.*.snap
+            release/build/BonBon-*.*.*.flatpak
+            release/build/BonBon-*.*.*.tar.gz
             release/build/BonBon-*.*.*.AppImage
+            release/build/BonBon-*.*.*.deb
+            release/build/BonBon-*.*.*.rpm
+
+      # MacOS packaging and testing for DMG
       - if: matrix.os == 'macos-latest'
-        name: MacOS release
+        name: Build DMG
+        run: |
+          npm exec electron-builder --mac dmg
+
+      - if: matrix.os == 'macos-latest'
+        name: MacOS artifacts upload
         uses: actions/upload-artifact@v4
         with:
           name: BonBon-macos
@@ -56,11 +72,19 @@ jobs:
             release/build/*-latest.yml
             release/build/BonBon-*.*.*-arm64.dmg
             release/build/BonBon-*.*.*.dmg
+
+      # Windows packaging and testing for EXE and Portable
       - if: matrix.os == 'windows-latest'
-        name: Windows release
+        name: Build EXE and Portable
+        run: |
+          npm exec electron-builder --win nsis portable
+
+      - if: matrix.os == 'windows-latest'
+        name: Windows artifacts upload
         uses: actions/upload-artifact@v4
         with:
           name: BonBon-windows
           path: |
             release/build/*-latest.yml
             release/build/BonBon Setup *.*.*.exe
+            release/build/BonBon-*.*.*.exe

@@ -300,7 +300,8 @@
         "deb",
         "rpm",
         "flatpak",
-        "tar.gz"
+        "tar.gz",
+        "snap"
       ],
       "category": "Development"
     },
