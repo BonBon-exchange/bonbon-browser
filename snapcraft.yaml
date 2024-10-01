@@ -1,0 +1,41 @@
+name: bonbon-browser
+version: '1.0.6'
+summary: A web browser built with Electron, TypeScript, and React
+description: |
+  BonBon Web Browser is an open-source web browser built using Electron, React, and TypeScript. It provides a customizable and easy-to-use interface with modern web technologies.
+
+grade: stable
+confinement: strict
+
+apps:
+  bonbon:
+    command: desktop-launch $SNAP/bonbon-browser/bonbon
+    plugs:
+      - network
+      - browser-support
+      - network-bind
+      - pulseaudio
+      - opengl
+      - home
+      - x11
+      - unity7
+      - wayland
+
+parts:
+  bonbon-browser:
+    plugin: dump
+    source: .
+    stage-packages:
+      - libnss3
+      - libgtk-3-0
+      - libxss1
+      - libgconf-2-4
+    build-packages:
+      - nodejs
+      - npm
+    override-build: |
+      npm install
+      npm run build
+      npm run package
+    after:
+      - desktop-gtk3
