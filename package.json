@@ -312,7 +312,13 @@
         },
         "rpm",
         "tar.gz",
-        "snap"
+        {
+          "target": "snap",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
       ],
       "category": "Development"
     },
