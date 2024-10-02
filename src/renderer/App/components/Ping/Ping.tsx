@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
-import { logEvent } from 'firebase/analytics';
 
-import { analytics } from 'renderer/App/firebase';
+import { useAnalytics } from 'renderer/App/hooks/useAnalytics';
 
 export const Ping = () => {
+  const { anal } = useAnalytics();
   useEffect(() => {
-    logEvent(analytics, 'ping');
+    anal.logEvent('ping');
     setInterval(() => {
-      logEvent(analytics, 'ping');
+      anal.logEvent('ping');
     }, 60000);
-  }, []);
+  }, [anal]);
 
   return <div />;
 };

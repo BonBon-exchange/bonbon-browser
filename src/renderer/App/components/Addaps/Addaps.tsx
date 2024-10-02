@@ -22,6 +22,7 @@ import {
 } from 'renderer/App/store/reducers/Board';
 import { syncSettings } from 'renderer/App/store/reducers/Settings';
 import { useSettings } from 'renderer/App/hooks/useSettings';
+import { useAnalytics } from 'renderer/App/hooks/useAnalytics';
 
 import { AddapsProps } from './Types';
 
@@ -48,6 +49,7 @@ const Minimap = lazy(() => import('renderer/App/components/Minimap'));
 export const Addaps = ({ boardId }: AddapsProps) => {
   useGlobalEvents();
   const dispatch = useAppDispatch();
+  const { anal } = useAnalytics();
   const settings = useSettings();
   const { items } = useAppSelector((state) => state.downloads);
   const { board } = useStoreHelpers({ boardId });
@@ -73,17 +75,19 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   const showAppMenuAction = useCallback(() => {
     setShowAppMenu(!showAppMenu);
     setShowDownloadsPreview(false);
-  }, [showAppMenu]);
+    anal.logEvent('show_app-menu');
+  }, [anal, showAppMenu]);
 
   const showDownloadsPreviewAction = useCallback(() => {
     if (items.length > 0) {
       setShowDownloadsPreview(!showDownloadsPreview);
       setShowAppMenu(false);
+      anal.logEvent('show_downloads-preview');
     } else {
       // show downloads
       setShowDownloads(true);
     }
-  }, [showDownloadsPreview, items.length]);
+  }, [items.length, showDownloadsPreview, anal]);
 
   const windowClickListener = () => {
     setShowAppMenu(false);
@@ -99,7 +103,7 @@ export const Addaps = ({ boardId }: AddapsProps) => {
     setPopupChildren(<About />);
     setPopupTitle('About');
     setShowPopup(!showPopup);
-    window.app.analytics.event('open_about');
+    anal.logEvent('show_about-popup');
   };
 
   const handleCloseSettings = () => {
@@ -140,36 +144,43 @@ export const Addaps = ({ boardId }: AddapsProps) => {
   const handleShowSettings = () => {
     dispatch(setInAppMenu(true));
     setShowSettings(true);
+    anal.logEvent('show_settings');
   };
 
   const handleShowBookmarks = () => {
     dispatch(setInAppMenu(true));
     setShowBookmarks(true);
+    anal.logEvent('show_bookmarks');
   };
 
   const handleShowHistory = () => {
     dispatch(setInAppMenu(true));
     setShowHistory(true);
+    anal.logEvent('show_history');
   };
 
   const handleShowDownloads = () => {
     dispatch(setInAppMenu(true));
     setShowDownloads(true);
+    anal.logEvent('show_downloads');
   };
 
   const handleShowDocumentation = () => {
     dispatch(setInAppMenu(true));
     setShowDocumentation(true);
+    anal.logEvent('show_documentation');
   };
 
   const handleShowExtensions = () => {
     dispatch(setInAppMenu(true));
     setShowExtensions(true);
+    anal.logEvent('show_extensions');
   };
 
   const handleShowBoards = () => {
     dispatch(setInAppMenu(true));
     setShowBoards(true);
+    anal.logEvent('show_boards');
   };
 
   const resetBoardAction = useCallback(

@@ -26,16 +26,16 @@ export const Boards = ({ handleClose }: BoardsProps) => {
   const [filteredItems, setFilteredItems] = useState<BoardType[]>([]);
 
   const handleDeleteBoard = (id: string) => {
-      window.app.board.delete(id);
-        
-      const newItems = [...items];
-      const index = newItems.findIndex((i) => i.id === id);
-      if (index > -1) newItems.splice(index, 1);
-      setItems(newItems);
+    window.app.board.delete(id);
+
+    const newItems = [...items];
+    const index = newItems.findIndex((i) => i.id === id);
+    if (index > -1) newItems.splice(index, 1);
+    setItems(newItems);
   };
 
   const handleBoardClick = (boardId: string) => {
-    window.app.board.load(items.find(b => b.id === boardId) as BoardType)
+    window.app.board.load(items.find((b) => b.id === boardId) as BoardType);
     handleClose();
   };
 
@@ -43,8 +43,8 @@ export const Boards = ({ handleClose }: BoardsProps) => {
     window.app.board
       .getAllBoards()
       .then((val) => {
-        setItems(val.map(el => JSON.parse(el.content)));
-        setFilteredItems(val.map(el => JSON.parse(el.content)));
+        setItems(val.map((el) => JSON.parse(el.content)));
+        setFilteredItems(val.map((el) => JSON.parse(el.content)));
         setIsLoading(false);
       })
       .catch((e) => {
@@ -75,9 +75,8 @@ export const Boards = ({ handleClose }: BoardsProps) => {
   };
 
   useEffect(() => {
-    const filtered = items?.filter(
-      (i) =>
-        i.label.toLowerCase().includes(search.toLowerCase())
+    const filtered = items?.filter((i) =>
+      i.label.toLowerCase().includes(search.toLowerCase())
     );
     setFilteredItems(filtered);
   }, [search, items]);
@@ -88,33 +87,33 @@ export const Boards = ({ handleClose }: BoardsProps) => {
 
   return (
     <div id="Boards__container">
-        <CloseButton handleClose={handleClose} />
-        <div id="Boards__centered-container">
-          <h2>{t('Boards')}</h2>
-          <input
-            type="text"
-            className="Boards__search"
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder={t('Search')}
-          />
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <AutoSize>
-              {({ height }: { height: number }) => (
-                <List
-                  height={height - 230}
-                  itemCount={filteredItems.length}
-                  width={800}
-                  itemData={filteredItems}
-                  itemSize={150}
-                >
-                  {Item}
-                </List>
-              )}
-            </AutoSize>
-          )}
-        </div>
+      <CloseButton handleClose={handleClose} />
+      <div id="Boards__centered-container">
+        <h2>{t('Boards')}</h2>
+        <input
+          type="text"
+          className="Boards__search"
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={t('Search')}
+        />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <AutoSize>
+            {({ height }: { height: number }) => (
+              <List
+                height={height - 230}
+                itemCount={filteredItems.length}
+                width={800}
+                itemData={filteredItems}
+                itemSize={150}
+              >
+                {Item}
+              </List>
+            )}
+          </AutoSize>
+        )}
       </div>
+    </div>
   );
 };

@@ -25,6 +25,7 @@ import { Board } from 'types/boards';
 import { useBoard } from './useBoard';
 import { useBrowserMethods } from './useBrowserMethods';
 import { useSettings } from './useSettings';
+import { useAnalytics } from './useAnalytics';
 
 const DEFAULT_HEIGHT = 800;
 const DEFAULT_WIDTH = 600;
@@ -33,6 +34,7 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
   const dispatch = useAppDispatch();
   const settings = useSettings();
   const board = useBoard();
+  const { anal } = useAnalytics();
   const { focus, focusUrlBar, next } = useBrowserMethods();
   const { t } = useTranslation();
 
@@ -158,53 +160,59 @@ export const useStoreHelpers = (helpersParams?: { boardId?: string }) => {
       };
 
       dispatch(setBoard(newBoard));
-      window.app.analytics.event('add_board');
+      anal.logEvent('app_add-board');
     },
-    [dispatch, makeBrowser, t]
+    [anal, dispatch, makeBrowser, t]
   );
 
   const loadBoard = useCallback(
     (params: { id?: string }, savedBoard?: Board) => {
       if (board.id === helpersParams?.boardId) return;
       createBoard(params, savedBoard);
+      anal.logEvent('app_load-board');
     },
-    [createBoard, board.id, helpersParams?.boardId]
+    [board.id, helpersParams?.boardId, createBoard, anal]
   );
 
   const closeBrowser = useCallback(
     (browserId: string) => {
       dispatch(removeBrowser(browserId));
+      anal.logEvent('browser_close');
     },
-    [dispatch]
+    [anal, dispatch]
   );
 
   const minBrowser = useCallback(
     (browserId: string) => {
       dispatch(minimizeBrowser(browserId));
+      anal.logEvent('browser_minimize');
       setTimeout(() => {
         if (next) focus(next);
       }, 0);
     },
-    [dispatch, focus, next]
+    [anal, dispatch, focus, next]
   );
 
   const showBrowser = useCallback(
     (browserId: string) => {
       dispatch(unminimizeBrowser(browserId));
+      anal.logEvent('browser_unminimize');
     },
-    [dispatch]
+    [anal, dispatch]
   );
 
   const closeBoard = useCallback(() => {
     window.app.board.close();
-  }, []);
+    anal.logEvent('board_close');
+  }, [anal]);
 
   const reopenLastClosed = useCallback(() => {
     if (board.closedUrls.length > 0) {
+      anal.logEvent('browser_reopen-last-closed');
       makeAndAddBrowser({ url: board.closedUrls[board.closedUrls.length - 1] });
       dispatch(removeLastClosedUrl());
     }
-  }, [board.closedUrls, dispatch, makeAndAddBrowser]);
+  }, [anal, board.closedUrls, dispatch, makeAndAddBrowser]);
 
   const togSearch = useCallback(
     (browserId: string) => {

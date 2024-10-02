@@ -68,6 +68,10 @@ const makeAppEvents = () => {
 
   if (!gotTheLock) app.quit();
 
+  app.on('before-quit', () => {
+    tracker.cleanup();
+  });
+
   app.on('second-instance', (_e, argv) => {
     const mainWindow = getMainWindow();
     if (argv.length > 0 && isValidUrl(argv[argv.length - 1])) {

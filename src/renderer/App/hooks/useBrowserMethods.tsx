@@ -5,10 +5,12 @@ import { useAppDispatch } from 'renderer/App/store/hooks';
 import { setActiveBrowser } from 'renderer/App/store/reducers/Board';
 import { getContainerFromBrowserId } from '../helpers/dom';
 import { useBoard } from './useBoard';
+import { useAnalytics } from './useAnalytics';
 
 export const useBrowserMethods = () => {
   const dispatch = useAppDispatch();
   const boardState = useBoard();
+  const { anal } = useAnalytics();
 
   const focusUrlBar = useCallback((browserId: string) => {
     const container = getContainerFromBrowserId(browserId);
@@ -46,8 +48,9 @@ export const useBrowserMethods = () => {
     (browserId: string, dontScroll?: boolean) => {
       if (!dontScroll) scrollToBrowser(browserId);
       bringBrowserToTheFront(browserId);
-      window.app.analytics.event('switch_browser');
+      anal.logEvent('browser_focus');
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [scrollToBrowser, bringBrowserToTheFront]
   );
 

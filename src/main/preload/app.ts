@@ -38,14 +38,6 @@ import {
 import { DomainSuggestion } from 'types/suggestions';
 
 contextBridge.exposeInMainWorld('app', {
-  analytics: {
-    event: (eventName: string, params: EventParams) => {
-      ipcRenderer.send('analytics-event', { eventName, params });
-    },
-    page: (pageName: string, params: EventParams) => {
-      ipcRenderer.send('analytics-page', { pageName, params });
-    },
-  },
   board: {
     add: (params: { newSession?: boolean }) => {
       ipcRenderer.send('open-new-board', params);

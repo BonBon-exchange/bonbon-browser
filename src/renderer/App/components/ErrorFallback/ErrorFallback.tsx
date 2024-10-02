@@ -6,7 +6,10 @@ import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { v4 } from 'uuid';
 
 // Composant de fallback pour afficher un message d'erreur
-const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
+const ErrorFallback: React.FC<FallbackProps> = ({
+  error,
+  resetErrorBoundary,
+}) => {
   return (
     <div role="alert">
       <h2>Something went wrong:</h2>
@@ -22,13 +25,28 @@ interface TypedErrorBoundaryProps {
   manualResetKey?: string;
 }
 
+// Function to log error details
+const logErrorDetails = (error: Error, errorInfo: ErrorInfo) => {
+  // Log error details locally for development
+  console.error('Error caught by TypedErrorBoundary:', {
+    message: error.message,
+    stack: error.stack,
+    componentStack: errorInfo.componentStack,
+    timestamp: new Date().toISOString(),
+    // You can add more context here like user info, state snapshot, etc.
+  });
+};
+
 // Composant Error Boundary fonctionnel typé
-const TypedErrorBoundary: React.FC<TypedErrorBoundaryProps> = ({ children, manualResetKey }) => {
+const TypedErrorBoundary: React.FC<TypedErrorBoundaryProps> = ({
+  children,
+  manualResetKey,
+}) => {
   const [resetKey, setResetKey] = useState<string>(manualResetKey ?? v4()); // Clé de reset pour forcer le re-render
 
   // Typage correct pour la fonction onError
   const onError = (error: Error, info: ErrorInfo) => {
-    console.error('Error caught by TypedErrorBoundary:', error, info);
+    logErrorDetails(error, info); // Log the error with details
   };
 
   // Fonction onReset pour forcer un re-render
@@ -37,8 +55,8 @@ const TypedErrorBoundary: React.FC<TypedErrorBoundaryProps> = ({ children, manua
   };
 
   useEffect(() => {
-    if(manualResetKey) setResetKey(manualResetKey)
-  }, [manualResetKey])
+    if (manualResetKey) setResetKey(manualResetKey);
+  }, [manualResetKey]);
 
   return (
     <ErrorBoundary
