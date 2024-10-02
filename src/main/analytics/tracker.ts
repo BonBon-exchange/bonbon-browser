@@ -14,6 +14,7 @@ import {
   setDoc,
   Timestamp,
   writeBatch,
+  getDoc, // Added import
 } from 'firebase/firestore';
 import { UserData } from 'types/analytics';
 import { database } from './firebase';
@@ -148,13 +149,15 @@ class Tracker {
     // Update system information each time Tracker is instantiated
     this.updateSystemInfo();
 
-    // Update session data
-    this.updateSessionData()
+    // Load existing user data from Firestore
+    this.loadUserDataFromFirestore()
+      .then(() => {
+        // Update session data
+        return this.updateSessionData();
+      })
       .then(() => {
         // Send initial user data to Firestore
-        this.sendUserDataToFirestore().catch((error) => {
-          console.error('Error sending user data to Firestore:', error);
-        });
+        return this.sendUserDataToFirestore();
       })
       .catch(console.error);
 
@@ -168,12 +171,42 @@ class Tracker {
     this.data.os = this.osInfo;
   }
 
+  private async loadUserDataFromFirestore(): Promise<void> {
+    const userRef = doc(collection(database, 'users'), this.userId);
+    try {
+      const userSnapshot = await getDoc(userRef);
+      if (userSnapshot.exists()) {
+        const userData = userSnapshot.data() as UserData;
+        this.data.firstSeen = userData.firstSeen;
+        this.data.numberOfSessions = userData.numberOfSessions || 1;
+        // Load other necessary fields if needed
+        console.log('User data loaded from Firestore.');
+      } else {
+        // If user document doesn't exist, initialize firstSeen
+        this.data.firstSeen = new Date().toISOString();
+        this.data.numberOfSessions = 1;
+        console.log('No existing user data found. Initializing new user data.');
+      }
+    } catch (error) {
+      console.error('Error loading user data from Firestore:', error);
+      // In case of error, initialize firstSeen
+      this.data.firstSeen = new Date().toISOString();
+      this.data.numberOfSessions = 1;
+    }
+  }
+
   private async updateSessionData(): Promise<void> {
     const currentTime = new Date().toISOString();
 
-    // Here you can implement session tracking logic
-    // For simplicity, we're only updating lastSeen
+    // Update lastSeen
     this.data.lastSeen = currentTime;
+
+    // Increment number of sessions if already present
+    if (this.data.numberOfSessions) {
+      this.data.numberOfSessions += 1;
+    } else {
+      this.data.numberOfSessions = 1;
+    }
 
     // Fetch the latest IP address
     this.data.userIp = await this.getUserIP();
@@ -190,7 +223,7 @@ class Tracker {
       userIp: this.data.userIp || 'unknown',
       os: this.data.os || 'unknown',
       firstSeen: this.data.firstSeen || new Date().toISOString(),
-      lastSeen: this.data.lastSeen || new Date().toISOString(),
+      lastSeen: new Date().toISOString(),
       numberOfSessions: this.data.numberOfSessions || 1,
       consent: this.consent,
     };
