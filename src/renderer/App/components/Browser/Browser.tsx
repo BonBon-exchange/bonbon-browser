@@ -308,7 +308,7 @@ export const Browser = ({
   const reload = useCallback(() => {
     webviewRef.current?.reload();
     anal.logEvent('browser_reload-page');
-  }, []);
+  }, [anal]);
 
   const scrollListener = useCallback(() => {
     const timestamp = new Date().getTime();
@@ -410,7 +410,7 @@ export const Browser = ({
       window.app.history
         .addHistory({ url, title: title || '' })
         .catch(console.log);
-  }, [url, settings, title, incognito]);
+  }, [url, settings, title, incognito, anal]);
 
   useEffect(() => {
     const maxWidth = boardContainer?.clientWidth;

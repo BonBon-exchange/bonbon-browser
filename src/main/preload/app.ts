@@ -1,7 +1,6 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { TFunction } from 'react-i18next';
 
-import { EventParams } from 'types/analytics';
 import { Board } from 'types/boards';
 import { Bookmark, Provider, Tag } from 'types/bookmarks';
 import { ConfigKeys } from 'types/configKeys';
