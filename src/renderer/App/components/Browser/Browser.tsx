@@ -26,6 +26,7 @@ import {
   updateBrowser,
 } from 'renderer/App/store/reducers/Board';
 import { useSettings } from 'renderer/App/hooks/useSettings';
+import { useAnalytics } from 'renderer/App/hooks/useAnalytics';
 
 import { BrowserProps } from './Types';
 
@@ -53,6 +54,7 @@ export const Browser = ({
 }: BrowserProps) => {
   const dispatch = useAppDispatch();
   const settings = useSettings();
+  const { anal } = useAnalytics();
   const {
     enablePointerEventsForAll,
     disablePointerEventsForAll,
@@ -152,6 +154,7 @@ export const Browser = ({
   const onDragStart = () => {
     blockScrollTimer.current = null;
     disablePointerEventsForAll();
+    anal.logEvent('browser_drag');
   };
 
   const onDragStop = (_e: any, d: any) => {
@@ -299,12 +302,13 @@ export const Browser = ({
 
   const onResizeStart = () => {
     disablePointerEventsForAll();
+    anal.logEvent('browser_resize');
   };
 
-  const reload = () => {
+  const reload = useCallback(() => {
     webviewRef.current?.reload();
-    window.app.analytics.event('browser_reload');
-  };
+    anal.logEvent('browser_reload-page');
+  }, [anal]);
 
   const scrollListener = useCallback(() => {
     const timestamp = new Date().getTime();
@@ -373,6 +377,7 @@ export const Browser = ({
     isLoading,
     isPinned,
     isSearching,
+    reload,
     renderedUrl,
     session,
     title,
@@ -397,7 +402,7 @@ export const Browser = ({
   }, [id, bringBrowserToTheFront]);
 
   useEffect(() => {
-    window.app.analytics.event('browser_navigate');
+    anal.logEvent('browser_navigate');
     const typedVal = settings['browsing.dontSaveHistory'] as
       | boolean
       | undefined;
@@ -405,7 +410,7 @@ export const Browser = ({
       window.app.history
         .addHistory({ url, title: title || '' })
         .catch(console.log);
-  }, [url, settings, title, incognito]);
+  }, [url, settings, title, incognito, anal]);
 
   useEffect(() => {
     const maxWidth = boardContainer?.clientWidth;

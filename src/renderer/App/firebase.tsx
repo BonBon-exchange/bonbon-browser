@@ -3,10 +3,7 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { getAuth, signInAnonymously } from 'firebase/auth';
-import { getAnalytics, logEvent, setUserProperties } from 'firebase/analytics';
-import i18n from './i18n';
-
-import packageJson from '../../../package.json';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 
 // Your Firebase configuration (replace with your actual config)
 const firebaseConfig = {
@@ -17,7 +14,8 @@ const firebaseConfig = {
   projectId: 'bonbon-browser', // Replace with your Project ID
   storageBucket: 'bonbon-browser.appspot.com', // Replace with your Storage Bucket
   messagingSenderId: '313574192651', // Replace with your Messaging Sender ID
-  appId: '1:313574192651:web:d1fa0e4916ea7a2782f90e', // Replace with your App ID
+  appId: '1:313574192651:web:cbe8cd4ce4797d7c82f90e', // Replace with your App ID
+  measurementId: 'G-GVME8GLMGZ',
 };
 
 // Initialize Firebase
@@ -28,10 +26,6 @@ const database = getDatabase(app);
 const auth = getAuth(app);
 
 const analytics = getAnalytics();
-setUserProperties(analytics, {
-  app_version: packageJson.version,
-  language: i18n.language,
-});
 
 // Sign in anonymously
 signInAnonymously(auth)
@@ -43,9 +37,5 @@ signInAnonymously(auth)
     console.error('Firebase Auth Error:', error);
     logEvent(analytics, 'firebase_signin_anonymous_error');
   });
-
-setInterval(() => {
-  logEvent(analytics, 'ping');
-}, 60000);
 
 export { database, analytics };

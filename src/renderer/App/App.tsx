@@ -6,6 +6,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, getPersistedStoreAndPersistor } from 'renderer/App/store/store';
 import { Addaps } from 'renderer/App/components/Addaps';
 import ErrorFallback from 'renderer/App/components/ErrorFallback';
+import { Ping } from 'renderer/App/components/Ping';
+import { useAnalytics } from './hooks/useAnalytics';
 
 import './i18n';
 
@@ -17,15 +19,17 @@ export function App() {
   const [isLoadedBoard, setIsLoadedBoard] = useState<boolean | string>(false);
   const [boardId, setBoardId] = useState<string>('');
   const persisted = useRef<any>(null);
+  const { anal } = useAnalytics();
 
   const loadBoardAction = useCallback(
     (_e: any, args: { boardId: string }) => {
       if (args.boardId === boardId) return;
+      anal.logEvent('load_board');
       persisted.current = getPersistedStoreAndPersistor(args.boardId);
       setBoardId(args.boardId);
       setIsLoadedBoard(true);
     },
-    [boardId]
+    [anal, boardId]
   );
 
   const purgeAction = useCallback(() => {
@@ -46,12 +50,13 @@ export function App() {
   }, [purgeAction]);
 
   useEffect(() => {
-    window.app.analytics.event('load_app');
-  }, []);
+    anal.logEvent('load_app');
+  }, [anal]);
 
   useEffect(() => {
     window.addEventListener('contextmenu', (e) => {
       e.preventDefault();
+      anal.logEvent('right-click');
       const target = e.target as HTMLDivElement;
 
       if (
@@ -61,18 +66,20 @@ export function App() {
       )
         window.app.tools.showLeftbarContextMenu({ x: e.clientX, y: e.clientY });
     });
-  }, []);
+  }, [anal]);
 
   return (
     <ErrorFallback>
       {isLoadedBoard ? (
         <Provider store={persisted.current?.store}>
           <PersistGate loading={null} persistor={persisted.current?.persistor}>
+            <Ping />
             <Addaps boardId={boardId} />
           </PersistGate>
         </Provider>
       ) : (
         <Provider store={store}>
+          <Ping />
           <Addaps />
         </Provider>
       )}

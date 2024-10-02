@@ -2,7 +2,6 @@
 /* eslint-disable import/prefer-default-export */
 import { useCallback, useEffect, useState } from 'react';
 import { IpcRendererEvent } from 'electron';
-import { logEvent } from 'firebase/analytics';
 
 import { Electron } from 'namespaces/_electronist';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
@@ -19,10 +18,10 @@ import { setDownloadItem } from 'renderer/App/store/reducers/Downloads';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { DownloadState } from 'renderer/TitleBar/components/TopBar/Types';
 import { getContainerFromBrowserId } from 'renderer/App/helpers/dom';
-import { analytics } from 'renderer/App/firebase';
 import { Position, StoreValue } from 'types/ipc';
 import { useBoard } from './useBoard';
 import { useBrowserMethods } from './useBrowserMethods';
+import { useAnalytics } from './useAnalytics';
 
 let keyDownTimeoutId: number | null = null;
 let keysPressed: string[] = [];
@@ -31,6 +30,7 @@ export const useGlobalEvents = () => {
   const { browser, board } = useStoreHelpers();
   const dispatch = useAppDispatch();
   const boardState = useBoard();
+  const { anal } = useAnalytics();
   const { focus, next, disablePointerEventsForAll, enablePointerEventsForAll } =
     useBrowserMethods();
   const [isPointerEventDisabled, setIsPointerEventDisabled] =
@@ -187,10 +187,11 @@ export const useGlobalEvents = () => {
       const browserId = el?.getAttribute('data-browserid');
       if (browserId) {
         dispatch(removeBrowser(browserId));
+        anal.logEvent('browser_close');
         window.app.browser.selectBrowserView();
       }
     },
-    [dispatch]
+    [anal, dispatch]
   );
 
   const pinWebviewAction = useCallback(
@@ -199,9 +200,10 @@ export const useGlobalEvents = () => {
       const browserId = el?.getAttribute('data-browserid');
       if (browserId) {
         dispatch(togglePinBrowser(browserId));
+        anal.logEvent('browser_pin-toggle');
       }
     },
-    [dispatch]
+    [anal, dispatch]
   );
 
   const closeOthersWebviewAction = useCallback(
@@ -210,31 +212,37 @@ export const useGlobalEvents = () => {
       const browserId = el?.getAttribute('data-browserid');
       if (browserId) {
         dispatch(removeAllBrowsersExcept(browserId));
+        anal.logEvent('board_close-other-browsers');
         window.app.browser.selectBrowserView();
       }
     },
-    [dispatch]
+    [anal, dispatch]
   );
 
   const closeAllWebviewAction = useCallback(() => {
     window.app.browser.selectBrowserView();
     dispatch(removeAllBrowsers());
-  }, [dispatch]);
+    anal.logEvent('board_close-all-browsers');
+  }, [anal, dispatch]);
 
-  const matchMediaListener = useCallback((e: { matches: boolean }) => {
-    const colorScheme = e.matches ? 'dark-theme' : 'light-theme';
-    if (window.document.querySelector('body')?.className !== colorScheme) {
-      //@ts-ignore
-      window.document.querySelector('body').className = colorScheme;
-      window.app.analytics.event('toggle_darkmode', { theme: colorScheme });
-    }
-  }, []);
+  const matchMediaListener = useCallback(
+    (e: { matches: boolean }) => {
+      const colorScheme = e.matches ? 'dark-theme' : 'light-theme';
+      if (window.document.querySelector('body')?.className !== colorScheme) {
+        //@ts-ignore
+        window.document.querySelector('body').className = colorScheme;
+        anal.logEvent('darkmode-toggle', { theme: colorScheme });
+      }
+    },
+    [anal]
+  );
 
   const renameBoardAction = useCallback(
     (_e: IpcRendererEvent, args: { label: string }) => {
       dispatch(renameBoard(args.label));
+      anal.logEvent('board_rename');
     },
-    [dispatch]
+    [anal, dispatch]
   );
 
   const downloadingAction = useCallback(
@@ -251,6 +259,7 @@ export const useGlobalEvents = () => {
     ) => {
       dispatch(setDownloadItem(args));
       if (args.state === 'completed') {
+        anal.logEvent('download-item_completed');
         window.app.download
           .addDownload({
             savePath: args.savePath,
@@ -260,7 +269,7 @@ export const useGlobalEvents = () => {
           .catch(console.log);
       }
     },
-    [dispatch]
+    [anal, dispatch]
   );
 
   const certificateErrorAction = useCallback(
@@ -272,6 +281,7 @@ export const useGlobalEvents = () => {
         (b) => b.webContentsId === args.webContentsId
       )?.id;
       if (browserId) {
+        anal.logEvent('browser_certificate-error');
         dispatch(
           updateBrowserCertificateErrorFingerprint({
             browserId,
@@ -280,19 +290,20 @@ export const useGlobalEvents = () => {
         );
       }
     },
-    [dispatch, boardState.browsers]
+    [boardState.browsers, anal, dispatch]
   );
 
   const distributeWindowsEvenlyAction = useCallback(() => {
     board.distributeWindowsEvenlyDefault();
-  }, [board]);
+    anal.logEvent('distribute-windows-evenly');
+  }, [anal, board]);
 
   const autotileWindowsAction = useCallback(
     (_e: IpcRendererEvent, horizontal: number, vertical: number) => {
       board.autotileWindows(horizontal, vertical);
-      logEvent(analytics, 'autotile', { value: `${horizontal}x${vertical}` });
+      anal.logEvent('autotile', { value: `${horizontal}x${vertical}` });
     },
-    [board]
+    [anal, board]
   );
 
   const setDefaultWindowSizeAction = useCallback(

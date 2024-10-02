@@ -3,12 +3,11 @@
 /* eslint-disable import/prefer-default-export */
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { logEvent } from 'firebase/analytics';
 import { useSettings } from 'renderer/App/hooks/useSettings';
 import { useAppDispatch } from 'renderer/App/store/hooks';
 import { setSetting } from 'renderer/App/store/reducers/Settings';
 import PopoverColorPicker from 'renderer/App/components/PopoverColorPicker';
-import { analytics } from 'renderer/App/firebase';
+import { useAnalytics } from 'renderer/App/hooks/useAnalytics';
 
 import { Locale } from 'types/i18n';
 
@@ -18,6 +17,7 @@ export const ApplicationSettings = () => {
   const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const settings = useSettings();
+  const { anal } = useAnalytics();
   const [appSettingLaunch, setAppSettingLaunch] = useState<boolean>(
     settings['application.launchAtStartup']
   );
@@ -42,7 +42,7 @@ export const ApplicationSettings = () => {
 
   const changeLanguage = (e: any) => {
     updateLanguage(e.target?.value as Locale);
-    logEvent(analytics, 'setting_change', { language: e.target?.value });
+    anal.logEvent('setting_change', { language: e.target?.value });
   };
 
   useEffect(() => {

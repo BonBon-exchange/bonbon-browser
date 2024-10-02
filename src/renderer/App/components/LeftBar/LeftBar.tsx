@@ -4,7 +4,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import clsx from 'clsx';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { logEvent } from 'firebase/analytics';
 
 import { useBoard } from 'renderer/App/hooks/useBoard';
 import { BrowserProps } from 'renderer/App/components/Browser/Types';
@@ -17,7 +16,7 @@ import {
 import { ButtonAddBrowser } from 'renderer/App/components/ButtonAddBrowser';
 import ErrorFallback from 'renderer/App/components/ErrorFallback';
 import { useStoreHelpers } from 'renderer/App/hooks/useStoreHelpers';
-import { analytics } from 'renderer/App/firebase';
+import { useAnalytics } from 'renderer/App/hooks/useAnalytics';
 
 import loadingImg from 'renderer/App/svg/loading.svg';
 import icon from './icon.png';
@@ -30,6 +29,7 @@ export const LeftBar = () => {
   const { focus } = useBrowserMethods();
   const [items, setItems] = useState<BrowserProps[]>(boardState.browsers);
   const { browser, board } = useStoreHelpers();
+  const { anal } = useAnalytics();
 
   const handleReorder = (result: any) => {
     if (!result.destination) return;
@@ -54,12 +54,12 @@ export const LeftBar = () => {
   const handleClickFavicon = useCallback(
     (browserId: string) => {
       browser.show(browserId);
-      logEvent(analytics, 'leftbar_browser-favicon_click');
+      anal.logEvent('leftbar_browser-favicon_click');
       setTimeout(() => {
         focus(browserId);
       }, 0);
     },
-    [browser, focus]
+    [anal, browser, focus]
   );
 
   const makeItem = useCallback(
@@ -83,7 +83,7 @@ export const LeftBar = () => {
                     onClick={() => {
                       if (!b.isMinimized) {
                         browser.close(b.id);
-                        logEvent(analytics, 'leftbar_browser-close-icon_click');
+                        anal.logEvent('leftbar_browser-close-icon_click');
                       }
                     }}
                   >
@@ -111,7 +111,13 @@ export const LeftBar = () => {
         </Draggable>
       );
     },
-    [boardState.activeBrowser, browser, handleClickFavicon, handleImageError]
+    [
+      anal,
+      boardState.activeBrowser,
+      browser,
+      handleClickFavicon,
+      handleImageError,
+    ]
   );
 
   const makeFavicons = useCallback(() => {
@@ -120,12 +126,12 @@ export const LeftBar = () => {
 
   const magicChatOnClick = () => {
     dispatch(toggleMagicChat());
-    logEvent(analytics, 'leftbar_magic-chat-icon_click');
+    anal.logEvent('leftbar_magic-chat-icon_click');
   };
 
   const buttonAddBrowserClick = () => {
     browser.add({});
-    logEvent(analytics, 'leftbar_add-browser-icon_click');
+    anal.logEvent('leftbar_add-browser-icon_click');
   };
 
   useEffect(() => {

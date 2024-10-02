@@ -129,7 +129,6 @@ export const boardSlice = createSlice({
     },
     toggleBoardFullSize: (state) => {
       state.board.isFullSize = !state.board.isFullSize;
-      window.app.analytics.event(`toggle_fullsize_${!state.board.isFullSize}`);
     },
     setActiveBrowser: (state, action: PayloadAction<string>) => {
       setStateActiveBrowser(state, action.payload);
@@ -137,7 +136,6 @@ export const boardSlice = createSlice({
     addBrowser: (state, action: PayloadAction<BrowserProps>) => {
       state.board.browsers.push(action.payload);
       setStateActiveBrowser(state, action.payload.id);
-      window.app.analytics.event('add_browser');
     },
     setBrowsers: (state, action: PayloadAction<BrowserProps[]>) => {
       state.board.browsers = action.payload;
@@ -198,7 +196,6 @@ export const boardSlice = createSlice({
     },
     renameBoard: (state, action: PayloadAction<string>) => {
       state.board.label = action.payload;
-      window.app.analytics.event('rename_board');
     },
     minimizeBrowser: (state, action: PayloadAction<string>) => {
       const browserIndex = getBrowserIndexFromBrowserId(state, action.payload);
@@ -248,8 +245,6 @@ export const boardSlice = createSlice({
           window.app.browser.selectBrowserView();
         }
       }
-
-      window.app.analytics.event('close_browser');
     },
     removeAllBrowsersExcept: (state, action: PayloadAction<string>) => {
       state.board.browsers
@@ -267,9 +262,6 @@ export const boardSlice = createSlice({
       state.board.browsersActivity = state.board.browsersActivity.filter(
         (b) => b === action.payload
       );
-
-      // send event
-      window.app.analytics.event('close_others_browser');
     },
     updateBrowserCertificateErrorFingerprint: (
       state,
@@ -291,7 +283,6 @@ export const boardSlice = createSlice({
       state.board.browsersActivity = [];
       state.board.activeBrowser = null;
       window.app.browser.selectBrowserView();
-      window.app.analytics.event('close_all_browsers');
     },
     removeLastClosedUrl: (state) => {
       state.board.closedUrls.splice(state.board.closedUrls.length - 1, 1);

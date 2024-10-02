@@ -23,10 +23,6 @@ import { DownloadState } from 'renderer/TitleBar/components/TopBar/Types';
 declare global {
   interface Window {
     app: {
-      analytics: {
-        event: (eventName: string, params?: EventParams) => void;
-        page: (pageName: string, params?: EventParams) => void;
-      };
       board: {
         close: () => void;
         add: (params?: { newSession?: boolean }) => void;

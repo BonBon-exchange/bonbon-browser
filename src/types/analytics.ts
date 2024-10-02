@@ -14,5 +14,5 @@ export interface UserData {
   firstSeen: string;
   lastSeen: string;
   numberOfSessions: number;
-  isOnline: boolean;
+  consent: boolean;
 }

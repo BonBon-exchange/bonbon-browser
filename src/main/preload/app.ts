@@ -1,7 +1,6 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { TFunction } from 'react-i18next';
 
-import { EventParams } from 'types/analytics';
 import { Board } from 'types/boards';
 import { Bookmark, Provider, Tag } from 'types/bookmarks';
 import { ConfigKeys } from 'types/configKeys';
@@ -38,14 +37,6 @@ import {
 import { DomainSuggestion } from 'types/suggestions';
 
 contextBridge.exposeInMainWorld('app', {
-  analytics: {
-    event: (eventName: string, params: EventParams) => {
-      ipcRenderer.send('analytics-event', { eventName, params });
-    },
-    page: (pageName: string, params: EventParams) => {
-      ipcRenderer.send('analytics-page', { pageName, params });
-    },
-  },
   board: {
     add: (params: { newSession?: boolean }) => {
       ipcRenderer.send('open-new-board', params);
