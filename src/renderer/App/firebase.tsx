@@ -3,10 +3,7 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { getAuth, signInAnonymously } from 'firebase/auth';
-import { getAnalytics, logEvent, setUserProperties } from 'firebase/analytics';
-import i18n from './i18n';
-
-import packageJson from '../../../package.json';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 
 // Your Firebase configuration (replace with your actual config)
 const firebaseConfig = {
