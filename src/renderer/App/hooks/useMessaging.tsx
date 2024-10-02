@@ -82,6 +82,8 @@ export const useMessaging = () => {
         setLatestMessageTimestamp(
           messagesList[messagesList.length - 1].timestamp
         );
+      } else {
+        setLatestMessageTimestamp(null);
       }
     } catch (error) {
       console.error('Error loading messages:', error);
@@ -92,7 +94,7 @@ export const useMessaging = () => {
   useEffect(() => {
     setMessages([]); // Clear existing messages when room changes
     loadMessages();
-  }, [loadMessages]);
+  }, [loadMessages, roomId]);
 
   // Listen for new messages in real-time
   useEffect(() => {
@@ -122,7 +124,7 @@ export const useMessaging = () => {
 
     onChildAdded(newMessagesQuery, handleNewMessage);
 
-    // Cleanup listener on unmount or when latestMessageTimestamp changes
+    // Cleanup listener on unmount or when latestMessageTimestamp or roomId changes
     return () => {
       off(newMessagesQuery, 'child_added', handleNewMessage);
     };
@@ -142,7 +144,7 @@ export const useMessaging = () => {
     set(newMessageRef, message);
   };
 
-  // Handle user presence
+  // Handle user presence and connection state
   useEffect(() => {
     const userStatusDatabaseRef = ref(
       database,
@@ -150,18 +152,25 @@ export const useMessaging = () => {
     );
 
     const connectedRef = ref(database, '.info/connected');
+
     const onConnectedValueChange = (snapshot: any) => {
       if (snapshot.val() === false) {
         return;
       }
 
+      // When connected, set up the onDisconnect handler
+      onDisconnect(userStatusDatabaseRef)
+        .remove()
+        .catch((error) => {
+          console.error('Failed to set onDisconnect:', error);
+        });
+
+      // Also, ensure that user is marked as online upon connection
       set(userStatusDatabaseRef, {
         username: user.username,
         state: 'online',
         lastChanged: Date.now(), // Use Date.now() instead of serverTimestamp()
       });
-
-      onDisconnect(userStatusDatabaseRef).remove();
     };
 
     onValue(connectedRef, onConnectedValueChange);
@@ -180,13 +189,13 @@ export const useMessaging = () => {
 
     onValue(usersRef, onUsersValueChange);
 
-    // Cleanup listeners on unmount or when roomId changes
+    // Cleanup listeners on unmount or when roomId or user.id changes
     return () => {
       off(connectedRef, 'value', onConnectedValueChange);
       off(usersRef, 'value', onUsersValueChange);
-      // Do not remove userStatusDatabaseRef here
+      // Do not remove userStatusDatabaseRef here to preserve onDisconnect
     };
-  }, [roomId, user]);
+  }, [roomId, user.id, user.username]);
 
   // Update user presence when username changes
   useEffect(() => {
@@ -201,9 +210,12 @@ export const useMessaging = () => {
     set(userStatusDatabaseRef, {
       username: user.username,
       state: 'online',
-      lastChanged: Date.now(), // Use Date.now() instead of serverTimestamp()
+      lastChanged: Date.now(), // Use Date.now() to keep timestamp as number
+    }).catch((error) => {
+      console.error('Error updating user presence:', error);
     });
-  }, [user, roomId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId, user.username]);
 
   return {
     sendMessage,

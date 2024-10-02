@@ -16,17 +16,18 @@ class Tracker {
 
   private osInfo: string;
 
-  private isOnline: boolean;
-
   private data: Partial<UserData> = {};
 
   constructor() {
+    // Initialize current app version and OS info
     this.appVersion = this.getAppVersion();
     this.osInfo = this.getOS();
-    this.isOnline = true;
 
     // Load or initialize local data from electron-store under "tracker" key
     this.data = this.loadLocalData();
+
+    // Update system information
+    this.updateSystemInfo();
 
     // Update session data
     this.updateSessionData()
@@ -40,6 +41,9 @@ class Tracker {
         });
       })
       .catch(console.log);
+
+    // Start the timer to update lastSeen every minute
+    this.startLastSeenUpdater();
   }
 
   private getAppVersion(): string {
@@ -78,7 +82,6 @@ class Tracker {
       firstSeen: new Date().toISOString(),
       lastSeen: new Date().toISOString(),
       numberOfSessions: 0,
-      isOnline: this.isOnline,
     });
 
     return trackerData as Partial<UserData>;
@@ -86,16 +89,13 @@ class Tracker {
 
   private saveLocalData(): void {
     // Save data to electron-store under the "tracker" key
-    store.set('tracker', {
-      userId: this.data.userId,
-      appVersion: this.data.appVersion,
-      userIp: this.data.userIp,
-      os: this.data.os,
-      firstSeen: this.data.firstSeen,
-      lastSeen: this.data.lastSeen,
-      numberOfSessions: this.data.numberOfSessions,
-      isOnline: this.data.isOnline,
-    });
+    store.set('tracker', this.data);
+  }
+
+  private updateSystemInfo(): void {
+    // Update appVersion and OS info each time Tracker is instantiated
+    this.data.appVersion = this.appVersion;
+    this.data.os = this.osInfo;
   }
 
   private async updateSessionData(): Promise<void> {
@@ -110,10 +110,8 @@ class Tracker {
 
     this.data.lastSeen = currentTime;
 
-    // Fetch user IP if not already fetched
-    if (!this.data.userIp || this.data.userIp === 'unknown') {
-      this.data.userIp = await this.getUserIP();
-    }
+    // Always fetch the latest IP address
+    this.data.userIp = await this.getUserIP();
 
     // Generate userId if not present
     if (!this.data.userId) {
@@ -128,13 +126,12 @@ class Tracker {
 
     const userData: UserData = {
       userId,
-      appVersion: this.appVersion,
+      appVersion: this.data.appVersion || 'unknown',
       userIp: this.data.userIp || 'unknown',
-      os: this.osInfo,
+      os: this.data.os || 'unknown',
       firstSeen: this.data.firstSeen || new Date().toISOString(),
       lastSeen: this.data.lastSeen || new Date().toISOString(),
       numberOfSessions: this.data.numberOfSessions || 1,
-      isOnline: this.isOnline,
     };
 
     try {
@@ -143,6 +140,20 @@ class Tracker {
     } catch (error) {
       console.error('Error storing user data:', error);
     }
+  }
+
+  private startLastSeenUpdater(): void {
+    // Update lastSeen every minute
+    setInterval(async () => {
+      this.data.lastSeen = new Date().toISOString();
+      this.saveLocalData();
+      try {
+        await this.sendDataToFirestore();
+        console.log('lastSeen updated in Firestore.');
+      } catch (error) {
+        console.error('Error updating lastSeen in Firestore:', error);
+      }
+    }, 60000);
   }
 }
 
